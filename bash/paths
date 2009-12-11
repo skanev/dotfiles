@@ -2,6 +2,7 @@ if [ -d /work/runtimes/plt-scheme/bin ]; then
 	# TODO Rather uncool, but (1) I'm lazy right now and (2) let's see how long
 	# I can stand to have a TODO in a public repository
 	PATH="$PATH:/work/runtimes/plt-scheme/bin"
-end
+fi
 
+PATH="$PATH:~/bin/"
 export PATH
