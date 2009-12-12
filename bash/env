@@ -1,0 +1,4 @@
+
+# Mercurial needs this. Can you believe it?
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
