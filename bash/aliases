@@ -1,1 +1,6 @@
+#!/bin/bash
+alias reload="source ~/.bash/aliases"
+alias aliases="vim ~/.bash/aliases && reload"
+
 alias g="git status"
+alias o="open ."
