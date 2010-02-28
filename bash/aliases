@@ -1,6 +1,26 @@
 #!/bin/bash
-alias reload="source ~/.bash/aliases"
-alias aliases="vim ~/.bash/aliases && reload"
+alias reload_aliases="source ~/.bash/aliases"
+alias aliases="vim ~/.bash/aliases && reload_aliases"
+
+alias o="open ."
+
+alias r="rake"
+alias rt="RAILS_ENV=test rake"
+alias rtsr="RAILS_ENV=test rake solr:stop solr:reset solr:start"
+alias rdsr="RAILS_ENV=development rake solr:stop solr:reset solr:start"
+alias rdm="rake db:migrate"
+alias rdmr="rake db:migrate:redo"
+alias rdtp="rake db:test:prepare"
+alias rrs="rake spec"
+alias rc="rake cucumber"
 
 alias g="git status"
-alias o="open ."
+alias grm="git rebase origin/master"
+alias gs="git stash"
+alias gsa="git stash apply"
+alias gsc="git stash clear"
+
+alias sr="script/runner"
+alias sg="script/generate"
+alias sdb="script/dbconsole"
+alias sc="script/console"
