@@ -48,6 +48,9 @@ if has("gui_running")
 
     highlight SpecialKey guifg=#222222
     highlight NonText guifg=#222222
+    highlight helpBar guifg=#777777
+    highlight helpStar guifg=#448844
+    highlight helpHyperTextJump guifg=#00ffff
 else
     set t_Co=256
     highlight Normal ctermfg=White ctermbg=Black 
