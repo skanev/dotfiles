@@ -7,6 +7,7 @@ set ruler
 set wildmenu
 set number
 set nowrap
+set showcmd
 
 set incsearch
 set hlsearch
@@ -38,9 +39,9 @@ if has('gui_running')
   imap <D-S> <C-O>:w<CR>
 end
 
-" Highlight tabs
-" match ErrorMsg /[^\t]\zs\t\+/
-match ErrorMsg /[\t]/
+" Highlight invisible characters
+set listchars=eol:⌙,tab:→\ ,trail:‧
+set list
 
 " Status line
 set laststatus=2
