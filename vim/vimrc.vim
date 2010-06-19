@@ -1,5 +1,9 @@
 syntax on
 
+" Pathogen
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
 " Appearance
 set background=dark
 
