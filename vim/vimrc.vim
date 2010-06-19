@@ -31,7 +31,7 @@ map <F3> :NERDTreeToggle<CR>
 map <S-F5> :source ~/.vimrc<CR>
 map <S-F4> :edit ~/.vim/vimrc.vim<CR>
 
-map <Tab> <C-w><C-w>
+nmap <Tab> <C-w><C-w>
 
 map <D-F1> :tabnext 1<CR>
 map <D-F2> :tabnext 2<CR>
