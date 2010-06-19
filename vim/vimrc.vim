@@ -40,7 +40,7 @@ if has('gui_running')
 end
 
 " Highlight invisible characters
-set listchars=eol:⌙,tab:→\ ,trail:‧
+set listchars=eol:⌙,tab:→\ 
 set list
 
 " Status line
