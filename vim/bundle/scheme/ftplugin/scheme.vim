@@ -22,7 +22,7 @@ function! s:RunScheme(file)
 endfunction
 
 function! RunTests()
-  if match(expand("%:r"), "-test$") > 0
+  if expand("%:r") =~ "-test$"
     call s:RunScheme(expand("%"))
     return
   end
