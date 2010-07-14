@@ -18,6 +18,7 @@ if !exists('snips_author') | let snips_author = 'Me' | endif
 
 au BufRead,BufNewFile *.snippets\= set ft=snippet
 au FileType snippet setl noet fdm=indent
+au BufWritePost *.snippets call ReloadSnippetsFrom(expand('%'))
 
 let s:snippets = {} | let s:multi_snips = {}
 
@@ -243,5 +244,11 @@ fun! ShowAvailableSnips()
 	call setline(line('.'), substitute(line, repeat('.', matchlen).'\%'.col.'c', '', ''))
 	call complete(col, matches)
 	return ''
+endf
+
+fun! ReloadSnippetsFrom(file)
+	let type = fnamemodify(a:file, ':t:r')
+	let s:snippets[type] = {}
+	call ExtractSnipsFile(a:file, type)
 endf
 " vim:noet:sw=4:ts=4:ft=vim
