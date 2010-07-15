@@ -18,6 +18,7 @@ setlocal expandtab
 setlocal autoindent
 
 function! s:RunScheme(file)
+  write
   execute "!mzscheme -f " . a:file
 endfunction
 
