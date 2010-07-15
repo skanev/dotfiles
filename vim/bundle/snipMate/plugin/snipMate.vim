@@ -251,4 +251,13 @@ fun! ReloadSnippetsFrom(file)
 	let s:snippets[type] = {}
 	call ExtractSnipsFile(a:file, type)
 endf
+
+fun! EditSnippetsFor(type)
+	let file = findfile(a:type.'.snippets', join(map(split(g:snippets_dir, ','), 'v:val."**"'), ','))
+	if file != ''
+		exe "split ".file
+	else
+		echoerr "Cannot find snippets file for ".a:type
+	endif
+endf
 " vim:noet:sw=4:ts=4:ft=vim
