@@ -51,6 +51,7 @@ if has("gui_running")
     highlight helpBar guifg=#777777
     highlight helpStar guifg=#448844
     highlight helpHyperTextJump guifg=#00ffff
+    highlight Folded term=standout cterm=bold ctermfg=6 ctermbg=0 guifg=Cyan guibg=#333333
 else
     set t_Co=256
     highlight Normal ctermfg=White ctermbg=Black 
