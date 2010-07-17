@@ -5,7 +5,6 @@ call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
 " Appearance
-set background=dark
 
 set ruler
 set wildmenu
@@ -18,9 +17,6 @@ set hlsearch
 
 " Behavior
 set autoindent
-
-" Enable filetype plugins
-filetype plugin on
 
 " System
 set dir=~/.vim-backup
@@ -59,6 +55,8 @@ if has('gui_running')
   elseif has("gui_macvim")
     set guifont=Monaco:h10
   endif
+else
+  colorscheme modified_default
 end
 
 " Rails autocommands
@@ -73,3 +71,6 @@ autocmd User Rails silent! Rnavcommand sass public/stylesheets/sass/ -suffix=.sa
 " Some Scheme Stuff
 " TODO This should be moved out of here
 autocmd BufnewFile,BufRead *-test.ss map <buffer> Q :!mzscheme %<CR>
+
+" Enable filetype plugins
+filetype plugin on
