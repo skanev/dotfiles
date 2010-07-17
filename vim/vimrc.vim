@@ -29,15 +29,7 @@ map <S-F4> :edit ~/.vim/vimrc.vim<CR>
 
 nmap <Tab> <C-w><C-w>
 
-map <D-F1> :tabnext 1<CR>
-map <D-F2> :tabnext 2<CR>
-map <D-F3> :tabnext 3<CR>
-map <D-F4> :tabnext 4<CR>
-map <D-F5> :tabnext 5<CR>
-
-if has('gui_running')
-  imap <D-S> <C-O>:w<CR>
-end
+imap <C-S> <C-O>:w<CR>
 
 " Highlight invisible characters
 set listchars=eol:⌙,tab:→\ 
