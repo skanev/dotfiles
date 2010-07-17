@@ -31,6 +31,8 @@ nmap <Tab> <C-w><C-w>
 
 imap <C-S> <C-O>:w<CR>
 
+map <expr> Q ''
+
 " Highlight invisible characters
 set listchars=eol:⌙,tab:→\ 
 set list
