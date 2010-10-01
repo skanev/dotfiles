@@ -1,0 +1,31 @@
+snippet suite
+	(require (planet schematics/schemeunit:3)
+	         (planet schematics/schemeunit:3/text-ui))
+	(include "${1:`substitute(expand("%:t:r"),'-test$','','')`}.ss")
+	
+	(define ${2:module-name}-tests
+	  (test-suite
+	    "${3}"
+	    ${4}
+	  )
+	)
+	
+	(run-tests $2-tests)
+
+snippet defn
+	(define ${1} ${2})
+
+snippet def
+	(define (${1})
+	  ${2})
+
+snippet ce
+	(check-equal? (${1}) ${2})
+
+snippet cond
+	(cond ((${1}) ${2})
+	      ${3})
+
+snippet conc
+	((${1}) ${2})
+	${3}
