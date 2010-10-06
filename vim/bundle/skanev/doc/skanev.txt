@@ -1,0 +1,37 @@
+*skanev.txt*  My notes on my own Vim usage
+
+Those are some of my personal notes on how I use Vim. While they can serve as
+a nice intro in my vimfiles, their primary purpose is to aid my poor memory.
+
+1. Mappings				|skanev-mappings|
+2. ftplugin modifications		|skanev-ftplugin|
+3. Various notes			|skanev-various|
+
+=============================================================================
+1. Mappings						*skanev-mappings*
+
+<F1>			Show this help
+<F2>			Open buffer explorer
+<F3>			Open NERDTree
+
+<F4>			Open .vimrc
+<S-F4>			Save .vimrc
+
+<Tab>			Move to next window
+<S-Tab>			Move to previous window
+
+=============================================================================
+2. ftplugin modifications				*skanev-ftplugin*
+
+VIM FILES						*skanev-ftplugin-vim*
+
+Q			Source the current script
+
+=============================================================================
+3. Various notes					*skanev-various*
+
+COMMANDS						*skanev-var-commands*
+
+:Snippets		Opens the snippets file for the current filetype
+
+ vim:tw=78:ts=8:ft=help:norl:modifiable:noreadonly:
