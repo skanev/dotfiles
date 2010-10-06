@@ -6,6 +6,7 @@ a nice intro in my vimfiles, their primary purpose is to aid my poor memory.
 1. Mappings				|skanev-mappings|
 2. ftplugin modifications		|skanev-ftplugin|
 3. Various notes			|skanev-various|
+4. Installation				|skanev-install|
 
 =============================================================================
 1. Mappings						*skanev-mappings*
@@ -13,12 +14,16 @@ a nice intro in my vimfiles, their primary purpose is to aid my poor memory.
 <F1>			Show this help
 <F2>			Open buffer explorer
 <F3>			Open NERDTree
+<F4>			Open taglist
 
-<F4>			Open .vimrc
-<S-F4>			Save .vimrc
+<F12>			Open .vimrc
+<S-F12>			Save .vimrc
 
 <Tab>			Move to next window
 <S-Tab>			Move to previous window
+
+<Leader>t		Open CommandT
+<Leader>p		Open PeepOpen
 
 =============================================================================
 2. ftplugin modifications				*skanev-ftplugin*
@@ -33,5 +38,17 @@ Q			Source the current script
 COMMANDS						*skanev-var-commands*
 
 :Snippets		Opens the snippets file for the current filetype
+
+=============================================================================
+4. Installation						*skanev-install*
+
+COMMAND-T						*skanev-command-t*
+
+Go into ~/.vim/bundle/command-t/ruby/command-t and run: >
+
+	ruby extconf.rb
+	make
+>
+This will enable the command-t bundle
 
  vim:tw=78:ts=8:ft=help:norl:modifiable:noreadonly:
