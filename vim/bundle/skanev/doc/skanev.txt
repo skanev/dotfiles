@@ -7,6 +7,7 @@ a nice intro in my vimfiles, their primary purpose is to aid my poor memory.
 2. ftplugin modifications		|skanev-ftplugin|
 3. Various notes			|skanev-various|
 4. Installation				|skanev-install|
+5. ToDo					|skanev-todo|
 
 =============================================================================
 1. Mappings						*skanev-mappings*
@@ -50,5 +51,13 @@ Go into ~/.vim/bundle/command-t/ruby/command-t and run: >
 	make
 >
 This will enable the command-t bundle
+
+=============================================================================
+5. ToDo							*skanev-todo*
+
+Check out those plugins:
+
+  * proj.vim
+  * autotag
 
  vim:tw=78:ts=8:ft=help:norl:modifiable:noreadonly:
