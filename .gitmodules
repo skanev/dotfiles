@@ -16,3 +16,6 @@
 [submodule "vim/bundle/syntastic"]
 	path = vim/bundle/syntastic
 	url = http://github.com/scrooloose/syntastic.git
+[submodule "vim/bundle/rails"]
+	path = vim/bundle/rails
+	url = http://github.com/tpope/vim-rails.git
