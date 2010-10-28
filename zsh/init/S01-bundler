@@ -7,6 +7,6 @@ bundle-exec() {
   fi
 }
 
-for gem in rake cap spec cucumber spork; do
+for gem in cap spec cucumber spork; do
   alias $gem="bundle-exec $gem"
 done
