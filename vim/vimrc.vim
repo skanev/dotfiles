@@ -1,8 +1,10 @@
 syntax on
 
 " Pathogen
+filetype off
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
+filetype plugin on
 
 let Tlist_Ctags_Cmd='/opt/local/bin/ctags'
 let Tlist_Show_One_File=1
@@ -20,5 +22,3 @@ autocmd User Rails silent! Rnavcommand sass public/stylesheets/sass/ -suffix=.sa
 " TODO This should be moved out of here
 autocmd BufnewFile,BufRead *-test.ss map <buffer> Q :!mzscheme %<CR>
 
-" Enable filetype plugins
-filetype plugin on
