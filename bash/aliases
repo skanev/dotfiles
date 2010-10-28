@@ -29,5 +29,6 @@ alias sr="script/runner"
 alias sg="script/generate"
 alias sdb="script/dbconsole"
 alias sc="script/console"
+alias ss="script/server"
 
 alias m="mate"
