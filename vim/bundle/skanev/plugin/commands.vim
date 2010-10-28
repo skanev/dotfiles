@@ -1,0 +1,1 @@
+command Mate !mate %
