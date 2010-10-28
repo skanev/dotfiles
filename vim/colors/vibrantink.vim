@@ -46,8 +46,8 @@ if has("gui_running")
     highlight Search guibg=White
     highlight CursorLine guibg=#323300
 
-    highlight SpecialKey guifg=#222222
-    highlight NonText guifg=#222222
+    highlight SpecialKey guifg=#555555
+    highlight NonText guifg=#555555
     highlight helpBar guifg=#777777
     highlight helpStar guifg=#448844
     highlight helpHyperTextJump guifg=#00ffff
