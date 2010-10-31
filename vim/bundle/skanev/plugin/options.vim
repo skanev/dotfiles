@@ -29,6 +29,7 @@ if has('gui_running')
     set guifont=Terminus
   elseif has("gui_macvim")
     set guifont=Monaco:h12
+    set macmeta
   endif
 else
   colorscheme modified_default
