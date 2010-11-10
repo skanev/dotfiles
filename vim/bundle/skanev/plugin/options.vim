@@ -15,7 +15,7 @@ set autoindent
 set dir=~/.vim-backup
 
 " Highlight invisible characters
-set listchars=eol:⌙,tab:→\ 
+set listchars=eol:¬,tab:→\ 
 set list
 
 " Status line
