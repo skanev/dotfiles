@@ -25,6 +25,7 @@ set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%0
 " GUI settings
 if has('gui_running')
   colorscheme vibrantink
+  set guioptions-=T
   if has("gui_gtk2")
     set guifont=Terminus
   elseif has("gui_macvim")
