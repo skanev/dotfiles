@@ -19,3 +19,6 @@
 [submodule "vim/bundle/rails"]
 	path = vim/bundle/rails
 	url = http://github.com/tpope/vim-rails.git
+[submodule "vim/bundle/Tabluar"]
+	path = vim/bundle/Tabluar
+	url = http://github.com/godlygeek/tabular.git
