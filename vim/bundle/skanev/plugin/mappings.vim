@@ -10,3 +10,12 @@ nmap <Tab> <C-w><C-w>
 nmap <S-Tab> <C-w><C-W>
 
 map <expr> Q ''
+
+imap <C-a> <C-o>0
+imap <C-e> <C-o>$
+
+map <M-j> 4j
+map <M-k> 4k
+
+imap <C-Space> <Esc>
+map <Space> :
