@@ -418,3 +418,16 @@ snippet tas
 	task :${2:task_name => [:dependent, :tasks]} do
 		${3}
 	end
+# rspec snippets
+snippet it
+	it "${1:does something}" do
+	  ${2}
+	end
+snippet its
+	it "should ${1:do something}" do
+	  ${2}
+	end
+snippet desc
+	describe "${1:context}" do
+	  ${2}
+	end
