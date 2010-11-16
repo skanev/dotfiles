@@ -10,6 +10,7 @@ set hlsearch
 
 " Behavior
 set autoindent
+set autoread
 
 " System
 set dir=~/.vim-backup
