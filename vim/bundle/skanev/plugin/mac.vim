@@ -13,3 +13,9 @@ nmap <D-8> :tabnext 8<CR>
 nmap <D-9> :tabnext 9<CR>
 
 map <silent> <S-Space> <Plug>PeepOpen
+
+nmap <D-]> >>
+nmap <D-[> <<
+
+vmap <D-]> >gv
+vmap <D-[> <gv
