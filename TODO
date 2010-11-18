@@ -1,1 +1,7 @@
 Things I'd like to have:
+  * binding for a small horizontal split in tmux to run gitx (or other stuff)
+    while I am waiting for specs/features to complete
+  * REFACTOR marks as a vim bundle
+    - list all REFACTOR marks in quickfix
+    - rf snippet
+    - a git pre-commit hook that complains if there is a REFACTOR mark?
