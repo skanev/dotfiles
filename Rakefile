@@ -9,6 +9,8 @@ task :install do
     case file
       when 'Rakefile', 'README'
         next
+      when 'TODO'
+        link 'TODO', home_slash('.toolsmithing')
       when 'bin'
         unless File.directory? home_slash('bin')
           mkdir home_slash('bin'), :verbose => false
