@@ -22,3 +22,5 @@ autocmd User Rails silent! Rnavcommand sass public/stylesheets/sass/ -suffix=.sc
 " TODO This should be moved out of here
 autocmd BufnewFile,BufRead *-test.ss map <buffer> Q :!mzscheme %<CR>
 
+" This has to be in .vimrc, since NERDTree is... far-sighted
+let NERDTreeHijackNetrw=0
