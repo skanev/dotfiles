@@ -3,6 +3,8 @@ map <F2> :BufExplorer<CR>
 map <F3> :NERDTreeToggle<CR>
 map <F4> :TlistToggle<CR>
 
+map <F9> :noh<CR>
+
 map <F12> :edit ~/.vim/vimrc.vim<CR>
 map <S-F12> :source ~/.vimrc<CR>
 
