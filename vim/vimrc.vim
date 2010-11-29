@@ -16,7 +16,7 @@ autocmd User Rails silent! Rnavcommand spechelper spec/helpers -glob=**/* -suffi
 autocmd User Rails silent! Rnavcommand specview spec/views -glob=**/* -suffix=.html.erb_spec.rb -default=controller()
 autocmd User Rails silent! Rnavcommand stepdef features/step_definitions -suffix=_steps.rb
 autocmd User Rails silent! Rnavcommand feature features/ -suffix=.feature
-autocmd User Rails silent! Rnavcommand sass public/stylesheets/sass/ -suffix=.sass
+autocmd User Rails silent! Rnavcommand sass public/stylesheets/sass/ -suffix=.scss
 
 " Some Scheme Stuff
 " TODO This should be moved out of here
