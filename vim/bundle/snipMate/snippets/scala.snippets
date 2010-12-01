@@ -1,0 +1,21 @@
+snippet def
+	def ${1:name}(${2}): ${3} = {
+		${4}
+	}
+snippet spec
+	import org.scalatest.Spec
+	import org.scalatest.matchers.ShouldMatchers
+	
+	class ${1:`Filename()`} extends Spec with ShouldMatchers {
+		${2}
+	}
+snippet desc
+	describe("${1:description}") {
+		${2}
+	}
+snippet it
+	it("${1:does something}") {
+		${2}
+	}
+snippet she
+	should equal (${1})
