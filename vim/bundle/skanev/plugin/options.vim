@@ -15,6 +15,11 @@ set autoread
 " System
 set dir=~/.vim-backup
 
+if has('persistent_undo')
+  set undodir=~/.vim-undo
+  set undofile
+end
+
 " Highlight invisible characters
 set listchars=eol:¬,tab:→\ 
 set list
