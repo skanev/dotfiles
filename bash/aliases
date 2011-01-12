@@ -1,6 +1,7 @@
 #!/bin/bash
 alias reload_aliases="source ~/.bash/aliases"
 alias aliases="vim ~/.bash/aliases && reload_aliases"
+alias localrc="vim ~/.localrc && source ~/.localrc"
 
 alias o="open ."
 
