@@ -33,3 +33,4 @@ alias sc="script/console"
 alias ss="script/server"
 
 alias m="mate"
+alias vii="mvim --remote-silent"
