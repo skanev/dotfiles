@@ -431,3 +431,19 @@ snippet desc
 	describe "${1:context}" do
 	  ${2}
 	end
+snippet dest
+	describe ${1:type} do
+	  ${2}
+	end
+snippet shr
+	${1}.should_receive(:${2})${3}
+snippet shrw
+	${1}.should_receive(:${2}).with(${3})${4}
+snippet reqs
+	require 'spec_helper'
+	
+	
+snippet let
+	let(:${1:name}) { ${2} }${3}
+snippet f
+	Factory(:${1:model})
