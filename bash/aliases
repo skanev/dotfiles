@@ -33,4 +33,5 @@ alias sc="script/console"
 alias ss="script/server"
 
 alias m="mate"
+alias be="bundle exec"
 alias vii="mvim --remote-silent"
