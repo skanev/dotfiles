@@ -25,6 +25,7 @@ alias gsc="git stash clear"
 alias gsp="git stash pop"
 alias grc="git rebase --continue"
 alias gca="git commit --amend"
+alias gr10="git rebase -i HEAD~10"
 
 alias sr="script/runner"
 alias sg="script/generate"
