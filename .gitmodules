@@ -28,3 +28,6 @@
 [submodule "vim/bundle/nerdcommenter"]
 	path = vim/bundle/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter.git
+[submodule "vim/bundle/vim-nexus"]
+	path = vim/bundle/vim-nexus
+	url = https://github.com/skanev/vim-nexus.git

@@ -19,3 +19,6 @@ nmap <D-[> <<
 
 vmap <D-]> >gv
 vmap <D-[> <gv
+
+map <D-r> <Plug>NexusRunFile
+map <D-R> <Plug>NexusRunLine
