@@ -42,3 +42,6 @@ function! s:fixBufExplorer()
   endif
 endfunction
 autocmd BufNew \[BufExplorer] unmap ds
+
+map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
+map <F5> :A<CR>
