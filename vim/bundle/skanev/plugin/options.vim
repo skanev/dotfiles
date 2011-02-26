@@ -11,6 +11,8 @@ set hlsearch
 " Behavior
 set autoindent
 set autoread
+set ignorecase
+set smartcase
 
 " System
 set dir=~/.vim-backup

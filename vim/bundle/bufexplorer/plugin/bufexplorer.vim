@@ -266,9 +266,6 @@ function! s:BEInitialize()
   let s:_report = &report
   let &report = 10000
 
-  let s:_list = &list
-  set nolist
-
   setlocal nonumber
   setlocal foldcolumn=0
   setlocal nofoldenable
@@ -316,7 +313,6 @@ function! s:BECleanup()
   let &showcmd = s:_showcmd
   let &cpo = s:_cpo
   let &report = s:_report
-  let &list = s:_list
   let s:running = 0
   let s:splitMode = ""
 
@@ -434,10 +430,8 @@ function! s:BEMapKeys()
   nnoremap <buffer> <silent> t             :call <SID>BESelectBuffer("tab")<cr>
   nnoremap <buffer> <silent> <s-cr>        :call <SID>BESelectBuffer("tab")<cr>
 
-  nnoremap <buffer> <silent> d             :call <SID>BERemoveBuffer("delete", "n")<cr>
-  xnoremap <buffer> <silent> d             :call <SID>BERemoveBuffer("delete", "v")<cr>
-  nnoremap <buffer> <silent> D             :call <SID>BERemoveBuffer("wipe", "n")<cr>
-  xnoremap <buffer> <silent> D             :call <SID>BERemoveBuffer("wipe", "v")<cr>
+  nnoremap <buffer> <silent> D             :call <SID>BERemoveBuffer("delete", "n")<cr>
+  xnoremap <buffer> <silent> D             :call <SID>BERemoveBuffer("delete", "v")<cr>
 
   nnoremap <buffer> <silent> m             :call <SID>BEMRUListShow()<cr>
   nnoremap <buffer> <silent> p             :call <SID>BEToggleSplitOutPathName()<cr>

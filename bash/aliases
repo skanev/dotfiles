@@ -33,6 +33,9 @@ alias sdb="script/dbconsole"
 alias sc="script/console"
 alias ss="script/server"
 
+alias t="tmux"
+alias ta="tmux attach"
+
 alias m="mate"
 alias be="bundle exec"
 alias vii="mvim --remote-silent"
