@@ -430,8 +430,8 @@ function! s:BEMapKeys()
   nnoremap <buffer> <silent> t             :call <SID>BESelectBuffer("tab")<cr>
   nnoremap <buffer> <silent> <s-cr>        :call <SID>BESelectBuffer("tab")<cr>
 
-  nnoremap <buffer> <silent> D             :call <SID>BERemoveBuffer("delete", "n")<cr>
-  xnoremap <buffer> <silent> D             :call <SID>BERemoveBuffer("delete", "v")<cr>
+  nnoremap <buffer> <silent> x             :call <SID>BERemoveBuffer("delete", "n")<cr>
+  xnoremap <buffer> <silent> x             :call <SID>BERemoveBuffer("delete", "v")<cr>
 
   nnoremap <buffer> <silent> m             :call <SID>BEMRUListShow()<cr>
   nnoremap <buffer> <silent> p             :call <SID>BEToggleSplitOutPathName()<cr>
