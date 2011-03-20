@@ -14,6 +14,8 @@ set autoread
 set ignorecase
 set smartcase
 
+set backspace=indent,eol,start
+
 " System
 set dir=~/.vim-backup
 
