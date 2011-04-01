@@ -19,6 +19,7 @@ alias rc="rake cucumber"
 alias rmig="rails generate migration"
 
 alias g="git"
+alias gg="git status"
 alias grm="git rebase origin/master"
 alias grim="git rebase -i origin/master"
 alias gs="git stash"
