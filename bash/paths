@@ -1,7 +1,2 @@
-if [ -d /opt/local/bin ]; then
-	# MacPorts
-	PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-fi
-
 PATH="$PATH:$HOME/bin/"
 export PATH
