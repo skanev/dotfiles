@@ -31,3 +31,6 @@
 [submodule "vim/bundle/vim-nexus"]
 	path = vim/bundle/vim-nexus
 	url = https://github.com/skanev/vim-nexus.git
+[submodule "vim/bundle/supertab"]
+	path = vim/bundle/supertab
+	url = https://github.com/ervandew/supertab.git
