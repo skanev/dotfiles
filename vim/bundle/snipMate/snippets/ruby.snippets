@@ -439,6 +439,8 @@ snippet shr
 	${1}.should_receive(:${2})${3}
 snippet shrw
 	${1}.should_receive(:${2}).with(${3})${4}
+snippet shrwr
+	${1}.should_receive(:${2}).with(${3}).and_return(${4})${5}
 snippet reqs
 	require 'spec_helper'
 	
@@ -455,3 +457,5 @@ snippet con
 	context "${1:context}" do
 	  ${2}
 	end
+snippet p
+	params[:${1}]${2}
