@@ -16,6 +16,8 @@ alias rdtp="rake db:test:prepare"
 alias rrs="rake spec"
 alias rc="rake cucumber"
 
+alias rmig="rails generate migration"
+
 alias g="git"
 alias grm="git rebase origin/master"
 alias grim="git rebase -i origin/master"
