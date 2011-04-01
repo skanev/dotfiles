@@ -39,3 +39,5 @@ map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
 map <F5> :A<CR>
 
 imap jj <ESC>
+imap jk <ESC>
+map <Leader>f :sp<CR><Tab>[f
