@@ -6,11 +6,11 @@
 setopt AUTO_CD       # '$ foo' means '$ cd foo' if 'foo' is not a command
 setopt AUTO_PUSHD    # 'cd' is now cooler
 
-
 ### Prompt #################################################
 autoload -U colors
 colors
 setopt prompt_subst
+setopt transient_rprompt
 PROMPT='%{$fg_bold[white]%}→%{$reset_color%} '
 RPROMPT='%{$fg_bold[green]%}%c%{$fg_bold[white]%}:%{$fg_bold[blue]%}%m %{$fg_bold[red]%}$(vcprompt)%{$reset_color%}'
 
