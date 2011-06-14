@@ -39,7 +39,7 @@ if has('gui_running')
   if has("gui_gtk2")
     set guifont=Terminus
   elseif has("gui_macvim")
-    set guifont=Inconsolata-dz:h14
+    set guifont=Monaco:h12
     set linespace=3
     set macmeta
   endif
