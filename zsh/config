@@ -5,6 +5,8 @@
 
 setopt AUTO_CD       # '$ foo' means '$ cd foo' if 'foo' is not a command
 setopt AUTO_PUSHD    # 'cd' is now cooler
+setopt PUSHD_IGNORE_DUPS
+DIRSTACKSIZE=15
 
 ### Prompt #################################################
 autoload -U colors
