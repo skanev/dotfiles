@@ -3,6 +3,23 @@ require 'erb'
 require 'fileutils'
 include FileUtils
 
+namespace :vim do
+  namespace :bundles do
+    desc "Upgrate all bundles to their latest commits"
+    task :update do
+      bundles = `git submodule --quiet foreach 'echo $path'`.map { |line| line.chomp }
+      bundles.each do |bundle_path|
+        cd bundle_path, :verbose => false do
+          puts "Updating #{bundle_path}..."
+
+          system 'git fetch'
+          system 'git checkout --quiet --detach master'
+        end
+      end
+    end
+  end
+end
+
 desc "Install into the users home"
 task :install do
   Dir['*'].each do |file|
