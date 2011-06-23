@@ -46,3 +46,6 @@
 [submodule "vim/bundle/unimpaired"]
 	path = vim/bundle/unimpaired
 	url = https://github.com/tpope/vim-unimpaired.git
+[submodule "vim/bundle/endwise"]
+	path = vim/bundle/endwise
+	url = https://github.com/tpope/vim-endwise.git

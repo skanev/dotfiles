@@ -5,16 +5,14 @@ alias localrc="vim ~/.localrc && source ~/.localrc"
 
 alias o="open ."
 
-alias r="rake"
+alias r="bundle exec rake"
 alias rg="rails generate"
-alias rt="RAILS_ENV=test rake"
-alias rtsr="RAILS_ENV=test rake solr:stop solr:reset solr:start"
-alias rdsr="RAILS_ENV=development rake solr:stop solr:reset solr:start"
-alias rdm="rake db:migrate"
-alias rdmr="rake db:migrate:redo"
-alias rdtp="rake db:test:prepare"
-alias rrs="rake spec"
-alias rc="rake cucumber"
+alias rt="RAILS_ENV=test r"
+alias rdm="r db:migrate"
+alias rdmr="r db:migrate:redo"
+alias rdtp="r db:test:prepare"
+alias rrs="r spec"
+alias rc="r cucumber"
 
 alias rmig="rails generate migration"
 
