@@ -35,8 +35,10 @@ map <D-/> <Plug>NERDCommenterToggle<CR>
 autocmd BufnewFile,BufRead *.rb setlocal complete-=i
 map <S-F9> :set list<CR>
 
-map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
 map <F5> :A<CR>
+
+map <F7> :NERDTreeFind<CR>
+map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
 
 imap jj <ESC>
 imap jk <ESC>
