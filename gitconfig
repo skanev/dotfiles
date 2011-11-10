@@ -30,8 +30,8 @@
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
 	ls = ls-files
 [user]
-	name = Stefan Kanev
 	email = stefan.kanev@gmail.com
+	name = Stefan Kanev
 [github]
 	user = skanev
 [push]
@@ -39,3 +39,12 @@
 [branch]
 	autosetuprebase = always
 
+[gui]
+	fontui = -family \"DejaVu Sans\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
+	fontdiff = -family terminus -size 12 -weight normal -slant roman -underline 0 -overstrike 0
+[giggle]
+	main-window-maximized = false
+	main-window-geometry = 857x1163+160+106
+	history-view-vpane-position = 635
+	file-view-vpane-position = 661
+	main-window-view = HistoryView
