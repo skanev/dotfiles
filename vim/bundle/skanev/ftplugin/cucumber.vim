@@ -3,5 +3,5 @@ if (exists("b:did_skanev_ftplugin"))
 endif
 let b:did_skanev_ftplugin = 1
 
-map <buffer> <D-\> :Tabularize /<Bar><CR>
+call MapMeta('n', '\ :Tabularize /<Bar><CR>', '<buffer>')
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
