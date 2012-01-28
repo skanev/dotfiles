@@ -35,6 +35,10 @@ set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%0
 if has('gui_running')
   colorscheme vividchalk
   set guioptions-=T
+  set guioptions-=m
+  set guioptions-=e
+  set guioptions-=r
+  set guioptions-=L
   if has("gui_gtk2")
     set guifont=Terminus
   elseif has("gui_macvim")
