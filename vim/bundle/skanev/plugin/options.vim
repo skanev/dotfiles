@@ -40,7 +40,9 @@ if has('gui_running')
   set guioptions-=r
   set guioptions-=L
   if has("gui_gtk2")
-    set guifont=Terminus
+    colorscheme native
+    set guifont=DejaVu\ Sans\ Mono\ 10
+    set linespace=2
   elseif has("gui_macvim")
     set guifont=Monaco:h12
     set linespace=3
