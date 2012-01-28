@@ -10,3 +10,5 @@ map <M-t> :tabnew<CR>
 map <M-v> "+p
 vmap <C-c> "+y
 imap <C-v> <C-r>+
+
+command! Commit execute "!git gui"
