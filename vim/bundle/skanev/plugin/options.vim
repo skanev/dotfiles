@@ -26,7 +26,6 @@ end
 
 " Highlight invisible characters
 set listchars=eol:¬,tab:→\ 
-set list
 
 " Status line
 set laststatus=2
