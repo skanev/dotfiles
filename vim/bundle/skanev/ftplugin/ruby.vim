@@ -3,6 +3,7 @@ if (exists("b:did_skanev_ftplugin"))
 endif
 let b:did_skanev_ftplugin = 1
 
+map <Leader>f :sp<CR><Tab>[f
 imap <buffer> <C-l> <Space>=><Space>
 
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab

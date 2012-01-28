@@ -3,11 +3,15 @@ map <F2> :BufExplorer<CR>
 map <F3> :NERDTreeToggle<CR>
 map <F4> :TlistToggle<CR>
 
+map <F7> :NERDTreeFind<CR>
+map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
 map <F9> :noh<CR>
 
 map <F12> :edit ~/.vim/vimrc.vim<CR>
 map <S-F12> :source ~/.vimrc<CR>
 
+imap jj <ESC>
+imap jk <ESC>
 nmap <Tab> <C-w><C-w>
 nmap <S-Tab> <C-w><C-W>
 
@@ -15,6 +19,9 @@ map <expr> Q ''
 
 imap <C-a> <C-o>0
 imap <C-e> <C-o>$
+
+map <C-Left> :bn<CR>
+map <C-Right> :bp<CR>
 
 MapMeta j 4j
 MapMeta k 4k
@@ -39,3 +46,5 @@ VMapMeta [ <gv
 
 MapMeta r <Plug>NexusRunFile
 MapMeta R <Plug>NexusRunLine
+
+MapMeta / <Plug>NERDCommenterToggle
