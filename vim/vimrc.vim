@@ -20,7 +20,6 @@ map <C-Left> :bn<CR>
 map <C-Right> :bp<CR>
 
 map <D-/> <Plug>NERDCommenterToggle<CR>
-autocmd BufnewFile,BufRead *.rb setlocal complete-=i
 
 map <F7> :NERDTreeFind<CR>
 map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
