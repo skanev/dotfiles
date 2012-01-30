@@ -24,6 +24,13 @@ namespace :vim do
       end
     end
   end
+
+  namespace :install do
+    desc "Installs Command-T"
+    task :command_t do
+      system 'cd vim/bundle/command-t/ruby/command-t && ruby extconf.rb && make'
+    end
+  end
 end
 
 desc "Install into the users home"
@@ -38,7 +45,7 @@ task :install do
         unless File.directory? home_slash('bin')
           mkdir home_slash('bin'), :verbose => false
         end
-        
+
         Dir['bin/*'].each do |bin_file|
           link bin_file, home_slash(bin_file)
         end
@@ -67,7 +74,7 @@ def link(source, target)
   else
     :link
   end
-  
+
   if [:link, :overwrite].include? action
     if action == :overwrite
       puts "Overwriting #{target}"
