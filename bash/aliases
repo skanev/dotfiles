@@ -28,12 +28,6 @@ alias grc="git rebase --continue"
 alias gca="git commit --amend"
 alias gr10="git rebase -i HEAD~10"
 
-alias sr="script/runner"
-alias sg="script/generate"
-alias sdb="script/dbconsole"
-alias sc="script/console"
-alias ss="script/server"
-
 alias t="tmux"
 alias ta="tmux attach"
 
