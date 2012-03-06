@@ -1,0 +1,4 @@
+xset r rate 200 50
+setxkbmap -layout us,bg
+setxkbmap -option grp:alt_shift_toggle
+xmodmap ~/.xmodmap

@@ -39,6 +39,8 @@ task :install do
     case file
       when 'Rakefile', 'README'
         next
+      when 'xprofile', 'Xdefaults', 'xmodmap'
+        next unless `uname -o`.strip == 'GNU/Linux'
       when 'TODO'
         link 'TODO', home_slash('.toolsmithing')
       when 'bin'

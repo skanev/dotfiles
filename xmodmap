@@ -1,0 +1,8 @@
+clear Lock
+clear Control
+
+keysym Caps_Lock = Control_L
+keycode 37 = Control_R
+
+add Control = Control_L
+add Mod1 = Control_R
