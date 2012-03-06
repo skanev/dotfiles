@@ -6,6 +6,8 @@ map <F4> :TlistToggle<CR>
 map <F7> :NERDTreeFind<CR>
 map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
 map <F9> :noh<CR>
+map <F10> :set cursorcolumn!<CR>
+imap <F10> <C-o>:set cursorcolumn!<CR>
 
 map <F12> :edit ~/.vim/vimrc.vim<CR>
 map <S-F12> :source ~/.vimrc<CR>
@@ -48,3 +50,4 @@ MapMeta r <Plug>NexusRunFile
 MapMeta R <Plug>NexusRunLine
 
 MapMeta / <Plug>NERDCommenterToggle
+VMapMeta / <Plug>NERDCommenterToggle

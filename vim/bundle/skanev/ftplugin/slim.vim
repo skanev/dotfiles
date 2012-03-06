@@ -4,3 +4,4 @@ endif
 let b:did_skanev_ftplugin = 1
 
 imap <buffer> <C-l> <Space>=><Space>
+imap <buffer> <S-CR> <br><CR>
