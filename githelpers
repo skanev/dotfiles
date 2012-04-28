@@ -2,15 +2,40 @@
 
 HASH="%C(yellow)%h%C(reset)"
 RELATIVE_TIME="%C(green)(%ar)%C(reset)"
-AUTHOR="%C(bold blue)%an%C(reset)"
+AUTHOR="%C(bold blue)<%an>%C(reset)"
 REFS="%C(red)%d%C(reset)"
 SUBJECT="%s"
 
-FORMAT="$HASH{}$RELATIVE_TIME{}$AUTHOR{}$REFS $SUBJECT"
+FORMAT="$HASH{$RELATIVE_TIME<time>{$AUTHOR<author>{$REFS $SUBJECT"
 
 git_log_pretty() {
-    git log --graph --abbrev-commit --date=relative --pretty="tformat:${FORMAT}" $* |
-        sed -E -e 's/\(([[:digit:]]+) ([[:alpha:]]+).* ago\)/\1 \2/' |
-        column -s '{}' -t |
+    git log --color --graph --abbrev-commit --date=relative --pretty="tformat:${FORMAT}" $* |
+        sed -E -e 's/\(([[:digit:]]+) ([[:alpha:]]+).* ago\)/(\1 \2)/' |
+        awk '
+          BEGIN { FS = "{"; OFS = "{" }
+          function strip(str) {
+            gsub(/\x1B\[[0-9;]*[mK]/, "", str)
+            return str
+          }
+          { print $1, "<" strip($1) FS ">" $2, $3, $4 }
+        ' |
+        column -s '{' -t |
+        awk '{
+          match($0, /<[^>]*>/)
+          stripped = substr($0, RSTART + 1, RLENGTH - 2)
+          graph    = substr($0, 0, RSTART)
+          line     = substr($0, RSTART + RLENGTH)
+
+          match(stripped, / *$/)
+          trailing_spaces = RLENGTH - 1
+
+          match(graph, / *$/)
+          graph = substr(graph, 0, RSTART + trailing_spaces)
+
+          sub(/<time> /, "", line)
+          sub(/<author>  /, "", line)
+
+          print graph line
+        }' |
         less -FXRS
 }
