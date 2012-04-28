@@ -30,7 +30,6 @@ set listchars=eol:¬,tab:→\
 
 " Status line
 set laststatus=2
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]%=[%=POS=%03l,%03c][%p%%]\ [LEN=%L]
 
 " GUI settings
 if has('gui_running')
@@ -42,7 +41,8 @@ if has('gui_running')
   set guioptions-=L
   if has("gui_gtk2")
     colorscheme native
-    set guifont=DejaVu\ Sans\ Mono\ 10
+    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
+    let g:Powerline_symbols='fancy'
     set linespace=2
   elseif has("gui_macvim")
     set guifont=Monaco:h12
@@ -50,5 +50,6 @@ if has('gui_running')
     set macmeta
   endif
 else
+  set t_Co=256
   colorscheme modified_default
 end
