@@ -1,50 +1,45 @@
-URxvt*urgentOnBell: true
+URxvt*termName:        xterm-256color
+URxvt*background:      #000000
+URxvt*foreground:      #ffffff
+URxvt*scrollBar_right: false
+URxvt*scrollBar:       false
+URxvt*inheritPixmap:   true
+URxvt*geometry:        84x24
+URxvt*tint:            white
 
-!URxvt*depth: 32
-URxvt*background: Black
-URxvt*foreground: White
+URxvt*font:xft:Terminus:pixelsize=16
+URxvt*boldFont:xft:Terminus:bold:pixelsize=16
 
-! black
-URxvt*color0: #000000
-URxvt*color8: #666666
-! red
-URxvt*color1: #ff2222
-URxvt*color9: #ff0000
-! green
-URxvt*color2: #22ff22
-URxvt*color10: #00ff00
-! yellow
-URxvt*color3: #ffff55
-URxvt*color11: #ffff22
-! blue
-URxvt*color4: #2222ff
-URxvt*color12: #0000ff
-! magenta
-URxvt*color5: #ff22ff
-URxvt*color13: #ff00ff
-! cyan
-URxvt*color6: #22ffff
-URxvt*color14: #bbffff
-! white
-URxvt*color7: #dddddd
-URxvt*color15: #ffffff
+URxvt.color0:  #000000
+URxvt.color1:  #cd0000
+URxvt.color2:  #00cd00
+URxvt.color3:  #cdcd00
+URxvt.color4:  #1e90ff
+URxvt.color5:  #cd00cd
+URxvt.color6:  #00cdcd
+URxvt.color7:  #e5e5e5
+URxvt.color8:  #4c4c4c
+URxvt.color9:  #ff0000
+URxvt.color10: #00ff00
+URxvt.color11: #ffff00
+URxvt.color12: #4682b4
+URxvt.color13: #ff00ff
+URxvt.color14: #00ffff
+URxvt.color15: #ffffff
 
-URxvt*jumpScroll: true
-URxvt*scrollBar: true
-URxvt*scrollstyle: plain
-URxvt*scrollBar_right: true
 
-!URxvt*font: xft:Andale Mono:size=13:antialias=true
-!URxvt*font: -xos4-terminus-medium-*-*-*-16-*-*-*-*-*-*-u
-URxvt*font: xft:terminus:pixelsize=16
-URxvt*boldFont: xft:terminus:bold:pixelsize=16
-!URxvt*font: xft:Terminus:size=12:antialias=false
+URxvt*urgentOnBell:    true
+URxvt*fadeColor:       black
+URxvt*tintColor:       white
+URxvt*shading:         30
+URxvt*blurRadius:      5
+URxvt*perl-ext:        default
+URxvt*perl-ext-common: default,matcher,readline
 
-URxvt*intensityStyles: false
-URxvt*loginShell: false
-URxvt*saveLines: 4096
-URxvt*scrollTtyOutput: false
+URxvt.urlLauncher:    chromium-browser
+URxvt.matcher.button: 1
+
+URxvt*jumpScroll:        true
+URxvt*scrollWithBuffer:  true
+URxvt*scrollTtyOutput:   false
 URxvt*scrollTtyKeypress: true
-
-URxvt*saveLines: 12000
-
