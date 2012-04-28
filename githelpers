@@ -1,0 +1,16 @@
+#!/bin/bash
+
+HASH="%C(yellow)%h%C(reset)"
+RELATIVE_TIME="%C(green)(%ar)%C(reset)"
+AUTHOR="%C(bold blue)%an%C(reset)"
+REFS="%C(red)%d%C(reset)"
+SUBJECT="%s"
+
+FORMAT="$HASH{}$RELATIVE_TIME{}$AUTHOR{}$REFS $SUBJECT"
+
+git_log_pretty() {
+    git log --graph --abbrev-commit --date=relative --pretty="tformat:${FORMAT}" $* |
+        sed -E -e 's/\(([[:digit:]]+) ([[:alpha:]]+).* ago\)/\1 \2/' |
+        column -s '{}' -t |
+        less -FXRS
+}
