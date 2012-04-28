@@ -40,7 +40,7 @@ task :install do
       when 'Rakefile', 'README'
         next
       when 'xprofile', 'Xdefaults', 'xmodmap'
-        next unless `uname -o`.strip == 'GNU/Linux'
+        link file, home_slash(".#{file}") if `uname -o`.chop == 'GNU/Linux'
       when 'TODO'
         link 'TODO', home_slash('.toolsmithing')
       when 'bin'
