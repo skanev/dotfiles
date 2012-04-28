@@ -13,6 +13,7 @@ set autoindent
 set autoread
 set ignorecase
 set smartcase
+set scrolloff=5
 
 set backspace=indent,eol,start
 
