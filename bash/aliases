@@ -5,6 +5,8 @@ alias localrc="vim ~/.localrc && source ~/.localrc"
 
 alias o="open ."
 
+alias tmux="tmux -2"
+
 alias r="bundle exec rake"
 alias rdm="r db:migrate"
 alias rdtp="r db:test:prepare"
