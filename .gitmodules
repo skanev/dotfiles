@@ -61,3 +61,6 @@
 [submodule "vim/bundle/vim-prettyprint"]
 	path = vim/bundle/vim-prettyprint
 	url = https://github.com/thinca/vim-prettyprint.git
+[submodule "vim/bundle/Decho"]
+	path = vim/bundle/Decho
+	url = https://github.com/vim-scripts/Decho.git
