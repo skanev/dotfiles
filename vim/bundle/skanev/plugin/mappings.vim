@@ -10,6 +10,7 @@ map <F10> :set cursorcolumn!<CR>
 imap <F10> <C-o>:set cursorcolumn!<CR>
 
 map <F11> :CommandT ~/.vim/<CR>
+
 map <F12> :edit ~/.vim/vimrc.vim<CR>
 map <S-F12> :source ~/.vimrc<CR>
 
@@ -49,8 +50,11 @@ MapMeta [ <<
 VMapMeta ] >gv
 VMapMeta [ <gv
 
-MapMeta r <Plug>NexusRunFile
-MapMeta R <Plug>NexusRunLine
+MapMeta r <Plug>NexusRunTest
+MapMeta R <Plug>NexusRunTestLine
+
+MapMeta e <Plug>NexusSendBuffer
+VMapMeta e <Plug>NexusSendSelection
 
 MapMeta / <Plug>NERDCommenterToggle
 VMapMeta / <Plug>NERDCommenterToggle
