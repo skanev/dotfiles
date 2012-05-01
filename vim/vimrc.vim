@@ -10,8 +10,9 @@ runtime bundle/skanev/early/mapmeta.vim
 
 let Tlist_Show_One_File=1
 
-" This has to be in .vimrc, since NERDTree is... far-sighted
-let NERDTreeHijackNetrw=0
+" Disable netrw
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
 
 map [f :A<CR>
 map ]f :R<CR>
