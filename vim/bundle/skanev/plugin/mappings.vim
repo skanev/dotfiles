@@ -23,6 +23,8 @@ map <expr> Q ''
 imap <C-a> <C-o>0
 imap <C-e> <C-o>$
 
+inoremap <S-Tab> <C-v><C-i>
+
 map <C-Left> :bn<CR>
 map <C-Right> :bp<CR>
 
