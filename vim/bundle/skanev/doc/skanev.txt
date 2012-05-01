@@ -1,47 +1,179 @@
 *skanev.txt*  My notes on my own Vim usage
 
-Those are some of my personal notes on how I use Vim. While they can serve as
-a nice intro in my vimfiles, their primary purpose is to aid my poor memory.
+Hello! Welcome to my Vim!
 
-1. Mappings				|skanev-mappings|
-2. ftplugin modifications		|skanev-ftplugin|
-3. Various notes			|skanev-various|
-4. Installation				|skanev-install|
-5. ToDo					|skanev-todo|
+Feel free to look around. See if you get inspired. Look for something to
+steal. By all means, you can even try using my configuration!
 
-=============================================================================
-1. Mappings						*skanev-mappings*
+I'm not trying to build a general, ready-for-use Vim setup. This is just for
+me, tailored to my abilities and preferences.
 
-<F1>			Show this help
-<F2>			Open buffer explorer
-<F3>			Open NERDTree
-<F4>			Open taglist
+I like keeping notes, though. Thus, I will try to jot down everything
+noteworthy in this file. You should be able to get the gist of my workflow and
+see the useful customizations I've made. I'll also keep a reference for
+vanilla Vim commands, that I would like to remember.
+
+If find something useful, please let me know. I'm skanev on GitHub and Twitter
+and my email address is stefan dot kanev at gmail. I'd love to hear about it!
+
+1. Key points				|skanev-key-points|
+2. Mappings				|skanev-mappings|
+3. Commands				|skanev-commands|
+4. ftplugin modifications		|skanev-ftplugin|
+5. Reference				|skanev-reference|
+6. Installation				|skanev-install|
+7. ToDo					|skanev-todo|
+
+==============================================================================
+1. Key points						*skanev-key-points*
+
+A list of miscellaneous things that are important to understaind my Vim
+configuration.
+
+MAP META						*skanev-mapmeta*
+
+I use Mac OS X and Linux both. I would like to have an additional modifier
+key for mappings - <Command> on Mac and <Alt> on Linux. Since the keys are on
+the same place on the keyboard, I want to commit the mappings to memory,
+without having to think whether I'm using Mac or PC. I've added some commands
+for mapping those keys and some mappings on them.
+
+I will abbreviate a mapping as <M-r>, although it technically is <D-r> on Mac.
+
+Here are some commands I use to establish the mappings:
+
+
+:MapMeta {key} {seq}	Maps <M-key> to {seq} in Normal mode.
+
+:VMapMeta {key} {seq}	Maps <M-key> to {seq} in Visual mode.
+
+
+There are times when those are not enough. There is a generalized function for
+adding mappings:
+
+
+MapMeta({mode}, {args}, {options})
+			{args} is a String, containg the key, a space and a
+			sequence to map it to. For example, if mapping <M-x>
+			to deleting the current line, {args} will be "x dd".
+			{mode} is the mode in which to map. It can be any
+			valid prefix in the |:map| family of commands. For
+			example, 'n' for Normal mode and 'v' for Visual and
+			Select mode. {options} are the special arguments to
+			map. Examples include "<buffer>", "<silent>" and so
+			on.
+
+==============================================================================
+2. Mappings						*skanev-mappings*
+
+My own custom mappings, that I tend to use quite often.
+
+
+<F1>			Show this help.
+<F2>			Open buffer explorer.
+<F3>			Open NERDTree.
+<F4>			Open taglist.
+
+<F7>			Focus the current file in NERDTree.
+
+<F9>			Clear search highlight.
+<F10>			Toggle cursorcolumn (highlights the current column).
+
+<F11>			Run CommandT in ~/.vim
 
 <F12>			Open .vimrc
-<S-F12>			Save .vimrc
+<S-F12>			Source .vimrc
 
-<Tab>			Move to next window
-<S-Tab>			Move to previous window
+<Tab>			Move to next window.
+<S-Tab>			Move to previous window.
 
-<Leader>t		Open CommandT
-<Leader>p		Open PeepOpen
+<Leader>t		Open CommandT.
+<Leader>p		Open PeepOpen.
 
-=============================================================================
-2. ftplugin modifications				*skanev-ftplugin*
+<Space>			Enter command mode.
 
-VIM FILES						*skanev-ftplugin-vim*
+i_<S-Tab>		Insert a real <Tab> character.
 
-Q			Source the current script
+i_jk			My most important mapping - exists insert mode.
+i_jj			An alternative for exiting insert mode.
 
-=============================================================================
-3. Various notes					*skanev-various*
+i_<C-a>			Move to the begging of the current line.
+i_<C-e>			Move to the end of the current line.
 
-COMMANDS						*skanev-var-commands*
+==============================================================================
+3. Commands						*skanev-commands*
 
-:Snippets		Opens the snippets file for the current filetype
+Custom commands that I use frequently.
 
-=============================================================================
-4. Installation						*skanev-install*
+
+:Snippets		Opens the snippets file for the current filetype.
+
+:CloseHiddenBuffers	Close all buffers that are not open in a window.
+
+
+==============================================================================
+4. ftplugins						*skanev-ftplugin*
+
+VIM FILES						*skanev-ft-vim*
+
+Q			Source the current script.
+
+RUBY							*skanev-ft-ruby*
+
+i_<C-l>			Insert a hash rocket (=>).
+
+<Leader>f		Open the alternative spec in a horizontal split
+			(currently Rails only).
+
+
+I've added the following text objects:
+
+
+a|			The outer "chute" (the arguments passed to a block,
+			with the pipe symbols).
+
+i|			The inner "chute" (the arguments passed to a block,
+			without the pipe symbols).
+
+
+I've discovered that completing on the currently included files in Ruby is
+extremely slow, so I have disabled it.
+
+
+CUCUMBER						*skanev-ft-cucumber*
+
+<M-\>			Aligns the cells of the table the cursor is in.
+
+SLIM							*skanev-ft-slim*
+
+i_<C-l>			Insert a hash rocket (=>).
+i_<S-CR>		Insert a <br> HTML tag.
+
+==============================================================================
+5. Reference						*skanev-reference*
+
+There is a bunch of mappings and commands that I would like to commit to
+memory, but I tend to forget. I will write them down here for future
+reference. I will try to err on the side of too much than too little - e.g.,
+even if I build a habit of using something, I will keep it here.
+
+MAPPINGS						*skanev-ref-mappings*
+
+zz			Redraw and put the current line in the center of the
+			screen.
+
+zt			Redraw and put the current line in the top of the
+			screen.
+
+zb			Redraw and put the current lin  in the bottom of the
+			screen.
+
+i_<C-t>			Shift the current line one 'shiftwidth' rightwards.
+
+i_<C-d>			Shift the current line one 'shiftwidth' leftwards.
+
+==============================================================================
+6. Installation						*skanev-install*
 
 COMMAND-T						*skanev-command-t*
 
@@ -50,14 +182,11 @@ Go into ~/.vim/bundle/command-t/ruby/command-t and run: >
 	ruby extconf.rb
 	make
 >
-This will enable the command-t bundle
+This will enable the command-t bundle.
 
-=============================================================================
-5. ToDo							*skanev-todo*
+==============================================================================
+7. ToDo							*skanev-todo*
 
-Check out those plugins:
-
-  * proj.vim
-  * autotag
+Currently empty.
 
  vim:tw=78:ts=8:ft=help:norl:modifiable:noreadonly:
