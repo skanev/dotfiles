@@ -72,7 +72,6 @@ My own custom mappings, that I tend to use quite often.
 <F1>			Show this help.
 <F2>			Open buffer explorer.
 <F3>			Open NERDTree.
-<F4>			Open taglist.
 
 <F7>			Focus the current file in NERDTree.
 

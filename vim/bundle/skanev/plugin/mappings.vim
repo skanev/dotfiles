@@ -1,7 +1,6 @@
 map <F1> :help skanev.txt<CR>
 map <F2> :BufExplorer<CR>
 map <F3> :NERDTreeToggle<CR>
-map <F4> :TlistToggle<CR>
 
 map <F7> :NERDTreeFind<CR>
 map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
