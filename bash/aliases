@@ -42,3 +42,4 @@ alias ree="RUBY_HEAP_MIN_SLOTS=1000000 RUBY_HEAP_SLOTS_INCREMENT=1000000 RUBY_HE
 alias spj="ree bundle exec xvfb-run specjour --rsync-port=8991"
 alias spjs="ree bundle exec xvfb-run specjour spec --rsync-port=8991"
 alias spjf="ree bundle exec xvfb-run specjour features --rsync-port=8991"
+alias spp="bundle exec specjour prepare --rsync-port=8991"
