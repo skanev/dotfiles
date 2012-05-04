@@ -425,7 +425,6 @@ function! s:BEMapKeys()
 
   nnoremap <buffer> <silent> <F1>          :call <SID>BEToggleHelp()<cr>
   nnoremap <buffer> <silent> <2-leftmouse> :call <SID>BESelectBuffer()<cr>
-  nnoremap <buffer> <silent> <cr>          :call <SID>BESelectBuffer()<cr>
   nnoremap <buffer> <silent> o             :call <SID>BESelectBuffer()<cr>
   nnoremap <buffer> <silent> t             :call <SID>BESelectBuffer("tab")<cr>
   nnoremap <buffer> <silent> <s-cr>        :call <SID>BESelectBuffer("tab")<cr>
@@ -444,6 +443,10 @@ function! s:BEMapKeys()
   nnoremap <buffer> <silent> f             :call <SID>BEToggleFindActive()<cr>
   nnoremap <buffer> <silent> T             :call <SID>BEToggleShowTabBuffer()<cr>
   nnoremap <buffer> <silent> B             :call <SID>BEToggleOnlyOneTab()<cr>
+
+  nnoremap <buffer> <silent> <CR>          <Nop>
+  nnoremap <buffer> <silent> <Up>          <Nop>
+  nnoremap <buffer> <silent> <Down>        <Nop>
 
   for k in ["G", "n", "N", "L", "M", "H"]
     exec "nnoremap <buffer> <silent>" k ":keepjumps normal!" k."<cr>"
