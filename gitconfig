@@ -30,6 +30,7 @@
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   ls = ls-files
   l = !bash -c 'source ~/.githelpers && git_log_pretty'
+  la = !bash -c 'source ~/.githelpers && git_log_pretty --all'
 [user]
   email = stefan.kanev@gmail.com
   name = Stefan Kanev
