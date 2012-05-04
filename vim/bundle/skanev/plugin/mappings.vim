@@ -46,7 +46,7 @@ MapMeta [ <<
 VMapMeta ] >gv
 VMapMeta [ <gv
 
-MapMeta r <Plug>NexusRunTest
+MapMeta r <Plug>NexusRunTestFile
 MapMeta R <Plug>NexusRunTestLine
 
 MapMeta e <Plug>NexusSendBuffer
