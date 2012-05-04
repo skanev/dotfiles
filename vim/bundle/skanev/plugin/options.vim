@@ -15,6 +15,8 @@ set ignorecase
 set smartcase
 set scrolloff=5
 
+set modeline
+
 set backspace=indent,eol,start
 
 " System

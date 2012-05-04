@@ -188,4 +188,4 @@ This will enable the command-t bundle.
 
 Currently empty.
 
- vim:tw=78:ts=8:ft=help:norl:modifiable:noreadonly:
+vim:norl:modifiable:noreadonly:ft=help tw=78 ts=8
