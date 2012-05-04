@@ -5,7 +5,7 @@ let b:did_skanev_ftplugin = 1
 
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
-map <Leader>f :sp<CR><Tab>[f
+map <Leader>f :AS<CR><C-w>r
 imap <buffer> <C-l> <Space>=><Space>
 
 onoremap i\| :<c-u>normal! T\|vt\|<CR>
