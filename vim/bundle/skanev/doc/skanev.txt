@@ -171,6 +171,9 @@ i_<C-t>			Shift the current line one 'shiftwidth' rightwards.
 
 i_<C-d>			Shift the current line one 'shiftwidth' leftwards.
 
+g<C-]>			Show all tags that match the current word. Useful when
+			there is more than one tag with the same name.
+
 ==============================================================================
 6. Installation						*skanev-install*
 
