@@ -35,6 +35,8 @@ Bundle 'Lokaltog/vim-powerline'
 Bundle 'kien/rainbow_parentheses.vim'
 Bundle 'thinca/vim-prettyprint'
 Bundle 'vim-scripts/Decho'
+Bundle 'ack.vim'
+Bundle 'The-NERD-tree'
 
 " Disable netrw
 let g:loaded_netrw = 1
