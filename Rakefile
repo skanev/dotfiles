@@ -30,11 +30,18 @@ namespace :vim do
     task :command_t do
       system 'cd vim/bundle/command-t/ruby/command-t && ruby extconf.rb && make'
     end
+
+    desc "Installs Vundle"
+    task :vundle do
+      unless File.exists? 'vim/vundle/vundle'
+        system 'git clone https://github.com/gmarik/vundle.git vim/vundle/vundle'
+      end
+    end
   end
 end
 
 desc "Install into the users home"
-task :install do
+task :install => ['vim:install:vundle'] do
   Dir['*'].each do |file|
     case file
       when 'Rakefile', 'README'
