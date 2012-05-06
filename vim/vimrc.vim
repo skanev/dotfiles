@@ -37,6 +37,7 @@ Bundle 'thinca/vim-prettyprint'
 Bundle 'vim-scripts/Decho'
 Bundle 'ack.vim'
 Bundle 'The-NERD-tree'
+Bundle 'notes.vim'
 
 " Disable netrw
 let g:loaded_netrw = 1
