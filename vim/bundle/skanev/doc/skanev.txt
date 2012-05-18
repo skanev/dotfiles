@@ -177,6 +177,9 @@ i_<C-a>			Insert the last inserted text. Really useful when
 g<C-]>			Show all tags that match the current word. Useful when
 			there is more than one tag with the same name.
 
+gi			Enter insert mode in the last location where you were
+			in insert mode.
+
 ==============================================================================
 6. Installation						*skanev-install*
 
