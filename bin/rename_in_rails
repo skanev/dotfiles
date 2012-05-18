@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -w
+#!/usr/bin/env ruby
 # An ad hoc, informally-specified, bug-ridden, slow implementation of
 # half of Common Lisp.
 #
