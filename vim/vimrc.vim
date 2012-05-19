@@ -46,4 +46,3 @@ let g:loaded_netrwPlugin = 1
 map [f :A<CR>
 map ]f :R<CR>
 
-call Pl#Theme#InsertSegment('nexus:status', 'after', 'scrollpercent')
