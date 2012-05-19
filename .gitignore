@@ -2,4 +2,5 @@
 vim/.netrwhist
 vim/bundle/command-t/ruby
 vim/vundle
+vim/localvimrc
 vim-backup

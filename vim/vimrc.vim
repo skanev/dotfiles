@@ -66,3 +66,5 @@ function! ExtractVariable()
   endtry
 endfunction
 xnoremap <Leader>e <ESC>:call ExtractVariable()<CR>
+
+runtime localvimrc
