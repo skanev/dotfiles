@@ -1,14 +1,14 @@
 #!/bin/bash
 
-HASH="%C(yellow)%h%C(reset)"
-RELATIVE_TIME="%C(green)(%ar)%C(reset)"
-AUTHOR="%C(bold blue)<%an>%C(reset)"
-REFS="%C(red)%d%C(reset)"
-SUBJECT="%s"
-
-FORMAT="$HASH}$RELATIVE_TIME<time>}$AUTHOR<author>}$REFS $SUBJECT"
-
 git_log_pretty() {
+    HASH="%C(yellow)%h%C(reset)"
+    RELATIVE_TIME="%C(green)(%ar)%C(reset)"
+    AUTHOR="%C(bold blue)<%an>%C(reset)"
+    REFS="%C(red)%d%C(reset)"
+    SUBJECT="%s"
+
+    FORMAT="$HASH}$RELATIVE_TIME<time>}$AUTHOR<author>}$REFS $SUBJECT"
+
     git log --color --graph --abbrev-commit --date=relative --pretty="tformat:${FORMAT}" $* |
         sed -E -e 's/\(([[:digit:]]+) ([[:alpha:]]+).* ago\)/(\1 \2)/' |
         awk '
