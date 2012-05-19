@@ -44,7 +44,6 @@ if has('gui_running')
   if has("gui_gtk2")
     colorscheme native
     set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
-    let g:Powerline_symbols='fancy'
     set linespace=2
   elseif has("gui_macvim")
     set guifont=Monaco:h12
