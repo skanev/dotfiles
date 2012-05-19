@@ -46,3 +46,23 @@ let g:loaded_netrwPlugin = 1
 map [f :A<CR>
 map ]f :R<CR>
 
+function! PromoteToLet()
+  s/\v(\w+)\s+\=\s+(.*)$/let(:\1) { \2 }/
+  normal ==
+endfunction
+
+command! PromoteToLet :call PromoteToLet()
+map <Leader>l :PromoteToLet<CR>
+
+function! ExtractVariable()
+  try
+    let save_a = @a
+    let variable = input('Variable name: ')
+    normal! gv"ay
+    execute "normal! gvc" . variable
+    execute "normal! O" . variable . " = " . @a
+  finally
+    let @a = save_a
+  endtry
+endfunction
+xnoremap <Leader>e <ESC>:call ExtractVariable()<CR>
