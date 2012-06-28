@@ -37,7 +37,7 @@
 [github]
   user = skanev
 [push]
-  default = tracking
+  default = upstream
 [branch]
   autosetuprebase = always
 
