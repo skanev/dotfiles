@@ -47,7 +47,7 @@ task :install => ['vim:install:vundle'] do
       when 'Rakefile', 'README'
         next
       when 'xprofile', 'Xdefaults', 'xmodmap'
-        link file, home_slash(".#{file}") if `uname -o`.chop == 'GNU/Linux'
+        link file, home_slash(".#{file}") if `uname -s`.include? 'Linux'
       when 'TODO'
         link 'TODO', home_slash('.toolsmithing')
       when 'bin'
