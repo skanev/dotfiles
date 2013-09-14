@@ -1,5 +1,6 @@
 .DS_Store
 vim/.netrwhist
+vim/localvimrc.vim
 vim/bundle/command-t/ruby
 vim/vundle
 vim/localvimrc
