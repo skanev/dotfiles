@@ -4,6 +4,7 @@ map <F3> :NERDTreeToggle<CR>
 
 map <F7> :NERDTreeFind<CR>
 map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
+map <S-F8> :Ack <C-r><C-w><CR>
 map <F9> :noh<CR>
 map <F10> :set cursorcolumn!<CR>
 imap <F10> <C-o>:set cursorcolumn!<CR>
