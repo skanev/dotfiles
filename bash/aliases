@@ -31,6 +31,7 @@ alias gr10="git rebase -i HEAD~10"
 
 alias t="tmux"
 alias ta="tmux attach"
+alias tat="tmux attach -t"
 
 alias m="mate"
 alias be="bundle exec"
