@@ -13,7 +13,6 @@ map <F11> :CommandT ~/.vim/<CR>
 map <F12> :edit ~/.vim/vimrc.vim<CR>
 map <S-F12> :source ~/.vimrc<CR>
 
-imap jj <ESC>
 imap jk <ESC>
 nmap <Tab> <C-w><C-w>
 nmap <S-Tab> <C-w><C-W>
