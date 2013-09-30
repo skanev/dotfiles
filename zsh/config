@@ -13,7 +13,17 @@ autoload -U colors
 colors
 setopt prompt_subst
 setopt transient_rprompt
-PROMPT='%{$fg_bold[white]%}→%{$reset_color%} '
+
+prompt_zsh_level() {
+  if [[ $SHLVL > 1 ]]; then
+    printf '∙'%.0s {2..$SHLVL}
+    print ➔
+  else
+    print →
+  fi
+}
+
+PROMPT='%{$fg_bold[white]%}$(prompt_zsh_level)%{$reset_color%} '
 RPROMPT='%{$fg_bold[green]%}%c%{$fg_bold[white]%}:%{$fg_bold[blue]%}%m %{$fg_bold[red]%}$(vcprompt)%{$reset_color%}'
 
 ### Options from PeepCode ##################################
