@@ -10,6 +10,8 @@ call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 set runtimepath+=~/.vim/vundle/vundle
 call vundle#rc('~/.vim/vundle')
+
+let g:notes_directory = '~/Dropbox/Notes'
 filetype plugin indent on
 
 " Bundles
