@@ -22,6 +22,13 @@ prompt_zsh_level() {
 PROMPT='%(#.%{$fg_bold[yellow]%}.%{$fg_bold[white]%})$(prompt_zsh_level)%(#.∷.→)%{$reset_color%} '
 RPROMPT='%{$fg_bold[green]%}%c%{$fg_bold[white]%}:%{$fg_bold[blue]%}%m %{$fg_bold[red]%}$(vcprompt)%{$reset_color%}'
 
+# Override prompt for Beamer or Emacs
+if [ "$ITERM_PROFILE" = 'Beamer' ]; then
+  PROMPT='➔ '
+elif [ -n "$EMACS" ] ; then
+  PROMPT='$ '
+fi
+
 ### Options from PeepCode ##################################
 setopt CORRECT
 setopt CORRECTALL
