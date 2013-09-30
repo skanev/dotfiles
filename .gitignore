@@ -5,3 +5,5 @@ vim/bundle/command-t/ruby
 vim/vundle
 vim/localvimrc
 vim-backup
+zsh/completiondump
+zsh/history
