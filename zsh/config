@@ -53,10 +53,6 @@ HISTSIZE=10000
 REPORTTIME=10 # Show elapsed time if command took more than X seconds
 LISTMAX=0 # ask to complete if top of list would scroll off screen
 
-# Load completions for Ruby, Git, etc.
-autoload compinit
-compinit
-
 # Make CTRL-W delete after other chars, not just spaces
 WORDCHARS=${WORDCHARS//[&=\/;\!#%\{]}
 
