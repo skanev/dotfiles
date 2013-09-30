@@ -12,7 +12,6 @@ set runtimepath+=~/.vim/vundle/vundle
 call vundle#rc('~/.vim/vundle')
 
 let g:notes_directory = '~/Dropbox/Notes'
-filetype plugin indent on
 
 " Bundles
 Bundle 'tpope/vim-fugitive'
@@ -40,6 +39,8 @@ Bundle 'vim-scripts/Decho'
 Bundle 'ack.vim'
 Bundle 'The-NERD-tree'
 Bundle 'notes.vim'
+
+filetype plugin indent on
 
 " Disable netrw
 let g:loaded_netrw = 1
