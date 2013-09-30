@@ -16,14 +16,10 @@ setopt transient_rprompt
 
 prompt_zsh_level() {
   if [[ $SHLVL > 1 ]]; then
-    printf '∙'%.0s {2..$SHLVL}
-    print ➔
-  else
-    print →
+    printf '∎'%.0s {2..$SHLVL}
   fi
 }
-
-PROMPT='%{$fg_bold[white]%}$(prompt_zsh_level)%{$reset_color%} '
+PROMPT='%(#.%{$fg_bold[yellow]%}.%{$fg_bold[white]%})$(prompt_zsh_level)%(#.∷.→)%{$reset_color%} '
 RPROMPT='%{$fg_bold[green]%}%c%{$fg_bold[white]%}:%{$fg_bold[blue]%}%m %{$fg_bold[red]%}$(vcprompt)%{$reset_color%}'
 
 ### Options from PeepCode ##################################
