@@ -15,7 +15,9 @@ setopt prompt_subst
 setopt transient_rprompt
 
 prompt_zsh_level() {
-  if [[ $SHLVL > 1 ]]; then
+  if [[ -n $TMUX && $SHLVL > 2 ]]; then
+    printf '∎'%.0s {3..$SHLVL}
+  elif [[ -z $TMUX && $SHLVL > 1 ]]; then
     printf '∎'%.0s {2..$SHLVL}
   fi
 }
