@@ -39,6 +39,16 @@ Bundle 'vim-scripts/Decho'
 Bundle 'ack.vim'
 Bundle 'The-NERD-tree'
 Bundle 'notes.vim'
+Bundle 'tpope/vim-foreplay'
+Bundle 'tpope/vim-classpath'
+Bundle 'guns/vim-clojure-static'
+Bundle 'paredit.vim'
+Bundle 'Gist.vim'
+Bundle 'WebAPI.vim'
+Bundle 'digitaltoad/vim-jade'
+Bundle 'groenewege/vim-less'
+Bundle 'scratch.vim'
+Bundle 'copy-as-rtf'
 
 filetype plugin indent on
 
