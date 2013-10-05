@@ -52,9 +52,11 @@ Bundle 'bling/vim-airline'
 
 filetype plugin indent on
 
+source ~/.vim/bundle/skanev/other/airline-theme.vim
+
 " Airline configruation
-let g:airline_theme='powerlineish'
-let g:airline_powerline_fonts=1
+let g:airline_theme = 'skanev'
+let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
