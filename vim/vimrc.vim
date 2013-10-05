@@ -59,10 +59,9 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
-let g:airline_branch_prefix = '⭠'
-let g:airline_readonly_symbol = '⭤ '
-let g:airline_linecolumn_prefix = '⭡'
-let g:airline_paste_symbol = 'ρ'
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = ''
@@ -95,5 +94,18 @@ function! ExtractVariable()
   endtry
 endfunction
 xnoremap <Leader>e <ESC>:call ExtractVariable()<CR>
+let vimclojure#WantNailgun = 1
+let vimclojure#NailgunClient = "/Users/aquarius/code/runtimes/vim-clojure-nailgun/ng"
 
 runtime localvimrc
+
+"function GetFooText()
+  "return localtime()
+"endfunction
+
+"call airline#parts#define_function('foo', 'GetFooText')
+
+"function! AirlineInit()
+"endfunction
+  "let g:airline_section_y = airline#section#create(['foo', ' ', 'ffenc'])
+"autocmd VimEnter * call AirlineInit()
