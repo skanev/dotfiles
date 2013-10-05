@@ -1,0 +1,40 @@
+#!/usr/bin/env zsh
+dir=$(mktemp -d -t git-catch-up.XXXXXXXXXXX)
+lesskey_file="$dir/lesskey"
+index_file="$dir/index"
+github_project=$(git config remote.origin.url | sed -e 's/^.*[:\/]\([a-zA-Z]*\/[-a-zA-Z0-9_]*\)\.git$/\1/')
+interval="$*"
+: ${interval:="1 day"}
+
+banner="#############################################################################"
+message="%s%n%n%b%n"
+commit="* Commit   %H"
+author="* Author:  %an"
+date="* Date:    %ad"
+comment="* Comment: https://github.com/$github_project/commit/%h"
+format="$banner%n$message%n$commit%n$author%n$date%n$comment%n$banner"
+
+touch $index_file
+(( number = 0 ))
+for commit in $(git rev-list --all --no-merges --reverse --since="$interval"); do
+    (( number = number + 1 ))
+    commit_file=$(printf "$dir/commit%04d" $number)
+    git log --color --pretty="%C(yellow)%h%C(reset) %C(blue)<%an>%C(reset) %s" "$commit~1..$commit" >> "$index_file"
+    git show --color --pretty="tformat:$format" $commit > "$commit_file"
+done
+
+if [[ $number -eq 0 ]]; then
+    echo "Nothing happened in the last $interval"
+    return
+fi
+
+cat <<END | lesskey -o "$dir/lesskey" -
+#command
+h prev-file
+l next-file
+0 index-file
+END
+
+less -cFXRS --lesskey-file="$lesskey_file" -- $index_file $dir/commit*
+
+rm -r $dir

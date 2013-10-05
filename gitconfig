@@ -32,7 +32,7 @@
   ls = ls-files
   l = !bash -c 'source ~/.githelpers && git_log_pretty'
   la = !bash -c 'source ~/.githelpers && git_log_pretty --all'
-  catchup = !bash -c 'source ~/.githelpers && git_catch_up'
+  catchup = !zsh ~/.zsh/functions/git_catch_up
 [user]
   email = stefan.kanev@gmail.com
   name = Stefan Kanev
