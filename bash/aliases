@@ -7,12 +7,12 @@ alias o="open ."
 
 alias tmux="tmux -2"
 
-alias r="bundle exec rake"
-alias rdm="r db:migrate"
-alias rdtp="r db:test:prepare"
-alias rdmr="r db:migrate:reset"
-alias rrs="r spec"
-alias rc="r cucumber"
+alias rake="noglob rake"
+alias rdm="bundle exec rake db:migrate"
+alias rdtp="bundle exec rake db:test:prepare"
+alias rdmr="bundle exec rake db:migrate:reset"
+alias rrs="bundle exec rake spec"
+alias rc="bundle exec rake cucumber"
 
 alias rg="rails generate"
 alias rmig="rails generate migration"
