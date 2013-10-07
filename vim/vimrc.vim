@@ -47,7 +47,6 @@ Bundle 'WebAPI.vim'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'groenewege/vim-less'
 Bundle 'scratch.vim'
-Bundle 'copy-as-rtf'
 Bundle 'bling/vim-airline'
 
 filetype plugin indent on
