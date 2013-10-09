@@ -67,6 +67,7 @@ let g:airline_linecolumn_prefix = ''
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#show_buffers = 0
 
 " Disable netrw
 let g:loaded_netrw = 1
