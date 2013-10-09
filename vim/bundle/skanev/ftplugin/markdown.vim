@@ -3,4 +3,4 @@ if (exists("b:did_skanev_ftplugin"))
 endif
 let b:did_skanev_ftplugin = 1
 
-setlocal wrap linebreak
+setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab wrap linebreak
