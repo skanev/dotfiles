@@ -14,6 +14,7 @@ let s:digraphs = [
   \ ['^+', 'superscript plus', '⁺'],
   \ ['^-', 'superscript minus', '⁻'],
   \ ['^n', 'nth power', 'ⁿ'],
+  \ ['^i', 'ith power', 'ⁱ'],
   \
   \ ['_0', 'subscript zero', '₀'],
   \ ['_1', 'subscript one', '₁'],
