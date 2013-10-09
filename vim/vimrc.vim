@@ -48,6 +48,7 @@ Bundle 'digitaltoad/vim-jade'
 Bundle 'groenewege/vim-less'
 Bundle 'scratch.vim'
 Bundle 'bling/vim-airline'
+Bundle 'go.vim'
 
 filetype plugin indent on
 
