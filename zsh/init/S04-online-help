@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+# Adds the online help when Zsh is installed with Homebrew. This is
+# very useful for Zsh builtin commands.
+#
+# With it, \eh on unalias shows the documentation of the Zsh builtin.
+# Otherwise it shows man unalias, which is worse.
+
+if [[ -d /usr/local/share/zsh/helpfiles ]]; then
+  unalias run-help
+  autoload run-help
+  HELPDIR=/usr/local/share/zsh/helpfiles
+fi
