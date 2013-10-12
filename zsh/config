@@ -63,3 +63,6 @@ zle -N edit-command-line
 bindkey '\ee' edit-command-line
 
 bindkey '\eq' push-line-or-edit
+
+# From the Zsh User Guide
+setopt CD_ABLE_VARS
