@@ -1,4 +1,9 @@
-Things I'd like to have:
+Important things:
+  * automatically set highlighting for files like tmux.conf
+  * ctrlp
+  * nicer way of using vim, without hitting meta
+
+This that can wait:
   * binding for a small horizontal split in tmux to run gitx (or other stuff)
     while I am waiting for specs/features to complete
   * REFACTOR marks as a vim bundle
@@ -7,12 +12,11 @@ Things I'd like to have:
     - a git pre-commit hook that complains if there is a REFACTOR mark?
   * Try gitv in Vim
   * https://github.com/xolox/vim-notes
-  * Add Vundle
   * Check out highlighting long lines at Mange's dotfiles
   * Add a mapping for toggling between set number and set relativenumber
-  * Get Vim indentation in Ruby to work
   * Cannot enter normal mode when nexus is running
   * Move adding nexus segment to nexus itself
   * vim-refactor
   * vim-nexus error format fails when there is no :in at the end
   * gVim flashes when running tests because of cfgetlist
+  * I should have a system-independant binary for gvim or mvim, in order to use in scripts
