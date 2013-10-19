@@ -22,7 +22,7 @@ function! s:MyFileTypePlugin()
   endif
 
   let filename = s:ftplugin_dir . '/' . &filetype . '.vim'
-  exec "edit " . filename
+  exec "split " . filename
 
   if !filereadable(filename)
     call append(0, [
