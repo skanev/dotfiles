@@ -35,6 +35,9 @@ let s:digraphs = [
   \ ['<=', 'less than or equal to', '≤'],
   \ ['>=', 'greather than or equal to', '≥'],
   \
+  \ ['s&', 'intersection', '∩'],
+  \ ['s|', 'union', '∪'],
+  \
   \ ['xx', 'multiplication sign', '×'],
   \ ['/o', 'empty set', '∅'],
   \ ['--', 'horizontal line', '─'],
@@ -48,9 +51,15 @@ let s:digraphs = [
   \ ['=>', 'double rightwards arrow', '⇒'],
 \ ]
 
+let s:replacements = {}
+
+for [chars, name, symbol] in s:digraphs
+  let s:replacements[chars] = symbol
+endfor
+
 function! s:InstallDigraphs()
   for [chars, name, symbol] in s:digraphs
-    execute "digraph " . chars . " " . char2nr(symbol)
+    execute "digraph " . escape(chars, '|') . " " . char2nr(symbol)
   endfor
 endfunction
 
@@ -60,5 +69,18 @@ function! s:DisplayDigraphs()
   endfor
 endfunction
 
-call s:InstallDigraphs()
+function! s:ReplaceDigraph(digraph)
+  return get(s:replacements, a:digraph, a:digraph)
+endfunction
+
+function! s:DigraphReplacementCommand()
+  let pattern = '\V' . join(map(s:digraphs, 'escape(v:val[0], "\\/")'), '\|')
+  let replacement = '\=<SID>ReplaceDigraph(submatch(0))'
+
+  return '%s/'.pattern.'/'.replacement.'/gce'
+endfunction
+
+command! ReplaceDigraphs execute s:DigraphReplacementCommand()
 command! DisplayDigraphs call s:DisplayDigraphs()
+
+call s:InstallDigraphs()
