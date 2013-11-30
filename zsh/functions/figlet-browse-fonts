@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+emulate -LR zsh
+setopt errreturn
+
+for font in $(figlet -I2)/*.flf(:t:r); do
+  echo $font
+  echo "====================\n"
+  figlet -f $font $*
+  echo "\n\n"
+done | less
