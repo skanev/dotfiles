@@ -30,8 +30,8 @@
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   ls = ls-files
-  l = !bash -c 'source ~/.githelpers && git_log_pretty'
-  la = !bash -c 'source ~/.githelpers && git_log_pretty --all'
+  l = !zsh ~/.zsh/functions/git-log-pretty
+  la = !zsh ~/.zsh/functions/git-log-pretty --all
   catchup = !zsh ~/.zsh/functions/git_catch_up
 [user]
   email = stefan.kanev@gmail.com
