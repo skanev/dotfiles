@@ -7,19 +7,19 @@ git_log_pretty() {
     REFS="%C(red)%d%C(reset)"
     SUBJECT="%s"
 
-    FORMAT="$HASH}$RELATIVE_TIME<time>}$AUTHOR<author>}$REFS $SUBJECT"
+    FORMAT="${HASH}¤$RELATIVE_TIME<time>¤$AUTHOR<author>¤$REFS $SUBJECT"
 
     git log --color --graph --abbrev-commit --date=relative --pretty="tformat:${FORMAT}" $* |
         sed -E -e 's/\(([[:digit:]]+) ([[:alpha:]]+).* ago\)/(\1 \2)/' |
         awk '
-          BEGIN { FS = "}"; OFS = "}" }
+          BEGIN { FS = "¤"; OFS = "¤" }
           function strip(str) {
             gsub(/\x1B\[[0-9;]*[mK]/, "", str)
             return str
           }
           { print $1, "<" strip($1) FS ">" $2, $3, $4 }
         ' |
-        column -s '}' -t |
+        column -s '¤' -t |
         awk '{
           match($0, /<[^>]*>/)
           stripped = substr($0, RSTART + 1, RLENGTH - 2)
