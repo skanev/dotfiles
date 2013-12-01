@@ -9,7 +9,7 @@ map <F9> :noh<CR>
 map <F10> :set cursorcolumn!<CR>
 imap <F10> <C-o>:set cursorcolumn!<CR>
 
-map <F11> :CommandT ~/.vim/<CR>
+map <F11> :CtrlP ~/.vim/<CR>
 
 map <F12> :edit ~/.vim/vimrc.vim<CR>
 map <S-F12> :source ~/.vimrc<CR>
@@ -27,6 +27,8 @@ map <C-Right> :bp<CR>
 
 MapMeta j 4j
 MapMeta k 4k
+
+MapMeta f :CtrlP<CR>
 
 map <Space> :
 

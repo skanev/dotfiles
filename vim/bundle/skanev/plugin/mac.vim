@@ -3,7 +3,4 @@ if !has('gui_macvim')
 endif
 
 Bundle 'copy-as-rtf'
-
 command! Mate !mate %
-
-map <silent> <D-f> <Plug>PeepOpen

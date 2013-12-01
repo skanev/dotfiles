@@ -49,6 +49,7 @@ Bundle 'groenewege/vim-less'
 Bundle 'scratch.vim'
 Bundle 'bling/vim-airline'
 Bundle 'go.vim'
+Bundle 'ctrlp.vim'
 
 filetype plugin indent on
 
