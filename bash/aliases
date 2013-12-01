@@ -28,6 +28,7 @@ alias gsp="git stash pop"
 alias grc="git rebase --continue"
 alias gca="git commit --amend"
 alias gr10="git rebase -i HEAD~10"
+alias gdc="git diff --cached"
 
 alias t="tmux"
 alias ta="tmux attach"
