@@ -19,6 +19,8 @@ set modeline
 
 set backspace=indent,eol,start
 
+set wildignore+=**/tmp/**
+
 " System
 set dir=~/.vim-backup
 
