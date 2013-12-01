@@ -51,12 +51,6 @@ let s:digraphs = [
   \ ['=>', 'double rightwards arrow', '⇒'],
 \ ]
 
-let s:replacements = {}
-
-for [chars, name, symbol] in s:digraphs
-  let s:replacements[chars] = symbol
-endfor
-
 function! s:InstallDigraphs()
   for [chars, name, symbol] in s:digraphs
     execute "digraph " . escape(chars, '|') . " " . char2nr(symbol)
@@ -70,13 +64,17 @@ function! s:DisplayDigraphs()
 endfunction
 
 function! s:ReplaceDigraph(digraph)
-  return get(s:replacements, a:digraph, a:digraph)
+  for [chars, name, symbol] in s:digraphs
+    if chars == a:digraph
+      return symbol
+    endif
+  endfor
+  return a:digraph
 endfunction
 
 function! s:DigraphReplacementCommand()
-  let pattern = '\V' . join(map(s:digraphs, 'escape(v:val[0], "\\/")'), '\|')
+  let pattern = '\V' . join(map(copy(s:digraphs), 'escape(v:val[0], "\\/")'), '\|')
   let replacement = '\=<SID>ReplaceDigraph(submatch(0))'
-
   return '%s/'.pattern.'/'.replacement.'/gce'
 endfunction
 
