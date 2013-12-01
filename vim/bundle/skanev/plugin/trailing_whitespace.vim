@@ -22,3 +22,5 @@ endfunction
 function! s:Unhighlight()
   match none
 endfunction
+
+command! StripTrailingWhitespace %s/\v\s+$//
