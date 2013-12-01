@@ -15,8 +15,9 @@ map <F12> :edit ~/.vim/vimrc.vim<CR>
 map <S-F12> :source ~/.vimrc<CR>
 
 imap jk <ESC>
-nmap <Tab> <C-w><C-w>
-nmap <S-Tab> <C-w><C-W>
+nnoremap <Tab> <C-w><C-w>
+nnoremap <S-Tab> <C-w><C-W>
+nnoremap <C-p> <C-i>
 
 map <expr> Q ''
 
