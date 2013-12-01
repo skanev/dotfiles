@@ -31,7 +31,7 @@ URxvt.color15: #ffffff
 URxvt*urgentOnBell:    true
 URxvt*fadeColor:       black
 URxvt*tintColor:       white
-URxvt*shading:         30
+URxvt*shading:         0
 URxvt*blurRadius:      5
 URxvt*perl-ext:        default
 URxvt*perl-ext-common: default,matcher,readline
