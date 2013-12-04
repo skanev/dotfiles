@@ -32,7 +32,7 @@
   ls = ls-files
   l = !zsh ~/.zsh/functions/git-log-pretty
   la = !zsh ~/.zsh/functions/git-log-pretty --all
-  catchup = !zsh ~/.zsh/functions/git_catch_up
+  catchup = !zsh ~/.zsh/functions/git-catch-up
 [user]
   email = stefan.kanev@gmail.com
   name = Stefan Kanev
