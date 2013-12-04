@@ -1,0 +1,36 @@
+#!/usr/bin/env zsh
+emulate -LR zsh
+setopt errreturn
+
+emacs_dir=$HOME/.emacs.d
+configs=($emacs_dir.*(N/:e))
+current=($emacs_dir(N@:A:e))
+chosen=$1
+
+if [[ $#configs -eq 0 ]]; then
+  print "$0: no configurations exists" 1>&2
+  return 1
+fi
+
+if [[ -z $chosen || $chosen == '--help' ]]; then
+  print "usage: $0 [${(j.|.)configs}]"
+  print "current: ${current:-None}"
+  return 0
+fi
+
+() {(($#))} $emacs_dir(/N^F) && rmdir ~/.emacs.d
+
+if () {(($#))} $emacs_dir(/NF^@); then
+  print "$0: ~/.emacs.d: should be symbolic link, not a real directory" 1>&2
+  return 1
+fi
+
+if [[ ${configs[(I)$chosen]} -eq 0 ]]; then
+  print "$0: $chosen: emacs configuration does not exist" 1>&2
+  return 1
+fi
+
+emacsclient -e '(kill-emacs)' > /dev/null 2>&1 || true
+
+[[ -h $emacs_dir ]] && unlink ~/.emacs.d
+ln -s ~/.emacs.d.$chosen ~/.emacs.d
