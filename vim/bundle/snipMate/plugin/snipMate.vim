@@ -126,9 +126,9 @@ endf
 fun! TriggerSnippet()
 	if exists('g:SuperTabMappingForward')
 		if g:SuperTabMappingForward == "<tab>"
-			let SuperTabKey = "\<c-n>"
+			let SuperTabKey = "\<Plug>SuperTabForward"
 		elseif g:SuperTabMappingBackward == "<tab>"
-			let SuperTabKey = "\<c-p>"
+			let SuperTabKey = "\<Plug>SuperTabBackward"
 		endif
 	endif
 
@@ -166,11 +166,12 @@ fun! BackwardsSnippet()
 
 	if exists('g:SuperTabMappingForward')
 		if g:SuperTabMappingBackward == "<s-tab>"
-			let SuperTabKey = "\<c-p>"
+			let SuperTabKey = "\<Plug>SuperTabForward"
 		elseif g:SuperTabMappingForward == "<s-tab>"
-			let SuperTabKey = "\<c-n>"
+			let SuperTabKey = "\<Plug>SuperTabBackward"
 		endif
 	endif
+
 	if exists('SuperTabKey')
 		call feedkeys(SuperTabKey)
 		return ''
@@ -260,4 +261,5 @@ fun! EditSnippetsFor(type)
 		echoerr "Cannot find snippets file for ".a:type
 	endif
 endf
+
 " vim:noet:sw=4:ts=4:ft=vim
