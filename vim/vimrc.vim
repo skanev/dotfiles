@@ -101,6 +101,12 @@ xnoremap <Leader>e <ESC>:call ExtractVariable()<CR>
 let vimclojure#WantNailgun = 1
 let vimclojure#NailgunClient = "/Users/aquarius/code/runtimes/vim-clojure-nailgun/ng"
 
+augroup skanev
+  autocmd!
+  autocmd InsertEnter * :silent set timeoutlen=200
+  autocmd InsertLeave * :silent set timeoutlen=1000
+augroup END
+
 runtime localvimrc
 
 "function GetFooText()
