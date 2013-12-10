@@ -11,10 +11,10 @@ call pathogen#helptags()
 set runtimepath+=~/.vim/vundle/vundle
 call vundle#rc('~/.vim/vundle')
 
-let g:notes_directory = '~/Dropbox/Notes'
+let g:notes_directories = ['~/Dropbox/Notes']
 
 " Bundles
-Bundle 'tpope/vim-fugitive'
+Bundle 'vundle'
 Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-cucumber'
@@ -26,8 +26,8 @@ Bundle 'michaeljsmith/vim-indent-object'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'skanev/vim-nexus'
 Bundle 'ervandew/supertab'
-Bundle 'int3/vim-extradite'
-Bundle 'bbommarito/vim-slim'
+Bundle 'extradite.vim'
+Bundle 'slim-template/vim-slim'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-endwise'
@@ -37,8 +37,9 @@ Bundle 'thinca/vim-prettyprint'
 Bundle 'vim-scripts/Decho'
 Bundle 'ack.vim'
 Bundle 'The-NERD-tree'
+Bundle 'xolox/vim-misc'
 Bundle 'notes.vim'
-Bundle 'tpope/vim-foreplay'
+Bundle 'tpope/vim-fireplace'
 Bundle 'tpope/vim-classpath'
 Bundle 'guns/vim-clojure-static'
 Bundle 'paredit.vim'
