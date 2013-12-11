@@ -3,8 +3,6 @@
 " I don't want trailing whitespace highlighted when in insert mode,
 " because it distracts me when there is a red square on every space
 " or tab I type.
-"
-" It can be temporary turned of by setting g:HighlightTrailingWhitespace to 0
 
 let g:HighlightTrailingWhitespace = 1
 
@@ -23,4 +21,9 @@ function! s:Unhighlight()
   match none
 endfunction
 
+function s:Toggle()
+  let g:HighlightTrailingWhitespace = !g:HighlightTrailingWhitespace
+endfunction
+
 command! StripTrailingWhitespace %s/\v\s+$//
+command! TrailingWhitespaceToggle call s:Toggle()
