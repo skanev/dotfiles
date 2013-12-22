@@ -51,8 +51,19 @@ Bundle 'scratch.vim'
 Bundle 'bling/vim-airline'
 Bundle 'go.vim'
 Bundle 'ctrlp.vim'
+Bundle 'AndrewRadev/splitjoin.vim'
 
 filetype plugin indent on
+
+let g:splitjoin_split_mapping = ''
+let g:splitjoin_join_mapping = ''
+
+" Suppress DEcho's dependency's <Leader>s overriding
+nmap <unique> <Leader>SWP <Plug>SaveWinPosn
+nmap <unique> <Leader>RWP <Plug>RestoreWinPosn
+
+nmap <Leader>j :SplitjoinJoin<CR>
+nmap <Leader>s :SplitjoinSplit<CR>
 
 source ~/.vim/bundle/skanev/other/airline-theme.vim
 
