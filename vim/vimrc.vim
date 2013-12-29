@@ -51,6 +51,8 @@ Bundle 'scratch.vim'
 Bundle 'bling/vim-airline'
 Bundle 'go.vim'
 Bundle 'ctrlp.vim'
+Bundle 'AndrewRadev/switch.vim'
+Bundle 'AndrewRadev/sideways.vim'
 Bundle 'AndrewRadev/splitjoin.vim'
 
 filetype plugin indent on
@@ -64,6 +66,11 @@ nmap <unique> <Leader>RWP <Plug>RestoreWinPosn
 
 nmap <Leader>j :SplitjoinJoin<CR>
 nmap <Leader>s :SplitjoinSplit<CR>
+
+nnoremap <C-h> :SidewaysLeft<CR>
+nnoremap <C-l> :SidewaysRight<CR>
+
+nnoremap - :Switch<CR>
 
 source ~/.vim/bundle/skanev/other/airline-theme.vim
 
