@@ -49,6 +49,8 @@ let s:digraphs = [
   \
   \ ['->', 'rightwards arrow', '→'],
   \ ['=>', 'double rightwards arrow', '⇒'],
+  \
+  \ ['nl', 'null', '␀'],
 \ ]
 
 function! s:InstallDigraphs()
