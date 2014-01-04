@@ -125,6 +125,12 @@ augroup skanev
   autocmd InsertLeave * :silent set timeoutlen=1000
 augroup END
 
+set keymap=bulgarian-bds
+set iminsert=0
+set imsearch=-1
+cnoremap <C-c> <C-^>
+inoremap <C-c> <C-^>
+
 runtime localvimrc
 
 "function GetFooText()
