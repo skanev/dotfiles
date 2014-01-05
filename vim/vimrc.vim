@@ -51,9 +51,12 @@ Bundle 'scratch.vim'
 Bundle 'bling/vim-airline'
 Bundle 'go.vim'
 Bundle 'ctrlp.vim'
+Bundle 'fugitive.vim'
+Bundle 'Gundo'
 Bundle 'AndrewRadev/switch.vim'
 Bundle 'AndrewRadev/sideways.vim'
 Bundle 'AndrewRadev/splitjoin.vim'
+Bundle 'nginx.vim'
 
 filetype plugin indent on
 
