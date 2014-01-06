@@ -96,6 +96,11 @@ let g:airline#extensions#tabline#show_buffers = 0
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
 
+" Gist
+let g:gist_clip_command = 'pbcopy'
+let g:gist_open_browser_after_post = 1
+let g:gist_post_private = 1
+
 map [f :A<CR>
 map ]f :R<CR>
 
