@@ -26,11 +26,6 @@ namespace :vim do
   end
 
   namespace :install do
-    desc "Installs Command-T"
-    task :command_t do
-      system 'cd vim/bundle/command-t/ruby/command-t && ruby extconf.rb && make'
-    end
-
     desc "Installs Vundle"
     task :vundle do
       unless File.exists? 'vim/vundle/vundle'
