@@ -15,5 +15,5 @@ if [[ -n $(get_pid) ]]; then
     sleep 3
 fi
 
-offlineimap -u quiet
+offlineimap
 date "+%s" > ~/.mutt/temp/last-fetched
