@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $(tmux display -p '#W') == 'mutt' ]; then
+    now=$(date "+%s")
+    checked=$(cat ~/.mutt/temp/last-fetched)
+    age=$((now - checked))
+
+    if [ $age -lt 60 ]; then
+        echo "$age sec"
+    else
+        minutes=$((age / 60))
+        echo "$minutes min"
+    fi
+else
+    hostname -s
+fi
+

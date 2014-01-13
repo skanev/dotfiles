@@ -16,3 +16,4 @@ if [[ -n $(get_pid) ]]; then
 fi
 
 offlineimap -u quiet
+date "+%s" > ~/.mutt/temp/last-fetched
