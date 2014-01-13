@@ -1,0 +1,22 @@
+#!/usr/bin/env rvm 2.1.0@skanev do ruby
+require 'set'
+require 'maildir'
+
+MAILBOX = "/Users/aquarius/.mail/stefan-kanev-gmail"
+FOLDERS = %w(INBOX clojure)
+
+read_ids = FOLDERS.flat_map do |name|
+  maildir = Maildir.new("#{MAILBOX}/#{name}")
+  maildir.list(:cur).map { |message| message.data[/^Message-ID: (.*?)$/, 1] }.compact
+end
+
+read_ids = read_ids.to_set
+
+archive = Maildir.new("#{MAILBOX}/archive")
+archive.list(:new).each do |message|
+  message_id = message.data[/^Message-ID: (.*?)$/, 1]
+  next unless read_ids.include? message_id
+
+  message.process
+  message.seen!
+end

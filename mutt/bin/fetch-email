@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+
+get_pid() {
+    ps aux | grep offlineimap | grep Python | grep -v grep | awk '{print $2}'
+}
+
+if [[ -n $(get_pid) ]]; then
+    print "Offlineimap is currently running. Let's give it some time..."
+
+    sleep 30
+    if [[ -n $(get_pid) ]]; then
+        print "OK, gave up. Killing it."
+        kill -9 $(get_pid)
+    fi
+    sleep 3
+fi
+
+offlineimap -u quiet

@@ -1,0 +1,46 @@
+bind index <Space>  collapse-thread
+bind index <tab>    sync-mailbox
+bind index G        last-entry
+bind index N        search-opposite
+bind index R        group-reply
+bind index c        mail
+bind index gN       toggle-new
+bind index gg       first-entry
+bind index p        recall-message
+
+bind pager G  bottom
+bind pager N  search-opposite
+bind pager gg top
+bind pager j  next-line
+bind pager k  previous-line
+bind pager r  group-reply
+
+bind editor <Tab> complete-query
+bind editor ^T    complete
+
+bind compose p postpone-message
+
+bind attach <return> view-mailcap
+
+bind index,pager gn       next-unread
+bind index,pager <down>   sidebar-next
+bind index,pager <up>     sidebar-prev
+bind index,pager <right>  sidebar-open
+
+
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
+macro index \Ca "<shell-escape>~/.mutt/bin/fetch-email<enter>"           "run offlineimap to sync all mail"
+macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
+macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
+macro index a "<limit>all\n" "show all messages (undo limit)"
+macro index S "<enter-command>unset wait_key<enter><shell-escape>mutt-notmuch-py ~/.mail/temporary/search<enter><change-folder-readonly>+temporary/search<enter>" "search mail (using notmuch)"
+
+macro pager \Cu "|urlview<enter>" "call urlview to open links"
+
+macro index,pager gi "<change-folder>=stefan-kanev-gmail/INBOX<enter>" "Go to inbox"
+macro index,pager ga "<change-folder>=stefan-kanev-gmail/archive<enter>" "Go to all mail"
+macro index,pager y "\
+  <enter-command>set my_pipe_decode=\$pipe_decode pipe_decode=no<enter>\
+  <pipe-message>~/.mutt/archive.rb &<enter>\
+  <enter-command>set pipe_decode=\$my_pipe_decode &my_pipe_decode<enter>\
+  <delete-message>" "archive an inbox email"
