@@ -1,6 +1,11 @@
 #!/bin/bash
 
 if [ $(tmux display -p '#W') == 'mutt' ]; then
+    if pgrep -f mutt/bin/fetch-email &>/dev/null; then
+        echo "(sync)"
+        exit 0
+    fi
+
     now=$(date "+%s")
     checked=$(cat ~/.mutt/temp/last-fetched)
     age=$((now - checked))
