@@ -10,11 +10,18 @@ if [ $(tmux display -p '#W') == 'mutt' ]; then
     checked=$(cat ~/.mutt/temp/last-fetched)
     age=$((now - checked))
 
+
     if [ $age -lt 60 ]; then
         echo "$age sec"
-    else
+    elif [ $age -lt $((60 * 60)) ]; then
         minutes=$((age / 60))
         echo "$minutes min"
+    elif [ $age -lt $((60 * 60 * 24)) ]; then
+        hours=$((age / (60 * 60)))
+        echo "$hours hr"
+    else
+        days=$((age / (60 * 60 * 24)))
+        echo "$days day(s)"
     fi
 else
     hostname -s
