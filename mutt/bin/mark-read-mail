@@ -2,7 +2,7 @@
 require 'set'
 require 'maildir'
 
-MAILBOX = "/Users/aquarius/.mail/stefan-kanev-gmail"
+MAILBOX = "/Users/aquarius/.mail/private"
 FOLDERS = %w(INBOX clojure)
 
 read_ids = FOLDERS.flat_map do |name|
