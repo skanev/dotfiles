@@ -7,16 +7,21 @@ FOLDERS = %w(INBOX clojure)
 
 read_ids = FOLDERS.flat_map do |name|
   maildir = Maildir.new("#{MAILBOX}/#{name}")
-  maildir.list(:cur).map { |message| message.data[/^Message-ID: (.*?)$/, 1] }.compact
+  maildir.list(:cur).map { |message| message.data[/^Message-ID: (.*?)$/i, 1] }
 end
 
-read_ids = read_ids.to_set
+read_ids = read_ids.compact.to_set
+
+marked = 0
 
 archive = Maildir.new("#{MAILBOX}/archive")
 archive.list(:new).each do |message|
-  message_id = message.data[/^Message-ID: (.*?)$/, 1]
+  message_id = message.data[/^Message-ID: (.*?)$/i, 1]
   next unless read_ids.include? message_id
 
   message.process
   message.seen!
+  marked += 1
 end
+
+puts "#{marked} messages marked as read"
