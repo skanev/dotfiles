@@ -23,7 +23,7 @@ functions on 10 data structures.
 
 Get into a rut early: Do the same process the same way.  Accumulate idioms.
 Standardize.  The only difference(!) between Shakespeare and you was the size
-of his idiom list - not the size of his vocabulary.
+of his idiom list – not the size of his vocabulary.
 
 If you have a procedure with ten parameters, you probably missed some.
 
@@ -32,7 +32,7 @@ Recursion is the root of computation since it trades description for time.
 If two people write exactly the same program, each should be put into
 microcode and then they certainly won't be the same.
 
-In the long run every program becomes rococo - then rubble.
+In the long run every program becomes rococo – then rubble.
 
 Everything should be built top-down, except the first time.
 
@@ -75,7 +75,7 @@ For systems, the analogue of a face-lift is to add to the control graph an
 edge that creates a cycle, not just an additional node.
 
 In programming, everything we do is a special case of something
-more general -- and often we know it too quickly.
+more general – and often we know it too quickly.
 
 Simplicity does not precede complexity, but follows it.
 
@@ -92,16 +92,16 @@ Everyone can be taught to sculpt: Michelangelo would have had to be taught
 not to.  So it is with great programmers.
 
 The use of a program to prove the 4-color theorem will not change
-mathematics - it merely demonstrates that the theorem, a challenge for a
+mathematics – it merely demonstrates that the theorem, a challenge for a
 century, is probably not important to mathematics.
 
 The most important computer is the one that rages in our skulls and ever seeks
 that satisfactory external emulator.  The standarization of real computers
-would be a disaster - and so it probably won't happen.
+would be a disaster – and so it probably won't happen.
 
 Structured Programming supports the law of the excluded muddle.
 
-Re graphics: A picture is worth 10K words - but only those to describe
+Re graphics: A picture is worth 10K words – but only those to describe
 the picture.  Hardly any sets of 10K words can be adequately described with
 pictures.
 
@@ -131,14 +131,14 @@ Giving up on assembly language was the apple in our Garden of Eden: Languages
 whose use squanders machine cycles are sinful.  The LISP machine now permits
 LISP programmers to abandon bra and fig-leaf.
 
-When we understand knowledge-based systems, it will be as before -- except our
+When we understand knowledge-based systems, it will be as before – except our
 fingertips will have been singed.
 
 Bringing computers into the home won't change either one, but may revitalize
 the corner saloon.
 
-Systems have sub-systems and sub-systems have sub- systems and so on
-ad infinitum - which is why we're always starting over.
+Systems have sub-systems and sub-systems have sub-systems and so on
+ad infinitum – which is why we're always starting over.
 
 So many good ideas are never heard from again once they embark in a voyage on
 the semantic gulf.
@@ -170,7 +170,7 @@ When we write programs that "learn", it turns out that we do and they don't.
 Often it is the means that justify the ends: Goals advance technique and
 technique survives even when goal structures crumble.
 
-Make no mistake about it: Computers process numbers - not symbols.  We measure
+Make no mistake about it: Computers process numbers – not symbols.  We measure
 our understanding (and control) by the extent to which we can arithmetize an
 activity.
 
@@ -248,10 +248,10 @@ forget arithmetic.
 
 Computation has made the tree flower.
 
-The computer reminds one of Lon Chaney -- it is the machine of a
+The computer reminds one of Lon Chaney – it is the machine of a
 thousand faces.
 
-The computer is the ultimate polluter: its feces are indistinguish- able from
+The computer is the ultimate polluter: its feces are indistinguishable from
 the food it produces.
 
 When someone says "I want a programming language in which I need only say what
@@ -313,7 +313,7 @@ It goes against the grain of modern education to teach children to program.
 What fun is there in making plans, acquiring discipline in organizing
 thoughts, devoting attention to detail and learning to be self-critical?
 
-If you can imagine a society in which the computer- robot is the only menial,
+If you can imagine a society in which the computer-robot is the only menial,
 you can imagine anything.
 
 Programming is an unnatural act.
