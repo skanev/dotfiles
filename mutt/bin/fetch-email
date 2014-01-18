@@ -8,12 +8,12 @@ monitor() {
     local pid=$1 i=0
 
     while ps $pid &>/dev/null; do
-        if (( i++ > 5 )); then
+        if (( i++ > 10 )); then
             echo "Offlineimap is taking too long. Sending SIGKILL to ${pid}..." >&2
             kill -9 $pid; exit 1
         fi
 
-        sleep 10
+        sleep 5
     done
 
     date "+%s" > ~/.mutt/temp/last-fetched
