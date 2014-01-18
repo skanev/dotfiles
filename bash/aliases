@@ -18,6 +18,7 @@ alias rg="rails generate"
 alias rmig="rails generate migration"
 
 alias g="git"
+alias gp="git push"
 alias gg="git status"
 alias grm="git rebase origin/master"
 alias grim="git rebase -i origin/master"
