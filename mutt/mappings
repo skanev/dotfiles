@@ -29,7 +29,8 @@ bind index,pager <right>  sidebar-open
 
 
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
-macro index \Ca "<shell-escape>~/.mutt/bin/fetch-email<enter>"           "run offlineimap to sync all mail"
+macro index \Ca "<shell-escape>~/.mutt/bin/fetch-email<enter>"          "run offlineimap to sync all mail"
+macro index A "<shell-escape>~/.mutt/bin/mark-read-mail<enter>"         "mark all the read mail in the archive"
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 macro index a "<limit>all\n" "show all messages (undo limit)"
@@ -37,8 +38,8 @@ macro index S "<enter-command>unset wait_key<enter><shell-escape>mutt-notmuch-py
 
 macro pager \Cu "|urlview<enter>" "call urlview to open links"
 
-macro index,pager gi "<change-folder>=stefan-kanev-gmail/INBOX<enter>" "Go to inbox"
-macro index,pager ga "<change-folder>=stefan-kanev-gmail/archive<enter>" "Go to all mail"
+macro index,pager gi "<change-folder>=private/INBOX<enter>" "Go to inbox"
+macro index,pager ga "<change-folder>=private/archive<enter>" "Go to all mail"
 macro index,pager y "\
   <enter-command>set my_pipe_decode=\$pipe_decode pipe_decode=no<enter>\
   <pipe-message>~/.mutt/archive.rb &<enter>\
