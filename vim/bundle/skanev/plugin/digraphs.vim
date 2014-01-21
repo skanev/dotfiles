@@ -51,6 +51,9 @@ let s:digraphs = [
   \ ['=>', 'double rightwards arrow', '⇒'],
   \
   \ ['nl', 'null', '␀'],
+  \
+  \ ['-n', 'en dash', '–'],
+  \ ['-m', 'em dash', '—'],
 \ ]
 
 function! s:InstallDigraphs()
