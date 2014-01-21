@@ -1,0 +1,85 @@
+scriptencoding utf-8
+
+let b:keymap_name = "bds"
+
+loadkeymap
+D       А       CYRILLIC CAPITAL LETTER A
+?       Б       CYRILLIC CAPITAL LETTER BE
+L       В       CYRILLIC CAPITAL LETTER VE
+H       Г       CYRILLIC CAPITAL LETTER GHE
+O       Д       CYRILLIC CAPITAL LETTER DE
+E       Е       CYRILLIC CAPITAL LETTER IE
+G       Ж       CYRILLIC CAPITAL LETTER ZHE
+P       З       CYRILLIC CAPITAL LETTER ZE
+R       И       CYRILLIC CAPITAL LETTER I
+X       Й       CYRILLIC CAPITAL LETTER SHORT I
+U       К       CYRILLIC CAPITAL LETTER KA
+>       Л       CYRILLIC CAPITAL LETTER EL
+:       М       CYRILLIC CAPITAL LETTER EM
+K       Н       CYRILLIC CAPITAL LETTER EN
+F       О       CYRILLIC CAPITAL LETTER O
+M       П       CYRILLIC CAPITAL LETTER PE
+<       Р       CYRILLIC CAPITAL LETTER ER
+I       С       CYRILLIC CAPITAL LETTER ES
+J       Т       CYRILLIC CAPITAL LETTER TE
+W       У       CYRILLIC CAPITAL LETTER U
+B       Ф       CYRILLIC CAPITAL LETTER EF
+N       Х       CYRILLIC CAPITAL LETTER HA
+{       Ц       CYRILLIC CAPITAL LETTER TSE
+\"      Ч       CYRILLIC CAPITAL LETTER CHE
+T       Ш       CYRILLIC CAPITAL LETTER SHA
+Y       Щ       CYRILLIC CAPITAL LETTER SHCHA
+C       Ъ       CYRILLIC CAPITAL LETTER HARD SIGN
+CX      Ы       CYRILLIC CAPITAL LETTER YERU
+A       Ь       CYRILLIC CAPITAL LETTER SOFT SIGN
+V       Э       CYRILLIC CAPITAL LETTER REVERSED E
+Z       Ю       CYRILLIC CAPITAL LETTER YU
+S       Я       CYRILLIC CAPITAL LETTER YA
+d       а       CYRILLIC SMALL LETTER A
+\/      б       CYRILLIC SMALL LETTER BE
+l       в       CYRILLIC SMALL LETTER VE
+h       г       CYRILLIC SMALL LETTER GHE
+o       д       CYRILLIC SMALL LETTER DE
+e       е       CYRILLIC SMALL LETTER IE
+g       ж       CYRILLIC SMALL LETTER ZHE
+p       з       CYRILLIC SMALL LETTER ZE
+r       и       CYRILLIC SMALL LETTER I
+x       й       CYRILLIC SMALL LETTER SHORT I
+u       к       CYRILLIC SMALL LETTER KA
+\.      л       CYRILLIC SMALL LETTER EL
+;       м       CYRILLIC SMALL LETTER EM
+k       н       CYRILLIC SMALL LETTER EN
+f       о       CYRILLIC SMALL LETTER O
+m       п       CYRILLIC SMALL LETTER PE
+,       р       CYRILLIC SMALL LETTER ER
+i       с       CYRILLIC SMALL LETTER ES
+j       т       CYRILLIC SMALL LETTER TE
+w       у       CYRILLIC SMALL LETTER U
+b       ф       CYRILLIC SMALL LETTER EF
+n       х       CYRILLIC SMALL LETTER HA
+[       ц       CYRILLIC SMALL LETTER TSE
+'       ч       CYRILLIC SMALL LETTER CHE
+t       ш       CYRILLIC SMALL LETTER SHA
+y       щ       CYRILLIC SMALL LETTER SHCHA
+c       ъ       CYRILLIC SMALL LETTER HARD SIGN
+Q       ы       CYRILLIC SMALL LETTER YERU
+a       ь       CYRILLIC SMALL LETTER SOFT SIGN
+v       э       CYRILLIC SMALL LETTER REVERSED E
+z       ю       CYRILLIC SMALL LETTER YU
+s       я       CYRILLIC SMALL LETTER YA
+_       I       LATIN CAPITAL LETTER I
++       V       LATIN CAPITAL LETTER V
+$       "       QUOTATION MARK
+\\      (       LEFT PARENTHESIS
+|       )       RIGHT PARENTHESIS
+#       +       PLUS SIGN
+q       ,       COMMA
+(       -       HYPHEN-MINUS
+=       .       FULL STOP (PERIOD)
+*       /       SOLIDUS (SLASH)
+&       :       COLON
+]       ;       SEMICOLON
+^       =       EQUALS SIGN
+@       ?       QUESTION MARK
+}       §       SECTION SIGN (PARAGRAPH SIGN)
+)       №       NUMERO SIGN
