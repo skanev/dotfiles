@@ -14,7 +14,7 @@ map <F11> :CtrlP ~/.vim/<CR>
 map <F12> :edit ~/.vim/vimrc.vim<CR>
 map <S-F12> :source ~/.vimrc<CR>
 
-imap jk <ESC>
+imap <expr> jk BulgarianJK()
 nnoremap <Tab> <C-w><C-w>
 nnoremap <S-Tab> <C-w><C-W>
 nnoremap <C-p> <C-i>
