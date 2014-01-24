@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+pushd ~/Desktop
+if [[ -z $TMUX ]]; then
+    TERM=xterm-256color command mutt
+else
+    command mutt
+fi
+popd
