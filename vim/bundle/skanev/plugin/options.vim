@@ -55,5 +55,9 @@ if has('gui_running')
   endif
 else
   set t_Co=256
-  colorscheme vividchalk
+  if $ITERM_PROFILE == "Beamer"
+    colorscheme emacs
+  else
+    colorscheme vividchalk
+  endif
 end
