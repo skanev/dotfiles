@@ -30,7 +30,7 @@ bind index,pager <right>  sidebar-open
 
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
 macro index \Ca "<shell-escape>~/.mutt/bin/fetch-email<enter>"          "run offlineimap to sync all mail"
-macro index A "<shell-escape>~/.mutt/bin/mark-read-mail<enter>"         "mark all the read mail in the archive"
+macro index A "<sync-mailbox><shell-escape>~/.mutt/bin/mark-read-mail<enter>"         "mark all the read mail in the archive"
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 macro index a "<limit>all\n" "show all messages (undo limit)"
