@@ -3,6 +3,7 @@ mutt/mailbox
 mutt/temp
 vim/.netrwhist
 vim/localvimrc.vim
+vim/spell
 vim/vundle
 vim/localvimrc
 vim-backup
