@@ -1,5 +1,6 @@
 syntax on
 set nocompatible
+let mapleader = ","
 
 " My 'early' stuff
 runtime bundle/skanev/early/mapmeta.vim
