@@ -6,9 +6,10 @@
 " Vim.  The rest implement a sketchy way of supporting Alt mappings in the
 " terminal with a little help from tmux.
 
-let s:hijackPrefix = ',!'
+let s:hijackPrefixVim = '<C-S-F12>'
+let s:hijackPrefixTmux = '[24;6~'
 
-function! MapMeta(mode, args, options)
+function! MapMeta(modes, args, options)
   let key = strpart(a:args, 0, 1)
   let commands = strpart(a:args, 2)
   if has('gui_macvim')
@@ -17,10 +18,14 @@ function! MapMeta(mode, args, options)
     let mapping = '<M-'.key.'>'
   else
     call s:HijackKey(key)
-    let mapping = s:hijackPrefix.key
+    let mapping = s:hijackPrefixVim.key
   endif
 
-  exec a:mode . "map " . a:options . mapping .  " " . commands
+  for i in range(len(a:modes))
+    let mode = a:modes[i]
+    exec mode . "map " . a:options . mapping .  " " . commands
+  endfor
+
 endfunction
 
 command! -nargs=1 MapMeta call MapMeta('n', <f-args>, '')
@@ -41,9 +46,9 @@ command! -nargs=1 VMapMeta call MapMeta('v', <f-args>, '')
 " Tmux will intercept Alt mappings (like M-j).  It will then take a look at
 " the window name.  It will then send a normal escape sequence (<Esc>j) unless
 " Vim is running in the current window, in which case it will send an
-" alternative sequence (like ,!j).  Vim will have the required mapping on this
-" sequence, instead of the original one.  MapMeta will register a M- mapping
-" in tmux that does this forwarding whenever a key is bound in Vim.
+" alternative sequence (like <F48>j).  Vim will have the required mapping on
+" this sequence, instead of the original one.  MapMeta will register a M-
+" mapping in tmux that does this forwarding whenever a key is bound in Vim.
 "
 " Here are specifics:
 "
@@ -62,7 +67,7 @@ let s:command_queue = []
 function! s:HijackCommand(key)
   return "bind-key -n 'M-" . a:key . "'" .
         \" if-shell \"[ '#W' == 'vim' ]\"".
-        \" 'send-keys " . s:hijackPrefix . a:key . "'" .
+        \" 'send-keys " . s:hijackPrefixTmux . a:key . "'" .
         \" 'send-keys " . a:key . "'"
 endfunction
 

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+PREFIX="[24;6~"
+
 switch_to_tab() {
     tmux select-window -t $1 \; refresh-client -S
 }
@@ -20,19 +22,19 @@ while [[ $1 == -* ]]; do
     esac
 done
 
-window=$1
+tab=$1
 
 if [ "$tab_escape" == "yes" ]; then
     tmux set -q @tab-escape no
-    switch_to_tab $window
+    switch_to_tab $tab
     exit
 fi
 
 case "$app" in
     vim)
-        tmux send-keys ",!$window"
+        tmux send-keys "$PREFIX$tab"
         ;;
     *)
-        switch_to_tab $window
+        switch_to_tab $tab
         ;;
 esac
