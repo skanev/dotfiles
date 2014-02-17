@@ -2,10 +2,7 @@
 
 function() {
     if [[ -z ${path[(r)$1]} ]]; then
-        print "Load"
         path=($1 $path)
-    else
-        print "Don't"
     fi
 } ~/.rbenv/bin
 
