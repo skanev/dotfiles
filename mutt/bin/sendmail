@@ -1,4 +1,4 @@
-#!/usr/bin/env rvm 2.1.0@skanev do ruby
+#!/usr/bin/env ruby
 require 'mail'
 require 'rdiscount'
 require 'open3'

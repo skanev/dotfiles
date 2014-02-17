@@ -1,4 +1,4 @@
-#!/usr/bin/env rvm 2.1.0@skanev do ruby
+#!/usr/bin/env ruby
 # encoding: utf-8
 epigrams_file = File.dirname(__FILE__) + '/../files/epigrams'
 epigrams      = File.read(epigrams_file).chomp.split("\n\n").reject { |text| text.start_with? '[skip]' }

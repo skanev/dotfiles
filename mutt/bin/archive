@@ -1,4 +1,4 @@
-#!/usr/bin/env rvm 2.1.0@skanev do ruby
+#!/usr/bin/env ruby
 message_id = nil
 STDIN.each_line do |line|
   message_id = $1 if line =~ /^Message-ID: (.*?)$/
