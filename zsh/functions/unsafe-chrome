@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+if [[ $(uname -s) == "Darwin" ]]; then
+    open /Applications/Google\ Chrome.app --args --disable-web-security
+else
+    chromium-browser --disable-web-security
+fi
