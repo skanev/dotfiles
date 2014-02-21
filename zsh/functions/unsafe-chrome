@@ -1,7 +1,14 @@
 #!/usr/bin/env zsh
 
-if [[ $(uname -s) == "Darwin" ]]; then
-    open /Applications/Google\ Chrome.app --args --disable-web-security
-else
-    chromium-browser --disable-web-security
-fi
+case $OSTYPE in
+    darwin*)
+        open /Applications/Google\ Chrome.app --args --disable-web-security
+        ;;
+    linux-gnu)
+        chromium-browser --disable-web-security
+        ;;
+    *)
+        print "Don't know how to run it on $OSTYPE"
+        exit 1
+        ;;
+esac
