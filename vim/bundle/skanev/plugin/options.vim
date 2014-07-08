@@ -49,7 +49,7 @@ if has('gui_running')
     set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
     set linespace=2
   elseif has("gui_macvim")
-    set guifont=Monaco\ for\ Powerline:h12
+    set guifont=Monaco\ for\ Powerline:h14
     set linespace=3
     set macmeta
   endif
