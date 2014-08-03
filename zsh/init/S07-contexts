@@ -1,0 +1,123 @@
+#!/usr/bin/env zsh
+
+# CONTEXTS
+# ========
+# This scripts allow defining project-local aliases, functions and keybindings.
+# If the current directory is changed to one that has a fragment matching the
+# name of a file in ~/.zsh/context, that file gets sourced. It is supposed to
+# provide project-specific settings. CD-ing out of that directory will revert
+# the overrides to the previous state.
+#
+# Reverting happens by analyzing the project file and extracting all the
+# definitions. This is performed by processing the file with AWK, so the
+# contents are a bit sensitive to formatting.
+
+c_dir=~/.zsh/contexts
+c_contexts=($c_dir/*(:t))
+
+c-chpwd() {
+    local matches first
+    matches=(${${(s:/:)PWD}:*c_contexts})
+    first=${matches[1]}
+
+    case "$#matches/$c_current" in
+        0/)
+            ;;
+
+        0/*)
+            c-unload
+            ;;
+
+        1/$first)
+            ;;
+
+        1/*)
+            c-unload
+            c-load $first
+            ;;
+
+        *)
+            print "contexts: Conflict ${(j:, :)matches}" 1>&2
+            ;;
+    esac
+}
+
+c-load() {
+    if [[ -n $c_current ]]; then
+        print "contexts: Can't load $1: already loaded $c_current" 1>&2
+        return
+    fi
+
+    local file=$c_dir/$1
+    local name
+    local revert
+
+    c_current=$1
+    c_revert=""
+
+    awk -f <(cat <<\END
+      /^[-a-zA-Z0-9_]+[[:space:]]*\(\)[[:space:]]*{/ { gsub("\\(\\)", "", $1); print "function", $1; }
+      /^function[[:space:]]/ { gsub("\\(\\)", "", $2); print "function", $2; }
+      /^alias [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $2); print "alias", $2; }
+      /^alias -g [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $3); print "galias", $3; }
+      /^bindkey / { print "bindkey -L", $2; }
+      /^zle -N / { print "widget", $3; }
+END) $file |
+    while read -r line; do
+        name=${${(s: :)line}[2]}
+
+        case $line in
+            alias*)
+                if [[ -n $aliases[$name] ]]; then
+                    revert=$(alias -L $name)
+                else
+                    revert="unalias $name"
+                fi
+                ;;
+
+            galias*)
+                if [[ $(whence -v $name) == *global\ alias* ]]; then
+                    revert=$(alias -L $name)
+                else
+                    revert="unalias '$name'"
+                fi
+                ;;
+
+            function*)
+                if [[ -n $functions[$name] ]]; then
+                    revert="$name () {"$'\n'$functions[$name]$'\n}'
+                else
+                    revert="unfunction $name"
+                fi
+                ;;
+
+            bindkey*)
+                revert=$(eval $line)
+                ;;
+
+            widget*)
+                revert="zle -D $name"
+                ;;
+
+            *)
+                continue
+                ;;
+        esac
+
+        c_revert+=$revert
+        c_revert+=$'\n'
+    done
+
+    source $file
+}
+
+c-unload() {
+    eval $c_revert
+
+    c_current=
+    c_revert=
+}
+
+chpwd_functions=(${chpwd_functions[@]} "c-chpwd")
+
+c-chpwd
