@@ -1,0 +1,26 @@
+#!/usr/bin/env zsh
+
+() {
+    local cmd
+
+    for cmd in $*; do
+        $cmd() {
+            emulate -LR zsh
+            setopt EXTENDED_GLOB
+
+            local gemfile
+            local spring_cmd
+
+            gemfile=((../)#Gemfile(N))
+            spring_cmd=${gemfile[1]:r:h}/bin/$0
+
+            if [[ -z $gemfile ]]; then
+                command $0 "$@"
+            elif [[ -x $spring_cmd ]]; then
+                $spring_cmd "$@"
+            else
+                command bundle exec $0 "$@"
+            fi
+        }
+    done
+} rake rspec spring
