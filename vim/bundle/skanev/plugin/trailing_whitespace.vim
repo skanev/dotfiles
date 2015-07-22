@@ -9,10 +9,10 @@ let g:HighlightTrailingWhitespace = 1
 autocmd! InsertLeave,WinEnter * call s:Highlight()
 autocmd! InsertEnter *          call s:Unhighlight()
 
-highlight TrailingWhitespace guibg=red
+highlight TrailingWhitespace guibg=red ctermbg=red
 
 function! s:Highlight()
-  if g:HighlightTrailingWhitespace
+  if g:HighlightTrailingWhitespace && &filetype != 'mail'
     match TrailingWhitespace /\v\s+$/
   endif
 endfunction
