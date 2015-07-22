@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+case $OSTYPE in
+    darwin*)
+        eval "${(q)@}"
+        growlnotify -t 'Done!' -m 'You need to wait no more'
+        say 'Done!'
+        ;;
+    *)
+        print "Don't know how to run it on $OSTYPE"
+        exit 1
+        ;;
+esac
