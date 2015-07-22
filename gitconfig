@@ -33,6 +33,7 @@
   l = !zsh ~/.zsh/functions/git-log-pretty
   la = !zsh ~/.zsh/functions/git-log-pretty --all
   catchup = !zsh ~/.zsh/functions/git-catch-up
+  head = !git logo -n 1
 [user]
   email = stefan.kanev@gmail.com
   name = Stefan Kanev
