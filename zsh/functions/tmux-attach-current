@@ -1,0 +1,3 @@
+#!/usr/bin/env zsh
+
+tmux new-session -A -s $PWD:t

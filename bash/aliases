@@ -33,8 +33,8 @@ alias gdc="git diff --cached"
 alias gri='git rebase -i $(git rev-list --all --merges | head -1)'
 
 alias t="tmux"
-alias ta="tmux attach"
-alias tat="tmux attach -t"
+alias ta="tmux-attach-current"
+alias tat="tmux attach"
 
 alias m="mate"
 alias be="bundle exec"
