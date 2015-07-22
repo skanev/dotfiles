@@ -4,6 +4,12 @@ endif
 
 MapMeta s :w<CR>
 MapMeta w :close<CR>
+MapMeta t :tabnew<CR>
+MapMeta a ggVG
+VMapMeta c "*y
+VMapMeta x "*d
+MapMeta v "*p
+IMapMeta v <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
 
 if $TMUX != ""
   function s:SID()
