@@ -7,7 +7,7 @@
 " terminal with a little help from tmux.
 
 let s:hijackPrefixVim = '<C-S-F12>'
-let s:hijackPrefixTmux = '[24;6~'
+let s:hijackPrefixTmux = substitute(system('tmux show -vg @meta-prefix'), '\n$', '', '')
 
 function! MapMeta(modes, args, options)
   let key = strpart(a:args, 0, 1)
@@ -30,6 +30,7 @@ endfunction
 
 command! -nargs=1 MapMeta call MapMeta('n', <f-args>, '')
 command! -nargs=1 VMapMeta call MapMeta('v', <f-args>, '')
+command! -nargs=1 IMapMeta call MapMeta('i', <f-args>, '')
 
 " SUPPORT FOR TERMINAL ALT MAPPINGS
 " ---------------------------------
