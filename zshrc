@@ -1,3 +1,5 @@
+# Runs in interactive session
+
 . ~/.zsh/aliases
 . ~/.zsh/env
 . ~/.zsh/config

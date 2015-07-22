@@ -79,3 +79,5 @@ bindkey '\eq' push-line-or-edit
 
 # From the Zsh User Guide
 setopt CD_ABLE_VARS
+
+typeset -U path
