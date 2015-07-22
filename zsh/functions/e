@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+
+# I use 'e' to reload my zsh, but often enough I type 'e foo.rb' when I intend
+# to open foo.rb in vim. That kills my shell. This function is a safeguard.
+
+if [[ -n $1 ]]; then
+    vim "$*"
+else
+    exec zsh
+fi
