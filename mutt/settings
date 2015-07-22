@@ -1,4 +1,4 @@
-set editor="~/.zsh/functions/vim"
+set editor="vim"
 
 set folder           = ~/.mail                  # mailbox location
 set alias_file       = ~/.mutt/alias            # where to store aliases

@@ -3,6 +3,7 @@ set nocompatible
 let mapleader = ","
 
 " My 'early' stuff
+runtime bundle/skanev/early/term.vim
 runtime bundle/skanev/early/mapmeta.vim
 
 " Pathogen and Vundle

@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-
-if [[ -n "$TMUX" ]]; then
-    TERM=xterm command vim $*
-else
-    command vim $*
-fi
