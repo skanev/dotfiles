@@ -38,14 +38,12 @@ set laststatus=2
 
 " GUI settings
 if has('gui_running')
-  colorscheme vividchalk
   set guioptions-=T
   set guioptions-=m
   set guioptions-=e
   set guioptions-=r
   set guioptions-=L
   if has("gui_gtk2")
-    colorscheme native
     set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
     set linespace=2
   elseif has("gui_macvim")
@@ -55,9 +53,19 @@ if has('gui_running')
   endif
 else
   set t_Co=256
-  if $ITERM_PROFILE == "Beamer"
-    colorscheme emacs
-  else
-    colorscheme vividchalk
-  endif
+  set mouse=a
+  set ttymouse=xterm2
+end
+
+" Colorscheme
+if $VIM_COLORSCHEME != ""
+  exec 'colorscheme '.$VIM_COLORSCHEME
+elseif has('gui_gtk2')
+  colorscheme native
+elseif has('gui_running')
+  colorscheme vividchalk
+elseif $ITERM_PROFILE == "Beamer"
+  colorscheme emacs
+else
+  colorscheme vividchalk
 end
