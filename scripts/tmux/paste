@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+prefix=$(tmux show-option -vg @meta-prefix)
+current_program=$(~/.scripts/tmux/current-app)
+
+if [[ $current_program == "vim" ]]; then
+    tmux send-keys "$prefix" \; send-keys v
+else
+    tmux load-buffer =(reattach-to-user-namespace pbpaste) \; paste-buffer
+fi
