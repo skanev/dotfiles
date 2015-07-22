@@ -48,9 +48,6 @@ if [ -n "$EMACS" ] ; then
 fi
 
 ### Options from PeepCode ##################################
-setopt CORRECT
-setopt CORRECTALL
-
 setopt HIST_IGNORE_DUPS     # ignore duplication command history list
 setopt SHARE_HISTORY        # share command history data
 setopt HIST_IGNORE_SPACE
