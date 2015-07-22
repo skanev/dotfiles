@@ -33,9 +33,17 @@ RPROMPT='%{$fg_bold[green]%}%c%{$fg_bold[white]%}:%{$fg_bold[blue]%}%m %{$fg_bol
 PROMPT_EOL_MARK="%{${fg_bold[yellow]}%}¶%{$reset_color%}"
 
 # Override prompt for Beamer or Emacs
-if [ "$ITERM_PROFILE" = 'Beamer' ]; then
-  PROMPT='➔ '
-elif [ -n "$EMACS" ] ; then
+case "$ITERM_PROFILE" in
+    Beamer)
+        PROMPT='➔ '
+        RPROMPT=''
+        ;;
+    tkn)
+        RPROMPT=''
+        ;;
+esac
+
+if [ -n "$EMACS" ] ; then
   PROMPT='$ '
 fi
 
