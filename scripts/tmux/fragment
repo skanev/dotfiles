@@ -2,7 +2,7 @@
 
 if [ $(tmux display -p '#W') == 'mutt' ]; then
     if pgrep -f mutt/bin/fetch-email &>/dev/null; then
-        echo "(sync)"
+        echo "📩 "
         exit 0
     fi
 
@@ -10,19 +10,20 @@ if [ $(tmux display -p '#W') == 'mutt' ]; then
     checked=$(cat ~/.mutt/temp/last-fetched)
     age=$((now - checked))
 
-
     if [ $age -lt 60 ]; then
-        echo "$age sec"
+        message="${age}s"
     elif [ $age -lt $((60 * 60)) ]; then
         minutes=$((age / 60))
-        echo "$minutes min"
+        message="${minutes}m"
     elif [ $age -lt $((60 * 60 * 24)) ]; then
         hours=$((age / (60 * 60)))
-        echo "$hours hr"
+        message="${hours}h"
     else
         days=$((age / (60 * 60 * 24)))
-        echo "$days day(s)"
+        message="${days}d"
     fi
+
+    echo "✉️  $message"
 else
     hostname -s
 fi

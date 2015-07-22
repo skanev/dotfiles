@@ -1,0 +1,17 @@
+#!/bin/sh
+
+status=$(tmux display -p '#{pane_current_command}/#{window_name}')
+
+case $status in
+    ruby/vim)
+        printf "vim"
+        ;;
+
+    mutt/vim)
+        printf "vim"
+        ;;
+
+    *)
+        printf "%s" ${status/\/*/}
+        ;;
+esac
