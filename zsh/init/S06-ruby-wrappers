@@ -12,9 +12,12 @@
             local spring_cmd
 
             gemfile=((../)#Gemfile(N))
+            zeus_sock=((../)#.zeus.sock(N))
             spring_cmd=${gemfile[1]:r:h}/bin/$0
 
-            if [[ -z $gemfile ]]; then
+            if [[ -S $zeus_sock ]]; then
+                command zeus $0 "$@"
+            elif [[ -z $gemfile ]]; then
                 command $0 "$@"
             elif [[ -x $spring_cmd ]]; then
                 $spring_cmd "$@"
