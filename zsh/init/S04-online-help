@@ -6,8 +6,9 @@
 # With it, \eh on unalias shows the documentation of the Zsh builtin.
 # Otherwise it shows man unalias, which is worse.
 
-if [[ -d /usr/local/share/zsh/helpfiles ]]; then
+HELPDIR=${HELPDIR:-/usr/local/share/zsh/helpfiles}
+
+if [[ -d $HELPDIR ]]; then
   unalias run-help
   autoload run-help
-  HELPDIR=/usr/local/share/zsh/helpfiles
 fi
