@@ -1,13 +1,12 @@
 #!/bin/sh
 
-PREFIX="[24;6~"
+prefix=$(tmux show-option -vg @meta-prefix)
+app=$(~/.scripts/tmux/current-app)
+tab_escape=$(tmux show -v @tab-escape)
 
 switch_to_tab() {
     tmux select-window -t $1 \; refresh-client -S
 }
-
-app=$(tmux display -p '#W')
-tab_escape=$(tmux show -v @tab-escape)
 
 while [[ $1 == -* ]]; do
     case "$1" in
@@ -32,7 +31,7 @@ fi
 
 case "$app" in
     vim)
-        tmux send-keys "$PREFIX$tab"
+        tmux send-keys "$prefix$tab"
         ;;
     *)
         switch_to_tab $tab
