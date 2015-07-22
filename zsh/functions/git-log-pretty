@@ -10,7 +10,14 @@ SUBJECT="%s"
 
 FORMAT="${HASH}¤$RELATIVE_TIME<time>¤$AUTHOR<author>¤$REFS $SUBJECT"
 
-git log --color --graph --abbrev-commit --date=relative --pretty="tformat:${FORMAT}" $* |
+START=$(git config skanev.pretty-log-start || true)
+
+if [[ -n $START ]]
+then
+    ADDITIONAL="$START..HEAD"
+fi
+
+git log --color --graph --abbrev-commit --date=relative --pretty="tformat:${FORMAT}" $* $ADDITIONAL |
     sed -E -e 's/\(([[:digit:]]+) ([[:alpha:]]+).* ago\)/(\1 \2)/' |
     awk '
       BEGIN { FS = "¤"; OFS = "¤" }
