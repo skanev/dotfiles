@@ -6,6 +6,7 @@ tab_escape=$(tmux show -v @tab-escape)
 
 switch_to_tab() {
     tmux select-window -t $1 \; refresh-client -S
+    true # Don't error out if tab doesn't exist
 }
 
 while [[ $1 == -* ]]; do
