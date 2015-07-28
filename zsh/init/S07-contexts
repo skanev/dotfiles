@@ -62,7 +62,8 @@ c-load() {
       /^alias -g [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $3); print "galias", $3; }
       /^bindkey / { print "bindkey -L", $2; }
       /^zle -N / { print "widget", $3; }
-END) $file |
+END
+    ) $file |
     while read -r line; do
         name=${${(s: :)line}[2]}
 
