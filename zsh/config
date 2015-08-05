@@ -55,6 +55,7 @@ setopt APPEND_HISTORY # write history only when closing
 setopt EXTENDED_HISTORY # add more info
 
 setopt NOCLOBBER
+setopt NOMULTIOS
 
 autoload url-quote-magic
 zle -N self-insert url-quote-magic
