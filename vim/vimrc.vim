@@ -114,6 +114,8 @@ endfunction
 command! PromoteToLet :call PromoteToLet()
 map <Leader>l :PromoteToLet<CR>
 
+command! Reverse :g/^/m0
+
 function! ExtractVariable()
   try
     let save_a = @a
