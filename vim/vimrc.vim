@@ -105,6 +105,15 @@ let g:gist_clip_command = 'pbcopy'
 let g:gist_open_browser_after_post = 1
 let g:gist_post_private = 1
 
+" Syntastic
+let g:syntastic_enable_signs=1
+
+" CtlrP
+let g:ctrlp_custom_ignore = {
+  \ 'dir': '\v(vundle|vim-backup|vim-undo)|([\/]\.(git|hg|svn)$)',
+  \ }
+let g:ctrlp_working_path_mode = '0'
+
 map [f :A<CR>
 map ]f :R<CR>
 
@@ -130,6 +139,7 @@ function! ExtractVariable()
   endtry
 endfunction
 xnoremap <Leader>e <ESC>:call ExtractVariable()<CR>
+
 let vimclojure#WantNailgun = 1
 let vimclojure#NailgunClient = "/Users/aquarius/code/runtimes/vim-clojure-nailgun/ng"
 
@@ -144,6 +154,10 @@ set iminsert=0
 set imsearch=-1
 cnoremap <C-c> <C-^>
 inoremap <C-c> <C-^>
+
+" Syntastic is far too slow for SCSS
+let g:syntastic_scss_checkers = []
+let g:syntastic_slim_checkers = []
 
 runtime localvimrc
 
