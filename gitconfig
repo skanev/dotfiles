@@ -53,3 +53,5 @@
   history-view-vpane-position = 635
   file-view-vpane-position = 661
   main-window-view = HistoryView
+[rerere]
+  enabled = true
