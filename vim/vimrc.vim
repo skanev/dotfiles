@@ -61,6 +61,7 @@ Bundle 'AndrewRadev/switch.vim'
 Bundle 'AndrewRadev/sideways.vim'
 Bundle 'AndrewRadev/splitjoin.vim'
 Bundle 'nginx.vim'
+Bundle 'mtscout6/vim-cjsx'
 
 filetype plugin indent on
 
