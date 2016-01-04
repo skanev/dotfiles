@@ -27,6 +27,7 @@
   ci = commit --verbose
   br = branch
   co = checkout
+  cp = cherry-pick
   df = diff
   lg = log -p
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
