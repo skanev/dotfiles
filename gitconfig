@@ -22,7 +22,7 @@
   editor = /usr/bin/env vim
 [alias]
   st = status
-  ci = commit
+  ci = commit --verbose
   br = branch
   co = checkout
   df = diff
