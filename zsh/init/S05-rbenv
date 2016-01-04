@@ -1,9 +1,2 @@
 #!/usr/bin/env zsh
-
-function() {
-    if [[ -z ${path[(r)$1]} ]]; then
-        path=($1 $path)
-    fi
-} ~/.rbenv/bin
-
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
