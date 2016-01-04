@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CACHE_TIME=120
+CACHE_TIME=60
 
 case $OSTYPE in
     darwin*)
@@ -11,7 +11,7 @@ case $OSTYPE in
         # -InternalBattery-0     21%; charging; 2:36 remaining
         cache=$TMPDIR/skanev.tmux.battery
 
-        if [ ! -f $cache ] || ((`date +%s` - `stat -f "%m" $cache` > $CACHE_TIME)) ; then
+        if [ ! -f $cache ] || ((`date +%s` - `/usr/bin/stat -f "%m" $cache` > $CACHE_TIME)) ; then
             pmset -g batt |
                 awk '/InternalBattery-.*discharg/ { gsub(";", "", $2); printf " 🔋 %s ", $2; } \
                      /discharging; [1-9]+:[0-9]+/ { printf "%sh ", $4 } \
@@ -23,5 +23,4 @@ case $OSTYPE in
         ;;
     *)
         ;;
-    
 esac
