@@ -13,7 +13,7 @@
 # contents are a bit sensitive to formatting.
 
 c_dir=~/.zsh/contexts
-c_contexts=($c_dir/(*(N:t))
+c_contexts=($c_dir/*(N:t))
 
 c-chpwd() {
     local matches first
