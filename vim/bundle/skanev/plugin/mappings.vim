@@ -14,7 +14,6 @@ map <F11> :CtrlP ~/code/personal/dotfiles<CR>
 map <S-F11> :CtrlP ~/.vim/<CR>
 
 map <F12> :edit ~/.vim/vimrc.vim<CR>
-map <S-F12> :source ~/.vimrc<CR>
 
 imap <expr> jk BulgarianJK()
 nnoremap <Tab> <C-w><C-w>
