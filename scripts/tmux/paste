@@ -6,5 +6,5 @@ current_program=$(~/.scripts/tmux/current-app)
 if [[ $current_program == "vim" ]]; then
     tmux send-keys "$prefix" \; send-keys v
 else
-    tmux load-buffer =(reattach-to-user-namespace pbpaste) \; paste-buffer
+    tmux load-buffer =(xclip -o -selection clipboard) \; paste-buffer
 fi

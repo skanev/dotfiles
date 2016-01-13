@@ -91,6 +91,7 @@ def link_file(source, target)
 end
 
 def each_bundle
+  puts `git submodule --quiet foreach 'echo $path'`
   bundles = `git submodule --quiet foreach 'echo $path'`.map { |line| line.chomp }
   bundles.each do |bundle_path|
     cd bundle_path, :verbose => false do

@@ -1,4 +1,3 @@
-syntax on
 set nocompatible
 let mapleader = ","
 
@@ -10,58 +9,62 @@ runtime bundle/skanev/early/mapmeta.vim
 filetype off
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
-set runtimepath+=~/.vim/vundle/vundle
-call vundle#rc('~/.vim/vundle')
+
+call plug#begin("~/.vim/plugged")
+
+Plug 'tpope/vim-haml'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-cucumber'
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-rails'
+Plug 'godlygeek/tabular'
+Plug 'vim-ruby/vim-ruby'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'scrooloose/nerdcommenter'
+Plug 'skanev/vim-nexus'
+Plug 'ervandew/supertab'
+Plug 'extradite.vim'
+Plug 'onemanstartup/vim-slim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-endwise'
+Plug 'kchmck/vim-coffee-script'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'thinca/vim-prettyprint'
+Plug 'vim-scripts/Decho'
+Plug 'ack.vim'
+Plug 'The-NERD-tree'
+Plug 'xolox/vim-misc'
+Plug 'tpope/vim-fireplace'
+Plug 'tpope/vim-classpath'
+Plug 'paredit.vim'
+Plug 'Gist.vim'
+Plug 'WebAPI.vim'
+Plug 'digitaltoad/vim-jade'
+Plug 'groenewege/vim-less'
+Plug 'scratch.vim'
+Plug 'bling/vim-airline'
+Plug 'go.vim'
+Plug 'ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'Gundo'
+Plug 'AndrewRadev/switch.vim'
+Plug 'AndrewRadev/sideways.vim'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'nginx.vim'
+Plug 'tejr/vim-tmux'
+Plug 'mtscout6/vim-cjsx'
+
+call plug#end()
+"set runtimepath+=~/.vim/vundle/vundle
+"call vundle#begin('~/.vim/vundle')
 
 let g:notes_directories = ['~/Dropbox/Notes']
 
 " Bundles
-Bundle 'vundle'
-Bundle 'tpope/vim-haml'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-cucumber'
-Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-rails'
-Bundle 'godlygeek/tabular'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'michaeljsmith/vim-indent-object'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'skanev/vim-nexus'
-Bundle 'ervandew/supertab'
-Bundle 'extradite.vim'
-" The one in slim-template is way slower, but onemanstartup's is uglier
-"Bundle 'slim-template/vim-slim'
-Bundle 'onemanstartup/vim-slim'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-endwise'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'thinca/vim-prettyprint'
-Bundle 'vim-scripts/Decho'
-Bundle 'ack.vim'
-Bundle 'The-NERD-tree'
-Bundle 'xolox/vim-misc'
-Bundle 'notes.vim'
-Bundle 'tpope/vim-fireplace'
-Bundle 'tpope/vim-classpath'
-Bundle 'guns/vim-clojure-static'
-Bundle 'paredit.vim'
-Bundle 'Gist.vim'
-Bundle 'WebAPI.vim'
-Bundle 'digitaltoad/vim-jade'
-Bundle 'groenewege/vim-less'
-Bundle 'scratch.vim'
-Bundle 'bling/vim-airline'
-Bundle 'go.vim'
-Bundle 'ctrlp.vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'Gundo'
-Bundle 'AndrewRadev/switch.vim'
-Bundle 'AndrewRadev/sideways.vim'
-Bundle 'AndrewRadev/splitjoin.vim'
-Bundle 'nginx.vim'
-Bundle 'mtscout6/vim-cjsx'
+" Bundle 'vundle'
+"
+"call vundle#end()
 
 filetype plugin indent on
 
@@ -84,18 +87,18 @@ source ~/.vim/bundle/skanev/other/airline-theme.vim
 
 " Airline configruation
 let g:airline_theme = 'skanev'
-let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
-let g:airline_branch_prefix= ''
-let g:airline_readonly_symbol = ''
-let g:airline_linecolumn_prefix = ''
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#show_buffers = 0
+
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 
 " Disable netrw
 let g:loaded_netrw = 1
@@ -127,6 +130,7 @@ command! PromoteToLet :call PromoteToLet()
 map <Leader>l :PromoteToLet<CR>
 
 command! Reverse :g/^/m0
+map <F4> :tabedit BECKLIST<CR>
 
 function! ExtractVariable()
   try

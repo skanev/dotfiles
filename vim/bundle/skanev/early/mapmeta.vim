@@ -66,10 +66,16 @@ let s:hijacked_keys  = []
 let s:command_queue = []
 
 function! s:HijackCommand(key)
+  if match(a:key, '^\d$') == 0
+    let action = 'run-shell "~/.scripts/tmux/switch-tab ' . a:key . '"'
+  else
+    let action = 'send-keys M-' . a:key
+  endif
+
   return "bind-key -n 'M-" . a:key . "'" .
-        \" if-shell \"[ '#W' == 'vim' ]\"".
+        \" if-shell \"[ '#W' == 'vim' ]\"" .
         \" 'send-keys " . s:hijackPrefixTmux . a:key . "'" .
-        \" 'send-keys " . a:key . "'"
+        \" '" . action . "'"
 endfunction
 
 function! s:HijackKey(key)
@@ -91,7 +97,7 @@ function! s:TmuxSend(cmds)
     return
   endif
 
-  echo system('tmux ' . join(a:cmds, ' \; '))
+  call system('tmux ' . join(a:cmds, ' \; '))
 endfunction
 
 function! s:TmuxInspect()

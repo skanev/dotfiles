@@ -44,7 +44,7 @@ if has('gui_running')
   set guioptions-=r
   set guioptions-=L
   if has("gui_gtk2")
-    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
+    set guifont=DejaVu\ Sans\ Mono
     set linespace=2
   elseif has("gui_macvim")
     set guifont=Monaco\ for\ Powerline:h14
