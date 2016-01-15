@@ -99,7 +99,7 @@ function! s:TmuxInspect()
 
   let pos = 0
   while 1
-    let pos = match(output, 'bind-key -n\s\+M-\(.\)', pos + 1)
+    let pos = match(output, 'bind-key\s\+-T root\s\+M-\(.\)', pos + 1)
 
     if pos == -1
       break
