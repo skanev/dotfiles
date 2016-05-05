@@ -59,6 +59,11 @@ Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'nginx.vim'
 Plug 'mtscout6/vim-cjsx'
+
+if has('gui_macvim')
+  Plug 'copy-as-rtf'
+endif
+
 call plug#end()
 
 filetype plugin indent on
