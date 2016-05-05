@@ -10,58 +10,56 @@ runtime bundle/skanev/early/mapmeta.vim
 filetype off
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
-set runtimepath+=~/.vim/vundle/vundle
-call vundle#rc('~/.vim/vundle')
 
 let g:notes_directories = ['~/Dropbox/Notes']
 
 " Bundles
-Bundle 'vundle'
-Bundle 'tpope/vim-haml'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-cucumber'
-Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-rails'
-Bundle 'godlygeek/tabular'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'michaeljsmith/vim-indent-object'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'skanev/vim-nexus'
-Bundle 'ervandew/supertab'
-Bundle 'extradite.vim'
-" The one in slim-template is way slower, but onemanstartup's is uglier
-"Bundle 'slim-template/vim-slim'
-Bundle 'onemanstartup/vim-slim'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-endwise'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'thinca/vim-prettyprint'
-Bundle 'vim-scripts/Decho'
-Bundle 'ack.vim'
-Bundle 'The-NERD-tree'
-Bundle 'xolox/vim-misc'
-Bundle 'notes.vim'
-Bundle 'tpope/vim-fireplace'
-Bundle 'tpope/vim-classpath'
-Bundle 'guns/vim-clojure-static'
-Bundle 'paredit.vim'
-Bundle 'Gist.vim'
-Bundle 'WebAPI.vim'
-Bundle 'digitaltoad/vim-jade'
-Bundle 'groenewege/vim-less'
-Bundle 'scratch.vim'
-Bundle 'bling/vim-airline'
-Bundle 'go.vim'
-Bundle 'ctrlp.vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'Gundo'
-Bundle 'AndrewRadev/switch.vim'
-Bundle 'AndrewRadev/sideways.vim'
-Bundle 'AndrewRadev/splitjoin.vim'
-Bundle 'nginx.vim'
-Bundle 'mtscout6/vim-cjsx'
+call plug#begin('~/.vim/plugged')
+Plug 'vundle'
+Plug 'tpope/vim-haml'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-cucumber'
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-rails'
+Plug 'godlygeek/tabular'
+Plug 'vim-ruby/vim-ruby'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'scrooloose/nerdcommenter'
+Plug 'skanev/vim-nexus'
+Plug 'ervandew/supertab'
+Plug 'extradite.vim'
+Plug 'onemanstartup/vim-slim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-endwise'
+Plug 'kchmck/vim-coffee-script'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'thinca/vim-prettyprint'
+Plug 'vim-scripts/Decho'
+Plug 'ack.vim'
+Plug 'The-NERD-tree'
+Plug 'xolox/vim-misc'
+Plug 'notes.vim'
+Plug 'tpope/vim-fireplace'
+Plug 'tpope/vim-classpath'
+Plug 'guns/vim-clojure-static'
+Plug 'paredit.vim'
+Plug 'Gist.vim'
+Plug 'WebAPI.vim'
+Plug 'digitaltoad/vim-jade'
+Plug 'groenewege/vim-less'
+Plug 'scratch.vim'
+Plug 'bling/vim-airline'
+Plug 'go.vim'
+Plug 'ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'Gundo'
+Plug 'AndrewRadev/switch.vim'
+Plug 'AndrewRadev/sideways.vim'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'nginx.vim'
+Plug 'mtscout6/vim-cjsx'
+call plug#end()
 
 filetype plugin indent on
 
@@ -80,7 +78,9 @@ nnoremap <C-l> :SidewaysRight<CR>
 
 nnoremap - :Switch<CR>
 
-source ~/.vim/bundle/skanev/other/airline-theme.vim
+if isdirectory(expand("~/.vim/plugged/vim-airline"))
+  source ~/.vim/bundle/skanev/other/airline-theme.vim
+endif
 
 " Airline configruation
 let g:airline_theme = 'skanev'
@@ -111,7 +111,7 @@ let g:syntastic_enable_signs=1
 
 " CtlrP
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v(vundle|vim-backup|vim-undo)|([\/]\.(git|hg|svn)$)',
+  \ 'dir': '\v(???|vim-backup|vim-undo)|([\/]\.(git|hg|svn)$)',
   \ }
 let g:ctrlp_working_path_mode = '0'
 
