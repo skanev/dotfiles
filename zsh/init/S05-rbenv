@@ -1,2 +1,7 @@
 #!/usr/bin/env zsh
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# Loads the rbenv interactive shell goodies. It's added to the path in a
+# different place to make it available to non-interactive shells.
+if which rbenv > /dev/null; then
+    eval "$(rbenv init -)"
+fi
