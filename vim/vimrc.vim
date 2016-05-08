@@ -103,8 +103,8 @@ let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#show_buffers = 0
 
 " Disable netrw
-let g:loaded_netrw = 1
-let g:loaded_netrwPlugin = 1
+" let g:loaded_netrw = 1
+" let g:loaded_netrwPlugin = 1
 
 " Gist
 let g:gist_clip_command = 'pbcopy'
