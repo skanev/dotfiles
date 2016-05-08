@@ -1,0 +1,17 @@
+#!/usr/bin/env zsh
+
+# TODO Document
+# TODO cd for gem open
+# TODO Have this work on the terminal (is-fullscreen?)
+
+emulate -LR zsh
+setopt EXTENDED_GLOB
+
+gemfile=((../)#Gemfile(N))
+if [[ -z $gemfile ]]; then
+    opener="gem"
+else
+    opener="bundle"
+fi
+
+BUNDLE_EDITOR=mvim VISUAL=mvim EDITOR=mvim VIM_COLORSCHEME=solarized $opener open $*
