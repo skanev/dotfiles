@@ -2,13 +2,18 @@
 # Stolen from:
 # https://github.com/pbrisbin/mutt-config/blob/master/bin/mailrun
 
+# When ran from cron, paths are not loaded properly. Although hackish, this is
+# a better fix as it does not require using a global path and configuring
+# rbenv.
+source ~/.zprofile
+
 set errexit
 
 monitor() {
     local pid=$1 i=0
 
     while ps $pid &>/dev/null; do
-        if (( i++ > 10 )); then
+        if (( i++ > 15 )); then
             echo "Offlineimap is taking too long. Sending SIGKILL to ${pid}..." >&2
             kill -9 $pid
             exit 1

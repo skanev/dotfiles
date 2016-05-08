@@ -1,6 +1,4 @@
 .DS_Store
-mutt/mailbox
-mutt/temp
 vim/.netrwhist
 vim/localvimrc.vim
 vim/spell

@@ -1,0 +1,82 @@
+# This is an example file that works with this setup. You should change the
+# stuff in <angle brackets>, but keep everything else as is. I've added
+# comments to clarify different bits
+
+# General offlineimap configuration
+[general]
+
+# Accounts available, separated by comma. Change to whatever you want.
+accounts = <JohnDoe>
+
+# Use the command-line interface. We don't need something fancy
+ui = TTY.TTYUI
+
+# A bunch of python functions that are used here.
+pythonfile = ~/.mutt/support/offlineimap.py
+
+# Speeds things up. It's OK to loose a mail every now and then, it will get synced next time
+fsync = False
+
+# A single account. You can define multiple ones (having different names), but
+# you need to list them in [general]
+[Account <JohnDoe>]
+
+# Names of the repositories, defined below.
+localrepository = <JohnDoe-Local>
+remoterepository = <JohnDoe-Remote>
+
+# Use SQLite for cache
+status_backend = sqlite
+
+# Hooks to be executed before and after sync
+postsynchook = notmuch new
+
+# The local repository
+[Repository <JohnDoe-Local>]
+
+# It's just a Maildir
+type = Maildir
+
+# Location of your maildir
+localfolders = <~/.mail/private>
+
+# Gmail folders have long annoying names (like "[Gmail]/All Mail"), so they
+# should be renamed locally. This function takes an optional hash with
+# mappings. You can leave it empty if you don't need more than the default
+# folders.
+nametrans = gmail_local_to_remote_nametrans(<{'fun-stuff': 'Fun'>)
+
+# The remote repository (Gmail)
+[Repository <JohnDoe-Remote>]
+
+# Paralelize work a bit
+maxconnections = 2
+
+# Offlineimap supports Gmail, which simplifies a few thing
+type = Gmail
+
+# When an email is deleted from a label or directory, it doesn't really get
+# deleted from Gmail. Useful if you don't want to accidentally delete a lot of
+# stuff.
+realdelete = no
+
+# The email address
+remoteuser = <john.doe@example.com>
+
+# Fetch the password from the keychain
+remotepasseval = keychain_pass('<john.doe@example.com>')
+
+# Similar renaming to the one in the local repository. It should take the same
+# argument (makes it simple to copy/paste around).
+nametrans = gmail_remote_to_local_nametrans(<{'fun-stuff': 'Fun'}'>)
+
+# Don't create tags for local folders, unless you have specified it
+# explicitly.
+createfolders = False
+
+# Specifies which folders to get from Gmail. If you don't pass any arguments,
+# you'll get the default folders.
+folderfilter = gmail_folder_filter({'Fun', 'Interesting'})
+
+# Remove this, and offlineimap complains about lack of proper SSL.
+sslcacertfile = /usr/local/etc/openssl/cert.pem

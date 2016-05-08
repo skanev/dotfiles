@@ -1,9 +1,18 @@
 #!/usr/bin/env zsh
 
-pushd ~/Desktop
-if [[ -z $TMUX ]]; then
-    TERM=xterm-256color command mutt
-else
-    command mutt
+profile=(~/.mutt/profiles/$1*(N))
+
+if [[ $# = 1 && $#profile = 1 ]]; then
+    1="-F"
+    2=$profile
 fi
+
+pushd ~/Desktop
+
+if [[ -z $TMUX ]]; then
+    TERM=xterm-256color command mutt "$@"
+else
+    command mutt "$@"
+fi
+
 popd

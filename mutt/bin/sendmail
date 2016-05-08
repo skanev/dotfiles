@@ -3,33 +3,12 @@ require 'mail'
 require 'rdiscount'
 require 'open3'
 
-def with_html_version(message)
-  mail = Mail.read_from_string(message)
-  original = mail.body.to_s
-  without_signature = original.sub(/--\s+\nStefan Kanev.*?\Z/m, '')
-  html_version = RDiscount.new(without_signature).to_html
+load File.join File.dirname(__FILE__), 'markdown'
 
-  mail.header['Markdown'] = nil
-  mail.header['Date'] = nil
-  mail.body = nil
-  mail.text_part = Mail::Part.new do
-    content_type 'text/plain; charset=UTF-8'
-    body original
-  end
+profile, *arguments = ARGV
+content = Message.new(STDIN.read).text_to_send
 
-  mail.html_part = Mail::Part.new do
-    content_type 'text/html; charset=UTF-8'
-    body html_version
-  end
-
-  mail.to_s
-end
-
-arguments = ARGV
-content   = STDIN.read
-content   = with_html_version(content) if content =~ /^Markdown: true$/
-
-stdin, stdout, stderr = Open3.popen3(*arguments)
+stdin, stdout, stderr = Open3.popen3('msmtp', '-a', profile, *arguments)
 
 stdin.write content
 stdin.close

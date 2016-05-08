@@ -16,3 +16,6 @@ text/html; ~/.mutt/bin/view-attachment %s html
 
 # Unidentified files
 application/octet-stream; ~/.mutt/bin/view-attachment %s "-"
+
+# Plain text
+text/plain; vim %s

@@ -2,10 +2,23 @@
 require 'set'
 require 'maildir'
 
-MAILBOX = "/Users/aquarius/.mail/private"
-FOLDERS = %w(INBOX clojure)
+profile = ARGV[0]
 
-read_ids = FOLDERS.flat_map do |name|
+unless profile
+  warn "Must pass the profile name as the first argument"
+  exit 1
+end
+
+MAILBOX = File.expand_path "~/.mail/#{profile}"
+
+unless File.directory? MAILBOX
+  warn "Maildir #{MAILBOX} does not exist"
+  exit 1
+end
+
+folders = Dir["#{MAILBOX}/*"].map { |path| File.basename(path) } - %w(archive drafts sent trash)
+
+read_ids = folders.flat_map do |name|
   maildir = Maildir.new("#{MAILBOX}/#{name}")
   maildir.list(:cur).map { |message| message.data[/^Message-ID: (.*?)$/i, 1] }
 end

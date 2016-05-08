@@ -1,0 +1,18 @@
+set my_profile = "<jonh-doe>"
+
+source ~/.mutt/common
+
+set realname = "<John Doe>"
+set from = "<john.doe@example.com>"
+set spoolfile = "+<john-doe>/INBOX"
+
+mailboxes +<john-doe>/INBOX \
+          +<john-doe>/sent \
+          +<john-doe>/flagged \
+          +<john-doe>/archive \
+          +<john-doe>/trash \
+          +temporary/search
+
+set mbox         = "+<john-doe>/archive"
+set postponed    = "+<john-doe>/drafts"
+set reverse_name = yes

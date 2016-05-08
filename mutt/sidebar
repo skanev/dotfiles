@@ -1,4 +1,6 @@
-set sidebar_delim   = '  │'
+set sidebar_delim   = ' │'
 set sidebar_visible = yes
-set sidebar_width   = 24
+set sidebar_width   = 18
+set sidebar_shortpath = yes
+set sidebar_format = "%-10B %?N?%3N&   ?"
 color sidebar_new color221 color233
