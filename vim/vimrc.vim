@@ -116,9 +116,9 @@ let g:syntastic_enable_signs=1
 
 " CtlrP
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v(???|vim-backup|vim-undo)|([\/]\.(git|hg|svn)$)',
+  \ 'dir': '\v(plugged|vim-backup|vim-undo)|([\/]\.(git|hg|svn)$)',
   \ }
-let g:ctrlp_working_path_mode = '0'
+let g:ctrlp_working_path_mode = 'ra'
 
 map [f :A<CR>
 map ]f :R<CR>
