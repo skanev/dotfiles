@@ -19,7 +19,7 @@ set modeline
 
 set backspace=indent,eol,start
 
-set wildignore+=**/tmp/**
+" set wildignore+=**/tmp/**
 set nojoinspaces
 
 " System
