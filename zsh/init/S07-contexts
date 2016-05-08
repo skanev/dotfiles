@@ -112,6 +112,15 @@ END
     source $file
 }
 
+context() {
+    if [[ -n $c_current ]]; then
+        cat "$c_dir/$c_current"
+    else
+        echo "No context for the current directory"
+        exit 1
+    fi
+}
+
 c-unload() {
     eval $c_revert
 
