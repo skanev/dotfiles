@@ -50,7 +50,7 @@ fi
 ### Options from PeepCode ##################################
 setopt HIST_IGNORE_DUPS     # ignore duplication command history list
 setopt SHARE_HISTORY        # share command history data
-setopt HIST_IGNORE_SPACE
+setopt HIST_IGNORE_SPACE    # Don't push commands starting with space in history
 setopt APPEND_HISTORY # write history only when closing
 setopt EXTENDED_HISTORY # add more info
 
