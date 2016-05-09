@@ -59,6 +59,7 @@ Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'nginx.vim'
 Plug 'mtscout6/vim-cjsx'
+Plug 'tmux-plugins/vim-tmux'
 
 if has('gui_macvim')
   Plug 'copy-as-rtf'
