@@ -1,4 +1,7 @@
 command! CloseHiddenBuffers call s:CloseHiddenBuffers()
+command! MyFileTypePlugin call s:MyFileTypePlugin()
+command! -nargs=+ Page call s:Page(<q-args>)
+
 function! s:CloseHiddenBuffers()
   let open_buffers = []
 
@@ -14,7 +17,6 @@ function! s:CloseHiddenBuffers()
 endfunction
 
 let s:ftplugin_dir = fnamemodify(expand('<sfile>'), ':h:s?plugin?ftplugin?')
-command! MyFileTypePlugin call s:MyFileTypePlugin()
 function! s:MyFileTypePlugin()
   if &filetype == ''
     echohl ErrorMsg | echomsg 'Current buffer has no filetype' | echohl None
@@ -32,5 +34,32 @@ function! s:MyFileTypePlugin()
           \ 'let b:did_skanev_ftplugin = 1',
           \ ''
           \ ])
+  endif
+endfunction
+
+function! s:Page(command)
+  let saved_p = @p
+  redir @p
+  execute "silent" a:command
+  redir END
+
+  call s:OpenPager()
+
+  normal "pp
+
+  let @p = saved_p
+endfunction
+
+function! s:OpenPager()
+  if !bufexists('PAGER')
+    tabnew PAGER
+    setlocal buftype=nofile
+    setlocal nobuflisted
+    setlocal bufhidden=wipe
+    setlocal noswapfile
+  elseif buflisted('PAGER')
+    edit PAGER
+  else
+    tabnew PAGER
   endif
 endfunction
