@@ -25,6 +25,26 @@ task :install => ['vim:install:vundle'] do
   end
 end
 
+desc "Installs the stuff in homebrew I need"
+task :homebrew do
+  formulas = %w(
+    ack
+    figlet
+    htop
+    macvim
+    midnight-commander
+    reattach-to-user-namespace
+    tmux mercurial
+    tree
+    vim
+    watch
+    wget
+    zsh
+    zsh-lovers
+  )
+  exec "brew", "install", *formulas
+end
+
 def home() ENV['HOME'] end
 def home_slash(name) File.join(home, name) end
 
