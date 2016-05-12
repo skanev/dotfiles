@@ -2,7 +2,7 @@
 
 profile=(~/.mutt/profiles/$1*(N))
 
-if [[ $# = 1 && $#profile = 1 ]]; then
+if [[ $# == 1 && $#profile == 1 ]]; then
     1="-F"
     2=$profile
 fi
