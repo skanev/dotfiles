@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+# A script to help with ad-hoc code reviews.
+#
+# Finds all the email in the GitHub label that are only containing a single
+# hammer Emoji (or :hammer:), unlabels then and marks them as read in the
+# archive.
+require 'mail'
+require 'maildir'
+
+profile = ARGV[0]
+profile = 'receipt-bank'
+
+unless profile
+  warn "Must pass the profile name as the first argument"
+  exit 1
+end
+
+MAILBOX = File.expand_path "~/.mail/#{profile}"
+
+approved_ids = []
+
+maildir = Maildir.new("#{MAILBOX}/github")
+maildir.list(:new).each do |message|
+  data = message.data
+  mail = Mail.read_from_string(data)
+  body = mail.text_part.body.to_s.split('---').first.strip.force_encoding('utf-8')
+
+  if body == ':hammer:' || body == '🔨'
+    message.process
+    message.destroy
+    approved_ids << data[/^Message-ID: (.*?)$/i, 1]
+  end
+end
+
+marked = 0
+archive = Maildir.new("#{MAILBOX}/archive")
+archive.list(:new).each do |message|
+  message_id = message.data[/^Message-ID: (.*?)$/i, 1]
+  next unless approved_ids.include? message_id
+
+  message.process
+  message.seen!
+  marked += 1
+end
+
+puts "Found hammers: #{approved_ids.count}, mark as seen: #{marked}"
