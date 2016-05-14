@@ -61,8 +61,8 @@ class Message
   def generate_markdown_body
     @markdown_body ||=
       begin
-        withouth_signature = @original.body.to_s.gsub(/\n--.*\z/m, '')
-        RDiscount.new(withouth_signature).to_html
+        without_signature = @original.body.to_s.gsub(/\n--.*\z/m, '')
+        RDiscount.new(without_signature).to_html
       end
   end
 end
