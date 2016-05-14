@@ -8,8 +8,8 @@ import os
 # In order to avoid storing passwords in plain text on the system, they are
 # stored in the keychain. Passwords can be managed with:
 #
-# $ security add-internet-password    -a john.doe@example.com -s imap.gmail.com -w PASSWORD ~/Library/Keychains/login.keychain
-# $ security delete-internet-password -a john.doe@example.com -s imap.gmail.com ~/Library/Keychains/login.keychain
+# $ security add-internet-password    -a john.doe@example.com -s mutt -w PASSWORD ~/Library/Keychains/login.keychain
+# $ security delete-internet-password -a john.doe@example.com -s mutt ~/Library/Keychains/login.keychain
 #
 # Don't forget to remove them from history. If zsh has HIST_IGNORE_SPACE, you
 # can just prefix the command with a space to accomplish that.
