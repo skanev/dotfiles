@@ -30,6 +30,7 @@ task :homebrew do
   formulas = %w(
     ack
     figlet
+    fzf
     htop
     macvim
     midnight-commander
