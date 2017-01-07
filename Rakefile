@@ -35,6 +35,7 @@ task :homebrew do
     macvim
     midnight-commander
     reattach-to-user-namespace
+    scmpuff
     tmux mercurial
     tree
     vim

@@ -17,7 +17,7 @@ alias rmig="rails generate migration"
 
 alias g="git"
 alias gf="git fetch"
-alias gs="git status"
+alias gs="scmpuff_status"
 alias ga="git add"
 alias gd="git diff"
 alias gds="git diff --cached"
