@@ -27,7 +27,7 @@ alias gca="git commit --amend"
 alias gco="git checkout"
 alias gcof="git branch | fzf | xargs git checkout"
 alias gps="git push"
-alias gpsu="git push -u origin $(git rev-parse --abbrev-ref HEAD)"
+alias gpsu="git rev-parse --abbrev-ref HEAD | xargs git push -u origin" 
 alias gpl="git pull"
 alias gplr="git pull --rebase"
 
