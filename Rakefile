@@ -36,6 +36,7 @@ task :homebrew do
     midnight-commander
     reattach-to-user-namespace
     scmpuff
+    the_silver_searcher
     tmux mercurial
     tree
     vim

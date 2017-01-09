@@ -34,7 +34,7 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'thinca/vim-prettyprint'
 Plug 'vim-scripts/Decho'
-Plug 'ack.vim'
+Plug 'mileszs/ack.vim'
 Plug 'The-NERD-tree'
 Plug 'xolox/vim-misc'
 Plug 'notes.vim'
@@ -116,8 +116,13 @@ let g:ctrlp_custom_ignore = {
   \ }
 let g:ctrlp_working_path_mode = 'ra'
 
-map [r :A<CR>
-map ]r :R<CR>
+" Ack
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+map [f :A<CR>
+map ]f :R<CR>
 
 function! PromoteToLet()
   s/\v(\w+)\s+\=\s+(.*)$/let(:\1) { \2 }/
@@ -163,6 +168,7 @@ let g:syntastic_slim_checkers = []
 
 runtime localvimrc
 
+let g:ackprg = 'ag --vimgrep'
 "function GetFooText()
   "return localtime()
 "endfunction
