@@ -23,6 +23,7 @@ alias gd="git diff"
 alias gds="git diff --cached"
 alias gc="git commit"
 alias gca="git commit --amend"
+alias gbl="git blame -w -M -C"
 
 alias gco="git checkout"
 alias gcof="git branch | fzf | xargs git checkout"
