@@ -26,7 +26,7 @@ alias gca="git commit --amend"
 alias gbl="git blame -w -M -C"
 
 alias gco="git checkout"
-alias gcof="git branch | fzf | xargs git checkout"
+alias gcof="git branch --all | fzf | sed 's+remotes/origin/++g' | xargs git checkout"
 alias gps="git push"
 alias gpsu="git rev-parse --abbrev-ref HEAD | xargs git push -u origin" 
 alias gpl="git pull"
