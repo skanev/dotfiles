@@ -16,6 +16,7 @@ alias rg="rails generate"
 alias rmig="rails generate migration"
 
 alias g="git"
+alias gg='git graph'
 alias gf="git fetch"
 alias gs="scmpuff_status"
 alias ga="git add"
