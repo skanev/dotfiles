@@ -11,8 +11,6 @@ filetype off
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
-let g:notes_directories = ['~/Dropbox/Notes']
-
 " Bundles
 call plug#begin('~/.vim/plugged')
 Plug 'vundle'
@@ -121,8 +119,8 @@ let g:ctrlp_custom_ignore = {
   \ }
 let g:ctrlp_working_path_mode = 'ra'
 
-map [f :A<CR>
-map ]f :R<CR>
+map [r :A<CR>
+map ]r :R<CR>
 
 function! PromoteToLet()
   s/\v(\w+)\s+\=\s+(.*)$/let(:\1) { \2 }/
