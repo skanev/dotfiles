@@ -114,10 +114,14 @@ END
 
 context() {
     if [[ -n $c_current ]]; then
-        cat "$c_dir/$c_current"
+        if [[ $1 == "-e" ]]; then
+            vim "$c_dir/$c_current"
+            e
+        else
+            cat "$c_dir/$c_current"
+        fi
     else
         echo "No context for the current directory"
-        exit 1
     fi
 }
 
