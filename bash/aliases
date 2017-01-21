@@ -3,6 +3,7 @@ alias reload_aliases="source ~/.bash/aliases"
 alias aliases="vim ~/.bash/aliases && reload_aliases"
 alias localrc="vim ~/.localrc && source ~/.localrc"
 
+alias ll="ls -l"
 alias tmux="tmux -2"
 
 alias rake="noglob rake"
@@ -25,6 +26,7 @@ alias gds="git diff --cached"
 alias gc="git commit"
 alias gca="git commit --amend"
 alias gbl="git blame -w -M -C"
+alias gcp="git cherry-pick"
 
 alias gco="git checkout"
 alias gcof="git branch --all | fzf | sed 's+remotes/origin/++g' | xargs git checkout"
