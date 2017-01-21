@@ -48,6 +48,12 @@ task :homebrew do
   exec "brew", "install", *formulas
 end
 
+desc "Installs homebrew casks"
+task :casks do
+  casks = %w(fluor)
+  exec "brew", "cask", "install", *casks
+end
+
 def home() ENV['HOME'] end
 def home_slash(name) File.join(home, name) end
 
