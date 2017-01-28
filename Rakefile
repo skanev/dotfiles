@@ -4,10 +4,10 @@ require 'fileutils'
 include FileUtils
 
 desc "Install into the users home"
-task :install => ['vim:install:vundle'] do
+task :install do
   Dir['*'].each do |file|
     case file
-      when 'Rakefile', 'README'
+      when 'Rakefile', 'README', 'README.markdown'
         next
       when 'xprofile', 'Xdefaults', 'xmodmap'
         link_file file, home_slash(".#{file}") if `uname -s`.include? 'Linux'
