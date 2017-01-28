@@ -54,6 +54,8 @@ let s:digraphs = [
   \
   \ ['-n', 'en dash', '–'],
   \ ['-m', 'em dash', '—'],
+  \
+  \ ['^o', 'degrees', '°'],
 \ ]
 
 function! s:InstallDigraphs()
