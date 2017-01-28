@@ -48,6 +48,7 @@ alias spjf="ree bundle exec xvfb-run specjour features --rsync-port=8991"
 alias spp="bundle exec specjour prepare --rsync-port=8991"
 
 alias clj="rlwrap --quote-characters=\"'\" --command clojure clj"
+alias gist="gist -o"
 
 if [[ -n $ZSH_NAME ]]; then
     alias -g RERR="2>&1"
