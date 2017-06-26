@@ -1,0 +1,99 @@
+vim   | Resize current window with 5 lines                                     | res +5
+vim   | Join lines                                                             | J
+vim   | Open a new line below the cursor                                       | o
+vim   | Open a new line above the cursor                                       | O
+vim   | Save and close                                                         | ZZ
+vim   | reload file (discard changes with bang)                                | :e
+vim   | find first appearance of character 'x' (left search with F)            | fx
+vim   | go just before first appearance of character 'x' (left search with T)  | tx
+vim   | move to a matching paren                                               | %
+vim   | page up                                                                | CTRL+b
+vim   | page down                                                              | CTRL+f
+vim   | half page up                                                           | CTRL+u
+vim   | half page down                                                         | CTRL+d
+vim   | scroll so that line at cursor is at the center of the screen           | zz
+vim   | search forward for the word under cursor                               | *
+vim   | search backward for the word under cursor                              | #
+vim   | show line numbres                                                      | set :number
+vim   | search for words that end with 'the'                                   | /the\>
+vim   | search for words that start with 'the'                                 | /\<the
+vim   | jump back and forth between two locations                              | ``
+vim   | delete under the cursor                                                | x
+vim   | delete before the cursor                                               | X
+vim   | delete to the end of the line                                          | D
+vim   | change to the end of the line                                          | C
+vim   | replace line                                                           | S
+vim   | change inner sentence                                                  | cis
+vim   | change a sentence                                                      | cas
+vim   | change character case                                                  | ~
+vim   | yank into register under f                                             | "fy
+vim   | put from register f                                                    | "fp
+vim   | append file/selected text to a file                                    | :w >> filename
+vim   | starts in read-only mode                                               | -R
+vim   | close all other windows(splits)                                        | :only
+vim   | open a file in a split                                                 | :split filename
+vim   | open a split with an empty file                                        | :new
+vim   | open files in splits                                                   | vim -o file1 file2
+vim   | open files in vertical splits                                          | vim -O file1 file2
+vim   | mark the position under 'f'                                            | mf
+vim   | go to the beginning of the line marked as 'f'                          | 'f
+vim   | go to the exact position under 'f'                                     | `f
+vim | list marks | :marks
+vim   | record a macro under 'q'                                               | qq
+vim   | play the recorded macro from 'q'                                       | @q
+vim   | play the macros last played                                            | @@
+vim   | substitute occurances in all lines of file                             | :%s//
+vim   | substitute asking for confirmation                                     | %s//c
+vim   | substitute asking for confirmation (more than one occurence on a line) | %s//gc
+vim   | substitute from the current line to the end of the file                | .,$s/yes/no
+vim   | enter a number before the colon                                        | :.,.+4
+vim   | global - find matches by pattern and execute command                   | :g+//+s/foobar/barfoo/g
+vim   | convert between inline and multiline block                             | ,s ,j
+vim   | move tabs around                                                       | :tabmove
+vim   | paste the last yanked thing                                            | "0p
+vim   | relative numbers                                                       | set relativenumbers
+vim   | git blame                                                              | GBlame
+vim   | insert text on multiple lines                                          | ctrl+v => shift+i => esc
+tmux  | open new tab                                                           | ctrl+S C
+tmux  | copy mode                                                              | ctrl+S ctrl+D
+tmux  | see the list of mappings                                               | ctrl+S ?
+vim   | enter hash rocket                                                      | ctrl + L
+tmux  | close tab                                                              | ctrl+S X
+tmux  | autocomplete                                                           | C-x C-x
+vim   | NERDTree toggle between showing hidden files                           | shift+I
+vim   | change surrounding bracket (surround-vim)                              | cs)]
+vim   | switch do-end to {}                                                    | ,j
+vim   | switch {} to do-end                                                    | ,s
+vim   | set a mark under a                                                     | ma
+vim   | jump to mark under a                                                   | 'a
+vim   | change whats inside between quotes                                     | ci'
+siege | siege with post                                                        | siege -c50 -t60S -H 'Content-Type: application/json' 'http://domain.com/path/to/json.php POST {"ids": ["1","2","3"]}'
+vim   | get help on visual command                                             | :help v_u
+vim   | move to the end of the word                                            | e
+vim   | move through whitespace sparated words                                 | E B W
+vim   | search to the right for the dot                                        | f.
+vim   | search to the left for the dot                                         | F.
+vim   | move to the right searching for the dot                                | t.
+vim   | move to the left searching for the dot                                 | T.
+vim   | move DOWN half a screen                                                | ctrl+D
+vim   | move UP half a screen                                                  | ctrl+U
+vim   | move FORWARD a screen                                                  | ctrl+F
+vim   | move BACKWARD a screen                                                 | ctrl+B
+vim | scroll to see whats BEHIND the current line | zb
+vim | scroll to see whats afTer the current line | zt
+vim | search for words ending with 'the' | /the\>
+vim | serach for words beginning with 'the' | /\<the
+vim | go back a position | ctrl+O
+vim | go forward a position | ctrl+P
+vim | delete to the end of the line | D
+vim | change to the end of the line | C
+vim | change / substitute the whole line | S
+vim | change one character and enter insert mode | s
+vim | delete character to the right | x
+vim | delete character to the left | X
+vim | capitalize char under cursor | ~
+vim | update a quickfix list of files | cdo s/foo/bar/g | update
+tmux | switch between sessions | ctrl+S S
+tmux | switch between last active tab | ctrl+SS
+vim | rewrap text | gq
+vim | show a commit | ctrl+K
