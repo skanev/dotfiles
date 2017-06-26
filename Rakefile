@@ -50,7 +50,7 @@ end
 
 desc "Installs homebrew casks"
 task :casks do
-  casks = %w(fluor)
+  casks = %w(fluor dash)
   exec "brew", "cask", "install", *casks
 end
 
