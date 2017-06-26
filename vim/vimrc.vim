@@ -168,6 +168,8 @@ let g:syntastic_slim_checkers = []
 
 runtime localvimrc
 
+vmap gb <Plug>NexusSendSelection()<CR>
+
 let g:ackprg = 'ag --vimgrep'
 "function GetFooText()
   "return localtime()
