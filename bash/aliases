@@ -3,6 +3,8 @@ alias reload_aliases="source ~/.bash/aliases"
 alias aliases="vim ~/.bash/aliases && reload_aliases"
 alias localrc="vim ~/.localrc && source ~/.localrc"
 
+alias ka="vim ~/dev/dotfiles/knowledge.txt"
+alias k="cat ~/dev/dotfiles/knowledge.txt | fzf"
 alias ll="ls -l"
 alias tmux="tmux -2"
 
@@ -34,6 +36,7 @@ alias gps="git push"
 alias gpsu="git rev-parse --abbrev-ref HEAD | xargs git push -u origin" 
 alias gpl="git pull"
 alias gplr="git pull --rebase"
+alias grho="gf && git rev-parse --abbrev-ref HEAD | xargs -I {1} git reset --hard origin/{1}"
 
 alias grm="git rebase origin/master"
 alias grim="git rebase -i origin/master"
