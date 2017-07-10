@@ -1,4 +1,4 @@
-vim   | Resize current window with 5 lines                                     | res +5
+im   | Resize current window with 5 lines                                     | res +5
 vim   | Join lines                                                             | J
 vim   | Open a new line below the cursor                                       | o
 vim   | Open a new line above the cursor                                       | O
@@ -38,7 +38,7 @@ vim   | open files in vertical splits                                          |
 vim   | mark the position under 'f'                                            | mf
 vim   | go to the beginning of the line marked as 'f'                          | 'f
 vim   | go to the exact position under 'f'                                     | `f
-vim | list marks | :marks
+vim   | list marks                                                             | :marks
 vim   | record a macro under 'q'                                               | qq
 vim   | play the recorded macro from 'q'                                       | @q
 vim   | play the macros last played                                            | @@
@@ -79,21 +79,22 @@ vim   | move DOWN half a screen                                                |
 vim   | move UP half a screen                                                  | ctrl+U
 vim   | move FORWARD a screen                                                  | ctrl+F
 vim   | move BACKWARD a screen                                                 | ctrl+B
-vim | scroll to see whats BEHIND the current line | zb
-vim | scroll to see whats afTer the current line | zt
-vim | search for words ending with 'the' | /the\>
-vim | serach for words beginning with 'the' | /\<the
-vim | go back a position | ctrl+O
-vim | go forward a position | ctrl+P
-vim | delete to the end of the line | D
-vim | change to the end of the line | C
-vim | change / substitute the whole line | S
-vim | change one character and enter insert mode | s
-vim | delete character to the right | x
-vim | delete character to the left | X
-vim | capitalize char under cursor | ~
-vim | update a quickfix list of files | cdo s/foo/bar/g | update
-tmux | switch between sessions | ctrl+S S
-tmux | switch between last active tab | ctrl+SS
-vim | rewrap text | gq
-vim | show a commit | ctrl+K
+vim   | scroll to see whats BEHIND the current line                            | zb
+vim   | scroll to see whats afTer the current line                             | zt
+vim   | search for words ending with 'the'                                     | /the\>
+vim   | serach for words beginning with 'the'                                  | /\<the
+vim   | go back a position                                                     | ctrl+O
+vim   | go forward a position                                                  | ctrl+P
+vim   | delete to the end of the line                                          | D
+vim   | change to the end of the line                                          | C
+vim   | change / substitute the whole line                                     | S
+vim   | change one character and enter insert mode                             | s
+vim   | delete character to the right                                          | x
+vim   | delete character to the left                                           | X
+vim   | capitalize char under cursor                                           | ~
+vim   | update a quickfix list of files                                        | cdo s/foo/bar/g                                                                                                       | update
+tmux  | switch between sessions                                                | ctrl+S S
+tmux  | switch between last active tab                                         | ctrl+SS
+vim   | rewrap text                                                            | gq
+vim   | show a commit                                                          | ctrl+K
+vim   | open NERDtree at the current file                                      | shift+F3
