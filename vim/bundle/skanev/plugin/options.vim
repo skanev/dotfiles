@@ -31,7 +31,7 @@ if has('persistent_undo')
 end
 
 " Highlight invisible characters
-set listchars=eol:¬,tab:→\ 
+set listchars=eol:¬,tab:→\
 
 " Status line
 set laststatus=2
@@ -69,3 +69,7 @@ elseif $ITERM_PROFILE == "Beamer"
 else
   colorscheme vividchalk
 end
+
+" Temp fix for a new highlight group, until the vim patch makes it to MacVim
+" https://github.com/vim/vim/commit/c768a208ca8e0e0fec900c18d5d9a593357ad793
+hi QuickFixLine guibg=#333333
