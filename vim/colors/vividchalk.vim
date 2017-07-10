@@ -45,10 +45,6 @@ fun! s:X(a)
     endif
 endfun
 
-function! E2T(a)
-    return s:X(a:a)
-endfunction
-
 function! s:choose(mediocre,good)
     if &t_Co != 88 && &t_Co != 256
         return a:mediocre
@@ -71,28 +67,22 @@ function! s:hibg(group,guibg,first,second)
     exe "highlight ".a:group." guibg=".a:guibg." ctermbg=".ctermbg
 endfunction
 
-hi link railsMethod         PreProc
 hi link rubyDefine          Keyword
 hi link rubySymbol          Constant
-hi link rubyAccess          rubyMethod
-hi link rubyAttribute       rubyMethod
 hi link rubyEval            rubyMethod
 hi link rubyException       rubyMethod
 hi link rubyInclude         rubyMethod
+hi link rubyMacro           rubyMethod
 hi link rubyStringDelimiter rubyString
 hi link rubyRegexp          Regexp
 hi link rubyRegexpDelimiter rubyRegexp
-"hi link rubyConstant        Variable
-"hi link rubyGlobalVariable  Variable
-"hi link rubyClassVariable   Variable
-"hi link rubyInstanceVariable Variable
+
 hi link javascriptRegexpString  Regexp
-hi link javascriptNumber        Number
-hi link javascriptNull          Constant
-highlight link diffAdded        String
-highlight link diffRemoved      Statement
-highlight link diffLine         PreProc
-highlight link diffSubname      Comment
+
+hi link diffAdded               String
+hi link diffRemoved             Statement
+hi link diffLine                PreProc
+hi link diffSubname             Comment
 
 call s:hifg("Normal","#EEEEEE","White",87)
 if &background == "light" || has("gui_running")
@@ -111,8 +101,9 @@ highlight StatusLineNC  guifg=#444444 guibg=#aaaaaa gui=none ctermfg=Black cterm
 highlight Ignore        ctermfg=Black
 highlight WildMenu      guifg=Black   guibg=#ffff00 gui=bold ctermfg=Black ctermbg=Yellow cterm=bold
 highlight Cursor        guifg=Black guibg=White ctermfg=Black ctermbg=White
-highlight CursorLine    guibg=#333333 guifg=NONE
-highlight CursorColumn  guibg=#333333 guifg=NONE
+call s:hibg("ColorColumn","#333333","DarkGrey",81)
+call s:hibg("CursorLine","#333333","DarkGrey",81)
+call s:hibg("CursorColumn","#333333","DarkGrey",81)
 highlight NonText       guifg=#404040 ctermfg=8
 highlight SpecialKey    guifg=#404040 ctermfg=8
 highlight Directory     none
@@ -168,25 +159,17 @@ hi Statement gui=none
 if !has("gui_mac")
     " Mac GUI degrades italics to ugly underlining.
     hi Comment gui=italic
-    hi railsUserClass  gui=italic
-    hi railsUserMethod gui=italic
 endif
 hi Identifier cterm=none
 " Commented numbers at the end are *old* 256 color values
-"highlight PreProc       guifg=#EDF8F9
 call s:hifg("Comment"        ,"#9933CC","DarkMagenta",34) " 92
 " 26 instead?
 call s:hifg("Constant"       ,"#339999","DarkCyan",21) " 30
-call s:hifg("rubyNumber"     ,"#CCFF33","Yellow",60) " 190
 call s:hifg("String"         ,"#66FF00","LightGreen",44,82) " 82
 call s:hifg("Identifier"     ,"#FFCC00","Yellow",72) " 220
 call s:hifg("Statement"      ,"#FF6600","Brown",68) " 202
 call s:hifg("PreProc"        ,"#AAFFFF","LightCyan",47) " 213
-call s:hifg("railsUserMethod","#AACCFF","LightCyan",27)
 call s:hifg("Type"           ,"#AAAA77","Grey",57) " 101
-call s:hifg("railsUserClass" ,"#AAAAAA","Grey",7) " 101
 call s:hifg("Special"        ,"#33AA00","DarkGreen",24) " 7
 call s:hifg("Regexp"         ,"#44B4CC","DarkCyan",21) " 74
 call s:hifg("rubyMethod"     ,"#DDE93D","Yellow",77) " 191
-"highlight railsMethod   guifg=#EE1122 ctermfg=1
-
