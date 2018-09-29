@@ -1,4 +1,4 @@
-im   | Resize current window with 5 lines                                     | res +5
+vim   | Resize current window with 5 lines                                     | res +5
 vim   | Join lines                                                             | J
 vim   | Open a new line below the cursor                                       | o
 vim   | Open a new line above the cursor                                       | O
@@ -98,3 +98,28 @@ tmux  | switch between last active tab                                         |
 vim   | rewrap text                                                            | gq
 vim   | show a commit                                                          | ctrl+K
 vim   | open NERDtree at the current file                                      | shift+F3
+git   | grep commit history; --all for all branches                            | git log --all -G"searched_string"
+zsh   | pause current command                                                  | ESC+Q
+zsh   | open man page for current command                                      | ESC+H
+zsh   | open current command in editor                                         | ESC+E
+irb   | view source of method                                                  | method(:method_name).source
+irb   | view source of class                                                   | User.method(:method).source.display
+irb   | view source file location                                              | User.method(:method).source_location
+grep  | grep or                                                                | grep "one\                                                                                                            | two"
+vim   | preview markdown doc                                                   | shift+Q
+zsh   | grep for process and mass kill                                         | ps aux                                                                                                                | grep spring | grep onetap | awk '{print $2}' | xargs kill
+psql  | show sequences                                                         | SELECT c.relname FROM pg_class c WHERE c.relkind = 'S' AND c.relname LIKE '%sweep%';
+vim   | paste a block of text in front of a block of text                      | visual block yank + visual block shift P
+vim   | change surrounding quotes (vim-surround)                               | cs'"
+vim   | remove surrouding delimiters                                           | ds"
+vim   | surround with something (e.g. quote or html-tag                        | ysiw<p>
+vim   | surround a visiual block with something                                | select visual block then immediately press S<div>
+vim   | surround an entire line                                                | yss'
+vim   | surround an entire line with parens                                    | yssb OR yss)
+vim   | search-and-replace case sensitive                                      | %s/foo/bar/gI
+vim   | repeat Find or Until motion (or opposite)                              | ; (,)
+vim   | page up / page down                                                    | ctrl+U / ctrl+D
+vim   | tabluarize on colon+whitespece                                         | Tabularize /:\zs
+psql  | show enum type                                                         | \dT+ type name
+vim   | open file via scp                                                      | vim scp://remoteuser@server.tld//absolute/path/to/document
+
