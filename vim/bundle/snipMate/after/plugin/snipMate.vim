@@ -33,5 +33,5 @@ call GetSnippets(snippets_dir, '_') " Get global snippets
 
 au FileType * if &ft != 'help' | call GetSnippets(snippets_dir, &ft) | endif
 
-command Snippets call EditSnippetsFor(&filetype)
+command! Snippets call EditSnippetsFor(&filetype)
 " vim:noet:sw=4:ts=4:ft=vim
