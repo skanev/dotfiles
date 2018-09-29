@@ -172,6 +172,8 @@ runtime localvimrc
 vmap gb <Plug>NexusSendSelection()<CR>
 
 let g:ackprg = 'ag --vimgrep'
+
+set textwidth=100 " maybe make this per file type at some point
 "function GetFooText()
   "return localtime()
 "endfunction
