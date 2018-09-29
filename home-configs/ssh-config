@@ -1,0 +1,3 @@
+# Needed since macOS 10.12.2
+Host *
+  UseKeychain yes
