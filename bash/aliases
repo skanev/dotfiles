@@ -52,6 +52,8 @@ alias gsta="git stash apply"
 alias gstc="git stash clear"
 alias gstp="git stash pop"
 
+alias hpc="hub pr checkout"
+
 alias t="tmux"
 alias ta="tmux-attach-current"
 alias tat="tmux attach"
