@@ -1,0 +1,40 @@
+#!/usr/env zsh
+
+function show() {
+    git log 6c6515cf422038a5f3f795a4e6c736544d7af092 --color -p | ruby wut.rb | head -70
+}
+
+function timing() {
+    time (cd ../../work/receipt-bank && git log -p -1000) | ruby wut.rb
+}
+
+function w() {
+    git log -p HEAD~2 -1 | ruby wut.rb | less -FXRS
+}
+function w1() {
+    (cd ../../work/receipt-bank && git log -p $*) | VERBOSE=1 ruby wut.rb
+}
+
+function wy() {
+    (cd ../../work/receipt-bank && git log -p $*) | ruby wut.rb
+}
+
+function wo() {
+    (cd ../../work/$1 && git log -p) | VERBOSE=1 ruby wut.rb
+}
+
+function wi() {
+    (cd ../../$1 && git log -p) | VERBOSE=1 ruby wut.rb
+}
+
+function wa() {
+    cat ../../work/receipt-bank/git-log | VERBOSE=1 ruby wut.rb
+}
+
+function see() {
+    (cd ../../work/receipt-bank && git show $*)
+}
+
+function wee() {
+    (cd ../../work/$1 && git show $2)
+}

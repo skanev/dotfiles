@@ -19,7 +19,7 @@ monitor() {
             exit 1
         fi
 
-        sleep 5
+        sleep 10
     done
 
     date "+%s" > ~/.mutt/temp/last-fetched

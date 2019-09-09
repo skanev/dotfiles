@@ -1,0 +1,20 @@
+#!/usr/env zsh
+
+alias gi="curl -H Authorization:\ token\ $GITHUB_API_TOKEN"
+
+function go() {
+    endpoint=$1
+    shift
+    curl -H Authorization:\ token\ $GITHUB_API_TOKEN "$@" https://api.github.com/$endpoint | \
+        coderay -json | \
+        less -FXRS
+}
+
+function clean-puma() {
+    ps -fax | grep rb-fsevent | awk '{ if($3 == "1") { print $2; }}' | xargs kill
+}
+
+function goo() {
+    QUERY=$(cat query)
+    go graphql -X POST -d @query
+}

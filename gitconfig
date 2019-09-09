@@ -41,13 +41,14 @@
 [user]
   email = stefan.kanev@gmail.com
   name = Stefan Kanev
+  ;email = testing-a-build@exapmle.com
+  ;name = Ain't Loosin' no Points in da CI Game
 [github]
   user = skanev
 [push]
   default = tracking
 [branch]
   autosetuprebase = always
-
 [gui]
   fontui = -family \"DejaVu Sans\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
   fontdiff = -family terminus -size 12 -weight normal -slant roman -underline 0 -overstrike 0

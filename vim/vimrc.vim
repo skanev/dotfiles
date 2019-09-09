@@ -59,6 +59,8 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'nginx.vim'
 Plug 'mtscout6/vim-cjsx'
 Plug 'tmux-plugins/vim-tmux'
+Plug 'jalvesaq/Nvim-R'
+Plug 'keith/swift.vim'
 
 if has('gui_macvim')
   Plug 'copy-as-rtf'
@@ -112,9 +114,10 @@ let g:syntastic_enable_signs=1
 
 " CtlrP
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v(plugged|vim-backup|vim-undo)|([\/]\.(git|hg|svn)$)',
+  \ 'dir': '\v(tmp|plugged|vim-backup|vim-undo)|([\/]\.(git|hg|svn)$)',
   \ }
 let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_max_files = 0
 
 map [r :A<CR>
 map ]r :R<CR>
@@ -160,6 +163,9 @@ inoremap <C-c> <C-^>
 " Syntastic is far too slow for SCSS
 let g:syntastic_scss_checkers = []
 let g:syntastic_slim_checkers = []
+
+let R_notmuxconf = 1
+
 
 runtime localvimrc
 

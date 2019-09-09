@@ -447,3 +447,5 @@ snippet itl
 	it { should ${1} }
 snippet sao
 	save_and_open_page
+snippet arlogger
+	ActiveRecord::Base.logger = Logger.new(STDOUT)
