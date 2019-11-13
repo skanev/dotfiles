@@ -74,7 +74,7 @@ alias spjf="ree bundle exec xvfb-run specjour features --rsync-port=8991"
 alias spp="bundle exec specjour prepare --rsync-port=8991"
 
 alias catchup="gf && gco master && gpl && bin/install && rake db:migrate db:test:prepare"
-alias action-tail='tail -f log/development.log  | grep "Started\|Processing\|Parameters\|Completed\|DEBUG"'
+alias action-tail='tail -f log/development.log  | grep "Started\|Processing\|Parameters\|Completed\|Render\|DEBUG"'
 
 grep-in-project () {
   git --no-pager grep "$@"
