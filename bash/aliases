@@ -70,6 +70,8 @@ alias spjs="ree bundle exec xvfb-run specjour spec --rsync-port=8991"
 alias spjf="ree bundle exec xvfb-run specjour features --rsync-port=8991"
 alias spp="bundle exec specjour prepare --rsync-port=8991"
 
+alias catchup="gf && gco master && gpl && bin/install && rake db:migrate db:test:prepare"
+
 grep-in-project () {
   git --no-pager grep "$@"
   grep -RI "$@" `bundle show --paths`
