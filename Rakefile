@@ -25,6 +25,35 @@ task :install do
   end
 end
 
+desc "Install and configure VSCode (TODO: merge into common install)"
+task :vscode do
+  system 'brew cask install visual-studio-code'
+
+  vscode_user_dir = home_slash 'Library/Application Support/Code/User'
+
+  mkdir_p vscode_user_dir, :verbose => false unless File.directory? vscode_user_dir
+  link_file 'vscode/settings.json', vscode_user_dir + 'settings.json'
+
+  %w(
+    agilepixel.chalkboard
+    apollographql.vscode-apollo
+    dbaeumer.vscode-eslint
+    esbenp.prettier-vscode
+    firefox-devtools.vscode-firefox-debug
+    formulahendry.code-runner
+    kenziebottoms.chalkboard
+    larscom.monokai-dark-vibrant
+    ms-vscode.vscode-typescript-tslint-plugin
+    shinnn.stylelint
+    sianglim.slim
+    stkb.rewrap
+  ).each do |extension|
+    system "code --install-extension #{extension}"
+  end
+
+  p 'done'
+end
+
 desc "Installs the stuff in homebrew I need"
 task :homebrew do
   formulas = %w(
