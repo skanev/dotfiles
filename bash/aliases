@@ -6,8 +6,11 @@ alias localrc="vim ~/.localrc && source ~/.localrc"
 # Rudimentary catalog of my notes on commands / shortcuts
 alias ka="vim ~/dev/dotfiles/knowledge.txt"
 alias k="cat ~/dev/dotfiles/knowledge.txt | fzf"
+
 alias ll="ls -l"
 alias tmux="tmux -2"
+
+alias code="code ./"
 
 alias rake="noglob rake"
 alias rdm="bundle exec rake db:migrate"
