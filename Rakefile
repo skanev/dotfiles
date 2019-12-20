@@ -47,9 +47,13 @@ task :vscode do
     shinnn.stylelint
     sianglim.slim
     stkb.rewrap
+    vscodevim.vim
   ).each do |extension|
     system "code --install-extension #{extension}"
   end
+
+  # Enable key-repeating for the VIM plugin
+  system "defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false"
 
   p 'done'
 end
