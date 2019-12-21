@@ -25,6 +25,7 @@
       "statusBar.background": "#222222"
     },
     "workbench.activityBar.visible": false,
+    "workbench.editor.enablePreview": false,
 
     "[typescriptreact]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode",
