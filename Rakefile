@@ -44,10 +44,11 @@ task :vscode do
     kenziebottoms.chalkboard
     larscom.monokai-dark-vibrant
     ms-vscode.vscode-typescript-tslint-plugin
-    shinnn.stylelint
+    stylelint.vscode-stylelint
     sianglim.slim
     stkb.rewrap
     vscodevim.vim
+    styleling
   ).each do |extension|
     system "code --install-extension #{extension}"
   end
