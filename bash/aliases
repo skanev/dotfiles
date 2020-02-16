@@ -81,6 +81,11 @@ grep-in-project () {
   grep -RI "$@" `bundle show --paths`
 }
 
+note () {
+    timestamp=$(date "+%Y-%m-%d-%H-%M")
+    mvim -c "colorscheme solarized" "$timestamp-$1"
+}
+
 alias clj="rlwrap --quote-characters=\"'\" --command clojure clj"
 alias gist="gist -o"
 
