@@ -1,3 +1,4 @@
+
 vim   | Resize current window with 5 lines                                     | res +5
 vim   | Join lines                                                             | J
 vim   | Open a new line below the cursor                                       | o
@@ -122,4 +123,4 @@ vim   | page up / page down                                                    |
 vim   | tabluarize on colon+whitespece                                         | Tabularize /:\zs
 psql  | show enum type                                                         | \dT+ type name
 vim   | open file via scp                                                      | vim scp://remoteuser@server.tld//absolute/path/to/document
-
+vim   | refresh nerd tree | leader + r
