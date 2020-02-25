@@ -83,7 +83,12 @@ grep-in-project () {
 
 note () {
     timestamp=$(date "+%Y-%m-%d-%H-%M")
-    mvim -c "colorscheme solarized" "$timestamp-$1"
+    mvim -c "colorscheme solarized" "$timestamp-$1.md"
+}
+
+note-push () {
+    timestamp=$(date "+%Y-%m-%d-%H-%M")
+    ga * && gc -m "Notes $timestamp" && gps
 }
 
 alias clj="rlwrap --quote-characters=\"'\" --command clojure clj"
