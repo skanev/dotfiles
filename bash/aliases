@@ -74,7 +74,7 @@ alias spjf="ree bundle exec xvfb-run specjour features --rsync-port=8991"
 alias spp="bundle exec specjour prepare --rsync-port=8991"
 
 alias catchup="gf && gco master && gpl && bin/install && rake db:migrate db:test:prepare"
-alias action-tail='tail -f log/development.log  | grep "Started\|Processing\|Parameters\|Completed\|Render\|DEBUG"'
+alias action-tail='tail -f log/development.log  | grep "Started\|Processing by\|Parameters\|Completed\|Render\|DEBUG"'
 
 grep-in-project () {
   git --no-pager grep "$@"
@@ -85,6 +85,7 @@ note () {
     timestamp=$(date "+%Y-%m-%d-%H-%M")
     mvim -c "colorscheme solarized" "$timestamp-$1.md"
 }
+alias notes="mvim -c 'colorscheme solarized' -c 'NERDTree'"
 
 note-push () {
     timestamp=$(date "+%Y-%m-%d-%H-%M")
