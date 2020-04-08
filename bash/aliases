@@ -77,7 +77,7 @@ alias catchup="gf && gco master && gpl && bin/install && rake db:migrate db:test
 alias action-tail='tail -f log/development.log | grep "Started\|Processing by\|Parameters\|Completed\|Render\|DEBUG"'
 alias action-tail-test='tail -f log/test.log | grep "Started\|Processing by\|Parameters\|Completed\|Render\|DEBUG"'
 
-alias kill-spring="ps aux | grep spring | awk '{print $2}' | xargs kill"
+alias kill-spring='ps aux | grep spring | awk "{print $2}" | xargs kill'
 
 grep-in-project () {
   git --no-pager grep "$@"
