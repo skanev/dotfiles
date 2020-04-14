@@ -75,9 +75,9 @@ alias spp="bundle exec specjour prepare --rsync-port=8991"
 
 alias catchup="gf && gco master && gpl && bin/install && rake db:migrate db:test:prepare"
 alias action-tail='tail -f log/development.log | grep "Started\|Processing by\|Parameters\|Completed\|Render\|DEBUG"'
-alias action-tail-test='tail -f log/test.log | grep "Started\|Processing by\|Parameters\|Completed\|Render\|DEBUG"'
+alias action-tail-test='tail -f log/test.log | grep "Started\|Processing by\|Parameters\|Completed\|Render"'
 
-alias kill-spring='ps aux | grep spring | awk "{print $2}" | xargs kill'
+alias kill-spring="ps aux | grep spring | grep -v grep | awk '{print \$2}' | xargs kill"
 
 grep-in-project () {
   git --no-pager grep "$@"
