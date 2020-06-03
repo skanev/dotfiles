@@ -123,4 +123,8 @@ vim   | page up / page down                                                    |
 vim   | tabluarize on colon+whitespece                                         | Tabularize /:\zs
 psql  | show enum type                                                         | \dT+ type name
 vim   | open file via scp                                                      | vim scp://remoteuser@server.tld//absolute/path/to/document
-vim   | refresh nerd tree | leader + r
+vim   | refresh nerd tree                                                      | leader + r
+vim   | edit macros insert mode                                                | "qp - edit, then "qyy dd
+vim   | edit macros command line                                               | :let "@q='<ctrl+r><ctrl+r>q - edit, then close quote and hit enter
+vim   | substitute a pattern with a macro                                      | g/graph_id(\w*)/normal @q
+vim   | substitute a pattern across a quickfix set                             | set autowriteall; then cfdo g/graph_id(\w*)/normal @q
