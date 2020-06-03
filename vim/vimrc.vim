@@ -133,11 +133,11 @@ function! PromoteToLet()
   s/\v(\w+)\s+\=\s+(.*)$/let(:\1) { \2 }/
   normal ==
 endfunction
-
 command! PromoteToLet :call PromoteToLet()
 map <Leader>l :PromoteToLet<CR>
 
 command! Reverse :g/^/m0
+command! ReverseQuickFixList :call setqflist(reverse(getqflist()))
 
 function! ExtractVariable()
   try
