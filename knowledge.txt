@@ -128,3 +128,4 @@ vim   | edit macros insert mode                                                |
 vim   | edit macros command line                                               | :let "@q='<ctrl+r><ctrl+r>q - edit, then close quote and hit enter
 vim   | substitute a pattern with a macro                                      | g/graph_id(\w*)/normal @q
 vim   | substitute a pattern across a quickfix set                             | set autowriteall; then cfdo g/graph_id(\w*)/normal @q
+curl | upload a file with PUT | curl -v URL --upoad-file filename.ext
