@@ -125,7 +125,8 @@ psql  | show enum type                                                         |
 vim   | open file via scp                                                      | vim scp://remoteuser@server.tld//absolute/path/to/document
 vim   | refresh nerd tree                                                      | leader + r
 vim   | edit macros insert mode                                                | "qp - edit, then "qyy dd
-vim   | edit macros command line                                               | :let "@q='<ctrl+r><ctrl+r>q - edit, then close quote and hit enter
+vim   | edit macros command line                                               | :let @q='<ctrl+r><ctrl+r>q - edit, then close quote and hit enter
 vim   | substitute a pattern with a macro                                      | g/graph_id(\w*)/normal @q
 vim   | substitute a pattern across a quickfix set                             | set autowriteall; then cfdo g/graph_id(\w*)/normal @q
 curl | upload a file with PUT | curl -v URL --upoad-file filename.ext
+vim | substitute spaces with underscores in visual block | select the visual block, then space, then :s/\%V /_/g
