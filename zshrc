@@ -1,6 +1,4 @@
 # Runs in interactive session
-
-. ~/.zsh/aliases
 . ~/.zsh/env
 . ~/.zsh/config
 
@@ -13,3 +11,5 @@ for zshrc_file in ~/.zsh/init/S[0-9][0-9]*[^~] ; do
 done
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+. ~/.zsh/aliases # Global aliases can mess up everything else
