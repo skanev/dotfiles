@@ -26,4 +26,4 @@
             fi
         }
     done
-} rake rspec spring
+} rails rake rspec spring fastlane
