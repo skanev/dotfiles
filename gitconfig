@@ -49,7 +49,6 @@
   default = tracking
 [branch]
   autosetuprebase = always
-
 [gui]
   fontui = -family \"DejaVu Sans\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
   fontdiff = -family terminus -size 12 -weight normal -slant roman -underline 0 -overstrike 0
@@ -62,6 +61,7 @@
 [rerere]
   enabled = true
 [filter "lfs"]
-  clean = git-lfs clean %f
-  smudge = git-lfs smudge %f
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
   required = true
+  process = git-lfs filter-process
