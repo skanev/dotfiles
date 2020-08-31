@@ -25,6 +25,7 @@
 [alias]
   st = status
   ci = commit --verbose
+  a = commit --amend --verbose
   br = branch
   co = checkout
   cp = cherry-pick
@@ -35,6 +36,7 @@
   ls = ls-files
   l = !zsh ~/.zsh/functions/git-log-pretty
   la = !zsh ~/.zsh/functions/git-log-pretty --all
+  last = log -p -1
   catchup = !zsh ~/.zsh/functions/git-catch-up
   head = !git log -n 1
   graph = log --graph --abbrev-commit --decorate --date=relative --full-history --format=format:'%C(bold blue)%h%C(reset) %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
