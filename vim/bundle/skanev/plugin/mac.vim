@@ -1,4 +1,4 @@
-if !has('gui_macvim')
+if !has('gui_macvim') || !has('gui_running')
   finish
 endif
 

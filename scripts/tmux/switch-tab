@@ -31,7 +31,7 @@ if [ "$tab_escape" == "yes" ]; then
 fi
 
 case "$app" in
-    vim)
+    vim | Vim)
         tmux send-keys "$prefix$tab"
         ;;
     *)

@@ -12,12 +12,13 @@ let s:hijackPrefixTmux = substitute(system('tmux show -vg @meta-prefix'), '\n$',
 function! MapMeta(modes, args, options)
   let key = strpart(a:args, 0, 1)
   let commands = strpart(a:args, 2)
-  if has('gui_macvim')
+  if has('gui_macvim') && has("gui_running")
     let mapping = '<D-'.key.'>'
   elseif has('gui_running')
     let mapping = '<M-'.key.'>'
   else
     call s:HijackKey(key)
+
     let mapping = s:hijackPrefixVim.key
   endif
 
