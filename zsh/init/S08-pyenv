@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+if which pyenv > /dev/null; then
+    eval "$(pyenv init -)"
+fi

@@ -9,3 +9,8 @@ path=(~/bin $path)
 if [[ -d ~/.rbenv ]]; then
     path=(~/.rbenv/bin ~/.rbenv/shims $path)
 fi
+
+if [[ -d ~/.pyenv ]]; then
+    export PYENV_ROOT=$HOME/.pyenv
+    path=(~/.rbenv/bin ~/.rbenv/shims ~/.pyenv/bin $path)
+fi
