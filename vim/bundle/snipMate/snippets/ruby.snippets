@@ -12,6 +12,13 @@ snippet y
 snippet rb
 	#!/usr/bin/env ruby -wKU
 
+snippet htest
+	def test
+	rescue => e
+	  STDERR.puts e.message
+		STDERR.puts e.backtrace
+	end
+
 snippet req
 	require '${1}'${2}
 snippet #
