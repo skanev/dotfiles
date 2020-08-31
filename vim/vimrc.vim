@@ -13,7 +13,7 @@ call pathogen#helptags()
 
 " Bundles
 call plug#begin('~/.vim/plugged')
-Plug 'vundle'
+Plug 'vim-scripts/vundle'
 Plug 'tpope/vim-haml'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-cucumber'
@@ -25,7 +25,7 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'scrooloose/nerdcommenter'
 Plug 'skanev/vim-nexus'
 Plug 'ervandew/supertab'
-Plug 'extradite.vim'
+Plug 'vim-scripts/extradite.vim'
 Plug 'onemanstartup/vim-slim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-unimpaired'
@@ -34,39 +34,50 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'thinca/vim-prettyprint'
 Plug 'vim-scripts/Decho'
-Plug 'ack.vim'
-Plug 'The-NERD-tree'
+Plug 'vim-scripts/ack.vim'
+Plug 'vim-scripts/The-NERD-tree'
 Plug 'xolox/vim-misc'
-Plug 'notes.vim'
+Plug 'vim-scripts/notes.vim'
 Plug 'tpope/vim-fireplace'
 Plug 'tpope/vim-classpath'
 Plug 'guns/vim-clojure-static'
-Plug 'paredit.vim'
-Plug 'Gist.vim'
-Plug 'WebAPI.vim'
+Plug 'vim-scripts/paredit.vim'
+Plug 'vim-scripts/Gist.vim'
+Plug 'vim-scripts/WebAPI.vim'
 Plug 'digitaltoad/vim-jade'
 Plug 'groenewege/vim-less'
-Plug 'scratch.vim'
+Plug 'vim-scripts/scratch.vim'
 Plug 'bling/vim-airline'
-Plug 'go.vim'
-Plug 'ctrlp.vim'
+Plug 'vim-scripts/go.vim'
+Plug 'vim-scripts/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'Gundo'
+Plug 'vim-scripts/Gundo'
 Plug 'fatih/vim-go'
 Plug 'AndrewRadev/switch.vim'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'nginx.vim'
+Plug 'vim-scripts/nginx.vim'
 Plug 'mtscout6/vim-cjsx'
 Plug 'tmux-plugins/vim-tmux'
+Plug 'keith/swift.vim'
 
-if has('gui_macvim')
-  Plug 'copy-as-rtf'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'jparise/vim-graphql'
+Plug 'patstockwell/vim-monokai-tasty'
+Plug 'pangloss/vim-javascript'
+Plug 'elzr/vim-json'
+Plug 'jparise/vim-graphql'
+
+if has('gui_macvim') && has('gui_running')
+  Plug 'vim-scripts/copy-as-rtf'
 endif
 
 call plug#end()
 
 filetype plugin indent on
+
+let g:vim_json_syntax_conceal = 0
 
 let g:splitjoin_split_mapping = ''
 let g:splitjoin_join_mapping = ''
@@ -118,6 +129,9 @@ let g:ctrlp_working_path_mode = 'ra'
 
 map [r :A<CR>
 map ]r :R<CR>
+
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 function! PromoteToLet()
   s/\v(\w+)\s+\=\s+(.*)$/let(:\1) { \2 }/
