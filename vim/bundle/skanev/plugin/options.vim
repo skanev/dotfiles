@@ -63,9 +63,11 @@ if $VIM_COLORSCHEME != ""
 elseif has('gui_gtk2')
   colorscheme native
 elseif has('gui_running')
-  colorscheme vividchalk
+  colorscheme vim-monokai-tasty
+  "colorscheme vividchalk
 elseif $ITERM_PROFILE == "Beamer"
   colorscheme emacs
 else
+  "colorscheme vim-monokai-tasty
   colorscheme vividchalk
 end
