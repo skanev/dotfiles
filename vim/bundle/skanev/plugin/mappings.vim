@@ -1,13 +1,31 @@
 map <F1> :help skanev.txt<CR>
+map <Leader>1 <F1>
+
 map <F2> :BufExplorer<CR>
+map <Leader>2 <F2>
+map <Leader>b <F2>
+
 map <F3> :NERDTreeToggle<CR>
 map <S-F3> :NERDTreeFind<CR>
+map <Leader>3 <F3>
+map <Leader># <S-F3>
+map <Leader>l <F3>
+map <Leader>L <S-F3>
 
 map <F6> :Scratch<CR>
+map <Leader>6 <F6>
+
 map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
 map <S-F8> :Ack <C-r><C-w><CR>
+map <Leader>8 <F8>
+map <Leader>* <S-F8>
+
 map <F9> :noh<CR>
+map <Leader>9 <F9>
+map <LeadeR>n <F9>
+
 map <F10> :set cursorcolumn!<CR>
+map <Leader>0 <F10>
 imap <F10> <C-o>:set cursorcolumn!<CR>
 
 map <F11> :CtrlP ~/code/personal/dotfiles<CR>
@@ -15,12 +33,16 @@ map <S-F11> :CtrlP ~/.vim/<CR>
 
 map <F12> :edit ~/.vim/vimrc.vim<CR>
 
+map <Leader>- <F11>
+map <Leader>= <F12>
+
 imap <expr> jk BulgarianJK()
 nnoremap <Tab> <C-w><C-w>
 nnoremap <S-Tab> <C-w><C-W>
 nnoremap <C-p> <C-i>
 
 map <expr> Q ''
+map <Leader><Space> :
 
 inoremap <S-Tab> <C-v><C-i>
 
@@ -31,8 +53,6 @@ MapMeta j 4j
 MapMeta k 4k
 
 MapMeta f :CtrlP<CR>
-
-map <Space> :
 
 MapMeta 1 :tabnext 1<CR>
 MapMeta 2 :tabnext 2<CR>
