@@ -14,7 +14,7 @@ function! MapMeta(modes, args, options)
   let commands = strpart(a:args, 2)
   if has('gui_macvim') && has("gui_running")
     let mapping = '<D-'.key.'>'
-  elseif has('gui_running')
+  elseif has('gui_running') || has('nvim')
     let mapping = '<M-'.key.'>'
   else
     call s:HijackKey(key)
