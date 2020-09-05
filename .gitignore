@@ -7,3 +7,4 @@ vim/localvimrc
 vim-backup
 zsh/completiondump
 zsh/history
+vim/doc/tags
