@@ -53,7 +53,6 @@ Plug 'groenewege/vim-less'
 Plug 'vim-scripts/scratch.vim'
 Plug 'bling/vim-airline'
 Plug 'vim-scripts/go.vim'
-Plug 'vim-scripts/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/Gundo'
 Plug 'fatih/vim-go'
@@ -64,6 +63,8 @@ Plug 'vim-scripts/nginx.vim'
 Plug 'mtscout6/vim-cjsx'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'keith/swift.vim'
+
+Plug 'junegunn/fzf'
 
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
@@ -110,6 +111,9 @@ if isdirectory(expand("~/.vim/plugged/vim-airline"))
   "  source ~/.vim/bundle/skanev/other/airline-theme.vim
 endif
 
+" fzf
+let g:fzf_layout = { 'down': '~25%' }
+
 " Airline configruation
 " let g:airline_theme = 'skanev'
 let g:airline#extensions#keymap#enabled = 0
@@ -133,14 +137,6 @@ let g:gist_post_private = 1
 
 " Syntastic
 let g:syntastic_enable_signs=1
-
-" CtlrP
-let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v(tmp|log|node_modules|plugged|vim-backup|vim-undo)|([\/]\.(git|hg|svn)$)',
-  \ }
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_max_files = 0
 
 map [r :A<CR>
 map ]r :R<CR>

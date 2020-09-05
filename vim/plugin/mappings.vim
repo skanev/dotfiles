@@ -28,8 +28,8 @@ map <F10> :set cursorcolumn!<CR>
 map <Leader>0 <F10>
 imap <F10> <C-o>:set cursorcolumn!<CR>
 
-map <F11> :CtrlP ~/code/personal/dotfiles<CR>
-map <S-F11> :CtrlP ~/.vim/<CR>
+map <F11> :FZF ~/code/personal/dotfiles<CR>
+map <S-F11> :FZF ~/.vim/<CR>
 
 map <F12> :edit ~/.vim/vimrc.vim<CR>
 
@@ -52,7 +52,8 @@ map <C-Right> :bp<CR>
 MapMeta j 4j
 MapMeta k 4k
 
-MapMeta f :CtrlP<CR>
+MapMeta f :FZF<CR>
+MapMeta p :FZF<CR>
 
 MapMeta 1 :tabnext 1<CR>
 MapMeta 2 :tabnext 2<CR>
