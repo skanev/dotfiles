@@ -5,7 +5,6 @@ alias localrc="vim ~/.localrc && source ~/.localrc"
 
 alias tmux="tmux -2"
 
-alias rake="noglob rake"
 alias rdm="bundle exec rake db:migrate"
 alias rdtp="bundle exec rake db:test:prepare"
 alias rdmr="bundle exec rake db:migrate:reset"
@@ -29,7 +28,10 @@ alias gca="git commit --amend"
 alias gr10="git rebase -i HEAD~10"
 alias gdc="echo \"You mean 'gds', right?\""
 alias gds="git diff --cached"
+alias gdsp="git diff --cached P"
 alias gri='git rebase -i $(git rev-list --all --merges | head -1)'
+alias gd="git diff"
+alias gdp="git diff P"
 
 alias t="tmux"
 alias ta="tmux-attach-current"
@@ -50,8 +52,14 @@ alias spp="bundle exec specjour prepare --rsync-port=8991"
 alias clj="rlwrap --quote-characters=\"'\" --command clojure clj"
 alias gist="gist -o"
 
+alias pd="ruby ~/code/personal/cleric/wut.rb | less -FXRS"
 alias ped="perl -pe"
+
+alias wdp="wip diff P"
+
+alias weather="curl -s wttr.in"
 
 if [[ -n $ZSH_NAME ]]; then
     alias -g RERR="2>&1"
+    alias -g P="| pd"
 fi
