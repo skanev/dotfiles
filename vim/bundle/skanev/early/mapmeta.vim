@@ -69,7 +69,7 @@ let s:command_queue = []
 function! s:HijackCommand(key)
   return "bind-key -n 'M-" . a:key . "'" .
         \" if-shell \"[ '#W' == 'vim' ]\"".
-        \" 'send-keys " . s:hijackPrefixTmux . a:key . "'" .
+        \" 'send-keys " . s:hijackPrefixTmux . " " . a:key . "'" .
         \" 'send-keys " . a:key . "'"
 endfunction
 
