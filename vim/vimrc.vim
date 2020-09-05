@@ -1,6 +1,10 @@
 syntax on
 set nocompatible
-let mapleader = ","
+let mapleader=" "
+
+if has('nvim')
+  set runtimepath^=~/.vim runtimepath+=~/.vim/after
+end
 
 " My 'early' stuff
 runtime early/term.vim
@@ -68,6 +72,10 @@ Plug 'patstockwell/vim-monokai-tasty'
 Plug 'pangloss/vim-javascript'
 Plug 'elzr/vim-json'
 Plug 'jparise/vim-graphql'
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
+
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 if has('gui_macvim') && has('gui_running')
   Plug 'vim-scripts/copy-as-rtf'
@@ -77,14 +85,18 @@ call plug#end()
 
 filetype plugin indent on
 
+let g:coc_global_extensions = [
+  \ 'coc-tsserver'
+  \ ]
+
 let g:vim_json_syntax_conceal = 0
 
 let g:splitjoin_split_mapping = ''
 let g:splitjoin_join_mapping = ''
 
 " Suppress DEcho's dependency's <Leader>s overriding
-nmap <unique> <Leader>SWP <Plug>SaveWinPosn
-nmap <unique> <Leader>RWP <Plug>RestoreWinPosn
+"nmap <unique> <Leader>SWP <Plug>SaveWinPosn
+"nmap <unique> <Leader>RWP <Plug>RestoreWinPosn
 
 nmap <Leader>j :SplitjoinJoin<CR>
 nmap <Leader>s :SplitjoinSplit<CR>
@@ -95,11 +107,12 @@ nnoremap <C-l> :SidewaysRight<CR>
 nnoremap - :Switch<CR>
 
 if isdirectory(expand("~/.vim/plugged/vim-airline"))
-  source ~/.vim/bundle/skanev/other/airline-theme.vim
+  "  source ~/.vim/bundle/skanev/other/airline-theme.vim
 endif
 
 " Airline configruation
-let g:airline_theme = 'skanev'
+" let g:airline_theme = 'skanev'
+let g:airline#extensions#keymap#enabled = 0
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
@@ -123,9 +136,11 @@ let g:syntastic_enable_signs=1
 
 " CtlrP
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v(plugged|vim-backup|vim-undo)|([\/]\.(git|hg|svn)$)',
+  \ 'dir': '\v(tmp|log|node_modules|plugged|vim-backup|vim-undo)|([\/]\.(git|hg|svn)$)',
   \ }
 let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_max_files = 0
 
 map [r :A<CR>
 map ]r :R<CR>
@@ -175,6 +190,8 @@ inoremap <C-c> <C-^>
 let g:syntastic_scss_checkers = []
 let g:syntastic_slim_checkers = []
 
+let NERDTreeIgnore=['node_modules$']
+
 function! HTestDefine()
   let line = search('^\(module\|class\)')
   let command = 'map <D-r> :!tmux send-keys C-u C-l "rails runner " ' . split(getline(line), ' ')[1] . '.test C-m<CR><CR>'
@@ -195,3 +212,4 @@ runtime localvimrc
 "endfunction
   "let g:airline_section_y = airline#section#create(['foo', ' ', 'ffenc'])
 "autocmd VimEnter * call AirlineInit()
+
