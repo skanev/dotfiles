@@ -54,7 +54,6 @@ if has('gui_running')
 else
   set t_Co=256
   set mouse=a
-  set ttymouse=xterm2
 end
 
 " Colorscheme

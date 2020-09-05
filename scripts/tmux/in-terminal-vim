@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ $(~/.scripts/tmux/current-app) == 'vim' ]; then
+    exit 0
+else
+    exit 1
+fi

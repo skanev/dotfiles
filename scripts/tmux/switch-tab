@@ -34,6 +34,9 @@ case "$app" in
     vim | Vim)
         tmux send-keys $prefix $tab
         ;;
+    nvim)
+        tmux send-keys M-$tab
+        ;;
     *)
         switch_to_tab $tab
         ;;

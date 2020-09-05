@@ -24,7 +24,7 @@ function! MapMeta(modes, args, options)
 
   for i in range(len(a:modes))
     let mode = a:modes[i]
-    exec mode . "map " . a:options . mapping .  " " . commands
+    exec mode . "map " . a:options . " " . mapping .  " " . commands
   endfor
 
 endfunction
@@ -68,7 +68,7 @@ let s:command_queue = []
 
 function! s:HijackCommand(key)
   return "bind-key -n 'M-" . a:key . "'" .
-        \" if-shell \"[ '#W' == 'vim' ]\"".
+        \" if-shell ~/.scripts/tmux/in-terminal-vim".
         \" 'send-keys " . s:hijackPrefixTmux . " " . a:key . "'" .
         \" 'send-keys " . a:key . "'"
 endfunction
