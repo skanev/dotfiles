@@ -62,7 +62,16 @@ if $VIM_COLORSCHEME != ""
 elseif has('gui_gtk2')
   colorscheme native
 elseif has('gui_running')
-  colorscheme vim-monokai-tasty
+  let g:sonokai_style = 'shusia'
+  colorscheme sonokai
+  hi TabLineSel guibg=#6b6a75 guifg=#ffffff
+  hi VertSplit guifg=#e5c463
+  hi link rubySymbol Purple
+  hi link rubyInterpolation White
+  hi link rubyInterpolationDelimiter Orange
+  hi link rubyModuleName rubyClassName
+  hi link rubyMacro Yellow
+
   "colorscheme vividchalk
 elseif $ITERM_PROFILE == "Beamer"
   colorscheme emacs
