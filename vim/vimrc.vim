@@ -74,6 +74,8 @@ Plug 'zackhsi/fzf-tags'
 Plug 'sainnhe/sonokai'
 Plug 'patstockwell/vim-monokai-tasty'
 
+Plug 'vim-perl/vim-perl', {'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny'}
+
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'jparise/vim-graphql'
