@@ -66,6 +66,7 @@ elseif has('gui_running')
   colorscheme sonokai
   hi TabLineSel guibg=#6b6a75 guifg=#ffffff
   hi VertSplit guifg=#e5c463
+  hi Cursor guibg=#000000 guifg=#ffffff
   hi link rubySymbol Purple
   hi link rubyInterpolation White
   hi link rubyInterpolationDelimiter Orange
