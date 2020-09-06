@@ -36,6 +36,8 @@ map <F12> :edit ~/.vim/vimrc.vim<CR>
 map <Leader>- <F11>
 map <Leader>= <F12>
 
+map <Leader>p <Plug>(SynStack)
+
 map <C-]> <Plug>(fzf_tags)
 
 imap <expr> jk BulgarianJK()

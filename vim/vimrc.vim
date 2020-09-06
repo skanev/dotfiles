@@ -64,6 +64,7 @@ Plug 'vim-scripts/nginx.vim'
 Plug 'mtscout6/vim-cjsx'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'keith/swift.vim'
+Plug 'dylnmc/synstack.vim'
 
 Plug 'junegunn/fzf'
 Plug 'dense-analysis/ale'
@@ -162,6 +163,8 @@ let g:ale_sign_warning = "●"
 let g:ale_sign_info = "■"
 let g:ale_sign_style_error = "✘"
 let g:ale_sign_style_warning = "►"
+
+let g:no_synstack_maps = 1
 
 map [r :A<CR>
 map ]r :R<CR>
