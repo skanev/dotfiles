@@ -32,6 +32,8 @@ alias gdsp="git diff --cached P"
 alias gri='git rebase -i $(git rev-list --all --merges | head -1)'
 alias gd="git diff"
 alias gdp="git diff P"
+alias gl="git last"
+alias glp="git last P"
 
 alias t="tmux"
 alias ta="tmux-attach-current"
