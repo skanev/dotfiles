@@ -11,4 +11,7 @@ imap <buffer> <C-l> <Space>=><Space>
 onoremap i\| :<c-u>normal! T\|vt\|<CR>
 onoremap a\| :<c-u>normal! F\|vf\|<CR>
 
+setlocal iskeyword+=!
+setlocal iskeyword+=?
+
 autocmd BufnewFile,BufRead *.rb setlocal complete-=i
