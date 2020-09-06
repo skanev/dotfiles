@@ -129,7 +129,6 @@ let g:ackprg = "ag --vimgrep"
 
 " Airline configruation
 " let g:airline_theme = 'skanev'
-let g:airline#extensions#keymap#enabled = 0
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
@@ -139,6 +138,8 @@ let g:airline_branch_prefix= ''
 let g:airline_readonly_symbol = ''
 let g:airline_linecolumn_prefix = ''
 
+let g:airline#extensions#keymap#enabled = 0
+let g:airline#extensions#tagbar#enabled = 0
 " Disable netrw
 " let g:loaded_netrw = 1
 " let g:loaded_netrwPlugin = 1
