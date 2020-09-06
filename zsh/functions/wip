@@ -1,0 +1,46 @@
+#!/usr/bin/env zsh
+
+case $1 in
+    first-commit)
+        wip list | tail -1 | cut -d ' ' -f 1
+        ;;
+
+    list)
+        git rev-list --oneline $(git rev-list --merges -1 HEAD)..HEAD |
+            while read -r line; do
+                if [[ $line =~ '^[0-9a-f]+ WIP' ]]; then
+                    echo $line;
+                else
+                    break;
+                fi;
+            done
+        ;;
+
+    diff)
+        git diff $(wip first-commit)~1
+        ;;
+
+    compact)
+        git reset --soft $(wip first-commit)~1
+        git commit -n -m WIP
+        ;;
+
+    commit)
+        wip compact
+        git commit --amend --verbose
+        ;;
+
+    check)
+        shift
+        git add .
+        git commit -n -m "WIP $*"
+        ;;
+
+    '')
+        wip check
+        ;;
+
+    *)
+        echo "Unknown command $1"
+        ;;
+esac
