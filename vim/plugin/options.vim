@@ -71,7 +71,8 @@ elseif has('gui_running')
   hi link rubyInterpolation White
   hi link rubyInterpolationDelimiter Orange
   hi link rubyModuleName rubyClassName
-  hi link rubyMacro Yellow
+  hi link rubyMacro Orange
+  hi link perlVarPlain Blue
 
   "colorscheme vividchalk
 elseif $ITERM_PROFILE == "Beamer"
