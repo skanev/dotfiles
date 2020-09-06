@@ -21,7 +21,7 @@ Plug 'vim-scripts/vundle'
 Plug 'tpope/vim-haml'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-cucumber'
-Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-rails'
 Plug 'godlygeek/tabular'
 Plug 'vim-ruby/vim-ruby'
@@ -38,7 +38,7 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'thinca/vim-prettyprint'
 Plug 'vim-scripts/Decho'
-Plug 'vim-scripts/ack.vim'
+Plug 'mileszs/ack.vim'
 Plug 'vim-scripts/The-NERD-tree'
 Plug 'xolox/vim-misc'
 Plug 'vim-scripts/notes.vim'
@@ -65,11 +65,16 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'keith/swift.vim'
 
 Plug 'junegunn/fzf'
+Plug 'dense-analysis/ale'
+Plug 'majutsushi/tagbar'
+Plug 'zackhsi/fzf-tags'
+
+Plug 'sainnhe/sonokai'
+Plug 'patstockwell/vim-monokai-tasty'
 
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'jparise/vim-graphql'
-Plug 'patstockwell/vim-monokai-tasty'
 Plug 'pangloss/vim-javascript'
 Plug 'elzr/vim-json'
 Plug 'jparise/vim-graphql'
@@ -113,11 +118,12 @@ endif
 
 " fzf
 let g:fzf_layout = { 'down': '~25%' }
+let g:fzf_colors = {
+\ 'bg+': ['bg', 'Visual']
+\}
 
 " the_silver_searcher
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
+let g:ackprg = "ag --vimgrep"
 
 " Airline configruation
 " let g:airline_theme = 'skanev'
@@ -142,6 +148,19 @@ let g:gist_post_private = 1
 
 " Syntastic
 let g:syntastic_enable_signs=1
+
+" Ale
+let g:ale_linters = {
+\ "ruby": ["rubocop", "ruby"]
+\}
+let g:ale_fixers = {
+\ "ruby": ["rubocop"]
+\}
+let g:ale_sign_error = "✘"
+let g:ale_sign_warning = "●"
+let g:ale_sign_info = "■"
+let g:ale_sign_style_error = "✘"
+let g:ale_sign_style_warning = "►"
 
 map [r :A<CR>
 map ]r :R<CR>
