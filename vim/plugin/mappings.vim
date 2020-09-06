@@ -43,6 +43,7 @@ nnoremap <Tab> <C-w><C-w>
 nnoremap <S-Tab> <C-w><C-W>
 nnoremap <C-p> <C-i>
 
+map <Space> :
 map <expr> Q ''
 map <Leader><Space> :
 

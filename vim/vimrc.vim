@@ -1,6 +1,7 @@
 syntax on
 set nocompatible
-let mapleader=" "
+
+let mapleader = ","
 
 if has('nvim')
   set runtimepath^=~/.vim runtimepath+=~/.vim/after
