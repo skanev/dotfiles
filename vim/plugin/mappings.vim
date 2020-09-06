@@ -49,6 +49,8 @@ map <Space> :
 map <expr> Q ''
 map <Leader><Space> :
 
+map yoa :ALEToggleBuffer<CR>
+
 inoremap <S-Tab> <C-v><C-i>
 
 map <C-Left> :bn<CR>

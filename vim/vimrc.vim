@@ -158,12 +158,24 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \ "ruby": ["rubocop"]
 \}
+
 let g:ale_sign_error = "✘"
 let g:ale_sign_warning = "●"
 let g:ale_sign_info = "■"
 let g:ale_sign_style_error = "✘"
 let g:ale_sign_style_warning = "►"
 
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_filetype_changed = 1
+
+let g:ale_set_balloons = 1
+
+let g:ale_ruby_rubocop_executable = 'bundle'
+
+" synstack
 let g:no_synstack_maps = 1
 
 map [r :A<CR>
@@ -213,6 +225,7 @@ inoremap <C-c> <C-^>
 " Syntastic is far too slow for SCSS
 let g:syntastic_scss_checkers = []
 let g:syntastic_slim_checkers = []
+
 
 let NERDTreeIgnore=['node_modules$']
 

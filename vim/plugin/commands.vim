@@ -17,6 +17,7 @@ function! s:CloseHiddenBuffers()
 endfunction
 
 let s:ftplugin_dir = fnamemodify(expand('<sfile>'), ':h:s?plugin?ftplugin?')
+
 function! s:MyFileTypePlugin()
   if &filetype == ''
     echohl ErrorMsg | echomsg 'Current buffer has no filetype' | echohl None
