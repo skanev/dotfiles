@@ -49,7 +49,7 @@ map <Space> :
 map <expr> Q ''
 map <Leader><Space> :
 
-map yoa :ALEToggleBuffer<CR>
+nmap yoa :ALEToggleBuffer<CR>
 
 inoremap <S-Tab> <C-v><C-i>
 
