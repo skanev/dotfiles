@@ -61,6 +61,8 @@ alias wdp="wip diff P"
 
 alias weather="curl -s wttr.in"
 
+alias zk="explain-bindkey"
+
 if [[ -n $ZSH_NAME ]]; then
     alias -g RERR="2>&1"
     alias -g P="| pd"

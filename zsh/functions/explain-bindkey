@@ -1,0 +1,3 @@
+#!/usr/bin/env zsh
+
+bindkey "$@" | perl ~/.scripts/explain_zsh_bindkey.pl | less -FXRS
