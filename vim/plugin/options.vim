@@ -67,7 +67,7 @@ elseif has('gui_gtk2')
 elseif has('gui_running')
   let g:sonokai_style = 'shusia'
   colorscheme sonokai
-  hi TabLineSel guibg=#6b6a75 guifg=#ffffff
+  hi TabLineSel guibg=#7f6468 guifg=#ffffff
   hi VertSplit guifg=#e5c463
   hi Cursor guibg=#000000 guifg=#ffffff
   hi link rubySymbol Purple
@@ -76,6 +76,39 @@ elseif has('gui_running')
   hi link rubyModuleName rubyClassName
   hi link rubyMacro Orange
   hi link perlVarPlain Blue
+  hi link perlSpecialString perlString
+
+  hi DimOrange guifg=#786055
+  hi DimYellow guifg=#6e6650
+  hi DimWhite guifg=#888888
+  hi DimRed guifg=#815761
+  hi DimGreen guifg=#4f5648
+  hi DimPurple guifg=#76757b
+
+  hi link perlPOD DimWhite
+  hi link podVerbatimLine DimGreen
+  hi link podCommand DimRed
+  hi link podCmdText DimYellow
+  hi link podOverIndent DimPurple
+  hi link podForKeywd DimOrange
+  hi link podFormat DimOrange
+  hi link podSpecial DimOrange
+  hi link podEscape DimYellow
+  hi link podEscape2 DimPurple
+  hi link podBoldItalic DimWhite
+  hi link podBoldOpen DimWhite
+  hi link podBoldAlternativeDelimOpen DimWhite
+  hi link podItalicBold DimWhite
+  hi link podItalicOpen DimWhite
+  hi link podItalicAlternativeDelimOpen DimWhite
+  hi link podNoSpaceOpen DimWhite
+  hi link podNoSpaceAlternativeDelimOpen DimWhite
+  hi link podIndexOpen DimWhite
+  hi link podIndexAlternativeDelimOpen DimWhite
+  hi link podBold DimWhite
+  hi link podBoldAlternativeDelim DimWhite
+  hi link podItalic DimWhite
+  hi link podItalicAlternativeDelim DimWhite
 
   "colorscheme vividchalk
 elseif $ITERM_PROFILE == "Beamer"
