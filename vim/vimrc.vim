@@ -71,6 +71,8 @@ Plug 'dense-analysis/ale'
 Plug 'majutsushi/tagbar'
 Plug 'zackhsi/fzf-tags'
 
+Plug 'SirVer/ultisnips'
+
 Plug 'sainnhe/sonokai'
 Plug 'patstockwell/vim-monokai-tasty'
 
@@ -94,6 +96,12 @@ endif
 call plug#end()
 
 filetype plugin indent on
+
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/snips']
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsEditSplit="horizontal"
 
 let g:coc_global_extensions = [
   \ 'coc-tsserver'
@@ -239,6 +247,8 @@ function! HTestDefine()
 endfunction
 
 command! HtestDefine :call HTestDefine()
+
+command! Snips UltiSnipsEdit
 
 runtime localvimrc
 

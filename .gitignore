@@ -5,6 +5,7 @@ vim/spell
 vim/vundle
 vim/localvimrc
 vim/init.vim
+vim/vim-steal-snippets
 vim-backup
 zsh/completiondump
 zsh/history
