@@ -1,0 +1,273 @@
+#!/usr/bin/env perl
+# Draws an interface to help understand the zsh and tmux mappings.
+#
+# Apart from a fun thing to do with Perl, it should be useful to:
+#
+# 1. Understand the existing mappings in a more humane way.
+# 2. Have an easier time figuring out where to map additional functionality.
+# 3. Hopefully, one day, make it easier to understand the vim mappings.
+#
+# TODO:
+#
+# [ ] Type a key to see what it does
+# [ ] Split the keyboard on shift-keys (e.g. "a A" and "[ {")
+# [ ] The compress function for tmux can be seriously dried up
+
+use v5.30;
+use warnings;
+use utf8::all;
+use lib::relative '../support/perl/lib';
+
+use experimental qw(switch);
+use Carp qw(croak);
+
+use Term::ANSIColor qw( colorstrip );
+use List::Util qw( max );
+
+use Tickit;
+use Tickit::Widget::VBox;
+use Tickit::Widget::Static;
+use Tickit::Widget::GridBox;
+use Tickit::Widget::ScrollBox;
+use Tickit::Widget::Scroller::Item::RichText;
+use Tickit::Widget::Scroller::Item::Text;
+
+use Swamp::ZSH qw( parse_zsh_bindkey parse_zsh_widgets_docs );
+use Swamp::Tmux qw( tmux_parse_list_keys tmux_parse_docs );
+use Swamp::Widget::Keyboard;
+
+die "error: Expected ARGV[0] to be path to bindkey -L from zsh" unless $ARGV[0] && -f $ARGV[0];
+open(my $bindkey, '<', $ARGV[0]) or die "Could not open $ARGV[0]";
+my @zsh_commands = parse_zsh_bindkey( $bindkey, parse_zsh_widgets_docs() );
+close $bindkey;
+
+my $tmux_list_keys = `tmux list-keys`;
+my %tmux_commands = tmux_parse_list_keys( $tmux_list_keys , tmux_parse_docs() )->%*;
+
+sub commands_grid :prototype(+@) {
+  my $commands = shift;
+
+  my $gridbox = Tickit::Widget::GridBox->new( style => { row_spacing => 0, col_spacing => 2, } );
+
+  for my $command (@$commands) {
+    $gridbox->append_row([
+      Tickit::Widget::Static->new( text => $command->{key}, fg => 110 ),
+      Tickit::Widget::Static->new( text => $command->{action}, b => 1 ),
+      Tickit::Widget::Static->new( text => $command->{doc} || '', fg => 243 ),
+    ]);
+  }
+
+  $gridbox;
+}
+
+sub is_tmux_forward {
+  my ( $cmd ) = @_;
+
+  if ( $cmd->{action} =~ m{^if-shell \S+/\.scripts/tmux/in-terminal-vim "send-keys C-S-F12 (.)" "send-keys \\033."} ) {
+    return $1;
+  } else {
+    return 0;
+  }
+}
+
+my $presets = [
+  {
+    name => 'tmux root',
+    pattern => qr/^M-(.)$|/,
+    commands => sub { grep { ! is_tmux_forward($_) } $tmux_commands{root}->@* },
+    marked => sub { grep { $_ } map { is_tmux_forward($_) } $tmux_commands{root}->@* },
+    compress => sub { $_[0]->{key} =~ /^M-(\d)$/ && { key => 'M-(0-9)', action => 'switch-tab' } },
+  },
+  {
+    name => 'tmux prefix .',
+    pattern => qr/^(.)$|/,
+    commands => sub { $tmux_commands{prefix}->@* },
+    compress => sub {
+      $_ = $_[1];
+      /^\d select-window -t :=\d$/                     ? { key => '0-9',      action => 'select-window -t :={0-9}' } :
+      /^(Up|Down|Left|Right) select-pane -\w$/         ? { key => 'Arrow',    action => 'select-pane -[LDUR]' } :
+      /^C-(Up|Down|Left|Right) resize-pane -\w$/       ? { key => 'C-Arrow',  action => 'resize-pane -[LDUR]' } :
+      /^M-(Up|Down|Left|Right) resize-pane -\w 5$/     ? { key => 'M-Arrow',  action => 'resize-pane -[LDUR] 5' } :
+      /^S-(Up|Down|Left|Right) refresh-client -\w 10$/ ? { key => 'S-Arrow',  action => 'refresh-client -[LDUR] 10' } :
+      /^[{}] swap-pane -[DU]$/                         ? { key => '{, }',     action => 'swap-pane -[DU]' } :
+      /^[<>] swap-window -d -t [-+]1$/                 ? { key => '<, >',     action => 'swap-window -d -t [-+]1' } :
+      /^[()] switch-client -[pn]$/                     ? { key => '(, )',     action => 'switch-client -[pn]' } :
+      undef
+    },
+  },
+  {
+    name => 'tmux copy-mode',
+    pattern => qr/^(.)$|/,
+    commands => sub { $tmux_commands{'copy-mode-vi'}->@* },
+    compress => sub {
+      $_ = $_[1];
+      /^[1-9] command-prompt -N -I \d -p \(repeat\)/           ? { key => '1-9',                action => '(repeat) send -N' } :
+      /^[jklh] send-keys -X cursor-\w+$/                       ? { key => 'j, k, l, h',         action => '(vim) send-keys -X cursor-[direction]' } :
+      /^(Up|Down|Left|Right) send-keys -X cursor-\w+$/         ? { key => 'Arrow',              action => '(arrow movement) send-keys -X cursor-[direction]' } :
+      /^[BEWbew] send-keys -X ([pn]\w+)-(word|space)(-end)?$/  ? { key => 'b, e, w, B, E, W',   action => '(vim) send-keys -X previous/next-word/space' } :
+      /^[0\$] send-keys -X (start|end)-of-line$/               ? { key => '0, $',               action => '(vim) send-keys -X [start|end]-of-line' } :
+      /^[HLM] send-keys -X (top|bottom|middle)-line$/          ? { key => 'H, L, M',            action => '(vim) send-keys -X [top|bottom|middle]-line' } :
+      /^[{}] send-keys -X (previous|next)-paragraph$/          ? { key => '{, }',               action => '(vim) send-keys -X [previous\next]-paragraph' } :
+      /^[ftFT] command-prompt -1 .* jump(-to)?-(back|for)ward/ ? { key => 'f, t, F, T',         action => '(vim) send-keys -X jump-[to]-[back|for]ward' } :
+      /^[gG] send-keys -X history-(top|bottom)$/               ? { key => 'g, G',               action => '(vim) send-keys -X history-[top|bottom]' } :
+      /^[;,] send-keys -X jump-(again|reverse)$/               ? { key => ';, ,',               action => '(vim) send-keys -X jump-[again|reverse]' } :
+      /^[nN] send-keys -X search-(again|reverse)$/             ? { key => 'n, N',               action => '(vim) send-keys -X search-[again|reverse]' } :
+      /^[\/?] command-prompt -p "\(search.* search-[bf]/       ? { key => '/, ?',               action => '(vim) send-keys -X search-[forward|backward]' } :
+      /^C-[du] send-keys -X halfpage-(up|down)$/               ? { key => 'C-d, C-u',           action => '(vim) send-keys -X halfpage-[up|down]' } :
+      /^([JK]|C-(y|e|Up|Down)) send-keys -X scroll-(up|down)$/ ? { key => 'J, K, C-e, C-y',     action => '(vim) send-keys -X scroll-[up|down]' } :
+      /^(PPage|NPage|C-[bf]) send-keys -X page-(up|down)$/     ? { key => 'C-b, C-f, PgU, PgD', action => '(vim) send-keys -X page-[up|down]' } :
+      undef
+    },
+  },
+  {
+    name => 'zsh C-.',
+    pattern => qr/^C-(.)$/,
+    commands => sub { @zsh_commands },
+  },
+  {
+    name => 'zsh M-.',
+    pattern => qr/^M-(.)$/,
+    commands => sub { @zsh_commands },
+    clobbered => sub { map { substr($_->{key}, 2, 1) } grep { ! is_tmux_forward($_) && $_->{key} =~ /^M-.$/ } $tmux_commands{root}->@* },
+    compress => sub { $_[1] =~ /^M-\d digit-argument$/ && { key => 'M-{0-9}', action => 'digit-argument', doc => $_[0]->{doc} } },
+  },
+  {
+    name => 'zsh C-x .',
+    pattern => qr/^C-X (.)$/,
+    commands => sub { @zsh_commands },
+  },
+  {
+    name => 'zsh C-x C-.',
+    pattern => qr/^C-X C-(.)$/,
+    commands => sub { @zsh_commands },
+  },
+  {
+    name => 'zsh all',
+    pattern => qr//,
+    commands => sub { @zsh_commands },
+    compress => sub { $_[1] =~ /^M-\d digit-argument$/ && { key => 'M-{0-9}', action => 'digit-argument', doc => $_[0]->{doc} } },
+  },
+];
+
+sub group_by_action {
+  my @commands = @_;
+
+  my ( @result, %actions ) ;
+
+  for my $command (@commands) {
+    my $action = $command->{action};
+    my $key = $command->{key};
+
+    if ( exists $actions{ $action } ) {
+      $actions{ $action }{key} .= ", $key";
+    } else {
+      my $item = {
+        key => $key,
+        action => $action,
+        doc => $command->{doc} || '',
+      };
+
+      $actions{ $action } = $item;
+
+      push @result, $item;
+    }
+  }
+
+  @result;
+}
+
+sub compress {
+  my ( $code, @commands ) = @_;
+  my @result;
+  my %compressed;
+
+  for my $command ( @commands ) {
+    my $alternative = $code->( $command, "$command->{key} $command->{action}" );
+
+    unless ( $alternative ) {
+      push @result, $command;
+      next;
+    }
+
+    if ( $compressed{ $alternative->{key} } ) {
+      next;
+    } else {
+      push @result, { %$command, %$alternative };
+      $compressed{ $alternative->{key} } = $alternative;
+    }
+  }
+
+  return @result;
+}
+
+my $kbd = Swamp::Widget::Keyboard->new;
+my $selected = 0;
+
+my $choice = Tickit::Widget::Static->new( text => 'Choice', align => 0.5 );
+my $vbox = Tickit::Widget::VBox->new;
+my $tickit = Tickit->new;
+
+my $box = Tickit::Widget::ScrollBox->new(
+  horizontal => 0,
+  vertical => 'on_demand',
+)->set_child(
+  commands_grid( @zsh_commands )
+);
+
+$vbox->add( $kbd, force_size => 13 );
+$vbox->add( $choice, force_size => 3, expand => 0 );
+$vbox->add( $box, force_size => 36, expand => 1 );
+
+$tickit->set_root_widget( $vbox );
+
+sub redraw {
+  my $preset = $presets->[$selected];
+  my @marked = $preset->{marked} ? $preset->{marked}() : ();
+  my @clobbered = $preset->{clobbered} ? $preset->{clobbered}() : ();
+  my $compress = $preset->{compress};
+
+  my $label = join '  ', map {
+    my $i = $_ + 1;
+    $_ == $selected ?
+      "[ $i. $presets->[$_]{name} ]" :
+      "  $i. $presets->[$_]{name}  "
+  } (0 .. $#$presets);
+
+  $choice->set_text( $label );
+
+  my @filtered = grep { $_->{key} =~ /$preset->{pattern}/ } $preset->{commands}();
+  my @commands = @filtered;
+
+  @commands = compress($compress, @commands) if $compress;
+  @commands = group_by_action @commands;
+
+  my $box = Tickit::Widget::ScrollBox->new(
+    horizontal => 0,
+    vertical => 'on_demand',
+  )->set_child(
+    commands_grid( @commands )
+  );
+
+  my @colored;
+
+  for (@filtered) {
+    push @colored, lc($1 || '') if ($_->{key} =~ /$preset->{pattern}/);
+  }
+
+  $kbd->set( colored => \@colored, marked => \@marked, clobbered => \@clobbered );
+  $vbox->set_child( 2, $box );
+}
+
+$tickit->bind_key( 'Left',  sub { $selected = ($selected - 1) % @$presets; redraw } );
+$tickit->bind_key( 'Right', sub { $selected = ($selected + 1) % @$presets; redraw } );
+$tickit->bind_key( 'k',     sub { $selected = ($selected - 1) % @$presets; redraw } );
+$tickit->bind_key( 'j',     sub { $selected = ($selected + 1) % @$presets; redraw } );
+$tickit->bind_key( 'q',     sub { $tickit->stop } );
+
+for my $i (1 .. @$presets) {
+  $tickit->bind_key( "$i", sub { $selected = $i - 1; redraw } )
+}
+
+redraw;
+
+$tickit->run;

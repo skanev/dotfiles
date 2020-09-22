@@ -1,0 +1,47 @@
+#!/usr/bin/env perl
+#
+# Formats the output of `bindkey` in zsh to be a bit nicer an include the
+# documentation of each command.
+
+use v5.30;
+use warnings;
+use utf8::all;
+use lib::relative '../support/perl/lib';
+
+use Term::ANSIColor qw( colorstrip );
+
+use Swamp::ZSH qw( zsh_key parse_zsh_bindkey parse_zsh_widgets_docs );
+use Swamp::Term qw( tabularize wrap );
+
+my @commands = parse_zsh_bindkey( \*STDIN, parse_zsh_widgets_docs() );
+
+my @grouped;
+my %widgets;
+
+for my $command ( @commands ) {
+  my $action = $command->{action};
+
+  if ( exists $widgets{ $action } ) {
+    $widgets{ $action }{key} .= wrap( ', ', '38;5;243' ) . wrap( $command->{key}, '38;5;110' );
+  } else {
+    my $item = { %$command };
+    push @grouped, $item;
+    $widgets{ $action } = $item;
+  }
+}
+
+for ( @grouped ) {
+  $_->{key} = 'M-(0-9)' if ( colorstrip( $_->{key} ) =~ /^M-\d(, M-\d)+$/ );
+}
+
+my $columns = [
+  map {
+    [
+      wrap( $_->{key}, '38;5;110' ),
+      wrap( $_->{action}, '1' ),
+      wrap( $_->{doc} || '', '38;5;243' ),
+    ]
+  } @grouped
+];
+
+print tabularize $columns, spacing => 2;
