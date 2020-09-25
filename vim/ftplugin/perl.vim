@@ -6,12 +6,10 @@ let b:did_skanev_ftplugin = 1
 function! s:ShowHelp()
   let word = expand('<cword>')
 
-  echo word
-
-  if 'a' <= word && 'z' <= word
-    exec "terminal ++close ++shell perldoc -o term -f " . word . ' || read -q'
+  if word =~ '\v\C^[a-z]'
+    execute "terminal ++close ++shell perldoc -o term -f " . word . ' || read -q'
   else
-    exec "terminal ++close ++shell perldoc -o term " . word . ' || read -q'
+    execute "terminal ++close ++shell perldoc -o term " . word . ' || read -q'
   endif
 endfunction
 
