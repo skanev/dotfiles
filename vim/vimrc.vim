@@ -276,15 +276,3 @@ command! Snips UltiSnipsEdit
 map <expr> g= ':Tabularize /\V' . expand('<cWORD>') . '<CR>'
 
 runtime localvimrc
-
-"function GetFooText()
-  "return localtime()
-"endfunction
-
-"call airline#parts#define_function('foo', 'GetFooText')
-
-"function! AirlineInit()
-"endfunction
-  "let g:airline_section_y = airline#section#create(['foo', ' ', 'ffenc'])
-"autocmd VimEnter * call AirlineInit()
-
