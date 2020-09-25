@@ -1,6 +1,9 @@
 syntax on
 set nocompatible
 
+set updatetime=100
+set ttyfast
+
 let mapleader = ","
 
 let g:dotfiles_dir = expand('<sfile>:p:h:h')
