@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 # Runs in interactive session
 . ~/.zsh/env
 . ~/.zsh/config
