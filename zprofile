@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 # Runs in login shells
 
 if [ -x /usr/libexec/path_helper ]; then
