@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+
 ### Options ################################################
 # I got this stuff from random browsing through man zshoptions
 
@@ -11,8 +12,8 @@ DIRSTACKSIZE=15
 ### Prompt #################################################
 autoload -U colors
 colors
-setopt prompt_subst
-setopt transient_rprompt
+setopt PROMPT_SUBST
+setopt TRANSIENT_RPROMPT
 
 prompt_zsh_level () {
   if [[ -n $TMUX && $SHLVL > 2 ]]; then
@@ -52,8 +53,8 @@ fi
 setopt HIST_IGNORE_DUPS     # ignore duplication command history list
 setopt SHARE_HISTORY        # share command history data
 setopt HIST_IGNORE_SPACE    # Don't push commands starting with space in history
-setopt APPEND_HISTORY # write history only when closing
-setopt EXTENDED_HISTORY # add more info
+setopt APPEND_HISTORY       # write history only when closing
+setopt EXTENDED_HISTORY     # add more info
 
 setopt NOCLOBBER
 setopt NOMULTIOS
