@@ -1,0 +1,77 @@
+#!/usr/bin/env perl
+
+# run-help is nice, but it does not come too useful out of the box. Sure, it
+# covers stuff in zshbuiltins, but does not cover those in other man pages (for
+# example bindkey and zle).
+#
+# Since I like this facility, and would prefer to keep extending it, this
+# script does a few things:
+#
+# 1. It copies over the helpfiles that come with zsh (and dies if they are not
+#    there) to ~/.zsh-help, which is where I'd like to have my helpfiles (for now)
+#
+# 2. It scans a number of predefined manpages (see below) and grabs their docs
+#    and puts them in ~/.zsh-help.
+#
+# The script should be rerunnable without adverse effects and hopefully only
+# clobber ~/.zsh-help, which should be auto-generated anyway.
+
+use v5.30;
+use warnings;
+use IPC::System::Simple;
+use autodie qw( :all );
+
+use File::Path qw( make_path );
+use File::Copy qw( copy );
+
+sub extract_help ($@);
+
+my $HOME = $ENV{HOME};
+my $ZSH_HELPDIR = '/usr/local/share/zsh/help';
+my $HELPDIR = "$HOME/.zsh-help";
+
+die "No helpdir: $HELPDIR" unless -d $HELPDIR;
+
+make_path $HELPDIR;
+copy $_, $HELPDIR for <$ZSH_HELPDIR/*>;
+
+extract_help 'zshzle', 'ZLE BUILTINS';
+
+sub extract_help ($@) {
+  my ( $manpage, @sections ) = @_;
+
+  my %commands;
+  my @lines = ( `man $manpage | col -bx` );
+
+  for my $section ( @sections ) {
+    my $preamble = 1;
+    my $command = '';
+
+    for ( @lines ) {
+      if ( /^$section/ ... /^\w/ ) {
+        next if /^\w/;
+        $preamble &&= ! /^\s+$/;
+        next if $preamble;
+
+        m/^[ ]{7}(\S+)/;
+
+        next unless $1 || $command;
+
+        if ( $1 && $command ne $1 ) {
+          $command = $1;
+        }
+
+        s/^[ ]{7}//;
+
+        $commands{ $command } .= $_;
+      }
+    }
+
+    for my $command (keys %commands) {
+      say "$manpage ($section): $command -> $HELPDIR/$command";
+      open(my $file, '>', "$HELPDIR/$command");
+      print { $file } $commands{$command};
+      close $file;
+    }
+  }
+}
