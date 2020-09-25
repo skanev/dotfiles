@@ -10,7 +10,11 @@ case $status in
     mutt/vim)
         printf "vim"
         ;;
-    
+
+    cheat/vim)
+        printf "vim"
+        ;;
+
     Vim/*)
         printf "vim"
         ;;
