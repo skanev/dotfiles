@@ -85,4 +85,12 @@ setopt CD_ABLE_VARS
 
 which bat > /dev/null && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+function tmux-page-up() {
+  [[ -n $TMUX ]] && tmux copy-mode -u
+}
+
+zle -N tmux-page-up
+
+bindkey "\e[5~" tmux-page-up
+
 typeset -U path
