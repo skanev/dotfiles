@@ -1,8 +1,11 @@
 #!/usr/bin/env zsh
 
+emulate -LR zsh
+setopt errreturn
+
 case $1 in
     first-commit)
-        wip list | tail -1 | cut -d ' ' -f 1
+        echo -n $(wip list | tail -1 | cut -d ' ' -f 1)
         ;;
 
     list)
@@ -21,7 +24,14 @@ case $1 in
         ;;
 
     compact)
-        git reset --soft $(wip first-commit)~1
+        first_commit=$(wip first-commit)
+
+        if [ -z "$first_commit" ]; then
+            echo "error: No WIP commits" 1>&2
+            return 1
+        fi
+
+        git reset --soft $first_commit~1
         git commit -n -m WIP
         ;;
 
