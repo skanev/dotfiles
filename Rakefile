@@ -60,6 +60,29 @@ namespace :link do
   end
 end
 
+namespace :perl do
+  desc 'Install the various perl dependencies'
+  task :deps do
+    dependencies = [
+      '--force Alien::libtickit',
+      'Tickit',
+      'Tickit::Widgets',
+      'Tickit::Widget::ScrollBox',
+      'utf8::all',
+      'lib::relative',
+      'IPC::System::Simple',
+      'Graphics::Color',
+      'Term::ReadLine',
+      'File::Path::Expand',
+      'Array::Utils',
+    ]
+
+    dependencies.each do |line|
+      system "cpanm install #{line}" or raise 'failed'
+    end
+  end
+end
+
 def home() ENV['HOME'] end
 def home_slash(name) Pathname(home).join(name) end
 def dotfiles_slash(name) Pathname(__FILE__).dirname.join(name) end
