@@ -275,6 +275,8 @@ command! HtestDefine :call HTestDefine()
 
 command! Snips UltiSnipsEdit
 
+map <expr> g= ':Tabularize /\V' . expand('<cWORD>') . '<CR>'
+
 runtime localvimrc
 
 "function GetFooText()
