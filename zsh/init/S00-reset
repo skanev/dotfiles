@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+for key in {A..Z}; do
+  bindkey -r "^[$key"
+done
