@@ -76,14 +76,15 @@ elseif has('gui_running')
   hi link rubyModuleName rubyClassName
   hi link rubyMacro Orange
   hi link perlVarPlain Blue
+  hi link perlVarPlain2 Blue
   hi link perlSpecialString perlString
 
-  hi DimOrange guifg=#786055
-  hi DimYellow guifg=#6e6650
-  hi DimWhite guifg=#888888
-  hi DimRed guifg=#815761
-  hi DimGreen guifg=#4f5648
-  hi DimPurple guifg=#76757b
+  hi DimPurple guifg=#9d9ca0
+  hi DimYellow guifg=#938a70
+  hi DimOrange guifg=#9d8174
+  hi DimRed guifg=#a67581
+  hi DimWhite guifg=#adadad
+  hi DimGreen guifg=#737b6b
 
   hi link perlPOD DimWhite
   hi link podVerbatimLine DimGreen
