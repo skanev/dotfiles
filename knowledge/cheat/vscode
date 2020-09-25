@@ -1,0 +1,19 @@
+# VSCode keyboard shortcuts
+
+D-k D-d :: skips the next multi cursor
+D-k D-w :: closes all windows
+
+D-k D-0 :: fold all
+D-k D-j :: unfolad all
+
+F4      :: go to next search result
+
+D-k D-i :: show hover
+
+# My bindings
+
+D-j D-e :: extract to a local variable
+D-S-t   :: surround with
+
+C-Up    :: expand selection
+C-Down  :: shrink selection

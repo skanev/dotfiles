@@ -1,0 +1,38 @@
+#!/usr/bin/env zsh
+
+NAVI_PATH="$DOTFILES/knowledge/navi"
+
+_nave() {
+  compadd $NAVI_PATH/*(:t)
+}
+
+nave() {
+  vim $NAVI_PATH/$1
+}
+
+n() {
+  local selected
+  selected="$(navi --print --path $NAVI_PATH </dev/tty)"
+  [[ $? == 0 ]] && print -z "$selected"
+}
+
+insert-navi() {
+  local selected parts
+  selected="$(navi --print --path $NAVI_PATH </dev/tty)"
+  if [[ $? != 0 ]]; then
+  elif [[ $selected == *␣* ]]; then
+    parts=(${(s:␣:)selected})
+    LBUFFER="$LBUFFER${parts[1]}"
+    RBUFFER="${parts[2,-1]}$RBUFFER"
+  else
+    LBUFFER="$LBUFFER$selected"
+  fi
+  zle redisplay
+}
+
+compdef _nave nave
+
+zle -N insert-navi
+
+bindkey '\ek' insert-navi
+

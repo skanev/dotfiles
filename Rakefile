@@ -1,6 +1,8 @@
 require 'rake'
 require 'erb'
 require 'fileutils'
+require 'pathname'
+
 include FileUtils
 
 desc "Install into the users home"
@@ -34,19 +36,33 @@ task :homebrew do
     macvim
     midnight-commander
     reattach-to-user-namespace
-    tmux mercurial
+    tmux
+    mercurial
     tree
     vim
     watch
     wget
     zsh
     zsh-lovers
+    navi
+    cheat
   )
   exec "brew", "install", *formulas
 end
 
+namespace :link do
+  desc 'Link cheats'
+  task :cheats do
+    personal_cheatsheets = home_slash('.config/cheat/cheatsheets/personal')
+    rmdir personal_cheatsheets if personal_cheatsheets.exist? && personal_cheatsheets.directory? && !personal_cheatsheets.symlink?
+    rm personal_cheatsheets if personal_cheatsheets.symlink?
+    ln_s dotfiles_slash('knowledge/cheat'), home_slash('.config/cheat/cheatsheets/personal')
+  end
+end
+
 def home() ENV['HOME'] end
-def home_slash(name) File.join(home, name) end
+def home_slash(name) Pathname(home).join(name) end
+def dotfiles_slash(name) Pathname(__FILE__).dirname.join(name) end
 
 def link_file(source, target)
   action = if File.symlink?(target)

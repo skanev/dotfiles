@@ -1,0 +1,10 @@
+% perl
+
+# Process each line
+perl -ne '␣'
+
+# Process each line and print expression
+perl -pe '␣'
+
+# Just like nothing
+perl

@@ -1,0 +1,4 @@
+% ruby
+
+# Process a file line by line
+ruby -ne 'puts $_'

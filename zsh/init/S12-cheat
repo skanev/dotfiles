@@ -1,0 +1,65 @@
+#!/usr/bin/env zsh
+
+cheat() {
+  if [[ "$*" == *-e* ]]; then
+    command cheat "$@"
+  else
+    command cheat --colorize "$@" | less -FXRS
+  fi
+}
+
+_cheat() {
+  local -a args
+
+  args=(
+    '--init[Write a default config file to stdout]'
+    '(-c --colorize)'{-c,--colorize}'[Colorize output]'
+    '(-d --directories)'{-d,--directories}'[List cheatsheet directories]'
+    '(-e --edit=)'{-e,--edit=}'[Edit <cheatsheet>]:cheatsheet:_cheat_cheatsheets'
+    '(-l --list)'{-l,--list}'[List cheatsheets]'
+    '(-p --path=)'{-p,--path=}'[Return only sheets found on path <name>]:name'
+    '(-r --regex)'{-r,--regex}'[Treat search <phrase> as a regex]'
+    '(-s --search=)'{-s,--search=}'[Search cheatsheets for <phrase>]:phrase'
+    '(-t --tag=)'{-t,--tag=}'[Return only sheets matching <tag>]:tag'
+    '(-T --tags)'{-T,--tags}'[List all tags in use]'
+    '(-v --version)'{-v,--version}'[Print the version number]'
+    '--rm=[Remove (delete) <cheatsheet>]:cheatsheet:_cheat_cheatsheets_personal'
+    '(-)1:cheatsheet:_cheat_cheatsheets'
+  )
+
+  _arguments -s -S $args
+}
+
+_cheat_cheatsheets() {
+  cheat -d |
+    sort -r |
+    sed -E 's/: +/ /g' |
+    _cheat_list_sheets
+}
+
+_cheat_cheatsheets_personal() {
+  cheat -d |
+    grep personal |
+    sed -E 's/: +/ /g' |
+    _cheat_list_sheets
+}
+
+_cheat_list_sheets() {
+  local items line expl sheet
+  local -a sheets
+  local -a previous
+
+  while read line; do
+    items=(${(s# #)line})
+    sheets=(${items[2]}/*(:t))
+    sheets=(${sheets:|previous})
+    sheet="${items[1]}"
+
+    _description -V "$sheet" expl "$sheet cheatsheets"
+    compadd "$expl[@]" -a sheets
+
+    previous+=($sheets)
+  done
+}
+
+compdef _cheat cheat
