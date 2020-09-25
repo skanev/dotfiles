@@ -182,11 +182,15 @@ let g:syntastic_enable_signs=1
 
 " Ale
 let g:ale_linters = {
-\ "ruby": ["rubocop", "ruby"]
+\ "ruby": ["rubocop", "ruby"],
+\ "perl": ["perl"]
 \}
 let g:ale_fixers = {
 \ "ruby": ["rubocop"]
 \}
+
+" Include the Swamp (ALE copies the file to /tmp, so lib::relative stops working ;/)
+let g:ale_perl_perl_options="-c -Mwarnings -Ilib -I" . g:dotfiles_dir . "/support/perl/lib"
 
 let g:ale_sign_error = "✘"
 let g:ale_sign_warning = "●"
