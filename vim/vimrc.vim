@@ -65,6 +65,7 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'keith/swift.vim'
 Plug 'dylnmc/synstack.vim'
 
+Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf'
 Plug 'dense-analysis/ale'
 Plug 'majutsushi/tagbar'
@@ -105,6 +106,21 @@ let g:UltiSnipsEditSplit="horizontal"
 let g:coc_global_extensions = [
   \ 'coc-tsserver'
   \ ]
+
+let g:gitgutter_map_keys = 0
+let g:gitgutter_enabled = 1
+let g:airline#extensions#hunks#non_zero_only = 1
+let g:airline#extensions#hunks#enabled = g:gitgutter_enabled
+
+nmap [c <Plug>(GitGutterPrevHunk)
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap <silent> <expr> yog <SID>ToggleGitGutter()
+
+function! s:ToggleGitGutter()
+  GitGutterToggle
+  let g:airline#extensions#hunks#enabled = 1
+  AirlineRefresh
+endfunction
 
 let g:vim_json_syntax_conceal = 0
 
