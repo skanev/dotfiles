@@ -1,102 +1,45 @@
-# A plain old glob
-print -l *.txt
-print -l **/*.txt
+# History
 
-# Show text files that end in a number from 1 to 10
-print -l **/*<1-10>.txt
+history 1               # print all history
+echo !*                 # previous line w/o command
+echo !:1-$              # same as above
+echo !$:t               # tail of last argument
 
-# Show text files that start with the letter a
-print -l **/[a]*.txt
+# Globbing
 
-# Show text files that start with either ab or bc
-print -l **/(ab|bc)*.txt
+ls (foo|bar)x           # matches foox or barx
+ls foo<1-3>             # matches foo1, foo2 and foo3 (but not foo10)
+ls foo<->               # matches /foo\d+/
 
-# Show text files that don't start with a lower or uppercase c
-print -l **/[^cC]*.txt
+# Extended Globbing (setopt extendedglob)
 
-# Show only directories
-print -l **/*(/)
+ls ^*.o                 # all files except .o files
+ls a^b*                 # matches /a[^b].*/
+ls /usr/^*bin/A*        # matches /usr/xxx/A* where xxx doesn't match *bin
 
-# Show only regular files
-print -l **/*(.)
+ls foo*~*.txt           # all files that start with foo and are not *.txt
+ls **/*.c~src/*         # .c files everywhere apart from src/
 
-# Show empty files
-print -l **/*(L0)
+ls a#b                  # matches /a*b/
+ls (ab)#c               # matches /(ab)*c/
+ls (ab)##c              # matches /(ab)+c/
+ls (*/)#*.txt           # longer form of as **/*.txt
+ls (#i)read(#I)ME       # matches /[rR][eE][aA][dD]ME/
 
-# Show files greater than 3 KB
-print -l **/*(Lk+3)
+# Glob quantifiers
 
-# Show files modified in the last hour
-print -l **/*(mh-1)
+ls *(.)                 # regular files
+ls *(^.)                # negation - non-regular files
+ls *(/)                 # directories
+ls *(*)                 # executable files
+ls *(@)                 # symlinks
+ls *(r^w)               # files that are readable, but not writable
+ls *(/,*)               # directories and executable files
+ls *(-*)                # executable files following symlinks
+ls *(-@)                # all broken symlinks
+ls *(N)                 # sets NULL_GLOB for pattern (no error if empty)
+ls *(M)                 # marks directories as with trailing /
 
-# Sort files from most to least recently modified and show the last 3
-print -l **/*(om[1,3])
+echo *(On)              # reverse-sorts by name
 
-# `.` show files, `Lm-2` smaller than 2MB, `mh-1` modified in last hour,
-# `om` sort by modification date, `[1,3]` only first 3 files
-print -l **/*(.Lm-2mh-1om[1,3])
-
-# Show every directory that contain directory `.git`
-print -l **/*(e:'[[ -d $REPLY/.git ]]':)
-
-# Return the file name (t stands for tail)
-print -l *.txt(:t)
-
-# Return the file name without the extension (r stands for remove_extension)
-print -l *.txt(:t:r)
-
-# Return the extension
-print -l *.txt(:e)
-
-# Return the parent folder of the file (h stands for head)
-print -l *.txt(:h)
-
-# Return the parent folder of the parent
-print -l *.txt(:h:h)
-
-# Return the parent folder of the first file
-print -l *.txt([1]:h)
-
-# Parameter expansion
-files=(*.txt)          # store a glob in a variable
-print -l $files
-print -l $files(:h)    # this is the syntax we saw before
-print -l ${files:h}
-print -l ${files(:h)}  # don't mix the two, or you'll get an error
-print -l ${files:u}    # the :u modifier makes the text uppercase
-
-# :s modifier
-variable="path/aaabcd"
-echo ${variable:s/bc/BC/}    # path/aaaBCd
-echo ${variable:s_bc_BC_}    # path/aaaBCd
-echo ${variable:s/\//./}     # path.aaabcd (escaping the slash \/)
-echo ${variable:s_/_._}      # path.aaabcd (slightly more readable)
-echo ${variable:s/a/A/}      # pAth/aaabcd (only first A is replaced)
-echo ${variable:gs/a/A/}     # pAth/AAAbcd (all A is replaced)
-
-# Split the file name at each underscore
-echo ${(s._.)file}
-
-# Join expansion flag, opposite of the split flag.
-array=(a b c d)
-echo ${(j.-.)array} # a-b-c-d
-
-# Short if
-if [[ ... ]] command
-if [[ ... ]] { command ... }
-
-# Short for
-for i ( word ... ) command
-for i ( word ... ) { command ... }
-for i in word ... ; command
-
-# Short while/until
-while [[ ... ]] { command ... }
-until [[ ... ]] { command ... }
-
-# Use output of command, when using pipe is not possible
-<( command )
-
-# Similar to <( ), but creates temporary file (instead of FD or FIFO), when
-# program needs to seek in output.
-=( command )
+ls ~/.z*(oL:t:s/z/ZED/) # expands to ZEDshrc, ZEDprofile, etc. sorted by length

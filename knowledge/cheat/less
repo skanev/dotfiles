@@ -1,0 +1,3 @@
+v   :: edit current file using $VISUAL or $EDITOR
+F   :: follow changes to file (like tail -f)
+M-u :: remove highlighting
