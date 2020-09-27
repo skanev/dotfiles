@@ -86,6 +86,11 @@ elseif has('gui_running')
   hi DimWhite guifg=#adadad
   hi DimGreen guifg=#737b6b
 
+  hi CocErrorHighlight cterm=underline gui=undercurl guisp=#f85e84
+  hi CocWarningHighlight cterm=underline gui=undercurl guisp=#e5c463
+  hi CocInfoHighlight cterm=underline gui=undercurl guisp=#7accd7
+  hi CocHintHighlight cterm=underline gui=undercurl guisp=#9ecd6f
+
   hi link perlPOD DimWhite
   hi link podVerbatimLine DimGreen
   hi link podCommand DimRed
