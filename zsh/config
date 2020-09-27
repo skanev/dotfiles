@@ -61,7 +61,11 @@ setopt BRACECCL             # expand {a-z.} to a b ... x y z .
 setopt NOCLOBBER            # don't allow rediriection to clobber files
 #setopt NOMULTIOS            # MULTIOS
 
-autoload url-quote-magic
+setopt CORRECT
+
+[[ -z "$TMUX" ]] && setopt IGNORE_EOF # Don't exit on C-d outside tmux
+
+autoload -U url-quote-magic
 zle -N self-insert url-quote-magic
 
 HISTFILE=~/.zsh_history
