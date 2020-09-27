@@ -7,6 +7,14 @@ fi
 
 path=(~/bin $path)
 
+if [[ -d /usr/local/opt/coreutils/libexec/gnubin ]]; then
+    path=(/usr/local/opt/coreutils/libexec/gnubin $path)
+fi
+
+if [[ -d /usr/local/opt/gnu-sed/libexec/gnubin ]]; then
+    path=(/usr/local/opt/gnu-sed/libexec/gnubin $path)
+fi
+
 if [[ -d ~/.rbenv ]]; then
     path=(~/.rbenv/bin ~/.rbenv/shims $path)
 fi
