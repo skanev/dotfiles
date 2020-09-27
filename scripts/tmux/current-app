@@ -15,6 +15,10 @@ case $status in
         printf "vim"
         ;;
 
+    less/vim)
+        printf "vim"
+        ;;
+
     Vim/*)
         printf "vim"
         ;;
