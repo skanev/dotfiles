@@ -1,6 +1,22 @@
 #!/usr/bin/env zsh
 
 if which plenv > /dev/null; then
-    eval "$(plenv init - zsh)"
+  export PLENV_SHELL=zsh
+
+  plenv() {
+    local command
+
+    command="$1"
+    if [ "$#" -gt 0 ]; then
+      shift
+    fi
+
+    case "$command" in
+    rehash|shell)
+      eval "`plenv "sh-$command" "$@"`";;
+    *)
+      command plenv "$command" "$@";;
+    esac
+  }
 fi
 
