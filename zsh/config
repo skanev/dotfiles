@@ -63,8 +63,8 @@ autoload url-quote-magic
 zle -N self-insert url-quote-magic
 
 HISTFILE=~/.zsh_history
-SAVEHIST=10000
-HISTSIZE=10000
+SAVEHIST=30000
+HISTSIZE=30000
 
 REPORTTIME=10 # Show elapsed time if command took more than X seconds
 LISTMAX=0 # ask to complete if top of list would scroll off screen
