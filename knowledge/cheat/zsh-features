@@ -1,0 +1,40 @@
+---
+syntax: markdown
+tags: [ zsh ]
+---
+
+# Random ZSH Features
+
+Basic documentation on some interesting ZSH features.
+
+## Named directories
+
+ZSH allows for creating named directories. They are accessible as `~foo`, where foo is the name of
+the directory. There are a couple of approaches.
+
+Static named directories can be created with hash:
+
+    hash -d foo=~/code/foo
+
+Dynamic named directories can be calculated by defining a fairly untrivial ZSH function. Check
+"FILENAME EXPANSIONS" under zshexp.
+
+Having CDABLE_VARS set allows you to just CD to the directory.
+
+    cd foo         # same as cd ~foo
+
+## Short Loops
+
+With `SHORT_LOOPS` set (as is by default), you can avoid the `do`/`done` in `for`, `repeat`,
+`select`, `if` and `function`:
+
+    for n in {1..10}; echo $n
+
+## Prompt variables
+
+You can use `psvar` to set an array of values that can be expanded with `%v`. You can set them in a
+`precmd` hook to both (1) avoid extra computation and (2) keep the prompt string tidier.
+
+    precmd() { psvar=(`pwd` `read_thermometer`) }
+    PS1='(%2v degrees), in %1v: '
+

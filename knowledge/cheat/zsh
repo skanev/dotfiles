@@ -1,9 +1,23 @@
+---
+syntax: zsh
+---
 # History
 
 history 1               # print all history
 echo !*                 # previous line w/o command
 echo !:1-$              # same as above
 echo !$:t               # tail of last argument
+
+# Tests
+
+[[ -z $var ]]           # check if $var is empty
+[[ -n $var ]]           # check if $var is not empty
+[[ -f $file ]]          # check if $file is a regular file
+[[ -d $file ]]          # check if $file is a directory
+[[ -o extendedglob ]]   # check if an option is set
+
+[[ $a < $b ]]           # compare $a and $b lexicographically
+[[ $a -lt $b ]]         # threat $a and $b as numbers when comparing; better use (( a < b ))
 
 # Globbing
 
@@ -43,3 +57,94 @@ ls *(M)                 # marks directories as with trailing /
 echo *(On)              # reverse-sorts by name
 
 ls ~/.z*(oL:t:s/z/ZED/) # expands to ZEDshrc, ZEDprofile, etc. sorted by length
+
+# Variables
+
+print -L foo bar             # prints each argument on a separate line, useful for debug
+alias args="printf '[%s]\n'" # useful word splitting debugger
+print -L $=foo               # splits after expansion, e.g. foo="a b" is two separate words
+echo A${^array}B             # with array=(1 2) expands A1B A2B
+
+declare -u -r 10 x=baba      # keep $baba to "      BABA"  (raligned and uppercase)
+declare -i number            # declares $number as integer
+(( number = 10 ))            # assigns 10 to $number and makes it integer
+echo $foo[i*2+1]             # index with (( $i * 2 + 1 ))
+
+echo ${VAR:-default}         # $VAR or "default" if unset
+echo ${VAR:+_${VAR}_}        # "_${VAR}_" if set, none otherwise
+
+echo ${(P)var}               # as $value if var=value ($$var symbolic ref in perl)
+echo $~var                   # expands the value of $var, e.g. if var is '*.c' then all .c files
+
+echo ${VAR#pat}              # removes pattern from beginning (non-greedy)
+echo ${VAR##pat}             # removes pattern from beginning (greedy)
+echo ${VAR%pat}              # removes pattern from end (non-greedy)
+echo ${VAR%%pat}             # removes pattern from end (greedy)
+echo ${VAR/pat/rep}          # replaces first occurence pat with rep
+echo ${VAR//pat/rep}         # replaces all occurences of pat with rep (e.g. ${PATH//:/ })
+echo ${VAR:/pat/rep}         # replaces if pat matches the entire string
+
+: ${var?:error message}      # checks if var is set and errors with 'error message' if not
+: ${var:=default value}      # sets default value to var if it doesn't have one
+
+echo ${(L)var}               # lowercase $var (also ${var:l})
+echo ${(u)array}             # array without duplicates
+echo ${(o)array}             # sorts array
+echo ${(o)$(ls -r)}          # sorts the output of ls -r
+echo ${(s#:#)PATH}           # splits PATH on :
+echo ${(F)array}             # joins elements with "\n"
+echo ${(q)array}             # quotes each word
+echo ${array:#*x*}           # array elements not matching *x*
+echo ${(M)array:#*x*}        # array elements matchings *x*
+
+# Associative Arrays
+
+declare -A things            # Declare things to be an associative array
+things=(a 1 b 2)             # things = {a => 1, b => 2}
+things[c]=3                  # assignment
+things+=(d 4)                # Hash#update
+echo $things                 # values (1 2 3 4)
+echo ${(k)things}            # keys (a b c d)
+echo ${(kv)things}           # key-value pairs (a 1 b 2 c 3 d 4)
+echo ${(ok)things}           # sorted keys
+unset 'things[a]'            # remove the a key
+
+# Reverse lookups
+
+echo ${(k)assoc[(r)pat]}     # find the first key in assoc who's value matches pat
+echo ${(k)assoc[(R)pat]}     # find the all keys that point to something matching pat
+path[(r)*j2sdk*]=()          # removes the first dir matching *j2sdk* from path
+
+# Matching
+
+[[ 'foo=abc' == (#b)([^=]##)=(*) ]]  # (with EXTENDED_GLOB) matches backreferences with (#b)
+echo $match[1]                       # the first backref: foo
+echo $match[2]                       # the second backref: abc
+echo $mbegin[1]                      # the start of the first backref: 1
+echo $mend[1]                        # the end of the first backref: 2
+
+autoload -- ~/.zshfunc/[^_]*(:t)     # add all files not starting with _ in ~/.zshfunc to autoload
+
+# Miscellaneous
+
+touch /tmp/thing.$$          # use $$ (current process ID) to create almost unique filename
+
+set -- one two three         # sets $1=one, $2=two and $3=three
+print -L "$*"                # arguments are in a single word
+print -L "$@"                # each argument is a word
+print -L $*                  # each argument is a word
+print -L $@                  # each argument is a word
+
+while IFS=: read a b c       # reads "1:2:3" into a=1 b=2 c=3
+
+[ -z $DIR/*(DN[1]) ]         # check if $DIR is empty (note the [ instead of [[)
+
+# Debugging
+
+set -x             # Enabled showing each command (XTRACE)
+functions -f func  # Enables xtrace for function named 'func'
+
+# Interesting options
+
+setopt EXTENDED_GLOB       # More powerful globbing capabilities
+setpot NO_UNSET            # Error out on unset variables
