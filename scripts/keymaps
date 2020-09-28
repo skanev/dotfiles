@@ -29,8 +29,6 @@ use Tickit::Widget::VBox;
 use Tickit::Widget::Static;
 use Tickit::Widget::GridBox;
 use Tickit::Widget::ScrollBox;
-use Tickit::Widget::Scroller::Item::RichText;
-use Tickit::Widget::Scroller::Item::Text;
 
 use Swamp::ZSH qw( parse_zsh_bindkey parse_zsh_widgets_docs );
 use Swamp::Tmux qw( tmux_parse_list_keys tmux_parse_docs );
