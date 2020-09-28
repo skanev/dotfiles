@@ -65,6 +65,7 @@ alias weather="curl -s wttr.in"
 
 alias zk="explain-bindkey"
 alias keys="~/.scripts/keymaps =(bindkey -L)"
+alias args="printf '⟪%s⟫\n'"
 
 if [[ -n $ZSH_NAME ]]; then
     alias -g RERR="2>&1"
