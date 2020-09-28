@@ -99,4 +99,6 @@ zle -N tmux-page-up
 
 bindkey "\e[5~" tmux-page-up
 
+export PAGER="less"
+
 typeset -U path
