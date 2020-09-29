@@ -199,7 +199,7 @@ sub compress {
 }
 
 my $kbd = Swamp::Widget::Keyboard->new;
-my $selected = 0;
+my $selected = ($ARGV[1] || 0) % @$presets;
 
 my $choice = Tickit::Widget::Static->new( text => 'Choice', align => 0.5 );
 my $vbox = Tickit::Widget::VBox->new;
