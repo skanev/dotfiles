@@ -30,7 +30,7 @@ map <C-Right> :bp<CR>
 MapMeta j 4j
 MapMeta k 4k
 
-MapMeta f :GFiles<CR>
+MapMeta f :Files<CR>
 
 map <Space> :
 
