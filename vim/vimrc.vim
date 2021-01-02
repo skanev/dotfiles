@@ -63,6 +63,8 @@ Plug 'tmux-plugins/vim-tmux'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'jparise/vim-graphql'
+Plug 'elzr/vim-json'
+
 "Plug 'sheerun/vim-polyglot'
 
 if has('gui_macvim')
