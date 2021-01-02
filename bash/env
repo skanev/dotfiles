@@ -4,3 +4,6 @@ export LANG=en_US.UTF-8
 
 export EDITOR=vim
 export VISUAL=vim
+
+export FZF_DEFAULT_COMMAND='fd --type f'
+
