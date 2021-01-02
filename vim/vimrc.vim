@@ -163,7 +163,7 @@ augroup skanev
   autocmd InsertLeave * :silent set timeoutlen=1000
 augroup END
 
-set keymap=bulgarian-skanev
+"set keymap=bulgarian-skanev
 set iminsert=0
 set imsearch=-1
 cnoremap <C-c> <C-^>
