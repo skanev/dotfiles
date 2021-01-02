@@ -18,9 +18,9 @@
 
     "rewrap.wrappingColumn": 78,
 
-    "workbench.iconTheme": null,
+    "workbench.iconTheme": "material-icon-theme",
     "workbench.tree.indent": 16,
-    "workbench.colorTheme": "Monokai Dark Vibrant",
+    "workbench.colorTheme": "Monokai One Dark Vivid",
     "workbench.colorCustomizations": {
       "statusBar.background": "#222222"
     },
@@ -70,5 +70,8 @@
         "before": ["j", "k"],
         "after": ["<esc>"]
       }
-    ]
+    ],
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "vimStyle.imapEsc": "jk",
+    "gitlens.codeLens.enabled": false
   }
