@@ -9,7 +9,7 @@ if s:syntax != ''
   let &syntax = s:syntax
 endif
 
-function! s:InsertPound()
+function! s:InsertOctothorpe()
   let previous_line = getline(line('.') - 1)
 
   if previous_line == ''
@@ -27,4 +27,4 @@ function! s:InsertPound()
   endif
 endf
 
-inoremap <buffer> <expr> # <SID>InsertPound()
+inoremap <buffer> <expr> # <SID>InsertOctothorpe()
