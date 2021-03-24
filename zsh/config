@@ -30,7 +30,7 @@ prompt_current_context () {
 }
 
 PROMPT='%(#.%{$fg_bold[yellow]%}.%{$fg_bold[white]%})%(?..%{$fg_bold[red]%})$(prompt_zsh_level)%(#.∷.→)%{$reset_color%} '
-RPROMPT='%{$fg_bold[green]%}%c%{$fg_bold[white]%}:%{$fg_bold[blue]%}%m %{$fg_bold[red]%}$(vcprompt -f "[%b%m%u]")%{$reset_color%}%{$fg_bold[yellow]%}$(prompt_current_context)%{$reset_color%}'
+RPROMPT='%(1j.%{$fg_bold[magenta]%}⦗%j⦘ .)%{$fg_bold[green]%}%c%{$fg_bold[white]%}:%{$fg_bold[blue]%}%m %{$fg_bold[red]%}$(vcprompt -f "[%b%m%u]")%{$reset_color%}%{$fg_bold[yellow]%}$(prompt_current_context)%{$reset_color%}'
 PROMPT_EOL_MARK="%{${fg_bold[yellow]}%}¶%{$reset_color%}"
 PS2=$'%{\e[38;5;240m%}…%{$reset_color%} '
 
