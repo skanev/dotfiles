@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  # TODO pipe to dev null
+  run-with-status "cloning plenv"      "git clone https://github.com/tokuhirom/plenv.git ~/.plenv"
+  run-with-status "cloning Perl-Build" "git clone https://github.com/tokuhirom/Perl-Build.git ~/.plenv/plugins/perl-build/"
+}
+
+is-pack-installed() {
+  [[ -d ~/.plenv && -x ~/.plenv/bin/plenv ]]
+}
+
+verify-pack() {
+  # TODO real-er check
+  zsh -l -c 'which plenv > /dev/null' || croak 'plenv does not seem to be installed'
+}
+
+pack-info() {
+  # TODO packinfo
+}
+
+process-pack $1

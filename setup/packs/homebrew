@@ -1,0 +1,20 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  run-with-status "installing homebrew" 'NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+}
+
+is-pack-installed() {
+  is-executable brew
+  false
+}
+
+verify-pack() {
+}
+
+pack-info() {
+}
+
+process-pack $1

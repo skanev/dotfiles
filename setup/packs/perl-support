@@ -1,0 +1,88 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+declare -a perl_modules
+declare -A forced
+
+perl_modules=(
+  Alien::libtickit
+  Tickit
+  Tickit::Widgets
+  Tickit::Widget::ScrollBox
+  utf8::all
+  lib::relative
+  IPC::System::Simple
+  Graphics::Color
+  Term::ReadLine
+  File::Path::Expand
+  Array::Utils
+  String::CamelSnakeKebab
+  LWP::Simple
+  LWP::Protocol::https
+  JSON::Parse
+)
+
+forced[Alien::libtickit]=1
+
+# Add plenv explicitly to path for new installs that just have installed plenv,
+# but haven't loaded it in PATH yet
+path=(~/.plenv/bin ~/.plenv/shims $path)
+
+is-module-installed() {
+  # TODO instead of calling perl, check plenv list-modules
+  perl -e "use $1" > /dev/null 2>&1
+}
+
+install-pack() {
+  # TODO Test the piping to dev/null
+  local version=$(cat $DOTFILES_ROOT/support/perl/.perl-version)
+
+  if (plenv versions 2>/dev/null | fgrep $version > /dev/null); then
+    status-report-present "perl $version"
+  else
+    run-with-status "perl $version" "plenv install $version"
+  fi
+
+  if [[ -f ~/.plenv/version && $version == $(cat ~/.plenv/version) ]]; then
+    status-report-present "perl $version as the global version in plenv"
+  else
+    run-with-status "perl $version as the global version in plenv" "plenv global $version"
+  fi
+
+  if which cpanm > /dev/null; then
+    status-report-present cpanm
+  else
+    run-with-status cpanm "plenv install-cpanm"
+  fi
+
+  status-report-chunks-start "perl modules"
+
+  for module in ${perl_modules[@]}; do
+    if is-module-installed $module; then
+      status-report-chunk-present $module
+    elif [[ $forced[$module] ]]; then
+      status-report-chunk-install $module "cpanm --force $module" optional
+    else
+      status-report-chunk-install $module "cpanm $module" optional
+    fi
+  done
+
+  status-report-chunks-end
+}
+
+is-pack-installed() {
+  #[[ -d ~/.plenv ]]
+  # TODO Check if the necessary stuff is installed
+  false
+}
+
+verify-pack() {
+  # TODO Verify that all the modules have been installed
+}
+
+pack-info() {
+  # TODO Report global perl version and each module version
+}
+
+process-pack $1

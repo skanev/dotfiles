@@ -1,0 +1,55 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+determine-os-and-distro
+
+# Bash
+establish-link bash ~/.bash clobberable
+establish-link bash_profile ~/.bash_profile clobberable
+
+# Mutt
+establish-link mutt ~/.mutt
+
+# Scripts
+establish-link scripts ~/.scripts
+
+# Vim
+establish-link vim ~/.vim
+establish-link gvimrc ~/.gvimrc
+establish-link vimrc ~/.vimrc
+
+# ZSH
+establish-link zsh ~/.zsh
+establish-link zprofile ~/.zprofile
+establish-link zshenv ~/.zshenv
+establish-link zshrc ~/.zshrc
+
+# Git
+establish-link gitconfig ~/.gitconfig
+
+# Ruby
+establish-link gemrc ~/.gemrc
+establish-link pryrc ~/.pryrc
+
+# Tmux
+establish-link tmux.conf ~/.tmux.conf
+
+# X Server
+#
+# TODO is this necessary or up-to-date?
+# TODO do this only on linux
+#
+# establish_link Xdefaults ~/.Xdefaults
+# establish_link xmodmap ~/.xmodmap
+# establish_link xprofile ~/.xprofile
+
+mkdir -p ~/.vim-backup
+mkdir -p ~/.vim-undo
+
+#establish-pack pyenv
+establish-pack homebrew
+establish-pack tools
+establish-pack plenv
+establish-pack pyenv
+establish-pack perl-support

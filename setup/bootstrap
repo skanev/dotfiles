@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+OS=$(uname)
+
+case $OS in
+  (Darwin)
+    # TODO MAC
+    exit 1
+    ;;
+  (Linux)
+    DISTRO=$(. /etc/os-release && echo -n $ID)
+    case $DISTRO in
+      (arch)
+        sudo pacman -Syu git zsh
+        ;;
+      (ubuntu)
+        # TODO Ubuntu
+        exit 1
+        ;;
+      (*)
+        echo "don't know how to bootstrap OS DISTRO $DISTRO"
+        exit 1
+        ;;
+    esac
+
+    ;;
+  (MSYS_*)
+    # TODO MSYS
+    exit 1
+    ;;
+  (*)
+    echo "don't know how to bootstrap OS = $OS"
+    exit 1
+    ;;
+esac

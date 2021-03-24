@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  run-with-status "cloning pyenv" "git clone https://github.com/pyenv/pyenv.git ~/.pyenv"
+}
+
+is-pack-installed() {
+  [[ -d ~/.pyenv && -x ~/.pyenv/bin/pyenv ]]
+}
+
+verify-pack() {
+  # TODO real-er check
+  zsh -l -c 'which pyenv > /dev/null' || croak 'pyenv does not seem to be installed'
+}
+
+pack-info() {
+}
+
+process-pack $1

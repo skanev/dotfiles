@@ -1,0 +1,250 @@
+#!/usr/bin/env zsh
+
+emulate -R zsh
+set -e
+setopt ERR_EXIT
+
+declare -A failed_chunks
+
+# TODO convention here, should be lowercase?
+DOTFILES_ROOT=${DOTFILES_ROOT:-~/code/personal/dotfiles}
+FAILED=0
+
+###############################################################################
+# Utility functions
+###############################################################################
+
+croak() {
+  echo "error:" $* >&2
+  exit 1
+}
+
+failure() {
+  echo "failure:" $*
+  FAILED=1
+}
+
+check-failures() {
+  (( FAILED == 0 ))
+}
+
+assert-function-defined() {
+  if [[ ! ( $(whence -w $1) =~ '.*: function' ) ]]; then
+    croak "Expected pack to define a function $1. Instead: $(whence -w $1)"
+  fi
+}
+
+determine-os-and-distro() {
+  source zsh/distro-prober
+}
+
+is-executable() {
+  which $1 > /dev/null
+}
+
+###############################################################################
+# Pack functions
+###############################################################################
+
+process-pack() {
+  set -e
+
+  assert-function-defined install-pack
+  assert-function-defined is-pack-installed
+  assert-function-defined verify-pack
+  assert-function-defined pack-info
+
+  case $1 in
+    (install)
+      if is-pack-installed; then
+        echo 'pack already installed'
+      else
+        start-progress-updates
+        install-pack
+        stop-progress-updates
+      fi
+      ;;
+    (verify) verify-pack
+      ;;
+    (info) pack-info
+      ;;
+    ('') croak "no command supplied"
+      ;;
+    (*) croak "unrecognized command: $1"
+      ;;
+  esac
+}
+
+###############################################################################
+# Status updates
+###############################################################################
+
+start-progress-updates() {
+  export DOTFILES_PACK_UPDATES=$(mktemp)
+
+  rm -f $DOTFILES_PACK_UPDATES
+  mkfifo $DOTFILES_PACK_UPDATES
+
+  show-progress-updates &
+}
+
+stop-progress-updates() {
+  [[ -p $DOTFILES_PACK_UPDATES ]] || croak "cannot find pack updates pipe"
+  echo 'done' >> $DOTFILES_PACK_UPDATES
+  wait
+}
+
+show-progress-updates() {
+  [[ -p $DOTFILES_PACK_UPDATES ]] || croak "cannot find pack updates pipe"
+
+  while true; do
+    if read line; then
+      #echo "-> $line"
+      case $line in
+        (done)
+          break
+          ;;
+        (echo *)
+          echo "$line"
+          ;;
+        (*)
+          croak "unrecognized command: $line"
+          break
+          ;;
+      esac
+    fi
+  done < $DOTFILES_PACK_UPDATES 3> $DOTFILES_PACK_UPDATES
+}
+
+run-with-status() {
+  local name=$1
+  local cmd=$2
+  local logfile=$(mktemp)
+
+  echo -n "Running $1... "
+  echo "command: $2\n" > $logfile
+
+  if eval $2 >> $logfile 2>&1; then
+    echo "SUCCESS"
+    rm $logfile
+  else
+    echo "FAILURE"
+    croak-with-logfile-report "failed to run: $cmd" $logfile
+  fi
+}
+
+croak-with-logfile-report() {
+  local message=$1
+  local logfile=$2
+
+  cat <<END
+
+command failed, final lines below
+----------
+
+$(tail -n 30 $logfile)
+
+----------
+to check the logfile:
+
+  $ cat $logfile
+
+END
+  croak $message
+}
+
+run-with-logfile() {
+  local logfile=$(mktemp)
+
+  echo $logfile
+  echo "running: $1\n" > $logfile
+  eval $1 >> $logfile 2>&1
+}
+
+status-report-present() {
+  echo "already installed: $1"
+}
+
+status-report-chunks-start() {
+  echo -n "installing $1"
+  failed_chunks=()
+}
+
+status-report-chunk-present() {
+  echo -n " $1 [p]"
+}
+
+status-report-chunk-install() {
+  local name=$1
+  local cmd=$2
+  local optional=$3
+
+  echo -n " $name"
+
+  if logfile=$(run-with-logfile $cmd); then
+    echo -n " [s]"
+  elif [[ -z $optional ]]; then
+    croak-with-logfile-report "failed to install $name; command: $cmd" $logfile
+  else
+    echo -n " [f]"
+    failed_chunks[$name]=$logfile
+  fi
+}
+
+status-report-chunks-end() {
+  if [[ -n $failed_chunks ]]; then
+    echo " SOME-FAILURES"
+    echo "some have failed. logfiles:"
+    for chunk in ${(k)failed_chunks}; do
+      echo "  $chunk  ->  ${failed_chunks[$chunk]}"
+    done
+  else
+    echo " SUCCESS"
+  fi
+}
+
+###############################################################################
+# Installation functions
+###############################################################################
+
+establish-link() {
+  emulate -LR zsh
+  setopt ERR_EXIT NO_UNSET
+
+  local src="$DOTFILES_ROOT/$1"
+  local target="$2"
+
+  if [[ ! -e $src ]]; then
+    croak "source does not exist: $src"
+  fi
+
+  if [[ ! -e $target ]]; then
+    ln -s $src $target
+  elif [[ -h $target && $(readlink -f $target) == $src ]]; then
+    echo "already linked: $1 -> $2"
+  elif [[ $3 == clobberable ]]; then
+   echo "file $target already exists\n\ncontents:\n"
+   cat $target
+   echo
+
+   read -q "REPLY?Do you want to delete it? (y/N)"
+
+   if [[ $REPLY == y ]]; then
+     rm $target
+     ln -s $src $target
+   else
+     croak "can't continue"
+   fi
+ else
+    croak "file already exists and not linked to the correct place\n  file:       $target\n  should be:  $src\n  but is:     $(readlink -f $target)"
+  fi
+}
+
+establish-pack() {
+  emulate -LR zsh
+  local file=setup/packs/$1
+
+  [[ -f $file ]] || croak "pack not found: $1"
+
+  zsh $file install
+}

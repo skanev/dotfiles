@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+vagrant up
+vagrant ssh -c 'bash ~/code/personal/dotfiles/setup/bootstrap'
+vagrant ssh -c 'sudo chsh -s /usr/bin/zsh vagrant'
+vagrant ssh -c 'cd ~/code/personal/dotfiles && zsh setup/install'

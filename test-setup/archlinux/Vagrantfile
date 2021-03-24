@@ -1,0 +1,6 @@
+dotfiles_root = File.expand_path File.join(__FILE__, '../../..')
+
+Vagrant.configure('2') do |config|
+  config.vm.box = 'generic/arch'
+  config.vm.synced_folder dotfiles_root, '/home/vagrant/code/personal/dotfiles'
+end

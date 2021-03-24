@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  run-with-status "cloning rbenv"      "git clone https://github.com/rbenv/rbenv.git ~/.rbenv"
+  run-with-status "cloning ruby-build" "git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build"
+}
+
+is-pack-installed() {
+  [[ -d ~/.rbenv && -x ~/.plenv/bin/rbenv ]]
+}
+
+verify-pack() {
+  # TODO real-er check
+  zsh -l -c 'which rbenv > /dev/null' || croak 'rbenv does not seem to be installed'
+}
+
+pack-info() {
+  # TODO
+}
+
+process-pack $1

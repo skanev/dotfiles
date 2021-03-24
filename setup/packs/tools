@@ -1,0 +1,155 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+zmodload zsh/pcre
+setopt EXTENDED_GLOB
+
+declare -a packages system_packages homebrew_packages
+declare -a missing_system_packages missing_homebrew_packages
+declare -A invocations
+
+packages=(
+  autoconf
+  automake
+  ack
+  bat
+
+  "cheat [homebrew]"
+  cloc
+  "coreutils -> mac:coreutils arch:_"
+  "gawk -> mac:gawk arch:_"
+
+  # TODO Figure out what to install here
+  #macvim
+
+  entr
+  "fd -> ubuntu:fd-find other:fd"
+  figlet
+  fzf
+  htop
+  httpie
+  "less -> mac:less arch:_"
+
+  "libtermkey -> ubuntu:libtermkey-dev other:libtermkey"
+  "midnight-commander -> mac:midnight-commander other:mc"
+  "pkg-config -> arch:pkgconf other:pkg-config"
+
+  "navi [homebrew]"
+  "hivemind [homebrew]"
+  "overmind [homebrew]"
+  ranger
+  "the_silver_searcher -> ubuntu:silversearcher-ag other:the_silver_searcher"
+  tig
+  tmux
+  tree
+  "vcprompt [homebrew]"
+)
+
+DISTRO=$DOTFILES_DISTRO
+
+for name in $packages; do
+  if [[ $name -pcre-match '^\S+$' ]]; then
+    system_packages+=($name)
+  elif [[ $name -pcre-match "->.*$DOTFILES_DISTRO:(\\S+)" ]]; then
+    system_packages+=($match)
+  elif [[ $name -pcre-match "->.*other:(\\S+)" ]]; then
+    system_packages+=($match)
+  elif [[ $name -pcre-match '^(\S+) \[homebrew\]$' ]]; then
+    homebrew_packages+=($match)
+  else
+    croak "don't know how to install on $DOTFILES_OS: $name"
+  fi
+done
+
+case $DISTRO in
+  (mac)
+    invocations=(
+      [install]="brew install"
+      [installed]="brew list --formula"
+    )
+
+    system_packages+=($homebrew_packages)
+    system_packages=(${(o)system_packages})
+    homebrew_packages=()
+    ;;
+  (ubuntu)
+    croak # TODO
+
+    # apt list --installed 2>/dev/null | cut -f 1 -d '/'
+    ;;
+  (arch)
+    invocations=(
+      [install]="sudo pacman -S --noconfirm"
+      [installed]="pacman -Qe | cut -f 1 -d ' '"
+    )
+    ;;
+  (msys2)
+    croak # TODO
+    ;;
+  (*)
+    croak "unrecognized distro: $DISTRO"
+esac
+
+invoke() {
+  eval $* || croak "failed to run: $*"
+}
+
+probe-packages() {
+  [[ -v probed_packages ]] && return
+
+  missing_system_packages=( $(missing-packages system_packages $invocations[installed]) )
+  (( $? )) && croak "failed to obtain missing system packages"
+
+  if (( $#homebrew_packages )); then
+    is-executable brew || croak "homebrew not installed"
+    missing_homebrew_packages=( $(missing-packages homebrew_packages "brew list --formula" ) )
+    (( $? )) && croak "failed to obtain missing homebrew packages"
+  fi
+
+  probed_packages=1
+}
+
+missing-packages() {
+  local -A installed
+
+  invoke $2 | while read name; do installed[$name]=1; done
+  (( $pipestatus[1] )) && exit 1
+
+  for name in ${(P)1}; do
+    if [[ $name != _ && -z $installed[$name] ]]; then
+      echo $name
+    fi
+  done
+}
+
+install-pack() {
+  probe-packages
+
+  (( $#missing_system_packages )) && run-with-status "installing $missing_system_packages" "$invocations[install] $missing_system_packages"
+
+  if (( $#homebrew_packages )); then
+    is-executable brew || croak "linuxbrew not installed"
+    (( $#missing_homebrew_packages )) && run-with-status "installing in brew: $missing_homebrew_packages" "brew install $missing_homebrew_packages"
+  fi
+}
+
+is-pack-installed() {
+  probe-packages
+
+  (( $#missing_system_packages == 0 && $#missing_homebrew_packages == 0 ))
+}
+
+verify-pack() {
+  probe-packages
+
+  (( $#missing_system_packages )) && failure "some system packages are missing: $missing_system_packages"
+  (( $#missing_homebrew_packages )) && failure "some homebrew packages are missing: $missing_homebrew_packages"
+
+  check-failures
+}
+
+pack-info() {
+}
+
+process-pack $1
