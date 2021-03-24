@@ -1,0 +1,191 @@
+#!/usr/bin/env perl
+use v5.32;
+use warnings;
+use autodie qw( :all );
+
+use Carp;
+use Data::Dump qw( dump );
+use String::CamelSnakeKebab qw( upper_camel_case lower_snake_case );
+use JSON::Parse qw( parse_json );
+use LWP::Simple;
+use File::Slurp qw( slurp );
+
+sub backtick {
+  my $command = shift;
+  my $output = `$command`;
+  die if $?;
+  chomp $output;
+  $output;
+}
+
+sub write_file {
+  my ( $file, $contents ) = @_;
+
+  open my $fh, '>', $file or croak "Can't open file $file";
+  print { $fh } $contents;
+  close $fh;
+}
+
+my $workspace = backtick('exercism workspace');
+my $pwd = backtick('pwd');
+
+unless ($pwd =~ s/^\Q$workspace\///o) {
+  croak "Current directory $pwd does not seem to be under Exercism workspace $workspace";
+}
+
+my ( $track, $exercise ) = split "/", $pwd;
+
+my $exercise_path;
+
+$exercise_path = "$workspace/$track/$exercise" if $exercise;
+my $command = $ARGV[0];
+
+my %commands = (
+  help => [ sub { run_help() }, 'Show help (default)' ],
+  submit => [ sub { run_submit() }, 'Submit the solution' ],
+  test => [ sub { run_test() }, 'Run the tests' ],
+  list => [ sub { run_list() }, 'List all the exercises' ],
+  next => [ sub { run_next() }, 'Download the next exercise' ],
+  open => [ sub { run_open() }, 'Open the exercise' ],
+  web => [ sub { run_web() }, 'Open in browser' ],
+);
+
+my %languages = (
+  perl5 => {
+    solution_file => sub { $exercise_path . upper_camel_case( $exercise ) . '.pm' },
+    test_file => sub { "$exercise_path/$exercise.t" },
+    test => sub { "prove $exercise.t" },
+  },
+  crystal => {
+    solution_file => sub { "$exercise_path/src/" . lower_snake_case( $exercise ) . '.cr' },
+    test_file => sub { "$exercise_path/spec/" . lower_snake_case( $exercise ) . '_spec.cr' },
+    test => sub { 'crystal spec' },
+    after_checkout => sub {
+      # TODO Replace pending with it in specs
+      say "$exercise_path/spec/*_spec.cr";
+      for my $file ( glob "$exercise_path/spec/*_spec.cr" ) {
+        my $contents = slurp( $file );
+        $contents =~ s/^(\s+)pending /$1it /mg;
+        write_file $file, $contents;
+      }
+    },
+  }
+);
+
+my %config_overrides = (
+  crystal => 'https://raw.githubusercontent.com/exercism/crystal/7ab057f03233b5fafa898dc6ce136e11133133ba/config.json'
+);
+
+my $lang = $languages{$track};
+
+sub solution_file {
+  return undef unless $exercise;
+}
+
+sub run_help {
+  my $exercise = $exercise // '(none)';
+
+  say <<~END;
+  Track: $track
+  Exercise: $exercise
+
+  Commands:
+  END
+
+  while ( my ($name, $details) = each %commands) {
+    printf "    %-10s %s\n", $name, $details->[1];
+  }
+
+  say '';
+  say upper_camel_case $exercise;
+}
+
+sub exercises_list {
+  state $list = 0;
+
+  unless ( $list ) {
+    my $json = parse_json get( $config_overrides{$track} // "https://raw.githubusercontent.com/exercism/$track/master/config.json" );
+    $list = [ map $_->{slug}, $json->{exercises}->@* ];
+  }
+
+  @$list;
+}
+
+sub downloaded_list {
+  state $downloaded = 0;
+
+  $downloaded ||= { map { s#^.*/##; $_ => 1 } glob "$workspace/$track/*" };
+
+  $downloaded;
+}
+
+sub run_submit {
+  croak "No exercise" unless defined $exercise;
+
+  my $file = $lang->{solution_file}->();
+
+  say $file;
+
+  exec "exercism submit $file";
+}
+
+sub run_test {
+  croak "No exercise" unless defined $exercise;
+
+  exec $lang->{test}->();
+}
+
+sub run_list {
+  my $downloaded = downloaded_list();
+
+  say "Exercises\n";
+
+  for my $name ( exercises_list() ) {
+    my $state = $downloaded->{ $name } ? 'd' : ' ';
+    say "    [$state] $name";
+  }
+}
+
+sub run_next {
+  my $downloaded = downloaded_list();
+
+  for my $name ( exercises_list() ) {
+    next if $downloaded->{ $name };
+
+    my $command = "exercism download --exercise=$name --track=$track";
+
+    say "running: $command";
+
+    system $command;
+
+    $exercise = $name;
+    $exercise_path = "$workspace/$track/$exercise";
+
+    $lang->{after_checkout}->() if $lang->{after_checkout};
+
+    say "\nto cd in:\n\n    \$ cd $workspace/$track/$name\n";
+
+    return;
+  }
+
+  say "All exercises downloaded";
+}
+
+sub run_open {
+  croak "No exercise" unless defined $exercise;
+
+  my $solution = $lang->{solution_file}->();
+  my $test = $lang->{test_file}->();
+
+  system 'open -a Markoff README.md';
+  system "mvim -o $solution $test";
+}
+
+sub run_web {
+  croak "No exercise" unless defined $exercise;
+
+  system "exercism open $exercise";
+}
+
+my $action = $commands{$command // 'help'}->[0] or croak "Unrecognized command $command";
+$action->();
