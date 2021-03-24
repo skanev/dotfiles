@@ -67,6 +67,7 @@ elseif has('gui_gtk2')
 elseif has('gui_running')
   let g:sonokai_style = 'shusia'
   colorscheme sonokai
+
   hi TabLineSel guibg=#7f6468 guifg=#ffffff
   hi VertSplit guifg=#e5c463
   hi Cursor guibg=#000000 guifg=#ffffff
@@ -75,6 +76,7 @@ elseif has('gui_running')
   hi link rubyInterpolationDelimiter Orange
   hi link rubyModuleName rubyClassName
   hi link rubyMacro Orange
+  hi link perlVar Blue
   hi link perlVarPlain Blue
   hi link perlVarPlain2 Blue
   hi link perlSpecialString perlString
