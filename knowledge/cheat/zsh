@@ -1,6 +1,9 @@
 ---
 syntax: zsh
 ---
+# Most important
+set -e                  # fail on error
+
 # History
 
 history 1               # print all history
@@ -92,10 +95,12 @@ echo ${(u)array}             # array without duplicates
 echo ${(o)array}             # sorts array
 echo ${(o)$(ls -r)}          # sorts the output of ls -r
 echo ${(s#:#)PATH}           # splits PATH on :
+echo ${(j#,#)array}          # joins $array with ,
 echo ${(F)array}             # joins elements with "\n"
 echo ${(q)array}             # quotes each word
 echo ${array:#*x*}           # array elements not matching *x*
 echo ${(M)array:#*x*}        # array elements matchings *x*
+${(z)command} | cat          # split with parsing (can contain multiple words, but be executed)
 
 # Associative Arrays
 
@@ -124,6 +129,14 @@ echo $mbegin[1]                      # the start of the first backref: 1
 echo $mend[1]                        # the end of the first backref: 2
 
 autoload -- ~/.zshfunc/[^_]*(:t)     # add all files not starting with _ in ~/.zshfunc to autoload
+
+# PCRE
+
+zmodload zsh/pcre                    # loads zsh/pcre
+[[ $x -pcre-match "^foo: (.*)" ]]    # checks if $x matches a regexp
+echo $match                          # array of groups (also single matched group)
+[[ $x -pcre-match '(\S+) (\S+)' ]]   # matches with multiple groups
+echo $match[1] $match[2]             # prints first and second group
 
 # Miscellaneous
 

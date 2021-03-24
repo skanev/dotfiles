@@ -9,15 +9,15 @@ Basic documentation on some interesting ZSH features.
 
 ## Named directories
 
-ZSH allows for creating named directories. They are accessible as `~foo`, where foo is the name of
-the directory. There are a couple of approaches.
+ZSH allows for creating named directories. They are accessible as `~foo`, where
+foo is the name of the directory. There are a couple of approaches.
 
 Static named directories can be created with hash:
 
     hash -d foo=~/code/foo
 
-Dynamic named directories can be calculated by defining a fairly untrivial ZSH function. Check
-"FILENAME EXPANSIONS" under zshexp.
+Dynamic named directories can be calculated by defining a fairly untrivial ZSH
+function. Check "FILENAME EXPANSIONS" under zshexp.
 
 Having CDABLE_VARS set allows you to just CD to the directory.
 
@@ -32,9 +32,23 @@ With `SHORT_LOOPS` set (as is by default), you can avoid the `do`/`done` in `for
 
 ## Prompt variables
 
-You can use `psvar` to set an array of values that can be expanded with `%v`. You can set them in a
-`precmd` hook to both (1) avoid extra computation and (2) keep the prompt string tidier.
+You can use `psvar` to set an array of values that can be expanded with `%v`.
+You can set them in a `precmd` hook to both (1) avoid extra computation and (2)
+keep the prompt string tidier.
 
     precmd() { psvar=(`pwd` `read_thermometer`) }
     PS1='(%2v degrees), in %1v: '
 
+## Completion
+
+There is a lot to be said about completion, but here are a few small things:
+
+* `C-x ?` runs completion in debug and dumps it to a file, that's inserted in
+  the history. This is a new mechanism for doing interesting stuff actually.
+
+* Another way to debug it is to open a separate terminal, run `tty` to see the
+  file for it and then just print to it. It gives something like
+  `/dev/ttys001` on Mac.
+
+* The builtin `compset` can be used to specify prefixes and suffixes that
+  should be ignored or autoinserted when doing completion.

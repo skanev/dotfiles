@@ -1,0 +1,11 @@
+pacman -Syu <pkg>   # Install (and update package list)
+pacman -S <pkg>     # Install only
+pacman -Rsc <pkg>   # Uninstall
+pacman -Ss <pkg>    # Search
+pacman -Syu         # Upgrade everything
+
+pacman -Qe          # List explicitly-installed packages
+pacman -Ql <pkg>    # What files does this package have?
+pacman -Qii <pkg>   # List information on package
+
+pacman -Qdt         # List unneeded packages
