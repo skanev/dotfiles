@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+local uname=$(uname)
+
+case $uname in
+  (Darwin)
+    export DOTFILES_OS=mac
+    export DOTFILES_DISTRO=mac
+    ;;
+  (Linux)
+    export DOTFILES_OS=linux
+    export DOTFILES_DISTRO=$(. /etc/os-release && echo -n $ID)
+    if [[ -v WSLENV ]]; export DOTFILES_WSL=1
+    ;;
+  (MSYS_*)
+    export DOTFILES_OS=windows
+    export DOTFILES_DISTRO=msys2
+    ;;
+  (*)
+    echo "cannot identify OS: uname = $uname"
+    export DOTFILES_OS=unknown
+    export DOTFILES_DISTRO=unknown
+    ;;
+esac
