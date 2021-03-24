@@ -277,4 +277,37 @@ command! Snips UltiSnipsEdit
 
 map <expr> g= ':Tabularize /\V' . expand('<cWORD>') . '<CR>'
 
+function! CreatePlayground()
+  edit ~/Desktop/playground.rb
+  map <buffer> Q :w!<CR>:!ruby % 2>&1 \| perl -pe 's/\e\[?.*?[\@-~]//g'<CR>
+
+  if line('$') == 1 && getline('.') == ''
+    let template =<< trim END
+      class Solution
+        def solve()
+        end
+      end
+
+      def check(*args, expected)
+        actual = Solution.new.solve(*args)
+        if expected != actual
+          puts "solve(#{args.map(&:inspect) * ', '}) = #{actual.inspect}, but expected #{expected.inspect}"
+        end
+      end
+
+      check
+    END
+
+    call append(0, template)
+    $delete _
+  endif
+endfunction
+
+command! Playground :call CreatePlayground()
+
+function! MapQToRerun()
+  map <buffer> Q :w<CR>:!tmux send-keys C-e C-u C-l C-p C-m<CR><CR>
+endfunction
+command! MapQToRerun :call MapQToRerun()
+
 runtime localvimrc
