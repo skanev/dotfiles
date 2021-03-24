@@ -1,0 +1,8 @@
+Plain-text cheat sheet for LaTeX?
+
+Corageous, let's give it a try.
+
+    \cdot             ·         (middle dot)
+    \O(n)             O(n)      (big-O notation, but specifically
+    \\{ k, l \\}      {k,l}     (braces/set notation. note the double backslash, needed for MathJax)
+    x \bmod 4         x mod 4   (binary modulo operator)
