@@ -10,6 +10,8 @@ alias rdtp="bundle exec rake db:test:prepare"
 alias rdmr="bundle exec rake db:migrate:reset"
 alias rrs="bundle exec rake spec"
 alias rc="bundle exec rake cucumber"
+alias rco="bundle exec rake cypress:open"
+alias rcr="bundle exec rake cypress:run"
 
 alias rg="rails generate"
 alias rmig="rails generate migration"
@@ -62,6 +64,9 @@ alias wdp="wip diff P"
 alias ch="cheat"
 
 alias weather="curl -s wttr.in"
+alias weather2="curl -s v2.wttr.in"
+
+alias markoff="open -a Markoff"
 
 alias zk="explain-bindkey"
 alias keys="~/.scripts/keymaps =(bindkey -L)"
