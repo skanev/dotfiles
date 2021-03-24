@@ -16,29 +16,34 @@ let s:modes = {}
 
 let s:modes.test_unit = {}
 let s:modes.test_unit.matcher = '_test\.rb$'
-let s:modes.test_unit.run_test = '"rails test " . expand("%")'
+let s:modes.test_unit.run_test      = '"rails test " . expand("%")'
 let s:modes.test_unit.run_test_line = '"rails test " . expand("%") . ":" . line(".")'
 
 let s:modes.nosetest = {}
 let s:modes.nosetest.matcher = '_test\.py$'
-let s:modes.nosetest.run_test = '"nosetests --nocapture --rednose " . expand("%")'
+let s:modes.nosetest.run_test      = '"nosetests --nocapture --rednose " . expand("%")'
 let s:modes.nosetest.run_test_line = '"nosetests --nocapture --rednose " . expand("%") . ":" . line(".")'
 
 let s:modes.cucumber = {}
 let s:modes.cucumber.matcher = '\.feature$'
-let s:modes.cucumber.run_test = '"command cucumber " . expand("%") . " --drb"'
+let s:modes.cucumber.run_test      = '"command cucumber " . expand("%") . " --drb"'
 let s:modes.cucumber.run_test_line = '"command cucumber " . expand("%") . ":" . line(".") . " --drb"'
 
 let s:modes.rspec = {}
 let s:modes.rspec.matcher = '_spec\.rb$'
-let s:modes.rspec.run_test = '"rspec --format documentation " . expand("%")'
+let s:modes.rspec.run_test      = '"rspec --format documentation " . expand("%")'
 let s:modes.rspec.run_test_line = '"rspec --format documentation " . expand("%") . ":" . line(".")'
 let s:modes.rspec.errorformat = "%f:%l:%m"
 let s:modes.rspec.test_runner = 'rspec.rb'
 
+let s:modes.crystal_spec = {}
+let s:modes.crystal_spec.matcher = '_spec\.cr$'
+let s:modes.crystal_spec.run_test      = '"crystal spec " . expand("%")'
+let s:modes.crystal_spec.run_test_line = '"crystal spec " . expand("%") . ":" . line(".")'
+
 let s:modes.perl = {}
 let s:modes.perl.matcher = '\.t$'
-let s:modes.perl.run_test = '"prove " . expand("%")'
+let s:modes.perl.run_test      = '"prove " . expand("%")'
 let s:modes.perl.run_test_line = '"prove " . expand("%")'
 
 " Nexus utility functions {{{1
