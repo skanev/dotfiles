@@ -1,0 +1,4 @@
+% mac
+
+# Check out the thermal throttling
+pmset -g thermlog
