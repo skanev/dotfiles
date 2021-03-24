@@ -12,4 +12,4 @@ path=(~/bin $path)
 [[ -d ~/.pyenv ]] && export PYENV_ROOT=$HOME/.pyenv
 [[ -d ~/.pyenv ]] && path=(~/.pyenv/bin ~/.pyenv/shims $path)
 [[ -d ~/.plenv ]] && path=(~/.plenv/bin ~/.plenv/shims $path)
-[[ -d ~/.rbenv ]] && path=(~/.rbenv/shims $path)
+[[ -d ~/.rbenv ]] && path=(~/.rbenv/bin ~/.rbenv/shims $path)
