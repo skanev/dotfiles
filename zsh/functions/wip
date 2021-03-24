@@ -2,6 +2,8 @@
 
 emulate -LR zsh
 setopt errreturn
+local first_commit
+local last_merge
 
 case $1 in
     first-commit)
@@ -9,7 +11,9 @@ case $1 in
         ;;
 
     list)
-        git rev-list --oneline $(git rev-list --merges -1 HEAD)..HEAD |
+        first_commit=$(git rev-list --max-parents=0 HEAD)
+        last_merge=$(git rev-list --merges -1 HEAD)
+        git rev-list --oneline ${last_merge:-$first_commit}..HEAD |
             while read -r line; do
                 if [[ $line =~ '^[0-9a-f]+ WIP' ]]; then
                     echo $line;
