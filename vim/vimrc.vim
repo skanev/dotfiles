@@ -66,6 +66,7 @@ Plug 'zackhsi/fzf-tags'
 Plug 'SirVer/ultisnips'
 Plug 'sainnhe/sonokai'
 Plug 'vim-perl/vim-perl', {'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny'}
+Plug 'vim-crystal/vim-crystal'
 
 " JavaScript plugins that I just keep here
 Plug 'leafgarland/typescript-vim'
