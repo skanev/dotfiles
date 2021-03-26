@@ -4,3 +4,5 @@
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH=$PATH:$HOME/dev/go/bin
 export GOPATH=$HOME/dev/go
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
