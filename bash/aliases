@@ -79,6 +79,14 @@ alias action-tail-test='tail -f log/test.log | grep "Started\|Processing by\|Par
 
 alias kill-spring="ps aux | grep spring | grep -v grep | awk '{print \$2}' | xargs kill"
 
+alias remove-all-gems="gem list | cut -d\" \" -f1 | xargs gem uninstall -aIx"
+
+alias kubedemo='kubectl --kubeconfig=/Users/bikezilla/.kube/demo_cluster.yml'
+alias kubestaging='kubectl --kubeconfig=/Users/bikezilla/.kube/staging_cluster.yml'
+alias kubeproduction='kubectl --kubeconfig=/Users/bikezilla/.kube/production_cluster.yml'
+alias kubeinfrastructure='kubectl --kubeconfig=/Users/bikezilla/.kube/infrastructure_cluster.yml'
+
+
 grep-in-project () {
   git --no-pager grep "$@"
   grep -RI "$@" `bundle show --paths`
