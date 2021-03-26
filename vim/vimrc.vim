@@ -64,8 +64,7 @@ Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'jparise/vim-graphql'
 Plug 'elzr/vim-json'
-
-"Plug 'sheerun/vim-polyglot'
+Plug 'dense-analysis/ale'
 
 if has('gui_macvim')
   Plug 'copy-as-rtf'
@@ -190,3 +189,10 @@ set textwidth=100 " maybe make this per file type at some point
 "endfunction
   "let g:airline_section_y = airline#section#create(['foo', ' ', 'ffenc'])
 "autocmd VimEnter * call AirlineInit()
+"
+" Ale
+let g:ale_linters = {"ruby": ["rubocop", "ruby"]}
+let g:ale_fixers = {"ruby": ["rubocop"]}
+let g:ale_ruby_rubocop_executable = 'bundle'
+let g:ale_fix_on_save = 1
+
