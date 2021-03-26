@@ -162,6 +162,11 @@ augroup skanev
   autocmd InsertLeave * :silent set timeoutlen=1000
 augroup END
 
+augroup auFileTypes
+  autocmd!
+  autocmd FileType markdown setlocal textwidth=120
+augroup end
+
 "set keymap=bulgarian-skanev
 set iminsert=0
 set imsearch=-1
@@ -178,7 +183,7 @@ vmap gb <Plug>NexusSendSelection()<CR>
 
 let g:ackprg = 'ag --vimgrep'
 
-set textwidth=100 " maybe make this per file type at some point
+set textwidth=120 " maybe make this per file type at some point
 "function GetFooText()
   "return localtime()
 "endfunction
