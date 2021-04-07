@@ -17,20 +17,22 @@ packages=(
 
   "cheat [homebrew]"
   cloc
-  "coreutils -> mac:coreutils arch:_"
-  "gawk -> mac:gawk arch:_"
+  "coreutils -> arch:_ other:coreutils"
+  "gawk -> arch:_ other:gawk"
 
   # TODO Figure out what to install here
   #macvim
 
   entr
-  "fd -> ubuntu:fd-find other:fd"
+  "fd [homebrew]"
   figlet
   fzf
   htop
   httpie
-  "less -> mac:less arch:_"
+  "less -> arch:_ other:less"
 
+  "libtool -> ubuntu:libtool other:_"
+  "libtool-bin -> ubuntu:libtool-bin other:_"
   "libtermkey -> ubuntu:libtermkey-dev other:libtermkey"
   "midnight-commander -> mac:midnight-commander other:mc"
   "pkg-config -> arch:pkgconf other:pkg-config"
@@ -44,6 +46,7 @@ packages=(
   tmux
   tree
   "vcprompt [homebrew]"
+  "zlib1g-dev -> ubuntu:zlib1g-dev other:_"
 )
 
 DISTRO=$DOTFILES_DISTRO
@@ -74,9 +77,10 @@ case $DISTRO in
     homebrew_packages=()
     ;;
   (ubuntu)
-    croak # TODO
-
-    # apt list --installed 2>/dev/null | cut -f 1 -d '/'
+    invocations=(
+      [install]="sudo apt install"
+      [installed]="apt list --installed 2>/dev/null | cut -f 1 -d '/'"
+    )
     ;;
   (arch)
     invocations=(
