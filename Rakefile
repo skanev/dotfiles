@@ -35,7 +35,6 @@ task :homebrew do
     htop
     macvim
     midnight-commander
-    reattach-to-user-namespace
     tmux
     mercurial
     tree

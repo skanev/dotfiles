@@ -6,6 +6,6 @@ current_program=$(~/.scripts/tmux/current-app)
 if [ "$current_program" == "vim" ]; then
     tmux send-keys "$prefix" \; send-keys c
 else
-    tmux show-buffer | reattach-to-user-namespace pbcopy
+    tmux show-buffer | pbcopy
     tmux display "Copied to clipboard"
 fi
