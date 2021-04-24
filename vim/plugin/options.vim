@@ -43,7 +43,10 @@ if has('gui_running')
   set guioptions-=e
   set guioptions-=r
   set guioptions-=L
-  if has("gui_gtk2")
+  if $DOTFILES_WSL
+    set guifont=Hack\ Regular\ 12
+    set linespace=2
+  elseif has("gui_gtk2")
     set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
     set linespace=2
   elseif has("gui_macvim")
@@ -70,6 +73,5 @@ elseif has('gui_running')
 elseif $ITERM_PROFILE == "Beamer"
   colorscheme emacs
 else
-  "colorscheme vim-monokai-tasty
   colorscheme vividchalk
 end
