@@ -87,3 +87,9 @@ VMapMeta e <Plug>NexusSendSelection
 
 MapMeta / <Plug>NERDCommenterToggle
 VMapMeta / <Plug>NERDCommenterToggle
+
+if !(has('gui_running') && has('gui_macvim'))
+  MapMeta s :w<CR>
+  MapMeta w :close<CR>
+  MapMeta t :tabnew<CR>
+end
