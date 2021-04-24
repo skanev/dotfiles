@@ -8,6 +8,6 @@ onoremap i$ :<c-u>normal! T$vt$<CR>
 map <buffer> Q :!open -a 'Markoff' %<CR><CR>
 setlocal spell
 setlocal spelllang=en,bg
-set tw=100
+set tw=80
 
 command! -buffer MarkdownToc :!markdown-toc -i %
