@@ -1,0 +1,12 @@
+#!/usr/bin/env perl
+use v5.32;
+use warnings;
+use List::Util qw( uniq );
+
+my $output = `tmux capture-pane -p`;
+
+$output =~ s/¶//g;
+
+my @paths = uniq ( $output =~ m#(?<![:/\w])~?(/\S+)+/?#g );
+
+say for @paths;
