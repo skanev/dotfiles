@@ -53,3 +53,4 @@ establish-pack tools
 establish-pack plenv
 establish-pack pyenv
 establish-pack perl-support
+establish-pack rbenv
