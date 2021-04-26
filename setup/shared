@@ -220,7 +220,7 @@ establish-link() {
 
   if [[ ! -e $target ]]; then
     ln -s $src $target
-  elif [[ -h $target && $(readlink -f $target) == $src ]]; then
+  elif [[ -h $target && $(readlink $target) == $src ]]; then
     echo "already linked: $1 -> $2"
   elif [[ $3 == clobberable ]]; then
    echo "file $target already exists\n\ncontents:\n"
