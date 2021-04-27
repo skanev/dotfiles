@@ -15,6 +15,7 @@ end
 " My 'early' stuff
 runtime early/term.vim
 runtime early/mapmeta.vim
+runtime early/sonokai_tweaks.vim
 
 " Pathogen and Vundle
 filetype off

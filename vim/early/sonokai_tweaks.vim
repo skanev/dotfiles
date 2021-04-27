@@ -2,6 +2,7 @@ function! s:FixSonokai()
   highlight! TabLineSel guibg=#7f6468 guifg=#ffffff
   highlight! VertSplit guifg=#e5c463
   highlight! Cursor guibg=#000000 guifg=#ffffff
+
   highlight! link rubySymbol Purple
   highlight! link rubyInterpolation White
   highlight! link rubyInterpolationDelimiter Orange
