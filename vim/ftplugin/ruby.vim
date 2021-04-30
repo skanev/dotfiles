@@ -8,6 +8,9 @@ set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 map <Leader>f :AS<CR><C-w>r
 imap <buffer> <C-l> <Space>=><Space>
 
+map [r :A<CR>
+map ]r :R<CR>
+
 onoremap i\| :<c-u>normal! T\|vt\|<CR>
 onoremap a\| :<c-u>normal! F\|vf\|<CR>
 

@@ -12,11 +12,14 @@ map <F11> :FZF ~/code/personal/dotfiles<CR>
 map <S-F11> :FZF ~/.vim/<CR>
 map <F12> :edit ~/.vim/vimrc.vim<CR>
 
-map <Leader>p <Plug>(SynStack)
-
 map <C-]> <Plug>(fzf_tags)
 
 imap <expr> jk BulgarianJK()
+
+map <Leader>p <Plug>(SynStack)
+map <Leader>g <Cmd>copen<CR>
+nmap <Leader>j :SplitjoinJoin<CR>
+nmap <Leader>s :SplitjoinSplit<CR>
 
 nnoremap <Tab> <C-w><C-w>
 nnoremap <S-Tab> <C-w><C-W>
@@ -26,10 +29,26 @@ nnoremap ,, ,
 nnoremap <Space> :
 nnoremap <expr> Q ''
 
-nmap yoa :ALEToggleBuffer<CR>
+nmap [c <Plug>(GitGutterPrevHunk)
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap [g <Cmd>colder<CR>
+nmap ]g <Cmd>cnewer<CR>
 
-map <C-Left> :bn<CR>
-map <C-Right> :bp<CR>
+nmap <silent> yoa <Cmd>ALEToggleBuffer<CR>
+nmap <silent> yog <Cmd>call s:ToggleGitGutter()<CR>
+
+nnoremap <C-h> :SidewaysLeft<CR>
+nnoremap <C-l> :SidewaysRight<CR>
+nnoremap - :Switch<CR>
+cnoremap <C-c> <C-^>
+inoremap <C-c> <C-^>
+
+map <C-Left> :bnext<CR>
+map <C-Right> :bprevious<CR>
+
+map <expr> g= ':Tabularize /\V' . expand('<cWORD>') . '<CR>'
+
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h') . '/' : '%%'
 
 MapMeta f :FZF<CR>
 
@@ -107,6 +126,12 @@ function! s:InstallTouchbarWorkaroundMappings()
   map <Leader>0 <F10>
   map <Leader>- <F11>
   map <Leader>= <F12>
+endfunction
+
+function! s:ToggleGitGutter()
+  GitGutterToggle
+  let g:airline#extensions#hunks#enabled = 1
+  AirlineRefresh
 endfunction
 
 command! InstallTouchbarWorkaroundMappings call s:InstallTouchbarWorkaroundMappings()

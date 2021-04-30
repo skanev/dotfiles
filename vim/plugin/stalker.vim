@@ -6,6 +6,3 @@ function! s:LoadRspec()
 endfunction
 
 map <Leader>q <Cmd>call <SID>LoadRspec()<CR>
-map [g <Cmd>colder<CR>
-map ]g <Cmd>cnewer<CR>
-map <Leader>g <Cmd>copen<CR>

@@ -33,27 +33,6 @@ filetype plugin indent on
 runtime settings/options.vim
 runtime settings/mappings.vim
 
-nmap [c <Plug>(GitGutterPrevHunk)
-nmap ]c <Plug>(GitGutterNextHunk)
-nmap <silent> <expr> yog <SID>ToggleGitGutter()
-
-function! s:ToggleGitGutter()
-  GitGutterToggle
-  let g:airline#extensions#hunks#enabled = 1
-  AirlineRefresh
-endfunction
-
-nmap <Leader>j :SplitjoinJoin<CR>
-nmap <Leader>s :SplitjoinSplit<CR>
-
-nnoremap <C-h> :SidewaysLeft<CR>
-nnoremap <C-l> :SidewaysRight<CR>
-
-nnoremap - :Switch<CR>
-
-map [r :A<CR>
-map ]r :R<CR>
-
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
@@ -78,6 +57,7 @@ function! ExtractVariable()
     let @a = save_a
   endtry
 endfunction
+
 xnoremap <Leader>e <ESC>:call ExtractVariable()<CR>
 
 augroup skanev
@@ -89,8 +69,6 @@ augroup END
 set keymap=bulgarian-skanev
 set iminsert=0
 set imsearch=-1
-cnoremap <C-c> <C-^>
-inoremap <C-c> <C-^>
 
 let NERDTreeIgnore=['node_modules$']
 
@@ -103,8 +81,6 @@ endfunction
 command! HtestDefine :call HTestDefine()
 
 command! Snips UltiSnipsEdit
-
-map <expr> g= ':Tabularize /\V' . expand('<cWORD>') . '<CR>'
 
 function! CreatePlayground()
   edit ~/Desktop/playground.rb
@@ -138,7 +114,5 @@ function! MapQToRerun()
   map <buffer> Q :w<CR>:!tmux send-keys C-e C-u C-l C-p C-m<CR><CR>
 endfunction
 command! MapQToRerun :call MapQToRerun()
-
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h') . '/' : '%%'
 
 runtime localvimrc
