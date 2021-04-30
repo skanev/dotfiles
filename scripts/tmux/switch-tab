@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 
 prefix=$(tmux show-option -vg @meta-prefix)
 app=$(~/.scripts/tmux/current-app)
@@ -24,7 +24,7 @@ done
 
 tab=$1
 
-if [ "$tab_escape" == "yes" ]; then
+if [[ "$tab_escape" == "yes" ]]; then
     tmux set -q @tab-escape no
     switch_to_tab $tab
     exit
