@@ -93,3 +93,9 @@ if !(has('gui_running') && has('gui_macvim'))
   MapMeta w :close<CR>
   MapMeta t :tabnew<CR>
 end
+
+if has('gui_running') && !has('gui_macvim')
+  map <M-c> "+y
+  map <M-v> "+p
+  map <M-x> "+x
+end
