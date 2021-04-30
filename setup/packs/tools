@@ -15,6 +15,7 @@ packages=(
   ack
   bat
 
+  cmake
   "cheat [homebrew]"
   cloc
   "coreutils -> arch:_ other:coreutils"
