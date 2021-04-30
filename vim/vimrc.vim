@@ -310,4 +310,6 @@ function! MapQToRerun()
 endfunction
 command! MapQToRerun :call MapQToRerun()
 
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h') . '/' : '%%'
+
 runtime localvimrc
