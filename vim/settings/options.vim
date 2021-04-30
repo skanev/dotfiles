@@ -1,36 +1,37 @@
-set ruler
-set wildmenu
-set number
-set nowrap
-set showcmd
+set wildmenu     " fancy command completion menu
+set number       " show line numbers
+set nowrap       " don't wrap long lines
+set showcmd      " shows number of selected lines/characters
 
-set incsearch
-set hlsearch
+set incsearch    " search immediatelly instead of waiting <CR>
+set hlsearch     " highlight search results
 
-set autoindent
-set autoread
-set ignorecase
-set smartcase
-set scrolloff=5
+set autoindent   " copy indentation from current line when starting a new one
+set autoread     " automatically read changed files
+set ignorecase   " case-insensitive search...
+set smartcase    " ...unless pattern contains uppercase
 
-set modeline
+set scrolloff=5  " scroll before cursor reach edges
 
-set backspace=indent,eol,start
+set modeline     " evaluate modelines
+set laststatus=2 " always have a status line
+set nojoinspaces " no double spacing on join, which year is it
+set belloff=all  " turn bells off
 
-set nojoinspaces
+set backspace=indent,eol,start " intuitive backspace
+set dir=~/.vim-backup          " swap file location
+set listchars=eol:¬,tab:→\     " invisible characters
 
-set belloff=all
-
-set dir=~/.vim-backup
+set keymap=bulgarian-skanev    " my input method for Bulgarian
+set iminsert=0                 " don't switch to BDS automatically
+set imsearch=-1                " search in the same language as iserting
 
 if has('persistent_undo')
-  set undodir=~/.vim-undo
-  set undofile
+  set undofile                 " have persistent undo
+  set undodir=~/.vim-undo      " where are undo files stored
 end
 
-set listchars=eol:¬,tab:→\ 
-
-set laststatus=2
+" Font
 
 let s:themes = {
       \ 'gvim-wsl': ['Monospace Regular 12', 2],
@@ -56,6 +57,8 @@ else
   let &guifont = font
   let &linespace = lineheight
 endif
+
+" Colorscheme
 
 if $VIM_COLORSCHEME != ""
   exec 'colorscheme '.$VIM_COLORSCHEME

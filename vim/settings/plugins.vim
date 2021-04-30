@@ -156,3 +156,6 @@ let g:ale_ruby_rubocop_executable = 'bundle'
 
 " dylnmc/synstack
 let g:no_synstack_maps = 1
+
+" vim-scripts/The-NERD-tree
+let NERDTreeIgnore=['node_modules$']

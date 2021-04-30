@@ -18,47 +18,25 @@ runtime early/term.vim
 runtime early/mapmeta.vim
 runtime early/sonokai_tweaks.vim
 
-" Pathogen and Vundle
+" Pathogen, Plug and friends
 filetype off
+
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
-" Bundles
 call plug#begin('~/.vim/plugged')
 runtime settings/plugins.vim
 call plug#end()
 
 filetype plugin indent on
 
+" Settings
 runtime settings/options.vim
 runtime settings/mappings.vim
 
+" Autocommands
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
-
-function! PromoteToLet()
-  s/\v(\w+)\s+\=\s+(.*)$/let(:\1) { \2 }/
-  normal ==
-endfunction
-
-command! PromoteToLet :call PromoteToLet()
-map <Leader>l :PromoteToLet<CR>
-
-command! Reverse :g/^/m0
-
-function! ExtractVariable()
-  try
-    let save_a = @a
-    let variable = input('Variable name: ')
-    normal! gv"ay
-    execute "normal! gvc" . variable
-    execute "normal! O" . variable . " = " . @a
-  finally
-    let @a = save_a
-  endtry
-endfunction
-
-xnoremap <Leader>e <ESC>:call ExtractVariable()<CR>
 
 augroup skanev
   autocmd!
@@ -66,13 +44,15 @@ augroup skanev
   autocmd InsertLeave * :silent set timeoutlen=1000
 augroup END
 
-set keymap=bulgarian-skanev
-set iminsert=0
-set imsearch=-1
-
-let NERDTreeIgnore=['node_modules$']
-
+" Commands
 command! Snips UltiSnipsEdit
+command! Reverse :g/^/m0
+
+runtime localvimrc
+
+" --- Junk Drawer "  ------------------------------------------------------------
+
+command! Playground :call CreatePlayground()
 
 function! CreatePlayground()
   edit ~/Desktop/playground.rb
@@ -100,11 +80,8 @@ function! CreatePlayground()
   endif
 endfunction
 
-command! Playground :call CreatePlayground()
-
 function! MapQToRerun()
   map <buffer> Q :w<CR>:!tmux send-keys C-e C-u C-l C-p C-m<CR><CR>
 endfunction
-command! MapQToRerun :call MapQToRerun()
 
-runtime localvimrc
+command! MapQToRerun :call MapQToRerun()

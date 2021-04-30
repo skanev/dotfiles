@@ -3,9 +3,16 @@ if (exists("b:did_skanev_ftplugin"))
 endif
 let b:did_skanev_ftplugin = 1
 
-set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+setlocal iskeyword+=!
+setlocal iskeyword+=?
+
+autocmd BufnewFile,BufRead *.rb setlocal complete-=i
 
 map <Leader>f :AS<CR><C-w>r
+xnoremap <Leader>e <ESC>:call s:ExtractVariable()<CR>
+map <Leader>l <Cmd>call s:PromoteToLet()<CR>
+
 imap <buffer> <C-l> <Space>=><Space>
 
 map [r :A<CR>
@@ -14,7 +21,20 @@ map ]r :R<CR>
 onoremap i\| :<c-u>normal! T\|vt\|<CR>
 onoremap a\| :<c-u>normal! F\|vf\|<CR>
 
-setlocal iskeyword+=!
-setlocal iskeyword+=?
+function! s:PromoteToLet()
+  s/\v(\w+)\s+\=\s+(.*)$/let(:\1) { \2 }/
+  normal ==
+endfunction
 
-autocmd BufnewFile,BufRead *.rb setlocal complete-=i
+function! s:ExtractVariable()
+  try
+    let save_a = @a
+    let variable = input('Variable name: ')
+    normal! gv"ay
+    execute "normal! gvc" . variable
+    execute "normal! O" . variable . " = " . @a
+  finally
+    let @a = save_a
+  endtry
+endfunction
+
