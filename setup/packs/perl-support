@@ -21,6 +21,7 @@ perl_modules=(
   LWP::Simple
   LWP::Protocol::https
   JSON::Parse
+  File::Slurp
 )
 
 forced[Alien::libtickit]=1
@@ -41,7 +42,7 @@ install-pack() {
   if (plenv versions 2>/dev/null | fgrep $version > /dev/null); then
     status-report-present "perl $version"
   else
-    run-with-status "perl $version" "plenv install $version"
+    run-with-status "perl $version" "plenv install $version -Dusethreads"
   fi
 
   if [[ -f ~/.plenv/version && $version == $(cat ~/.plenv/version) ]]; then
@@ -50,7 +51,7 @@ install-pack() {
     run-with-status "perl $version as the global version in plenv" "plenv global $version"
   fi
 
-  if which cpanm > /dev/null; then
+  if ~/.plenv/bin/plenv which cpanm > /dev/null 2>&1; then
     status-report-present cpanm
   else
     run-with-status cpanm "plenv install-cpanm"
