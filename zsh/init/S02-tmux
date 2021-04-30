@@ -31,3 +31,14 @@ zstyle ':completion:tmux-pane-words-(prefix|anywhere):*' ignore-line current
 zstyle ':completion:tmux-pane-words-anywhere:*' matcher-list 'b:=* m:{A-Za-z}={a-zA-Z}'
 
 zstyle ':completion:tmux-pane-paths:*' completer _tmux_pane_paths
+
+rerun() {
+  local cmd=$(~/.scripts/stalker poke rerun)
+  echo "> $cmd"
+  eval $cmd
+}
+
+stalk() {
+  ~/.scripts/stalker shutdown
+  tmux pipe-pane '~/.scripts/stalker steal'
+}
