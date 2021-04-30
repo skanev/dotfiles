@@ -51,8 +51,8 @@
 [branch]
   autosetuprebase = always
 [gui]
-  fontui = -family \"DejaVu Sans\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
-  fontdiff = -family terminus -size 12 -weight normal -slant roman -underline 0 -overstrike 0
+  fontui = -family \"DejaVu Sans\" -size 14 -weight normal -slant roman -underline 0 -overstrike 0
+  fontdiff = -family Consolas -size 14 -weight normal -slant roman -underline 0 -overstrike 0
 [giggle]
   main-window-maximized = false
   main-window-geometry = 857x1163+160+106
