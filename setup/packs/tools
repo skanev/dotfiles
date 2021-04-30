@@ -31,6 +31,8 @@ packages=(
   httpie
   "less -> arch:_ other:less"
 
+  "build-essential -> ubuntu:build-essential other:_"
+
   "libtool -> ubuntu:libtool other:_"
   "libtool-bin -> ubuntu:libtool-bin other:_"
   "libtermkey -> ubuntu:libtermkey-dev other:libtermkey"
