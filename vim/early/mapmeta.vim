@@ -6,8 +6,9 @@
 " Vim.  The rest implement a sketchy way of supporting Alt mappings in the
 " terminal with a little help from tmux.
 
+let s:in_tmux = !has('gui_running') && $TMUX != ""
 let s:hijackPrefixVim = '<C-S-F12>'
-let s:hijackPrefixTmux = substitute(system('tmux show -vg @meta-prefix'), '\n$', '', '')
+let s:hijackPrefixTmux = "C-S-F12"
 
 function! MapMeta(modes, args, options)
   let key = strpart(a:args, 0, 1)
@@ -70,7 +71,7 @@ function! s:HijackCommand(key)
   return "bind-key -n 'M-" . a:key . "'" .
         \" if-shell ~/.scripts/tmux/in-terminal-vim".
         \" 'send-keys " . s:hijackPrefixTmux . " " . a:key . "'" .
-        \" 'send-keys " . a:key . "'"
+        \" 'send-keys M-" . a:key . "'"
 endfunction
 
 function! s:HijackKey(key)
@@ -92,7 +93,7 @@ function! s:TmuxSend(cmds)
     return
   endif
 
-  echo system('tmux ' . join(a:cmds, ' \; '))
+  call system('tmux ' . join(a:cmds, ' \; '))
 endfunction
 
 function! s:TmuxInspect()
@@ -111,8 +112,20 @@ function! s:TmuxInspect()
   endwhile
 endfunction
 
-function! s:OnVimEnter()
+function! s:OnFirstBuffer()
+  call s:TmuxInspect()
+  call s:TmuxSend(['rename-window vim'])
   call s:TmuxSend(s:command_queue)
+
+  augroup mapmeta_initialize
+    autocmd!
+  augroup END
+endfunction
+
+function! s:OnVimEnter()
+  if !s:in_tmux
+    return
+  endif
 
   let s:command_queue = []
   let s:loaded        = 1
@@ -122,12 +135,16 @@ function! s:OnVimLeave()
   call s:TmuxSend(['setw automatic-rename on'])
 endfunction
 
-if !has('gui_running') && $TMUX != ""
-  call s:TmuxInspect()
+if s:in_tmux
+  augroup mapmeta_initialize
+    autocmd!
+    autocmd BufEnter * call s:OnFirstBuffer()
+  augroup END
 
   augroup mapmeta
     autocmd!
     autocmd VimEnter * call s:OnVimEnter()
     autocmd VimLeave * call s:OnVimLeave()
   augroup END
-end
+endif
+
