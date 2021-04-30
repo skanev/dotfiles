@@ -2,12 +2,17 @@ package Swamp::Tmux;
 
 use v5.30;
 use warnings;
+use experimental qw( switch signatures );
 
 use Exporter 'import';
 use Term::ANSIColor qw( colorstrip );
 use Carp qw( croak );
 
-our @EXPORT_OK = qw( tmux_parse_list_keys tmux_parse_docs );
+our @EXPORT_OK = qw( tmux_parse_list_keys tmux_parse_docs tmux_refresh_client tmux_warn );
+
+sub tmux( $command ) {
+  system "tmux $command";
+}
 
 sub tmux_parse_list_keys {
   my ( $list_keys_output, $docs ) = @_;
@@ -61,6 +66,18 @@ sub tmux_parse_docs {
   }
 
   $docs;
+}
+
+sub tmux_warn( $message ) {
+  if ( $message ) {
+    tmux "set \@warn \"$message\"";
+  } else {
+    tmux "set -u \@warn";
+  }
+}
+
+sub tmux_refresh_client {
+  tmux 'refresh-client -S';
 }
 
 1;
