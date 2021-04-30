@@ -84,7 +84,7 @@ function! s:HijackKey(key)
   if s:loaded == 1
     call s:TmuxSend([cmd])
   else
-    call add(s:command_queue, cmd)
+    call add(s:command_queue, [a:key, cmd])
   endif
 endfunction
 
@@ -100,6 +100,8 @@ function! s:TmuxInspect()
   let output = system('tmux rename-window vim \; list-keys')
 
   let pos = 0
+  let established = {}
+
   while 1
     let pos = match(output, 'bind-key\s\+-T root\s\+M-\(.\)', pos + 1)
 
@@ -109,26 +111,22 @@ function! s:TmuxInspect()
 
     let key = matchlist(output, 'M-\(.\)', pos)[1]
     call add(s:hijacked_keys, key)
+    let established[key] = 1
   endwhile
+
+  let s:command_queue = s:command_queue->filter('!get(established, (v:val)[0])')
 endfunction
 
 function! s:OnFirstBuffer()
   call s:TmuxInspect()
-  call s:TmuxSend(['rename-window vim'])
-  call s:TmuxSend(s:command_queue)
+  call s:TmuxSend(s:command_queue->map('v:val[1]'))
+
+  let s:loaded = 1
+  let s:command_queue = []
 
   augroup mapmeta_initialize
     autocmd!
   augroup END
-endfunction
-
-function! s:OnVimEnter()
-  if !s:in_tmux
-    return
-  endif
-
-  let s:command_queue = []
-  let s:loaded        = 1
 endfunction
 
 function! s:OnVimLeave()
@@ -137,13 +135,11 @@ endfunction
 
 if s:in_tmux
   augroup mapmeta_initialize
-    autocmd!
     autocmd BufEnter * call s:OnFirstBuffer()
   augroup END
 
   augroup mapmeta
     autocmd!
-    autocmd VimEnter * call s:OnVimEnter()
     autocmd VimLeave * call s:OnVimLeave()
   augroup END
 endif

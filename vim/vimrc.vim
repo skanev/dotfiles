@@ -13,6 +13,7 @@ if has('nvim')
 end
 
 " My 'early' stuff
+runtime early/env.vim
 runtime early/term.vim
 runtime early/mapmeta.vim
 runtime early/sonokai_tweaks.vim
@@ -103,6 +104,9 @@ endif
 call plug#end()
 
 filetype plugin indent on
+
+runtime settings/options.vim
+runtime settings/mappings.vim
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/snips']
 let g:UltiSnipsExpandTrigger="<tab>"
