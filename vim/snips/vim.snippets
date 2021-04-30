@@ -13,9 +13,9 @@ let $1 = 1${0}
 endsnippet
 
 snippet f "function"
-fun! ${1:`!v expand('%') =~ 'autoload' ? substitute(matchstr(expand('%:p'),'autoload/\zs.*\ze.vim'),'[/\\]','#','g').'#' : ''`}${2:function_name}(${3})
+function! ${1:`!v expand('%') =~ 'autoload' ? substitute(matchstr(expand('%:p'),'autoload/\zs.*\ze.vim'),'[/\\]','#','g').'#' : ''`}${2:function_name}(${3})
 	${0}
-endf
+endfunction
 endsnippet
 
 snippet t "try ... catch statement"
@@ -149,8 +149,8 @@ let $1 = 1$3
 endsnippet
 
 snippet f "function" b
-fun ${1:function_name}($2)
+function! ${1:function_name}($2)
 	${3:" code}
-endf
+endfunction
 endsnippet
 # vim:ft=snippets:
