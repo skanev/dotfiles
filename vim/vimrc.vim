@@ -72,14 +72,6 @@ set imsearch=-1
 
 let NERDTreeIgnore=['node_modules$']
 
-function! HTestDefine()
-  let line = search('^\(module\|class\)')
-  let command = 'map <D-r> :!tmux send-keys C-u C-l "rails runner " ' . split(getline(line), ' ')[1] . '.test C-m<CR><CR>'
-  execute command
-endfunction
-
-command! HtestDefine :call HTestDefine()
-
 command! Snips UltiSnipsEdit
 
 function! CreatePlayground()
