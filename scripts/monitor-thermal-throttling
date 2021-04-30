@@ -1,0 +1,18 @@
+#!/usr/bin/env perl
+
+use v5.32;
+use warnings;
+
+use lib::relative '../support/perl/lib';
+use Swamp::Tmux qw( tmux_warn );
+
+$SIG{INT} = sub { tmux_warn ''; exit };
+
+while ( 1 ) {
+  $_ = `pmset -g therm`;
+  /CPU_Speed_Limit\s+= (\d+)/;
+
+  tmux_warn $1 == 100 ? '' : "$1%";
+
+  sleep 15;
+}
