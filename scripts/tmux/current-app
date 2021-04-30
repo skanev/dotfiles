@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 
-status=$(tmux display -p '#{pane_current_command}/#{window_name}')
+local name=$(tmux display -p '#{pane_current_command}/#{window_name}')
 
-case $status in
+case $name in
     ruby/vim)
         printf "vim"
         ;;
@@ -24,6 +24,6 @@ case $status in
         ;;
 
     *)
-        printf "%s" ${status/\/*/}
+        printf "%s" ${name/\/*/}
         ;;
 esac

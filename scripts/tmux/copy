@@ -1,11 +1,14 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 
 prefix=$(tmux show-option -vg @meta-prefix)
 current_program=$(~/.scripts/tmux/current-app)
 
-if [ "$current_program" == "vim" ]; then
-    tmux send-keys "$prefix" \; send-keys c
+if [[ "$current_program" == "vim" ]]; then
+  tmux send-keys "$prefix" \; send-keys c
+elif [[ -n $DOTFILES_WSL ]]; then
+  tmux show-buffer | clip.exe
+  tmux display "Copied to clipboard"
 else
-    tmux show-buffer | pbcopy
-    tmux display "Copied to clipboard"
+  tmux show-buffer | pbcopy
+  tmux display "Copied to clipboard"
 fi
