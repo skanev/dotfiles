@@ -110,17 +110,6 @@ function! s:errorNotRunning()
   end
 endfunction
 
-function! s:runner(mode)
-  if !has_key(s:modes, a:mode)
-    echoerr "Undefined mode: " . a:mode | return
-  elseif !has_key(s:modes[a:mode], 'test_runner')
-    echoerr "The mode '" . a:mode . "' does not have a test runner" | return
-  else
-    let path = s:runners_path . '/' . s:modes[a:mode].test_runner
-    return fnamemodify(path, ':~:.')
-  endif
-endfunction
-
 " Session management {{{1
 function! s:createSession()
   let session = s:currentSessionName()
