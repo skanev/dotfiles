@@ -71,9 +71,10 @@ VMapMeta e <Plug>NexusSendSelection
 MapMeta / <Plug>NERDCommenterToggle
 VMapMeta / <Plug>NERDCommenterToggle
 
+MapMeta w :close<CR>
+
 if g:env.app != 'mvim'
   MapMeta s :write<CR>
-  MapMeta w :close<CR>
   MapMeta t :tabnew<CR>
   MapMeta a ggVG
   MapMeta v "+p
