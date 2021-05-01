@@ -1,5 +1,5 @@
 map <F1> :help skanev.txt<CR>
-map <F2> :BufExplorer<CR>
+map <F2> :ToggleBufExplorer<CR>
 map <F3> :NERDTreeToggle<CR>
 map <S-F3> :NERDTreeFind<CR>
 map <F6> :Scratch<CR>
