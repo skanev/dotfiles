@@ -1,5 +1,4 @@
 command! CloseHiddenBuffers call s:CloseHiddenBuffers()
-command! MyFileTypePlugin call s:MyFileTypePlugin()
 command! -nargs=+ Page call s:Page(<q-args>)
 
 function! s:CloseHiddenBuffers()
@@ -14,28 +13,6 @@ function! s:CloseHiddenBuffers()
       exec "bdelete ".num
     endif
   endfor
-endfunction
-
-let s:ftplugin_dir = fnamemodify(expand('<sfile>'), ':h:s?plugin?ftplugin?')
-
-function! s:MyFileTypePlugin()
-  if &filetype == ''
-    echohl ErrorMsg | echomsg 'Current buffer has no filetype' | echohl None
-    return
-  endif
-
-  let filename = s:ftplugin_dir . '/' . &filetype . '.vim'
-  exec "split " . filename
-
-  if !filereadable(filename)
-    call append(0, [
-          \ 'if (exists("b:did_skanev_ftplugin"))',
-          \ '  finish',
-          \ 'endif',
-          \ 'let b:did_skanev_ftplugin = 1',
-          \ ''
-          \ ])
-  endif
 endfunction
 
 function! s:Page(command)

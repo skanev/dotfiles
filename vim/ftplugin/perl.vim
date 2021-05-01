@@ -3,10 +3,8 @@
 " (this needs to be here because vim-perl clobbers it on reopneing a file)
 exec "setlocal path+=" . g:dotfiles_dir . "/support/perl/lib"
 
-if (exists("b:did_skanev_ftplugin"))
-  finish
-endif
-let b:did_skanev_ftplugin = 1
+if exists('b:did_myftplugin') | finish | endif
+let b:did_myftplugin = 1
 
 imap <buffer> <C-l> <Space>=><Space>
 imap <buffer> <C-j> ->
