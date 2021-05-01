@@ -1,3 +1,7 @@
+" VIM itself
+Plug 'tpope/vim-scriptease'
+Plug 'junegunn/vim-plug'
+
 " Languages
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
