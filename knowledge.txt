@@ -130,3 +130,5 @@ vim   | substitute a pattern across a quickfix set                             |
 curl | upload a file with PUT | curl -v URL --upoad-file filename.ext
 vim | substitute spaces with underscores in visual block | select the visual block, then space, then :s/\%V /_/g
 vim | beautify json | :%!python -m json.tool
+psql | remove stale postgres pid | rm /usr/local/postgres/postmaster.pid
+vim | jump back to previous search | :colder
