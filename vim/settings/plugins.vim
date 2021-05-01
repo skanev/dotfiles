@@ -23,7 +23,7 @@ Plug 'vim-scripts/nginx.vim'
 Plug 'chrisbra/vim-zsh'
 
 " Features
-Plug 'vim-scripts/The-NERD-tree'
+Plug 'preservim/nerdtree'
 Plug 'vim-scripts/Gundo'
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
@@ -164,5 +164,5 @@ let g:ale_ruby_rubocop_executable = 'bundle'
 " dylnmc/synstack
 let g:no_synstack_maps = 1
 
-" vim-scripts/The-NERD-tree
+" preservim/nerdtree
 let NERDTreeIgnore=['node_modules$']
