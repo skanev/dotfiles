@@ -35,6 +35,7 @@ Plug 'zackhsi/fzf-tags'
 Plug 'majutsushi/tagbar'
 Plug 'SirVer/ultisnips'
 Plug 'dylnmc/synstack.vim'
+Plug 'jlanzarotta/bufexplorer'
 
 " Workflow
 Plug 'tpope/vim-surround'
