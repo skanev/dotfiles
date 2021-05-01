@@ -1,8 +1,5 @@
-syntax on
 set nocompatible
-
-set updatetime=100
-set ttyfast
+syntax on
 
 let mapleader = ","
 

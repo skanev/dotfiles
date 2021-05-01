@@ -14,9 +14,12 @@ set smartcase    " ...unless pattern contains uppercase
 set scrolloff=5  " scroll before cursor reach edges
 
 set modeline     " evaluate modelines
-set laststatus=2 " always have a status line
 set nojoinspaces " no double spacing on join, which year is it
-set belloff=all  " turn bells off
+set ttyfast      " don't assume slow terminals
+
+set laststatus=2               " always have a status line
+set belloff=all                " turn bells off
+set updatetime=100             " helps gitgutter be faster
 
 set backspace=indent,eol,start " intuitive backspace
 set dir=~/.vim-backup          " swap file location
@@ -32,7 +35,6 @@ if has('persistent_undo')
 end
 
 " Font
-
 let s:themes = {
       \ 'gvim-wsl': ['Monospace Regular 12', 2],
       \ 'macvim':   ['Monaco for Powerline:h14', 2],
