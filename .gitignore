@@ -2,6 +2,7 @@
 vim/.netrwhist
 vim/localvimrc.vim
 vim/spell
+vim/bundles
 vim/init.vim
 vim/steal-vim-snippets
 vim/autoload/plug.vim
