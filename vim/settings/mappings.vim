@@ -72,31 +72,26 @@ if g:env.kind != 'macvim'
   MapMeta w :close<CR>
   MapMeta t :tabnew<CR>
   MapMeta a ggVG
+  MapMeta v "+p
 
-  if !g:env.tmux
-    vmap <M-c> "+y
-    vmap <M-x> "+d
-    map <M-v> "+p
-    imap <M-v> <C-r>+
-  end
+  VMapMeta c "+y
+  IMapMeta v <C-r>+
 end
+
+function s:sid()
+  return '<SNR>' . matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$') . '_'
+endfun
 
 if !g:env.tmux
   for n in range(1, 9)
     execute "MapMeta " . n . " :tabnext " . n ."<CR>"
   endfor
 else
-  function s:SID()
-    return '<SNR>' . matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$') . '_'
-  endfun
-
-  let SID = s:SID()
-
   for n in range(1, 9)
-    call MapMeta('nivc', string(n) . ' ' . SID . 'SwitchTab(' . n .')', '<expr> <silent>')
+    call MapMeta('nivc', string(n) . ' ' . s:sid() . 'switch_tab(' . n .')', '<expr> <silent>')
   endfor
 
-  function! s:SwitchTab(index)
+  function! s:switch_tab(index)
     let tabs = tabpagenr('$')
 
     if tabs == 1 || a:index > tabs || mode() != 'n'

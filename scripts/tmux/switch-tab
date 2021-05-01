@@ -1,6 +1,5 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
-prefix=$(tmux show-option -vg @meta-prefix)
 app=$(~/.scripts/tmux/current-app)
 tab_escape=$(tmux show -v @tab-escape)
 
@@ -9,7 +8,7 @@ switch_to_tab() {
     true # Don't error out if tab doesn't exist
 }
 
-while [[ $1 == -* ]]; do
+while [ $1 == -* ]; do
     case "$1" in
         -t) app="yes"
             shift
@@ -24,7 +23,7 @@ done
 
 tab=$1
 
-if [[ "$tab_escape" == "yes" ]]; then
+if [ "$tab_escape" == "yes" ]; then
     tmux set -q @tab-escape no
     switch_to_tab $tab
     exit
@@ -32,7 +31,7 @@ fi
 
 case "$app" in
     vim | Vim)
-        tmux send-keys $prefix $tab
+        tmux send-keys M-$tab
         ;;
     nvim)
         tmux send-keys M-$tab

@@ -35,11 +35,30 @@ else
   let g:env.profile = 'unknown'
 endif
 
+augroup Env
+  autocmd! VimEnter * call s:on_late_startup()
+augroup END
 
-function! s:DisplayEnv()
+command! DisplayEnv call s:display_env()
+
+function! s:display_env()
   for [key, value] in items(g:env)
     echomsg "let g:env." . printf("%-7s", key) . " = " . value
   endfor
 endfunction
 
-command! DisplayEnv call s:DisplayEnv()
+function! s:on_late_startup()
+  augroup Env
+    autocmd!
+  augroup end
+
+  call timer_start(50, s:sid() . 'trigger_autocommand')
+endfunction
+
+function! s:sid()
+  return '<SNR>' . matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$') . '_'
+endfunction
+
+function! s:trigger_autocommand(timer)
+  silent! doautocmd User SafeStartup
+endfunction

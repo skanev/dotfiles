@@ -1,10 +1,9 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
-prefix=$(tmux show-option -vg @meta-prefix)
 current_program=$(~/.scripts/tmux/current-app)
 
 if [[ $current_program == "vim" ]]; then
-  tmux send-keys "$prefix" \; send-keys v
+  tmux send-keys M-v
 elif [[ -n $DOTFILES_WSL ]]; then
   tmux load-buffer =(powershell.exe -noprofile -command Get-Clipboard) \; paste-buffer
 else
