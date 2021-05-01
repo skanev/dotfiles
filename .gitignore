@@ -2,12 +2,14 @@
 vim/.netrwhist
 vim/localvimrc.vim
 vim/spell
-vim/vundle
-vim/localvimrc
 vim/init.vim
 vim/steal-vim-snippets
+vim/autoload/plug.vim
+vim/doc/tags
+
 vim-backup
+
 zsh/completiondump
 zsh/history
-vim/doc/tags
+
 scratchpad/ignored
