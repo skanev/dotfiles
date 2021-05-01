@@ -130,6 +130,12 @@ snippet filename
 `!v Filename()`
 endsnippet
 
+snippet fsid
+function s:sid()
+	return '<SNR>' . matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$') . '_'
+endfun
+endsnippet
+
 priority -50
 
 ###########################################################################
