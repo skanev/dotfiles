@@ -12,7 +12,7 @@
 # Because the above is massively annoying, this script converts snipMate format
 # to UltiSnips format. Actually, it goes a bit further.
 #
-# Assuming you've checked out vim-snippets in ~/.vim/steal-vim-snippets/
+# Assuming you've checked out vim-snippets in # ~/.vim/transient/steal-vim-snippets/
 # (because why wouldn't you), whenever you call this script with a language
 # (say "ruby"), it cats the snippets/ file, attempting to change it to
 # UltiSnips format, after which it cats the UltiSnips/ file as well.
@@ -20,20 +20,29 @@
 # VimScript should be defining a command that uses this to populate the
 # snippets file.
 
-use v5.30;
-use utf8::all;
-use strict;
-use File::Path::Expand qw(expand_filename);
-use Array::Utils qw(intersect);
+use v5.32;
+use warnings;
 
-unless ( @ARGV[0] ) {
+use utf8::all;
+use autodie;
+
+use File::Path::Expand qw( expand_filename );
+use Array::Utils qw( intersect );
+
+unless ( $ARGV[0] ) {
   die "Expected a snippet filetype to try to process";
 }
 
-my $lang = @ARGV[0];
+my $dir = '~/.vim/transient/steal-vim-snippets';
 
-my $snipmate = expand_filename "~/.vim/steal-vim-snippets/snippets/$lang.snippets";
-my $ulti = expand_filename "~/.vim/steal-vim-snippets/UltiSnips/$lang.snippets";
+if ( ! -d expand_filename( $dir ) ) {
+  system "git clone https://github.com/honza/vim-snippets.git $dir"
+}
+
+my $lang = $ARGV[0];
+
+my $snipmate = expand_filename "$dir/snippets/$lang.snippets";
+my $ulti = expand_filename "$dir/UltiSnips/$lang.snippets";
 
 my @ultisnips;
 my @snipmates;
@@ -47,7 +56,7 @@ if ( -f $snipmate ) {
     if ( /^\t(.*)$/ ) {
       $_ = $1;
 
-      s/`(.*)`/`!v \1`/g;
+      s/`(.*)`/`!v $1`/g;
 
       say;
       next;
