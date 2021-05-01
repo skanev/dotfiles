@@ -20,6 +20,7 @@ set ttyfast      " don't assume slow terminals
 set laststatus=2               " always have a status line
 set belloff=all                " turn bells off
 set updatetime=100             " helps gitgutter be faster
+set nrformats-=octal           " C-a should not increment 07 to 10
 
 set backspace=indent,eol,start " intuitive backspace
 set dir=~/.vim-backup          " swap file location
