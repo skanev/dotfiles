@@ -1,6 +1,6 @@
-command! CloseHiddenBuffers call s:CloseHiddenBuffers()
+command! CloseHiddenBuffers call s:close_hidden_buffers()
 
-function! s:CloseHiddenBuffers()
+function! s:close_hidden_buffers()
   let open_buffers = []
 
   for i in range(tabpagenr('$'))
