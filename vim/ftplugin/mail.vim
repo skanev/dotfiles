@@ -1,6 +1,8 @@
 if exists('b:did_myftplugin') | finish | endif
 let b:did_myftplugin = 1
 
+let b:highlight_trailing_whitespace = 0
+
 setlocal joinspaces
 setlocal textwidth=72
 setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab

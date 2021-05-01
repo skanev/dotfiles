@@ -6,24 +6,28 @@
 
 let g:HighlightTrailingWhitespace = 1
 
-autocmd! InsertLeave,WinEnter * call s:Highlight()
-autocmd! InsertEnter *          call s:Unhighlight()
-
 highlight TrailingWhitespace guibg=red ctermbg=red
 
-function! s:Highlight()
-  if g:HighlightTrailingWhitespace && &filetype != 'mail'
+autocmd! InsertLeave,WinEnter * call s:highlight()
+autocmd! InsertEnter          * call s:unhighlight()
+autocmd! ColorScheme          * highlight TrailingWhitespace guibg=red ctermbg=red
+
+command! StripTrailingWhitespace  %s/\v\s+$//
+command! TrailingWhitespaceToggle call s:toggle()
+
+function! s:highlight()
+  let enabled = g:HighlightTrailingWhitespace && 
+        \ (!exists('b:highlight_trailing_whitespace') || b:highlight_trailing_whitespace)
+
+  if enabled
     match TrailingWhitespace /\v\s+$/
   endif
 endfunction
 
-function! s:Unhighlight()
+function! s:unhighlight()
   match none
 endfunction
 
-function s:Toggle()
+function s:toggle()
   let g:HighlightTrailingWhitespace = !g:HighlightTrailingWhitespace
 endfunction
-
-command! StripTrailingWhitespace %s/\v\s+$//
-command! TrailingWhitespaceToggle call s:Toggle()
