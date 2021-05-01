@@ -19,13 +19,9 @@ runtime early/mapmeta.vim
 runtime early/sonokai_tweaks.vim
 
 " Plug
-filetype off
-
 call plug#begin('~/.vim/plugged')
 runtime settings/plugins.vim
 call plug#end()
-
-filetype plugin indent on
 
 " Settings
 runtime settings/options.vim
