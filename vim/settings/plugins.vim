@@ -51,6 +51,11 @@ Plug 'AndrewRadev/linediff.vim'
 
 " Colorschemes
 Plug 'sainnhe/sonokai'
+Plug 'nanotech/jellybeans.vim'
+Plug 'jonathanfilip/vim-lucius'
+Plug 'morhetz/gruvbox'
+Plug 'mhartington/oceanic-next'
+Plug 'tpope/vim-vividchalk'
 
 " Other
 Plug 'vim-scripts/Gist.vim'
