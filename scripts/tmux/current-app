@@ -1,8 +1,6 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
-local name=$(tmux display -p '#{pane_current_command}/#{window_name}')
-
-case $name in
+case $1/$2 in
     ruby/vim)
         printf "vim"
         ;;
@@ -24,6 +22,6 @@ case $name in
         ;;
 
     *)
-        printf "%s" ${name/\/*/}
+        printf "%s" $1
         ;;
 esac

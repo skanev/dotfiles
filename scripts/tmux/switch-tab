@@ -1,29 +1,23 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
-app=$(~/.scripts/tmux/current-app)
-tab_escape=$(tmux show -v @tab-escape)
+app=$(~/.scripts/tmux/current-app $1 $2)
+
+escape=$3
+cmd=$4
 
 switch_to_tab() {
     tmux select-window -t $1 \; refresh-client -S
     true # Don't error out if tab doesn't exist
 }
 
-while [[ $1 == -* ]]; do
-    case "$1" in
-        -t) app="yes"
-            shift
-            ;;
-        -e) tmux set -q @tab-escape yes
-            exit
-            ;;
-        -*) break
-            ;;
-    esac
-done
+if [ $cmd == -e ]; then
+  tmux set @tab-escape yes
+  exit
+fi
 
-tab=$1
+tab=$cmd
 
-if [[ "$tab_escape" == "yes" ]]; then
+if [ "x$escape" == "xyes" ]; then
     tmux set -q @tab-escape no
     switch_to_tab $tab
     exit

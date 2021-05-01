@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-current_program=$(~/.scripts/tmux/current-app)
+current_program=$(~/.scripts/tmux/current-app $1 $2)
 
 if [[ "$current_program" == "vim" ]]; then
   tmux send-keys M-c
