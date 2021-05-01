@@ -18,11 +18,8 @@ runtime early/term.vim
 runtime early/mapmeta.vim
 runtime early/sonokai_tweaks.vim
 
-" Pathogen, Plug and friends
+" Plug
 filetype off
-
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
 
 call plug#begin('~/.vim/plugged')
 runtime settings/plugins.vim

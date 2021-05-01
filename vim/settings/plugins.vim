@@ -1,6 +1,3 @@
-" Vim
-Plug 'vim-scripts/vundle'
-
 " Languages
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
