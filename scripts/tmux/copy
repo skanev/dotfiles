@@ -4,10 +4,10 @@ current_program=$(~/.scripts/tmux/current-app)
 
 if [[ "$current_program" == "vim" ]]; then
   tmux send-keys M-c
-elif [[ -n $DOTFILES_WSL ]]; then
-  tmux show-buffer | clip.exe
+elif [[ $DOTFILES_OS == mac ]]; then
+  tmux show-buffer | pbcopy
   tmux display "Copied to clipboard"
 else
-  tmux show-buffer | pbcopy
+  tmux show-buffer | xclip -selection clipboard
   tmux display "Copied to clipboard"
 fi

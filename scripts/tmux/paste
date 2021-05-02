@@ -4,8 +4,8 @@ current_program=$(~/.scripts/tmux/current-app)
 
 if [[ $current_program == "vim" ]]; then
   tmux send-keys M-v
-elif [[ -n $DOTFILES_WSL ]]; then
-  tmux load-buffer =(powershell.exe -noprofile -command Get-Clipboard) \; paste-buffer
-else
+elif [[ $DOTFILES_OS == "mac" ]]; then
   tmux load-buffer =(pbpaste) \; paste-buffer
+else
+  tmux load-buffer =(xclip -selection clipboard -o) \; paste-buffer
 fi
