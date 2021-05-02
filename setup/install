@@ -4,6 +4,9 @@ source setup/shared
 
 determine-os-and-distro
 
+# XDG
+mkdir -p ~/.config/
+
 # Bash
 establish-link bash ~/.bash clobberable
 establish-link bash_profile ~/.bash_profile clobberable
@@ -34,6 +37,8 @@ establish-link pryrc ~/.pryrc
 
 # Tmux
 establish-link tmux.conf ~/.tmux.conf
+
+establish-link nvim ~/.config/nvim
 
 # X Server
 #

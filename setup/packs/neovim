@@ -1,0 +1,47 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  install-neovim-pyenv "2.7.18" "neovim-python2"
+  install-neovim-pyenv "3.9.4"  "neovim-python3"
+  install-neovim-rbenv "3.0.1"
+}
+
+is-pack-installed() {
+  # TODO
+  false
+}
+
+verify-pack() {
+  # TODO real-er check
+  zsh -l -c 'which rbenv > /dev/null' || croak 'rbenv does not seem to be installed'
+}
+
+pack-info() {
+  # TODO
+}
+
+install-neovim-pyenv() {
+  local version=$1
+  local env=$2
+
+  run-with-status "installing python $version" "pyenv install -s $version"
+  (pyenv virtualenvs | grep -q "$version/envs/$env") || run-with-status \
+      "creating a virtualenv in $version" \
+      "pyenv virtualenv $version $env"
+  run-with-status "installing neovim package in $version/$env" \
+    "~/.pyenv/versions/$version/envs/$env/bin/pip install neovim"
+}
+
+install-neovim-rbenv() {
+  local version=$1
+
+  run-with-status "installing ruby $version" "rbenv install -s $version"
+  (RBENV_VERSION=$version gem list neovim | grep -q "^neovim" || run-with-status \
+    "installing neovim gem in $version" \
+    "RBENV_VERSION=$version gem install neovim" \
+  )
+}
+
+process-pack $1

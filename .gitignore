@@ -8,6 +8,8 @@ vim/steal-vim-snippets
 vim/autoload/plug.vim
 vim/doc/tags
 
+nvim/.netrwhist
+
 vim-backup
 
 zsh/completiondump

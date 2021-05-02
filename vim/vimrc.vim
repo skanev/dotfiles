@@ -5,10 +5,6 @@ let mapleader = ","
 
 let g:dotfiles_dir = expand('<sfile>:p:h:h')
 
-if has('nvim')
-  set runtimepath^=~/.vim runtimepath+=~/.vim/after
-end
-
 " My 'early' stuff
 runtime early/env.vim
 runtime early/term.vim

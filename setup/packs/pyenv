@@ -3,11 +3,15 @@
 source setup/shared
 
 install-pack() {
-  run-with-status "cloning pyenv" "git clone https://github.com/pyenv/pyenv.git ~/.pyenv"
+  [[ ! -d ~/.pyenv ]] && run-with-status "cloning pyenv" "git clone https://github.com/pyenv/pyenv.git ~/.pyenv"
+
+  [[ ! -d ~/.pyenv/plugins/pyenv-virtualenv ]] && run-with-status \
+      "cloning pyenv-virtualenv" \
+      "git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv"
 }
 
 is-pack-installed() {
-  [[ -d ~/.pyenv && -x ~/.pyenv/bin/pyenv ]]
+  [[ -d ~/.pyenv && -x ~/.pyenv/bin/pyenv && -d ~/.pyenv/plugins/pyenv-virtualenv ]]
 }
 
 verify-pack() {

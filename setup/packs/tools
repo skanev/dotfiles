@@ -25,6 +25,9 @@ packages=(
   #macvim
 
   "fonts-powerline -> ubuntu:fonts-powerline other:_"
+  "bz2 -> ubuntu:libbz2-dev other:_"
+  "sqlite3 -> ubuntu:libsqlite3-dev other:_"
+  "libffi -> ubuntu:libffi-dev other:_"
 
   entr
   "fd [homebrew]"
