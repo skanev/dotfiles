@@ -12,11 +12,11 @@ autocmd! InsertLeave,WinEnter * call s:highlight()
 autocmd! InsertEnter          * call s:unhighlight()
 autocmd! ColorScheme          * highlight TrailingWhitespace guibg=red ctermbg=red
 
-command! StripTrailingWhitespace  %s/\v\s+$//
+command! StripTrailingWhitespace  call s:strip()
 command! TrailingWhitespaceToggle call s:toggle()
 
 function! s:highlight()
-  let enabled = g:HighlightTrailingWhitespace && 
+  let enabled = g:HighlightTrailingWhitespace &&
         \ (!exists('b:highlight_trailing_whitespace') || b:highlight_trailing_whitespace)
 
   if enabled
@@ -30,4 +30,10 @@ endfunction
 
 function s:toggle()
   let g:HighlightTrailingWhitespace = !g:HighlightTrailingWhitespace
+endfunction
+
+function! s:strip()
+  let pattern = @/
+  %s/\s\+$//
+  let @/ = pattern
 endfunction
