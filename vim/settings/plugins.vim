@@ -40,6 +40,7 @@ Plug 'jlanzarotta/bufexplorer'
 
 " Workflow
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-abolish'
 Plug 'godlygeek/tabular'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'scrooloose/nerdcommenter'
