@@ -85,10 +85,9 @@ command! MapQToRerun :call MapQToRerun()
 " Put WSL GVim where I want it
 if g:env.profile == 'gvim-wsl'
   function! s:position()
-    echomsg "Setting positions"
     let window_id = system(printf("xdotool search --onlyvisible --pid %s", getpid()))->trim()
     call system(printf("xdotool windowmove %s 1 45", window_id))
-    call system(printf("xdotool windowsize %s 1910 2046", window_id))
+    call system(printf("xdotool windowsize %s 1910 2053", window_id))
 
     augroup initial_position
       autocmd!

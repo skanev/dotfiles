@@ -37,7 +37,7 @@ end
 
 " Font
 let s:themes = {
-      \ 'gvim-wsl': ['Monospace Regular 12', 2],
+      \ 'gvim-wsl': ['Fira Code 12', 2],
       \ 'macvim':   ['Monaco for Powerline:h14', 2],
       \ 'winvim':   ['Consolas:h14', 3],
       \}
