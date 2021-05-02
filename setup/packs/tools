@@ -24,6 +24,8 @@ packages=(
   # TODO Figure out what to install here
   #macvim
 
+  "fonts-powerline -> ubuntu:fonts-powerline other:_"
+
   entr
   "fd [homebrew]"
   figlet
