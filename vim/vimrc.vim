@@ -12,11 +12,12 @@ runtime early/mapmeta.vim
 runtime early/sonokai_tweaks.vim
 
 " Plug
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+let s:plug_file = g:dotfiles_dir . '/vim/autoload/plug.vim'
+if empty(glob(s:plug_file))
+  silent execute '!curl -fLo ' . s:plug_file . ' --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+unlet s:plug_file
 
 call plug#begin('~/.vim/bundles')
 runtime settings/plugins.vim
