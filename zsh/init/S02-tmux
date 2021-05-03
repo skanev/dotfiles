@@ -34,11 +34,14 @@ zstyle ':completion:tmux-pane-paths:*' completer _tmux_pane_paths
 
 rerun() {
   local cmd=$(~/.scripts/stalker poke rerun)
-  echo "> $cmd"
-  eval $cmd
+  if [[ -z "$cmd" ]]; then
+    echo "All good!"
+  else
+    echo "> $cmd"
+    eval $cmd
+  fi
 }
 
 stalk() {
-  ~/.scripts/stalker shutdown
-  tmux pipe-pane '~/.scripts/stalker steal'
+  tmux pipe-pane '~/.scripts/stalker stalk'
 }

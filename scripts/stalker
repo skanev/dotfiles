@@ -2,357 +2,88 @@
 
 use v5.32;
 use warnings;
+use utf8::all;
 use experimental qw( signatures switch );
 use autodie;
 
-use Term::ANSIColor qw( colorstrip );
+use lib::relative '../support/perl/lib';
 
-use Data::Dump qw(dump);
+use Carp qw( croak confess );
+use Data::Dump qw( dump );
+use Swamp::Stalker::Depot;
+use Swamp::Stalker::Consumer qw( :DSL );
+use Swamp::Stalker::Surveyor qw( surveyor );
 
-package Surveyor {
-  use Errno;
-  use File::Slurp qw( slurp write_file );
-  use Storable qw( freeze thaw );
+sub neat( $value ) {
+  chomp $value;
+  $value;
+}
 
-  use IO::Socket::UNIX;
-  use IO::Select;
+my $rspec = surveyor(
+  begin => sub { line =~ /^(→ rspec|Failures:|Finished in)/ },
+  finish => sub { line =~ /^→ / },
+  blank => sub { { failures => [], finished => 0 } },
+  process => sub {
+    given ( line ) {
+      when ( /^  (\d+)\) (.*)$/ ) {
+        my ( $number, $name ) = ( $1, $2 );
+        my $message = "";
 
-  use threads;
-  use threads::shared;
+        while ( peek =~ /^(    |$)/ ) {
+          $message .= consume;
+        }
 
-  my $state :shared = freeze {};
+        push data->{failures}->@*, { number => $number, name => $name, message => $message };
+      }
 
-  sub new {
-    my ( $class, %opts ) = @_;
-    my $self = { config => { %opts } };
+      when ( /^Finished in \S+ seconds?/ ) {
+        if ( peek =~ /^\d+ examples?, (\d+) failures?/ ) {
+          consume;
+          data->{finished} = 1;
+          bail if $1 == 0;
+        }
+      }
 
-    return bless $self, $class;
-  }
+      when ( /^Failed examples:/ ) {
+        consume while peek =~ /^\s*$/;
 
-  sub pidfile_path( $self ) { "/tmp/$self->{config}{name}.pid" }
-  sub socket_path( $self ) { "/tmp/$self->{config}{name}.sock" }
-  sub state_path( $self ) { "/tmp/$self->{config}{name}.state" }
+        my $i = 0;
 
-  sub serve {
-    my ( $self, %args ) = @_;
-    my ( $handler, $poke ) = @args{ 'handler', 'poke' };
+        data->{failures}[$i++]{command} = neat consume while peek =~ /^rspec/;
 
-    if ( $self->is_running ) {
-      if ( $args{clobber} // 0 ) {
-        $self->shutdown;
-      } else {
-        die "Another process already running with pid = @{[ $self->existing_pid ]}";
+        bail;
       }
     }
-
-    unlink $self->socket_path if -e $self->socket_path;
-
-    write_file $self->pidfile_path, $$;
-
-    use Data::Dump qw(dump);
-
-    if ( -e $self->state_path ) {
-      my $previous = slurp $self->state_path;
-
-      {
-        lock $state;
-        $state = $previous;
-      }
-
-      say "READING ", dump thaw $previous;
-
-      unlink $self->state_path;
-    }
-
-    $SIG{QUIT} = sub {
-      my $latest;
-
-      {
-        lock $state;
-        $latest = $state;
-      }
-
-      say "WRITING OUT ", dump thaw $latest;
-
-      write_file $self->state_path, $latest or die $!;
-
-      exit;
-    };
-
-    $self->start_socket_server( $poke );
-
-    $handler->(
-      sub( $value ) {
-        {
-          lock $state;
-          if ( ref $value eq 'CODE' ) {
-            $state = freeze $value->( thaw( $state ) );
-          } else {
-            $state = freeze $value;
-          }
-        }
-      }
-    );
-  }
-
-  sub poke {
-    my ( $self, $line ) = @_;
-
-    my $client = IO::Socket::UNIX->new(
-      Type => SOCK_STREAM(),
-      Peer => $self->socket_path,
-    ) or die "OH NOES $!";
-
-    say { $client } $line;
-
-    print while <$client>;
-
-    close $client;
-  }
-
-  sub shutdown {
-    my ( $self ) = @_;
-
-    return unless $self->is_running;
-
-    kill 'QUIT', $self->existing_pid;
-
-    my $waits = 100;
-
-    while ( system( "ps @{[ $self->existing_pid ]} > /dev/null" ) == 0 ) {
-      sleep 0.02;
-      $waits--;
-
-      die "Failed to kill existing process in due time" if $waits <= 0;
-    }
-  }
-
-  sub is_running {
-    my ( $self ) = @_;
-
-    return 0 unless -e $self->pidfile_path;
-
-    my $pid = $self->existing_pid;;
-    my $status = kill 0, $pid;
-
-    if ( $status == 1 ) {
-      return 1;
-    } elsif ( $! == Errno::EPERM ) {
-      die "Stalker running at $pid, but no permission? This is weird";
-    } elsif ( $! != Errno::ESRCH ) {
-      die "I don't know how I got here, but this is some debug: $pid, $status, $!"
-    }
-
-    0;
-  }
-
-  sub existing_pid( $self ) {
-    return $self->{_existing_pid} if defined $self->{_existing_pid};
-    $self->{_existing_pid} = int slurp $self->pidfile_path;
-  }
-
-  sub start_socket_server( $self, $poke ) {
-    threads->create( sub {
-      my $server = IO::Socket::UNIX->new(
-        Type => SOCK_STREAM(),
-        Local => $self->socket_path,
-        Listen => 1,
-      ) or die "Can't start server $!";
-
-      my $selection = IO::Select->new( $server );
-
-      while ( my @handles = $selection->can_read ) {
-        for my $fh ( @handles ) {
-          if ( $fh == $server ) {
-            my $client = $fh->accept;
-
-            $selection->add( $client );
-          } else {
-            my $line = <$fh>;
-
-            my $output = sub( $line ) { say { $fh } $line; };
-
-            {
-              lock $state;
-              $poke->( $output, thaw( $state ), $line );
-            }
-
-            $fh->close;
-            $selection->remove( $fh );
-          }
-        }
-      }
-    })->detach();
-  }
-}
-
-my $stdin = \*STDIN;
-my $next_line = undef;
-
-sub read_next_line() {
-  if ( ! defined $next_line ) {
-    my $line = <$stdin>;
-    $line =~ s/\r\n/\n/g;
-    die "Ran out of input" unless defined $line;
-    $next_line = colorstrip( scalar( $line ) );
-  }
-}
-
-sub peek() {
-  read_next_line;
-  $next_line;
-}
-
-sub consume() {
-  my $line = peek;
-  $next_line = undef;
-  $line;
-}
-
-sub on_prompt($line) {
-  $line =~ /^→/;
-}
-
-my $modes = {
-  rspec => {
-    begin => sub($line) { $line =~ /^(Failures:|Finished in)/ },
-    finish => \&on_prompt,
-    process => sub($line, $state) {
-      given ( $line ) {
-        when ( /  (\d+)\) (.*)/ ) {
-          my ( $number, $name ) = ( $1, $2 );
-          my $message = "";
-
-          while ( peek =~ /^(    |$)/ ) {
-            $message .= consume;
-          }
-
-          push $state->{failures}->@*, { number => $number, name => $name, message => $message };
-        }
-
-        when ( /^Finished in \S+ seconds?/ ) {
-          $state->{done} = 1 if peek =~ /^\d+ examples?, 0 failures/;
-        }
-
-        when ( /^Failed examples:/ ) {
-          consume while peek =~ /^\s*$/;
-
-          push $state->{failed}->@*, consume while ( peek =~ /^rspec / );
-
-          $state->{done} = 1;
-        }
-      }
-    },
-    complete => sub($state) { dump $state },
   },
-};
+  complete => sub { depot->report( 'rspec', data ) },
+  poke => sub( $depot, $command = "quickfix", @args ) {
+    my $data = $depot->get( 'rspec' );
 
-# --- Loop ------------------------------------
+    if ( $command eq 'quickfix' ) {
+      return unless defined $data->{failures};
 
-my $current = 0;
-my $state = {};
-my $latest = 0;
-
-sub process_input( $set ) {
-  while ( my $line = consume ) {
-    if ( ! $current ) {
-      for my $key ( keys %$modes ) {
-        my $mode = $modes->{$key};
-
-        if ( defined $mode->{begin} and $mode->{begin}->( $line ) ) {
-          $state = ($mode->{state} // sub { {} })->();
-          $current = $mode;
-
-          last;
-        }
+      for ( map { $_->{command} } $data->{failures}->@* ) {
+        s/^rspec \.\///;
+        say;
       }
-    }
+    } elsif ( $command eq 'rerun' ) {
+      return unless defined $data->{failures};
+      return unless $data->{failures}->@* > 0;
 
-    next unless $current;
+      say "rspec " . join ' ', map { s/^rspec \.\/(\S+) #.*$/$1/re } map { $_->{command} } $data->{failures}->@*;
 
-    $current->{process}->( $line, $state );
-
-    if ( $state->{done} // 0 or $current->{finish}->( $line ) ) {
-      $current->{complete}->( $state ) if defined $current->{complete};
-      $current = 0;
-      $set->( $state );
-      $state = {};
+    } else {
+      confess "Unknown poke $command";
     }
   }
-}
+);
 
-sub process_control( $output, $state, $line ) {
-  chomp $line;
+my $depot = Swamp::Stalker::Depot->new;
 
-  given ( $line ) {
-    when ( 'dump' ) {
-      $output->( dump( $state ) );
-    }
-
-    when ( 'failed' ) {
-      if ( defined $state->{failed} ) {
-        my $message = join '', $state->{failed}->@*;
-        chomp $message;
-        $output->( $message );
-      }
-    }
-
-    when ( 'rspec' ) {
-      if ( defined $state->{failed} ) {
-        for my $line ( $state->{failed}->@* ) {
-          $line =~ s/^rspec \.\///;
-          chomp $line;
-          $output->( $line );
-        }
-      }
-    }
-
-    when ( 'rerun' ) {
-      if ( defined $state->{failed} ) {
-        my @failures;
-        for my $line ( $state->{failed}->@* ) {
-          $line =~ /^rspec (\S+:\d+) #/;
-          push @failures, $1;
-        }
-
-        if ( @failures ) {
-          $output->( "rspec " . join( ' ', @failures ) );
-        } else {
-          $output->( "echo all good" );
-        }
-      }
-    }
-
-    default {
-      $output->( "Unknown command: $line" );
-    }
-  }
-}
-
-my $surveyor = Surveyor->new( name => 'stalker' );
-
-my $command = shift( @ARGV ) // '';
-
-given ( $command ) {
-  when ( /^server|steal$/ ) {
-    $surveyor->serve(
-      clobber => ( $command eq 'steal' ),
-      handler => \&process_input,
-      poke    => \&process_control,
-    )
-  }
-
-  when ( 'shutdown' ) {
-    $surveyor->shutdown;
-  }
-
-  when ( 'poke' ) {
-    my $line = join ' ', @ARGV;
-
-    $surveyor->poke( $line );
-  }
-
-  default {
-    die "Unknown command: $command";
-  }
+if ( ! defined $ARGV[0] || $ARGV[0] eq 'stalk' ) {
+  Swamp::Stalker::Consumer::devour $depot, $rspec;
+} elsif ( $ARGV[0] eq 'poke' ) {
+  $rspec->poke( $depot, splice( @ARGV, 1 ) );
+} else {
+  croak "Unknown command $ARGV[0]";
 }
