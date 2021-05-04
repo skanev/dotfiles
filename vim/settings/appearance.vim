@@ -1,16 +1,16 @@
 let s:themes = [
-  \ ['mvim',     '*',   {'font': 'Monaco for Powerline:h14', 'line': 2                        }],
+  \ ['mvim',     '*',   {'font': 'Monaco for Powerline:h14', 'line': 2                         }],
   \
-  \ ['vim',      '*',   {                                               'scheme': 'vividchalk'}],
-  \ ['nvim',     '*',   {                                               'scheme': 'vividchalk'}],
+  \ ['vim',      '*',   {                                               'scheme': 'vividchalk' }],
+  \ ['nvim',     '*',   {                                               'scheme': 'vividchalk' }],
   \
-  \ ['fvim',     '*',   {'font': 'Fira Code:h16',            'line': 3                        }],
-  \ ['neovide',  '*',   {'font': 'Fira Code:h16',            'line': 0                        }],
-  \ ['goneovim', '*',   {'font': 'Fira Code:h16',            'line': 3                        }],
+  \ ['fvim',     '*',   {'font': 'Fira Code:h16',            'line': 3                         }],
+  \ ['neovide',  '*',   {'font': 'Fira Code:h16',            'line': 0                         }],
+  \ ['goneovim', '*',   {'font': 'Fira Code:h16',            'line': 3                         }],
   \
-  \ ['winvim',   '*',   {'font': 'Consolas:h14',             'line': 3                        }],
+  \ ['winvim',   '*',   {'font': 'Iosevka Extended:h12',     'line': 3, 'scheme': 'OceanicNext'}],
   \
-  \ ['*',        '*',   {'font': 'Iosevka Extended 12',      'line': 2, 'scheme': 'sonokai'   }]
+  \ ['*',        '*',   {'font': 'Iosevka Extended 12',      'line': 2, 'scheme': 'sonokai'    }]
   \ ]
 
 let g:sonokai_style = 'shusia'
