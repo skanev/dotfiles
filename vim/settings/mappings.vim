@@ -8,9 +8,9 @@ map <S-F8> :Ack <C-r><C-w><CR>
 map <F9> :noh<CR>
 map <F10> :set cursorcolumn!<CR>
 imap <F10> <C-o>:set cursorcolumn!<CR>
-map <F11> :FZF ~/code/personal/dotfiles<CR>
-map <S-F11> :FZF ~/.vim/<CR>
-map <F12> :edit ~/.vim/vimrc.vim<CR>
+map <F11> :FZF <C-r>=g:dotfiles_dir<CR><CR>
+map <S-F11> :FZF <C-r>=g:dotfiles_dir<CR>/vim/<CR>
+map <F12> :edit <C-r>=g:dotfiles_dir<CR>/vim/vimrc.vim<CR>
 
 map <C-]> <Plug>(fzf_tags)
 
