@@ -15,7 +15,7 @@ elseif has('nvim')
   elseif exists('goneovim')       | let g:env.app = 'goneovim'
   elseif exists('g:GtkGuiLoaded') | let g:env.app = 'nvim-gtk'
   elseif exists('g:fvim_loaded')  | let g:env.app = 'fvim'
-  elseif exists('GuiLoaded')      | let g:env.app = 'nvim-qt' # possibly
+  elseif exists('$NVIM_QT')       | let g:env.app = 'nvim-qt'
   else                            | let g:env.app = 'nvim'
   endif
 else
