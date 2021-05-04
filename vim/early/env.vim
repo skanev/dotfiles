@@ -8,31 +8,45 @@ let g:env.wsl = $WSLENV != ""
 let g:env.tmux = $TMUX != "" && !has('gui_running')
 
 if has('gui_running')
-  if has('gui_macvim')
-    let g:env.kind = 'macvim'
-  elseif has('gui_win32')
-    let g:env.kind = 'winvim'
-  elseif has('gui_gtk3') || has('gui_gtk2')
-    let g:env.kind = 'gvim'
-  else
-    let g:env.kind = 'unknown'
+  if     has('gui_macvim')                  | let g:env.app = 'mvim'
+  elseif has('gui_gtk3') || has('gui_gtk2') | let g:env.app = 'gvim'
+  elseif has('gui_win32')                   | let g:env.app = 'winvim'
+  else                                      | let g:env.app = 'unknown-gui'
+  endif
+elseif has('nvim')
+  if exists('g:neovide')          | let g:env.app = 'neovide'
+  elseif exists('goneovim')       | let g:env.app = 'goneovim'
+  elseif exists('g:GtkGuiLoaded') | let g:env.app = 'nvim-gtk'
+  elseif exists('g:fvim_loaded')  | let g:env.app = 'fvim'
+  elseif exists('GuiLoaded')      | let g:env.app = 'nvim-qt' # possibly
+  else                            | let g:env.app = 'nvim'
   endif
 else
-  let g:env.kind = 'terminal'
+  let g:env.app = 'vim'
+endif
+
+if     exists('$HOMEDRIVE')  | let g:env.os = 'windows'
+elseif exists('$WSLENV')     | let g:env.os = 'wsl'
+elseif $DOTFILES_OS == 'mac' | let g:env.os = 'mac'
+else                         | let g:env.os = 'unknown'
+endif
+
+if has('gui_running')
+  if has('gui_macvim')                      | let g:env.kind = 'macvim'
+  elseif has('gui_win32')                   | let g:env.kind = 'winvim'
+  elseif has('gui_gtk3') || has('gui_gtk2') | let g:env.kind = 'gvim'
+  else                                      | let g:env.kind = 'unknown'
+  endif
+else | let g:env.kind = 'terminal'
 endif
 
 let g:env.term = g:env.kind == 'terminal'
 
-if g:env.term
-  let g:env.profile = 'terminal'
-elseif g:env.gui && g:env.wsl
-  let g:env.profile = 'gvim-wsl'
-elseif g:env.gui && g:env.kind == 'winvim'
-  let g:env.profile = 'winvim'
-elseif g:env.gui && g:env.kind == 'macvim'
-  let g:env.profile = 'macvim'
-else
-  let g:env.profile = 'unknown'
+if g:env.term                              | let g:env.profile = 'terminal'
+elseif g:env.gui && g:env.wsl              | let g:env.profile = 'gvim-wsl'
+elseif g:env.gui && g:env.kind == 'winvim' | let g:env.profile = 'winvim'
+elseif g:env.gui && g:env.kind == 'macvim' | let g:env.profile = 'macvim'
+else                                       | let g:env.profile = 'unknown'
 endif
 
 augroup Env

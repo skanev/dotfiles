@@ -26,6 +26,7 @@ call plug#end()
 " Settings
 runtime settings/options.vim
 runtime settings/mappings.vim
+runtime settings/appearance.vim
 
 " Autocommands
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart

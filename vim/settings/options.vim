@@ -35,13 +35,6 @@ if has('persistent_undo')
   set undodir=~/.vim-undo      " where are undo files stored
 end
 
-" Font
-let s:themes = {
-      \ 'gvim-wsl': ['Fira Code 12', 2],
-      \ 'macvim':   ['Monaco for Powerline:h14', 2],
-      \ 'winvim':   ['Consolas:h14', 3],
-      \}
-
 if g:env.term
   set t_Co=256
   set mouse=a
@@ -54,20 +47,4 @@ else
   set guioptions-=e
   set guioptions-=r
   set guioptions-=L
-
-  let [font, lineheight] = s:themes[g:env.profile]
-
-  let &guifont = font
-  let &linespace = lineheight
 endif
-
-" Colorscheme
-
-if $VIM_COLORSCHEME != ""
-  exec 'colorscheme '.$VIM_COLORSCHEME
-elseif g:env.gui
-  let g:sonokai_style = 'shusia'
-  colorscheme sonokai
-else
-  colorscheme vividchalk
-end
