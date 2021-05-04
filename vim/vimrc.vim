@@ -19,7 +19,7 @@ if empty(glob(s:plug_file))
 endif
 unlet s:plug_file
 
-call plug#begin('~/.vim/bundles')
+call plug#begin(g:dotfiles_dir . '/vim/bundles')
 runtime settings/plugins.vim
 call plug#end()
 
