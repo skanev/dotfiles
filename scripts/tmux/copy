@@ -7,6 +7,9 @@ if [[ "$current_program" == "vim" ]]; then
 elif [[ $DOTFILES_OS == mac ]]; then
   tmux show-buffer | pbcopy
   tmux display "Copied to clipboard"
+elif [[ -n $DOTFILES_WSL ]]; then
+  tmux show-buffer | clip.exe
+  tmux display "Copied to clipboard"
 else
   tmux show-buffer | xclip -selection clipboard
   tmux display "Copied to clipboard"
