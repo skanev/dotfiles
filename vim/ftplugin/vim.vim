@@ -14,7 +14,7 @@ let s:vim_options = []
 
 function! s:execute_selection()
   let name = tempname()
-  silent exec ":'<,'>write" . name
+  silent exec ":'<,'>write " . name
   silent exec "source " . name
   echomsg "Executed selection"
 endfunction
