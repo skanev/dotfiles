@@ -7,7 +7,7 @@ case $1 in
   (neovide)
     (
       cd ~/code/personal/dotfiles
-      AutoHotKey.exe ahk/PositionWindow.ahk "ahk_exe neovide.exe" -9 2 1908 2097
+      AutoHotKey.exe ahk/PositionWindow.ahk "ahk_exe neovide.exe" -9 2 1938 2097
     )
     ;;
 

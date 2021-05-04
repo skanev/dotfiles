@@ -10,5 +10,4 @@ Loop, %windows%
   id := windows%A_Index%
   WinGetTitle wt, ahk_id %id%
   WinMove, ahk_id %id%, , %x%, %y%, %w%, %h%
-  ;WinMove, ahk_id %id%, , -9, 2, 1908, 2097
 }
