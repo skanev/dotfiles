@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  run-with-status "curling sh.rustup.rs" "curl https://sh.rustup.rs -sSf | sh -s -- -y --quiet --no-modify-path"
+}
+
+is-pack-installed() {
+  [[ -d ~/.cargo/bin ]]
+}
+
+verify-pack() {
+  # TODO real-er check
+}
+
+pack-info() {
+  # TODO
+}
+
+process-pack $1

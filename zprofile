@@ -9,6 +9,7 @@ path=(~/bin $path)
 
 [[ -d /usr/local/opt/gnu-sed/libexec/gnubin ]] && path=(/usr/local/opt/gnu-sed/libexec/gnubin $path)
 
+[[ -d ~/.cargo ]] && path=(~/.cargo/bin $path)
 [[ -d ~/.pyenv ]] && export PYENV_ROOT=$HOME/.pyenv
 [[ -d ~/.pyenv ]] && path=(~/.pyenv/bin ~/.pyenv/shims $path)
 [[ -d ~/.plenv ]] && path=(~/.plenv/bin ~/.plenv/shims $path)
