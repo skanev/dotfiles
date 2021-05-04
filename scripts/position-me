@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+# When invoked from a graphical program, it positions the window where I want
+# it to be. For the time being, it's a lot of hackiness specifically for my
+# WSL2 setup, but one day... ah, one can hope.
+
+case $1 in
+  (neovide)
+    (
+      cd ~/code/personal/dotfiles
+      AutoHotKey.exe ahk/PositionWindow.ahk "ahk_exe neovide.exe" -9 2 1908 2097
+    )
+    ;;
+
+  (gvim)
+    pid=$2
+    wid=$(xdotool search --onlyvisible --pid $pid)
+    xdotool windowmove $wid 1 45
+    xdotool windowsize $wid 1910 2053
+    ;;
+
+  (*)
+    echo "Don't know how to position you. Args: $*"
+    exit 1
+    ;;
+esac

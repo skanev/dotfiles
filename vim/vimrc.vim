@@ -27,6 +27,7 @@ call plug#end()
 runtime settings/options.vim
 runtime settings/mappings.vim
 runtime settings/appearance.vim
+runtime settings/nvim.vim
 
 " Autocommands
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
@@ -81,18 +82,14 @@ endfunction
 command! MapQToRerun :call MapQToRerun()
 
 " Put WSL GVim where I want it
-if g:env.app == 'gvim' && g:env.wsl
-  function! s:position()
-    let window_id = trim(system(printf("xdotool search --onlyvisible --pid %s", getpid())))
-    call system(printf("xdotool windowmove %s 1 45", window_id))
-    call system(printf("xdotool windowsize %s 1910 2053", window_id))
+function! s:position()
+  if     g:env.app == 'gvim' && g:env.wsl | call system('~/.scripts/position-me gvim ' . getpid())
+  elseif g:env.app == 'neovide'           | call system('~/.scripts/position-me neovide')
+  endif
 
-    augroup initial_position
-      autocmd!
-    augroup END
-  endfunction
+  augroup initial_position | autocmd! | augroup END
+endfunction
 
-  augroup initial_position
-    autocmd BufEnter * call s:position()
-  augroup end
-endif
+augroup initial_position
+  autocmd BufEnter * call s:position()
+augroup END
