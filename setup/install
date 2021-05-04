@@ -38,7 +38,8 @@ establish-link pryrc ~/.pryrc
 # Tmux
 establish-link tmux.conf ~/.tmux.conf
 
-establish-link nvim ~/.config/nvim
+establish-link nvim  ~/.config/nvim
+establish-link kitty ~/.config/kitty
 
 # X Server
 #

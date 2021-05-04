@@ -2,7 +2,7 @@
 " to need later to make various decisions.
 
 let g:env = {}
-let g:env.wsl  = $WSLENV != ""
+let g:env.wsl = exists('$WSLENV')
 
 if has('gui_running')
   if     has('gui_macvim')                  | let g:env.app = 'mvim'

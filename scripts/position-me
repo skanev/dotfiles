@@ -3,6 +3,18 @@
 # it to be. For the time being, it's a lot of hackiness specifically for my
 # WSL2 setup, but one day... ah, one can hope.
 
+position-with-xdotool() {
+  pid=$1
+  x=$2
+  y=$3
+  w=$4
+  h=$5
+
+  wid=$(xdotool search --onlyvisible --pid $pid)
+  xdotool windowmove $wid $x $y
+  xdotool windowsize $wid $w $h
+}
+
 case $1 in
   (neovide)
     (
@@ -12,10 +24,11 @@ case $1 in
     ;;
 
   (gvim)
-    pid=$2
-    wid=$(xdotool search --onlyvisible --pid $pid)
-    xdotool windowmove $wid 1 45
-    xdotool windowsize $wid 1910 2053
+    position-with-xdotool $2 3 47 1910 2053
+    ;;
+
+  (kitty)
+    position-with-xdotool $DOTFILES_KITTY_PID 1926 47 1910 2053
     ;;
 
   (*)

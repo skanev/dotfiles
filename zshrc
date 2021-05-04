@@ -14,6 +14,11 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 . ~/.zsh/aliases # Global aliases can mess up everything else
 
+if [[ -n $DOTFILES_POSITION_KITTY ]]; then
+  unset DOTFILES_POSITION_KITTY
+  ~/.scripts/position-me kitty
+fi
+
 if [[ -n $TIME_BEFORE_TE ]]; then
   local after elapsed
   after=$(date +%s.%N)
