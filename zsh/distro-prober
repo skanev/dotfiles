@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
-local uname=$(uname)
+
+local uname
+[[ -n $MSYSTEM ]] && uname="MSYS"
+uname=${uname:-$(uname)}
 
 case $uname in
   (Darwin)
@@ -11,7 +14,7 @@ case $uname in
     export DOTFILES_DISTRO=$(. /etc/os-release && echo -n $ID)
     if [[ -v WSLENV ]]; export DOTFILES_WSL=1
     ;;
-  (MSYS_*)
+  (MSYS)
     export DOTFILES_OS=windows
     export DOTFILES_DISTRO=msys2
     ;;
