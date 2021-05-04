@@ -82,7 +82,7 @@ command! MapQToRerun :call MapQToRerun()
 " Put WSL GVim where I want it
 if g:env.profile == 'gvim-wsl'
   function! s:position()
-    let window_id = system(printf("xdotool search --onlyvisible --pid %s", getpid()))->trim()
+    let window_id = trim(system(printf("xdotool search --onlyvisible --pid %s", getpid())))
     call system(printf("xdotool windowmove %s 1 45", window_id))
     call system(printf("xdotool windowsize %s 1910 2053", window_id))
 
