@@ -3,6 +3,8 @@
 
 [[ -v DOTFILES_OS ]] || source ~/.zsh/distro-prober
 
+[[ -f ~/.localenv ]] && source ~/.localenv
+
 if [[ -d /home/linuxbrew ]]; then
   export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew";
   export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar";

@@ -4,9 +4,7 @@
 . ~/.zsh/env
 . ~/.zsh/config
 
-if [ -f ~/.localrc ]; then
-  . ~/.localrc
-fi
+[[ -f ~/.localrc ]] && source ~/.localrc
 
 for zshrc_file in ~/.zsh/init/S[0-9][0-9]*[^~] ; do
   source $zshrc_file
