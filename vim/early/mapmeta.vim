@@ -10,16 +10,13 @@ function! MapMeta(modes, args, options)
   let key = strpart(a:args, 0, 1)
   let commands = strpart(a:args, 2)
 
-  if g:env.kind == 'macvim'
+  if g:env.app == 'mvim'
     let mapping = '<D-'.key.'>'
-  elseif g:env.gui || has('nvim')
-    let mapping = '<M-'.key.'>'
-  elseif g:env.term
+  elseif g:env.app == 'vim'
     let mapping = '<M-'.key.'>'
     call s:register_meta_key(key)
-    call add(s:pending_keys, key)
   else
-    echoerr "I don't know how to handle meta keys here"
+    let mapping = '<M-'.key.'>'
   endif
 
   for i in range(len(a:modes))
@@ -32,7 +29,7 @@ command! -nargs=1 MapMeta  call MapMeta('n', <f-args>, '')
 command! -nargs=1 VMapMeta call MapMeta('v', <f-args>, '')
 command! -nargs=1 IMapMeta call MapMeta('i', <f-args>, '')
 
-if !g:env.term
+if g:env.app != 'vim'
   finish
 end
 

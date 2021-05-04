@@ -2,10 +2,7 @@
 " to need later to make various decisions.
 
 let g:env = {}
-let g:env.gui = has('gui_running')
-let g:env.term = !g:env.gui
-let g:env.wsl = $WSLENV != ""
-let g:env.tmux = $TMUX != "" && !has('gui_running')
+let g:env.wsl  = $WSLENV != ""
 
 if has('gui_running')
   if     has('gui_macvim')                  | let g:env.app = 'mvim'
@@ -31,23 +28,7 @@ elseif $DOTFILES_OS == 'mac' | let g:env.os = 'mac'
 else                         | let g:env.os = 'unknown'
 endif
 
-if has('gui_running')
-  if has('gui_macvim')                      | let g:env.kind = 'macvim'
-  elseif has('gui_win32')                   | let g:env.kind = 'winvim'
-  elseif has('gui_gtk3') || has('gui_gtk2') | let g:env.kind = 'gvim'
-  else                                      | let g:env.kind = 'unknown'
-  endif
-else | let g:env.kind = 'terminal'
-endif
-
-let g:env.term = g:env.kind == 'terminal'
-
-if g:env.term                              | let g:env.profile = 'terminal'
-elseif g:env.gui && g:env.wsl              | let g:env.profile = 'gvim-wsl'
-elseif g:env.gui && g:env.kind == 'winvim' | let g:env.profile = 'winvim'
-elseif g:env.gui && g:env.kind == 'macvim' | let g:env.profile = 'macvim'
-else                                       | let g:env.profile = 'unknown'
-endif
+let g:env.tmux = $TMUX != "" && (g:env.app == 'vim' || g:env.app == 'nvim')
 
 augroup Env
   autocmd! VimEnter * call s:on_late_startup()

@@ -85,7 +85,7 @@ Plug 'vim-scripts/scratch.vim'
 "Plug 'vim-scripts/go.vim'
 "Plug 'fatih/vim-go'
 
-if g:env.kind == 'macvim'
+if g:env.app == 'mvim'
   Plug 'vim-scripts/copy-as-rtf'
 endif
 

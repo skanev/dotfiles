@@ -35,7 +35,7 @@ if has('persistent_undo')
   set undodir=~/.vim-undo      " where are undo files stored
 end
 
-if g:env.term
+if !has('gui_running')
   set t_Co=256
   set mouse=a
   if has('termguicolors')

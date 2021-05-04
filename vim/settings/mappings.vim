@@ -67,7 +67,7 @@ VMapMeta e <Plug>NexusSendSelection
 MapMeta / <Plug>NERDCommenterToggle
 VMapMeta / <Plug>NERDCommenterToggle
 
-if g:env.kind != 'macvim'
+if g:env.app != 'mvim'
   MapMeta s :write<CR>
   MapMeta w :close<CR>
   MapMeta t :tabnew<CR>
