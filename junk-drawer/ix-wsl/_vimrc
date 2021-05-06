@@ -1,0 +1,9 @@
+set encoding=utf8
+set guifont=Consolas:h14
+set linespace=3
+set pythonthreedll=C:\Users\aquarius\AppData\Local\Programs\Python\Python39\python39.dll
+let s:dots = "C:\\msys64\\home\\aquarius\\code\\personal\\dotfiles\\"
+let $PATH = "C:\\Users\\aquarius\\Bin;C:\\msys64\\usr\\bin;" . $PATH
+execute "set runtimepath^=".s:dots."vim runtimepath+=".s:dots."vim/after"
+source C:\msys64\home\aquarius\code\personal\dotfiles\vim\vimrc.vim
+set noswapfile

@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+
+fvim() {
+  (/mnt/c/Users/aquarius/Programs/FVim/FVim.exe --wsl $* &)
+}
+
+neovide() {
+  (neovide.exe --wsl $* 2>&1 > /dev/null &)
+}
+
+goneovim() {
+  (
+    export LIBGL_ALWAYS_INDIRECT=0
+    export QT_SCALE_FACTOR=1
+    mkdir -p /tmp/xdg-runtime
+    export XDG_RUNTIME_PATH=/tmp/xdg-runtime
+
+    ~/code/nvims/goneovim-dist/goneovim $* &
+  )
+}
+
+nvim-gtk() {
+  (NVIM_GTK_NO_HEADERBAR=1 ~/code/nvims/neovim-gtk/target/release/nvim-gtk $*)
+}
+
+nvim-qt() {
+  NVIM_QT=1 command nvim-qt
+}
+
+export DOTFILES_VIM=nvim
+export DOTFILES_VIG=neovide

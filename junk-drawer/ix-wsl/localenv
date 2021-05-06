@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+export XDG_RUNTIME_DIR=/tmp/xdg-runtime
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | grep \\. | head -n 1 | awk '{ print $2 }'):0
+export GDK_SCALE=1
+export GDK_DPI_SCALE=1.5
+export QT_SCALE_FACTOR=1.5
+export LIBGL_ALWAYS_INDIRECT=1
