@@ -51,6 +51,7 @@ map <expr> g= ':Tabularize /\V' . expand('<cWORD>') . '<CR>'
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h') . '/' : '%%'
 
 MapMeta f <Cmd>Files<CR>
+MapMeta j <Cmd>Buffers<CR>
 
 MapMeta ] >>
 MapMeta [ <<

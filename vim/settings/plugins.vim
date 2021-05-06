@@ -128,11 +128,19 @@ let g:fzf_colors = {
 \}
 
 let s:fzf_files_opts = {
-\ 'window': {'width': 0.96, 'height': 0.6, 'relative': v:false},
+\ 'window': {'width': 0.6, 'height': 0.6, 'relative': v:false},
 \ 'options': ['--layout=reverse', '--info=inline'],
 \}
 
+function! s:fzf_buffers(fullscreen)
+  call fzf#vim#buffers({
+      \ 'window': {'width': 0.6, 'height': 0.6, 'relative': v:false},
+      \ 'options': ['--layout=reverse', '--info=inline'],
+      \}, a:fullscreen)
+endfunction
+
 command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, s:fzf_files_opts, <bang>0)
+command! -bang Buffers call s:fzf_buffers(<bang>0)
 
 " mileszs/ack.vim
 let g:ackprg = "ag --vimgrep"
