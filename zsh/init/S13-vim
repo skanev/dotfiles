@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+alias gvim="echo You mean vig, right\\?"
+alias mvim="echo You mean vig, right\\?"
+
+DOTFILES_VIM=${DOTFILES_VIM:-vim}
+
+case $DOTFILES_OS in
+  (linux)
+    DOTFILES_VIG=${DOTFILES_VIG:-command gvim}
+    ;;
+  (mac)
+    DOTFILES_VIG=${DOTFILES_VIG:-mvim}
+    ;;
+  (*)
+    DOTFILES_VIG=${DOTFILES_VIG:-command gvim}
+    ;;
+esac
+
+alias vim=$DOTFILES_VIM
+alias vig=$DOTFILES_VIG
