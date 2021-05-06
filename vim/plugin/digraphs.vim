@@ -57,7 +57,10 @@ let s:digraphs = [
   \
   \ ['^o', 'degrees', '°'],
   \ ['ph', 'placeholder', '␣'],
+  \
+  \ ['3.', 'ellipsis', '…'],
 \ ]
+
 
 function! s:InstallDigraphs()
   for [chars, name, symbol] in s:digraphs
