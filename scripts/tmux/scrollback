@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+local file=$(mktemp --tmpdir tmux-scrollback-XXXXXXXXXXXXX)
+tmux capture-pane -Jpe -S - > $file
+tmux split-window -Z "less -FXRS +G $file; rm $file"
