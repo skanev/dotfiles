@@ -85,7 +85,7 @@ endfun
 
 if !g:env.tmux
   for n in range(1, 9)
-    execute "MapMeta " . n . " :tabnext " . n ."<CR>"
+    call MapMeta('n', printf("%s <Cmd>tabnext %s<cR>", n, n), '<silent>')
   endfor
 else
   for n in range(1, 9)
