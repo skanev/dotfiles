@@ -12,8 +12,6 @@ done
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-. ~/.zsh/aliases # Global aliases can mess up everything else
-
 if [[ -n $DOTFILES_POSITION_KITTY ]]; then
   unset DOTFILES_POSITION_KITTY
   ~/.scripts/position-me kitty
@@ -26,3 +24,6 @@ if [[ -n $TIME_BEFORE_TE ]]; then
   unset TIME_BEFORE_TE
   echo "Time to load: $elapsed"
 fi
+
+# Global aliases can mess up everything else, so they must be last
+. ~/.zsh/aliases
