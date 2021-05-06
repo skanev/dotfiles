@@ -1,7 +1,8 @@
 #!/usr/bin/env zsh
 # Runs in interactive session
 
-. ~/.zsh/env
+DOTFILES=${$(readlink ~/.zsh):h}
+
 . ~/.zsh/config
 
 [[ -f ~/.localrc ]] && source ~/.localrc
@@ -10,7 +11,7 @@ for zshrc_file in ~/.zsh/init/S[0-9][0-9]*[^~] ; do
   source $zshrc_file
 done
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+[[ -e "~/.iterm2_shell_integration.zsh" ]] && . "~/.iterm2_shell_integration.zsh"
 
 if [[ -n $DOTFILES_POSITION_KITTY ]]; then
   unset DOTFILES_POSITION_KITTY

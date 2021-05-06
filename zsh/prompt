@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+
+prompt_zsh_level () {
+  if [[ -n $TMUX && $SHLVL > 2 ]]; then
+    printf '∎'%.0s {3..$SHLVL}
+  elif [[ -z $TMUX && $SHLVL > 1 ]]; then
+    printf '∎'%.0s {2..$SHLVL}
+  fi
+}
+
+prompt_current_context () {
+  if [[ -n $c_current ]]; then
+    print " ($c_current)"
+  fi
+}
+
+PROMPT='%(#.%{$fg_bold[yellow]%}.%{$fg_bold[white]%})%(?..%{$fg_bold[red]%})$(prompt_zsh_level)%(#.∷.→)%{$reset_color%} '
+RPROMPT='%(1j.%{$fg_bold[magenta]%}⦗%j⦘ .)%{$fg_bold[green]%}%c%{$fg_bold[white]%}:%{$fg_bold[blue]%}%m %{$fg_bold[red]%}$(vcprompt -f "[%b%m%u]")%{$reset_color%}%{$fg_bold[yellow]%}$(prompt_current_context)%{$reset_color%}'
+PROMPT_EOL_MARK="%{${fg_bold[yellow]}%}¶%{$reset_color%}"
+PS2=$'%{\e[38;5;240m%}…%{$reset_color%} '
+
+case "$ITERM_PROFILE" in
+  Beamer)
+    PROMPT='➔ '
+    RPROMPT=''
+    ;;
+  tkn)
+    RPROMPT=''
+    ;;
+esac
+
+if [[ -n $EMACS ]]; then
+  PROMPT='$ '
+fi

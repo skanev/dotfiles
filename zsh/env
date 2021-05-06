@@ -1,4 +1,0 @@
-. ~/.bash/env
-. ~/.bash/paths
-
-DOTFILES=${0:A:h:h}
