@@ -51,6 +51,9 @@ function! s:FixSonokai()
   highlight! link podBoldAlternativeDelim DimWhite
   highlight! link podItalic DimWhite
   highlight! link podItalicAlternativeDelim DimWhite
+
+  let g:fzf_colors['bg+'] = ['bg', 'Visual']
+  let g:fzf_colors.border = ['fg', 'Linenr']
 endfunction
 
 autocmd! ColorScheme sonokai call s:FixSonokai()
