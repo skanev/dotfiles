@@ -121,10 +121,18 @@ let g:splitjoin_split_mapping = ''
 let g:splitjoin_join_mapping = ''
 
 " junegunn/fzf
-let g:fzf_layout = { 'down': '~25%' }
+let g:fzf_layout = {'down': '~25%'}
 let g:fzf_colors = {
-\ 'bg+': ['bg', 'Visual']
+\ 'bg+':    ['bg', 'Visual'],
+\ 'border': ['fg', 'Linenr'],
 \}
+
+let s:fzf_files_opts = {
+\ 'window': {'width': 0.96, 'height': 0.6, 'relative': v:false},
+\ 'options': ['--layout=reverse', '--info=inline'],
+\}
+
+command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, s:fzf_files_opts, <bang>0)
 
 " mileszs/ack.vim
 let g:ackprg = "ag --vimgrep"
