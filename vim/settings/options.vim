@@ -35,6 +35,10 @@ if has('persistent_undo')
   set undodir=~/.vim-undo      " where are undo files stored
 end
 
+if has('nvim')
+  set inccommand=split         " show preview of :substitute
+endif
+
 if !has('gui_running')
   set t_Co=256
   set mouse=a
