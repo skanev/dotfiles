@@ -34,6 +34,8 @@ use Swamp::ZSH qw( parse_zsh_bindkey parse_zsh_widgets_docs );
 use Swamp::Tmux qw( tmux_parse_list_keys tmux_parse_docs );
 use Swamp::Widget::Keyboard;
 
+$ENV{TERM} = 'xterm-256color';
+
 die "error: Expected ARGV[0] to be path to bindkey -L from zsh" unless $ARGV[0] && -f $ARGV[0];
 open(my $bindkey, '<', $ARGV[0]) or die "Could not open $ARGV[0]";
 my @zsh_commands = parse_zsh_bindkey( $bindkey, parse_zsh_widgets_docs() );
