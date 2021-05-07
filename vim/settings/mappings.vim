@@ -48,7 +48,7 @@ map <C-Right> :bprevious<CR>
 
 map <expr> g= ':Tabularize /\V' . expand('<cWORD>') . '<CR>'
 
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h') . '/' : '%%'
+cnoremap <expr> / <SID>cmd_mode_slash()
 
 MapMeta f <Cmd>Files<CR>
 MapMeta j <Cmd>Buffers<CR>
@@ -82,6 +82,18 @@ end
 function s:sid()
   return '<SNR>' . matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$') . '_'
 endfun
+
+" When typing %/ it expands to the directory of the current file.
+
+function s:cmd_mode_slash()
+  let line = getcmdline()
+
+  if line[len(line) - 1] == '%' && line[len(line) - 2] == ' ' && getcmdtype() == ':'
+    return "\<BS>" . expand('%:h') . '/'
+  else
+    return '/'
+  endif
+endfunction
 
 if !g:env.tmux
   for n in range(1, 9)
