@@ -1,30 +1,18 @@
-snippet enc
-# encoding: utf-8
-endsnippet
-
 snippet frozen
 # frozen_string_literal: true
 endsnippet
 
 # New Block
-snippet =b
+snippet =b "=begin / =end"
 =begin rdoc
 	${0}
 =end
 endsnippet
 
-snippet y
-:yields: ${0:arguments}
-endsnippet
-
-snippet rb
-#!/usr/bin/env ruby -wKU
-endsnippet
-
-snippet beg
+snippet beg "begin / rescue StandardError"
 begin
 	${0}
-rescue ${1:Exception} => ${2:e}
+rescue ${1:StandardError} => ${2:e}
 end
 endsnippet
 
@@ -32,11 +20,11 @@ snippet req "require"
 require '${1}'
 endsnippet
 
-snippet reqr
+snippet reqr "require_relative"
 require_relative '${1}'
 endsnippet
 
-snippet #
+snippet # "# => "
 # =>
 endsnippet
 
@@ -72,12 +60,6 @@ class Class
 end
 endsnippet
 
-snippet if
-if ${1:condition}
-	${0:${VISUAL}}
-end
-endsnippet
-
 snippet ife
 if ${1:condition}
 	${2:${VISUAL}}
@@ -86,57 +68,11 @@ else
 end
 endsnippet
 
-snippet eif
-elsif ${1:condition}
-	${0:${VISUAL}}
-endsnippet
-
-snippet ifee
-if ${1:condition}
-	$2
-elsif ${3:condition}
-	$4
-else
-	$0
-end
-endsnippet
-
-snippet unless
-unless ${1:condition}
-	${0:${VISUAL}}
-end
-endsnippet
-
-snippet unlesse
-unless ${1:condition}
-	$2
-else
-	$0
-end
-endsnippet
-
-snippet unlesee
-unless ${1:condition}
-	$2
-elsif ${3:condition}
-	$4
-else
-	$0
-end
-endsnippet
-
 snippet wh
 while ${1:condition}
 	${0:${VISUAL}}
 end
 endsnippet
-
-snippet for
-for ${1:e} in ${2:c}
-	${0}
-end
-endsnippet
-
 snippet cla "class .. end"
 class ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`}
 	${0}
@@ -154,29 +90,6 @@ endsnippet
 snippet cla< "class .. < ParentClass .. initialize .. end"
 class ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`} < ${2:ParentClass}
 	def initialize(${3:args})
-		${0}
-	end
-end
-endsnippet
-
-snippet blankslate "class BlankSlate .. initialize .. end"
-class ${0:BlankSlate}
-	instance_methods.each { |meth| undef_method(meth) unless meth =~ /\A__/ }
-end
-endsnippet
-
-snippet claself "class << self .. end"
-class << ${1:self}
-	${0}
-end
-endsnippet
-
-# class .. < DelegateClass .. initialize .. end
-snippet cla-
-class ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`} < DelegateClass(${2:ParentClass})
-	def initialize(${3:args})
-		super(${4:del_obj})
-
 		${0}
 	end
 end
@@ -218,29 +131,6 @@ endsnippet
 # ivc == instance variable cache
 snippet ivc
 @${1:variable_name} ||= ${0:cached_value}
-endsnippet
-
-# include Enumerable
-snippet Enum
-include Enumerable
-
-def each(&block)
-	${0}
-end
-endsnippet
-
-# include Comparable
-snippet Comp
-include Comparable
-
-def <=>(other)
-	${0}
-end
-endsnippet
-
-# extend Forwardable
-snippet Forw-
-extend Forwardable
 endsnippet
 
 # def self
@@ -644,22 +534,6 @@ snippet ->a
 ->(${1:args}) { ${0} }
 endsnippet
 
-# I'm pretty sure that ruby users expect do to expand to do .. end
-snippet do
-do
-	${0}
-end
-endsnippet
-
-# this is for one or more variables. typing a ", " is that cheap that it may
-# not be worth adding another snippet. should 0/1 placeholders change order?
-# its a good idea to think about the var name, so use it first
-snippet dov
-do |${1:v}|
-	${2}
-end
-endsnippet
-
 snippet :
 ${1:key}: ${2:'value'}
 endsnippet
@@ -680,220 +554,6 @@ ARGF.each_line${1} do |${2:line}|
 end
 endsnippet
 
-# option_parse {}
-snippet optp
-require 'optparse'
-
-options = { ${0:default: 'args'} }
-
-ARGV.options do |opts|
-	opts.banner = "Usage: #{File.basename($PROGRAM_NAME)}"
-end
-endsnippet
-
-snippet opt
-opts.on('-${1:o}', '--${2:long-option-name}', ${3:String}, '${4:Option description.}') do |${5:opt}|
-	${0}
-end
-endsnippet
-
-snippet tc
-require 'test/unit'
-
-require '${1:library_file_name}'
-
-class Test${2:$1} < Test::Unit::TestCase
-	def test_${3:case_name}
-		${0}
-	end
-end
-endsnippet
-
-snippet ts
-require 'test/unit'
-
-require 'tc_${1:test_case_file}'
-require 'tc_${2:test_case_file}'
-endsnippet
-
-snippet as
-assert ${1:test}, '${2:Failure message.}'
-endsnippet
-
-snippet ase
-assert_equal ${1:expected}, ${2:actual}
-endsnippet
-
-snippet asne
-assert_not_equal ${1:unexpected}, ${2:actual}
-endsnippet
-
-snippet asid
-assert_in_delta ${1:expected_float}, ${2:actual_float}, ${3:2**-20}
-endsnippet
-
-snippet asi
-assert_includes ${1:collection}, ${2:object}
-endsnippet
-
-snippet asio
-assert_instance_of ${1:ExpectedClass}, ${2:actual_instance}
-endsnippet
-
-snippet asko
-assert_kind_of ${1:ExpectedKind}, ${2:actual_instance}
-endsnippet
-
-snippet asn
-assert_nil ${1:instance}
-endsnippet
-
-snippet asnn
-assert_not_nil ${1:instance}
-endsnippet
-
-snippet asm
-assert_match(/${1:expected_pattern}/, ${2:actual_string})
-endsnippet
-
-snippet asnm
-assert_no_match(/${1:unexpected_pattern}/, ${2:actual_string})
-endsnippet
-
-snippet aso
-assert_operator ${1:left}, :${2:operator}, ${3:right}
-endsnippet
-
-snippet asr
-assert_raise ${1:Exception} { ${0} }
-endsnippet
-
-snippet asrd
-assert_raise ${1:Exception} do
-	${0}
-end
-endsnippet
-
-snippet asnr
-assert_nothing_raised ${1:Exception} { ${0} }
-endsnippet
-
-snippet asnrd
-assert_nothing_raised ${1:Exception} do
-	${0}
-end
-endsnippet
-
-snippet asrt
-assert_respond_to ${1:object}, :${2:method}
-endsnippet
-
-snippet ass "assert_same(..)"
-assert_same ${1:expected}, ${2:actual}
-endsnippet
-
-snippet ass "assert_send(..)"
-assert_send [${1:object}, :${2:message}, ${3:args}]
-endsnippet
-
-snippet asns
-assert_not_same ${1:unexpected}, ${2:actual}
-endsnippet
-
-snippet ast
-assert_throws :${1:expected}, -> { ${0} }
-endsnippet
-
-snippet astd
-assert_throws :${1:expected} do
-	${0}
-end
-endsnippet
-
-snippet asnt
-assert_nothing_thrown { ${0} }
-endsnippet
-
-snippet asntd
-assert_nothing_thrown do
-	${0}
-end
-endsnippet
-
-snippet fl
-flunk '${1:Failure message.}'
-endsnippet
-
-# Benchmark.bmbm do .. end
-snippet bm-
-TESTS = ${1:10_000}
-Benchmark.bmbm do |results|
-	${0}
-end
-endsnippet
-
-snippet rep
-results.report('${1:name}:') { TESTS.times { ${0} } }
-endsnippet
-
-# Marshal.dump(.., file)
-snippet Md
-File.open('${1:path/to/file.dump}', 'wb') { |${2:file}| Marshal.dump(${3:obj}, $2) }
-endsnippet
-
-# Mashal.load(obj)
-snippet Ml
-File.open('${1:path/to/file.dump}', 'rb') { |${2:file}| Marshal.load($2) }
-endsnippet
-
-# deep_copy(..)
-snippet deec
-Marshal.load(Marshal.dump(${1:obj_to_copy}))
-endsnippet
-
-snippet Pn-
-PStore.new('${1:file_name.pstore}')
-endsnippet
-
-snippet tra
-transaction(${1:true}) { ${0} }
-endsnippet
-
-# xmlread(..)
-snippet xml-
-REXML::Document.new(File.read('${1:path/to/file}'))
-endsnippet
-
-# xpath(..) { .. }
-snippet xpa
-elements.each('${1://Xpath}') do |${2:node}|
-	${0}
-end
-endsnippet
-
-# class_from_name()
-snippet clafn
-split('::').inject(Object) { |par, const| par.const_get(const) }
-endsnippet
-
-# singleton_class()
-snippet sinc
-class << self; self end
-endsnippet
-
-snippet nam
-namespace :${1:`!v vim_snippets#Filename()`} do
-	${0}
-end
-endsnippet
-
-snippet tas
-desc '${1:Task description}'
-task ${2:task_name: [:dependent, :tasks]} do
-	${0}
-end
-endsnippet
-
 # block
 snippet b
 { |${1:var}| ${0} }
@@ -902,14 +562,6 @@ endsnippet
 #debugging
 snippet debug
 require 'byebug'; byebug
-endsnippet
-
-snippet debug19
-require 'debugger'; debugger
-endsnippet
-
-snippet debug18
-require 'ruby-debug'; debugger
 endsnippet
 
 snippet pry
@@ -923,122 +575,6 @@ endsnippet
 #
 # Minitest snippets
 #
-snippet mb
-must_be ${0}
-endsnippet
-
-snippet wb
-wont_be ${0}
-endsnippet
-
-snippet mbe
-must_be_empty
-endsnippet
-
-snippet wbe
-wont_be_empty
-endsnippet
-
-snippet mbio
-must_be_instance_of ${0:Class}
-endsnippet
-
-snippet wbio
-wont_be_instance_of ${0:Class}
-endsnippet
-
-snippet mbko
-must_be_kind_of ${0:Class}
-endsnippet
-
-snippet wbko
-wont_be_kind_of ${0:Class}
-endsnippet
-
-snippet mbn
-must_be_nil
-endsnippet
-
-snippet wbn
-wont_be_nil
-endsnippet
-
-snippet mbsa
-must_be_same_as ${0:other}
-endsnippet
-
-snippet wbsa
-wont_be_same_as ${0:other}
-endsnippet
-
-snippet mbsi
--> { ${0} }.must_be_silent
-endsnippet
-
-snippet mbwd
-must_be_within_delta ${1:0.1}, ${2:0.1}
-endsnippet
-
-snippet wbwd
-wont_be_within_delta ${1:0.1}, ${2:0.1}
-endsnippet
-
-snippet mbwe
-must_be_within_epsilon ${1:0.1}, ${2:0.1}
-endsnippet
-
-snippet wbwe
-wont_be_within_epsilon ${1:0.1}, ${2:0.1}
-endsnippet
-
-snippet me
-must_equal ${0:other}
-endsnippet
-
-snippet we
-wont_equal ${0:other}
-endsnippet
-
-snippet mi
-must_include ${0:what}
-endsnippet
-
-snippet wi
-wont_include ${0:what}
-endsnippet
-
-snippet mm
-must_match /${0:regex}/
-endsnippet
-
-snippet wm
-wont_match /${0:regex}/
-endsnippet
-
-snippet mout
--> { ${1} }.must_output '${0}'
-endsnippet
-
-snippet mra
--> { ${1} }.must_raise ${0:Exception}
-endsnippet
-
-snippet mrt
-must_respond_to :${0:method}
-endsnippet
-
-snippet wrt
-wont_respond_to :${0:method}
-endsnippet
-
-snippet msend
-must_send [ ${1:what}, :${2:method}, ${3:args} ]
-endsnippet
-
-snippet mthrow
--> { throw :${1:error} }.must_throw :${2:error}
-endsnippet
-
 ##########################
 #     Rspec snippets     #
 ##########################
@@ -1062,18 +598,6 @@ endsnippet
 
 snippet cont
 context '${1:message}' do
-	${0}
-end
-endsnippet
-
-snippet bef
-before :${1:each} do
-	${0}
-end
-endsnippet
-
-snippet aft
-after :${1:each} do
 	${0}
 end
 endsnippet
@@ -1187,11 +711,6 @@ endglobal
 
 snippet #! "#!/usr/bin/env ruby" b
 #!/usr/bin/env ruby
-$0
-endsnippet
-
-snippet "^# ?[uU][tT][fF]-?8" "# encoding: UTF-8" r
-# encoding: UTF-8
 $0
 endsnippet
 
@@ -1482,12 +1001,6 @@ snippet module "module"
 module ${1:`!p snip.rv = snip.basename.title().replace('_', '')`}
 	$0
 end
-endsnippet
-
-snippet ###
-=begin
-	$0
-=end
 endsnippet
 
 snippet priv "private " m
