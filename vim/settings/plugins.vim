@@ -67,6 +67,9 @@ Plug 'vim-scripts/Gist.vim'
 Plug 'vim-scripts/WebAPI.vim'
 Plug 'vim-scripts/scratch.vim'
 
+" Temporary(?)
+Plug 'voldikss/vim-floaterm'
+
 " Someplugins that I used to know
 
 "Plug 'digitaltoad/vim-jade'

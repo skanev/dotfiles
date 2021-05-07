@@ -1,0 +1,194 @@
+#!/usr/bin/env perl
+
+use v5.32;
+use warnings;
+
+use experimental qw( signatures switch );
+use autodie;
+use utf8::all;
+
+use File::Slurp qw( slurp );
+use List::MoreUtils qw( nsort_by );
+use Term::ReadKey qw( ReadMode ReadKey );
+use Term::Cap;
+
+my $alternate = <<'END';
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬────────┐
+│ ` ~ │ 1 ! │ 2 @ │ 3 # │ 4 $ │ 5 % │ 6 ^ │ 7 & │ 8 * │ 9 ( │ 0 ) │ - _ │ = + │ delete │
+├─────┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬─────┤
+│ tab    │ q Q │ w W │ e E │ r R │ t T │ y Y │ u U │ i I │ o O │ p P │ [ } │ ] } │ \ | │
+├────────┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─────┤
+│ caps     │ a A │ s S │ d D │ f F │ g G │ h H │ j J │ k K │ l L │ ; : │ ' " │  return │
+├──────────┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────────┤
+│ shift       │ z Z │ x X │ c C │ v V │ b B │ n N │ m M │ , < │ . > │ / ? │      shift │
+├─────┬─────┬─┴───┬─┴────┬┴─────┴─────┴─────┴─────┴─────┼─────┴┬────┴┬────┴┬─────┬─────┤
+│ fn  │  ⌃  │  ⌥  │  ⌘   │                              │  ⌘   │  ⌥  │  ◀︎  ├─────┤  ▶︎  │
+└─────┴─────┴─────┴──────┴──────────────────────────────┴──────┴─────┴─────┴─────┴─────┘
+END
+
+my $keyboard = <<'END';
+┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────────┐
+│ `~ │ 1! │ 2@ │ 3# │ 4$ │ 5% │ 6^ │ 7& │ 8* │ 9( │ 0) │ -_ │ =+ │ delete │
+├────┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──────┤
+│ tab  │ qQ │ wW │ eE │ rR │ tT │ yY │ uU │ iI │ oO │ pP │ [} │ ]} │  \|  │
+├──────┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴─┬──┴──────┤
+│ caps   │ aA │ sS │ dD │ fF │ gG │ hH │ jJ │ kK │ lL │ ;: │ '" │  return │
+├────────┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴─────────┤
+│ shift     │ zZ │ xX │ cC │ vV │ bB │ nN │ mM │ ,< │ .> │ /? │     shift │
+├────┬─────┬┴──┬─┴───┬┴────┴────┴────┴────┴────┴───┬┴────┼───┬┴──┬────┬───┤
+│ fn │  ⌃  │ ⌥ │  ⌘  │                             │  ⌘  │ ⌥ │ ◀︎ ├────┤ ▶︎ │
+└────┴─────┴───┴─────┴─────────────────────────────┴─────┴───┴───┴────┴───┘
+END
+
+my %colors = (
+  border  => "\e[38;5;250m",
+  bound   => "\e[38;5;118m",
+  local   => "\e[38;5;220m",
+  unbound => "\e[38;5;241m",
+  dimmed  => "\e[38;5;241m",
+  special => "\e[38;5;165m",
+  reset   => "\e[0m",
+);
+
+my $keyboard_key_pattern = qr/ (?!fn)(\S)(\S) /;
+my $keyboard_key_replace = sub( $a, $b ) { " $a$b " };
+
+sub prefix( @items ) {
+  my $model = shift @items;
+  my $end = length( $model ) - 1;
+
+  for my $item ( @items ) {
+    $end = length( $item ) - 1 if length( $item ) - 1 < $end;
+    for my $i ( 0 .. $end ) {
+      if ( substr( $model, $i, 1 ) ne substr( $item, $i, 1 ) ) {
+        $end = $i - 1;
+        next;
+      }
+    }
+  }
+
+  substr( $model, 0, $end + 1 );
+}
+
+sub mappings( $pattern, $lines ) {
+  my %maps;
+
+  $pattern = quotemeta $pattern;
+  $pattern =~ s/_/(.)/;
+
+  for my $line ( @$lines ) {
+    next unless ( $line =~ /^(?:...)(\S+)\s+(?:[*& ])([@ ])(\S.*)$/ );
+
+    my ( $key, $buffer, $cmd ) = ( $1, $2, $3 );
+
+    if ( $key =~ $pattern ) {
+      my $key = $1;
+
+      push $maps{$key}{all}->@*, $cmd;
+
+      $maps{$key}{buffer} = ($buffer eq '@') ? 1 : 0;
+    }
+  }
+
+  for my $key ( keys %maps ) {
+    my @mappings = $maps{$key}{all}->@*;
+
+    if ( @mappings > 1 ) {
+      $maps{$key}{summary} = "<*>" . prefix( @mappings ) . "…";
+    } else {
+      $maps{$key}{summary} = $mappings[0] // '???';
+    }
+  }
+
+  \%maps;
+}
+
+sub trim( $text, $size ) {
+  if ( length( $text ) > $size ) {
+    $text = substr $text, 0, $size - 1;
+    $text =~ s/<[^<>]*?(…?)$/$1/;
+    $text .= '…';
+  }
+
+  $text .= (' ' x ( $size - length( $text ) ) );
+}
+
+sub print_highlighted( $keys, %opts ) {
+  my ( $top_row, ) = split( "\n", $keyboard );
+  my $keyboard = $keyboard;
+
+  chomp $top_row;
+
+  my $width = length( $top_row );
+  my $outer_padding = 2;
+  my $command_padding = 2;
+  my $inner_padding = 2;
+
+  my $command_space = int( $width / 2 - $outer_padding - $command_padding - 1 - $inner_padding / 2 );
+
+  my sub color( $k ) {
+    my $color = !$keys->{$k} ? $colors{unbound} : $keys->{$k}{buffer} ? $colors{local} : $colors{bound};
+
+    "$color$k$colors{border}"
+  };
+
+  my %order;
+  my $i = 0;
+
+  while ( $keyboard =~ /$keyboard_key_pattern/g ) {
+    $order{$1} = $i++;
+    $order{$2} = $i++;
+  };
+
+  $keyboard =~ s/$keyboard_key_pattern/$keyboard_key_replace->( color($1) , color($2) )/eg;
+
+  print $colors{border} . $keyboard . "\n";
+
+  my $even = 0;
+
+  for my $key ( nsort_by { $order{$_} // -1 } keys %$keys ) {
+    my $mapping = $keys->{$key};
+
+    my $dimmed = $opts{focus} && $opts{focus} ne $key;
+    my $key_color = $dimmed ? $colors{dimmed} : $mapping->{buffer} ? $colors{local} : $colors{bound};
+    my $special_color = $dimmed ? $colors{dimmed} : $colors{special};
+    my $reset_color = $dimmed ? $colors{dimmed} : $colors{reset};
+
+    print ' ' x $outer_padding;
+
+    my $trimmed = trim $mapping->{summary}, $command_space;
+
+    $trimmed =~ s/(<[^>]+>|…)/$special_color$1$reset_color/g;
+
+
+    print "$key_color$key$reset_color" . (' ' x $command_padding) . $trimmed;
+
+    if ( $even ) {
+      print "\n";
+    } else {
+      print ' ' x $inner_padding;
+    }
+
+    $even = !$even;
+  }
+
+  print "\n\n";
+}
+
+die "Needs two args!" unless @ARGV == 2;
+
+my $focus = "";
+
+ReadMode 4;
+while ( $focus ne "\3" && $focus ne " " ) {
+  print Term::Cap->Tgetent()->Tputs('cl');
+  print_highlighted mappings($ARGV[0], [ slurp $ARGV[1] ]), focus => $focus;
+
+  $focus = ReadKey;
+
+  last if $focus eq "\3"; # CTRL-C
+  last if $focus eq "\a"; # CTRL-G
+  last if $focus eq " ";  # SPACE
+
+  $focus = "" if $focus eq "\n" || $focus eq "\e";
+}
