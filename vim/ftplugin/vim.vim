@@ -1,4 +1,4 @@
-if exists('b:did_myftplugin') | finish | endif
+"if exists('b:did_myftplugin') | finish | endif
 let b:did_myftplugin = 1
 
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
@@ -7,7 +7,7 @@ nmap <buffer> Q :source %<CR>
 vmap <buffer> Q :<C-U>call <SID>execute_selection()<CR>
 nmap <buffer> <Leader>e <Cmd>execute! getline('.')<CR>
 
-command -buffer Switch call s:extended_switch()
+command! -buffer Switch call s:extended_switch()
 
 let b:installed_switch = 0
 let s:vim_options = []
@@ -35,7 +35,7 @@ function! s:extended_switch()
       endif
 
       call add(b:switch_custom_definitions, switch#Words(variants))
-      call add(b:switch_custom_definitions, switch#Words(copy(variants)->map("'no' . v:val")))
+      call add(b:switch_custom_definitions, switch#Words(map(copy(variants), "'no' . v:val")))
     endfor
   endif
 
@@ -43,11 +43,11 @@ function! s:extended_switch()
 endfunction
 
 function s:read_vim_options()
-  let lines = split(&runtimepath, ',')
-    \->map("v:val . '/doc/quickref.txt'")
-    \->filter("filereadable(v:val)")
-    \->get(0)
-    \->readfile()
+  let files = split(&runtimepath, ',')
+  call map(files, "v:val . '/doc/quickref.txt'")
+  call filter(files, "filereadable(v:val)")
+
+  let lines = readfile(get(files, 0))
 
   let i = 0
 
