@@ -35,7 +35,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'zackhsi/fzf-tags'
 Plug 'majutsushi/tagbar'
-Plug 'SirVer/ultisnips'
+if has('python3') | Plug 'SirVer/ultisnips' | endif
 Plug 'dylnmc/synstack.vim'
 Plug 'jlanzarotta/bufexplorer'
 
