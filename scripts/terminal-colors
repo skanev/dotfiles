@@ -1,0 +1,38 @@
+#!/usr/bin/env perl
+
+# Displays the 256 colors in a few different ways in order to aid selection.
+
+use v5.32;
+use warnings;
+
+use experimental qw( signatures switch );
+
+our $rst = "\e[0m";
+our $pad = ' ' x 2;
+
+sub cell( $color, $escape, $segment ) {
+  sprintf( $escape, $color ) . sprintf( $segment, $color );
+}
+
+sub grid( $title, $pattern ) {
+  print "\n$title\n\n";
+  print $pad;
+  printf cell( $_, $pattern, "    %-2s   " ) for ( 0 .. 15 );
+
+  print "$rst\n";
+
+  for my $i ( 16 .. 231 ) {
+    print "$rst\n$pad" unless ($i - 16) % 36;
+    print cell( $i, $pattern, "%4s" );
+  }
+
+  print "$rst\n\n";
+
+  print $pad;
+  printf cell( $_, $pattern, " %-4s " ) for ( 232 .. 255 );
+  print "$rst\n";
+}
+
+grid "SOLID", "\e[38;5;%1\$sm\e[48;5;%1\$sm";
+grid "BACKGROUND", "\e[38;5;0m\e[48;5;%sm";
+grid "FOREGROUND", "\e[38;5;%sm";
