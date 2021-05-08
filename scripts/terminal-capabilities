@@ -1,0 +1,169 @@
+#!/usr/bin/env perl
+
+# Outputs a screen-full of escape sequences in order to aid the viewer in
+# gauging how well-supported terminal features are in the emulator.
+
+use v5.32;
+use warnings;
+use POSIX;
+
+use experimental qw( signatures switch );
+use List::Util qw( max );
+
+our $rst = "\e[0m";
+our $pad = ' ' x 4;
+
+sub section :prototype(&) ( $code ) {
+  print "$rst\n";
+  $code->();
+  print "$rst\n";
+}
+
+sub header ( $title ) {
+  print "$title\n\n";
+};
+
+# --- Main Codes --------------------------------------------------------------
+
+section {
+  header "MAIN CODES";
+
+  my $main = [
+    ['Reset',        0],
+    ['Bold',         1],
+    ['Faint',        2],
+    ['Italic',       3],
+    ['Underline',    4],
+    ['Slow blink',   5],
+    ['Rapid blink',  6],
+    ['Reverse',      7],
+    ['Conceal',      8],
+    ['Strike',       9],
+    ['Primary',     10],
+    ['Alt font 1',  11],
+    ['Alt font 2',  12],
+    ['Blackletter', 20],
+    ['Dbl under',   21],
+    ['Framed',      51],
+    ['Encircled',   52],
+    ['Overlined',   53],
+  ];
+
+  my $width = max map { length $_->[0] } @$main;
+
+  my sub sample( $sample ) {
+    return '' unless defined $sample;
+
+    my ( $label, $seq ) = @$sample;
+    my $esc = "\e[${seq}m";
+
+    sprintf "$rst%-2s : %-${width}s : ${esc}Sample Text${rst}", $seq, $label;
+  }
+
+  my $rows = ceil( @$main / 3 );
+
+  for my $i ( 0 .. $rows - 1 ) {
+    printf "$pad%s | %s | %s\n",
+           sample( $main->[$i] ),
+           sample( $main->[$i + $rows] ),
+           sample( $main->[$i + $rows + $rows] );
+
+  }
+};
+
+# --- Basic colors ------------------------------------------------------------
+
+section {
+  header "BASIC COLORS";
+
+  my sub show_basic_colors( $label, $modifier, $offset ) {
+    printf "$rst$pad%s \e[${modifier}m", $label;
+
+    for my $i ( 0.. 7 ) {
+      my $code = $offset + $i;
+      print "\e[${code}m [ color $i ] "
+    }
+
+    print "$rst\n";
+  }
+
+  show_basic_colors 'Dimmed', 2, 30;
+  show_basic_colors 'Normal', 0, 30;
+  show_basic_colors 'Bright', 1, 30;
+
+  print "\n";
+
+  show_basic_colors 'Backgr', 0, 40;
+
+};
+
+# --- 256 colors --------------------------------------------------------------
+
+section {
+  header '256 COLORS';
+
+  sub block256( $color, $size ) {
+    "\e[38;5;${color}m\e[48;5;${color}m" . ('.' x $size);
+  }
+
+  print $pad;
+  printf block256( $_, 4 ) for ( 0 .. 7 );
+  print $rst . ' ' x 8;
+  printf block256( $_, 4 ) for ( 8 .. 15 );
+
+  print "$rst\n";
+
+  for my $i ( 16 .. 231 ) {
+    print "$rst\n$pad" unless ($i - 16) % 36;
+    printf block256( $i, 2 );
+  }
+
+  print "$rst\n\n";
+
+  print $pad;
+  printf block256( $_, 3 ) for ( 232 .. 255 );
+  print "$rst\n";
+};
+
+# --- True color --------------------------------------------------------------
+
+section {
+  header 'TRUE COLOR';
+
+  my sub show_gradient( $width, $escape ) {
+    printf $pad;
+
+    for my $i ( 0 ... $width ) {
+      my $c = int( 255 * ($i / $width) );
+
+      printf "$escape ", $c;
+    }
+
+    print "$rst\n";
+  }
+
+  show_gradient 110, "\e[48;2;%d;0;0m";
+  show_gradient 110, "\e[48;2;0;%d;0m";
+  show_gradient 110, "\e[48;2;0;0;%dm";
+  show_gradient 110, "\e[48;2;%1\$d;%1\$d;%1\$dm";
+};
+
+# --- True color --------------------------------------------------------------
+
+section {
+  header 'UNDERLINES';
+
+  my sub show_underline( $name, $esc ) {
+    printf "$pad%-8s " .
+           "${esc}normal$rst  " .
+           "${esc}\e[58;5;202m256color$rst  " .
+           "${esc}\e[58;2;252;127;0mtruecolor$rst" .
+           "\n",
+           $name;
+  }
+
+  show_underline 'Basic',  "\e[4m";
+  show_underline 'Double', "\e[21m";
+  show_underline 'Curly',  "\e[4:3m";
+}
+
