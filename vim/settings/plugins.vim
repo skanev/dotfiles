@@ -149,7 +149,7 @@ function! s:fzf_buffers(fullscreen)
       \}, a:fullscreen)
 endfunction
 
-command! -bang -nargs=? -complete=dir Files   call fzf#vim#files(<q-args>, s:fzf_files_opts, <bang>0)
+command! -bang -nargs=? -complete=dir Files   call fzf#vim#files(<q-args>, copy(s:fzf_files_opts), <bang>0)
 command! -bang                        Buffers call s:fzf_buffers(<bang>0)
 command! -bang -nargs=*               Ag      call fzf#vim#ag(<q-args>, s:fzf_ag_options(), <bang>0)
 
