@@ -52,6 +52,7 @@ cnoremap <expr> / <SID>cmd_mode_slash()
 
 MapMeta f <Cmd>Files<CR>
 MapMeta j <Cmd>Buffers<CR>
+MapMeta k <Cmd>NERDTreeToggle<CR>
 
 MapMeta ] >>
 MapMeta [ <<
