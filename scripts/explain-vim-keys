@@ -48,6 +48,7 @@ my %colors = (
   unbound => "\e[38;5;241m",
   dimmed  => "\e[38;5;241m",
   special => "\e[38;5;165m",
+  prefix  => "\e[38;5;110m",
   reset   => "\e[0m",
 );
 
@@ -75,7 +76,7 @@ sub mappings( $pattern, $lines ) {
   my %maps;
 
   $pattern = quotemeta $pattern;
-  $pattern =~ s/_/(.)/;
+  $pattern =~ s/_/(.)(.*)/;
 
   for my $line ( @$lines ) {
     next unless ( $line =~ /^(?:...)(\S+)\s+(?:[*& ])([@ ])(\S.*)$/ );
@@ -85,17 +86,17 @@ sub mappings( $pattern, $lines ) {
     if ( $key =~ $pattern ) {
       my $key = $1;
 
-      push $maps{$key}{all}->@*, $cmd;
+      $maps{$key}{all}{"$1$2"} = $cmd;
 
       $maps{$key}{buffer} = ($buffer eq '@') ? 1 : 0;
     }
   }
 
   for my $key ( keys %maps ) {
-    my @mappings = $maps{$key}{all}->@*;
+    my @mappings = values $maps{$key}{all}->%*;
 
     if ( @mappings > 1 ) {
-      $maps{$key}{summary} = "<*>" . prefix( @mappings ) . "…";
+      $maps{$key}{summary} = "[prefix]" . prefix( @mappings ) . "…";
     } else {
       $maps{$key}{summary} = $mappings[0] // '???';
     }
@@ -112,6 +113,12 @@ sub trim( $text, $size ) {
   }
 
   $text .= (' ' x ( $size - length( $text ) ) );
+}
+
+sub highlight( $command ) {
+  $command =~ s/(<[^>]+>|…)/$colors{special}$1$colors{reset}/g;
+  $command =~ s/^\[prefix\]/$colors{prefix}\[prefix]$colors{reset}/g;
+  $colors{reset} . $command;
 }
 
 sub print_highlighted( $keys, %opts ) {
@@ -155,17 +162,14 @@ sub print_highlighted( $keys, %opts ) {
 
     my $dimmed = $opts{focus} && $opts{focus} ne $key;
     my $key_color = $dimmed ? $colors{dimmed} : $mapping->{buffer} ? $colors{local} : $colors{bound};
-    my $special_color = $dimmed ? $colors{dimmed} : $colors{special};
     my $reset_color = $dimmed ? $colors{dimmed} : $colors{reset};
 
     print ' ' x $outer_padding;
 
-    my $trimmed = trim $mapping->{summary}, $command_space;
+    my $command = trim $mapping->{summary}, $command_space;
+    $command = highlight $command unless $dimmed;
 
-    $trimmed =~ s/(<[^>]+>|…)/$special_color$1$reset_color/g;
-
-
-    print "$key_color$key$reset_color" . (' ' x $command_padding) . $trimmed;
+    print "$key_color$key$reset_color" . (' ' x $command_padding) . $command;
 
     if ( $even ) {
       print "\n";
@@ -176,7 +180,22 @@ sub print_highlighted( $keys, %opts ) {
     $even = !$even;
   }
 
-  print "\n\n";
+  print "$colors{reset}\n\n";
+
+  if ( defined $opts{focus} && defined $keys->{$opts{focus}} && keys $keys->{$opts{focus}}{all}->%* > 1 ) {
+    my $focus = $opts{focus};
+    my %maps = $keys->{$focus}{all}->%*;
+
+    print $colors{border} . " " x $outer_padding . '-' x ( $width - 2 * $outer_padding ) . "\n\n";
+
+    for my $key ( keys %maps ) {
+      print ' ' x $outer_padding;
+
+      print $colors{bound} . trim( $key, 5 ) . highlight( $maps{$key} ) . "\n";
+    }
+
+    print "\n"
+  }
 }
 
 die "Needs two args!" unless @ARGV >= 2;
@@ -191,12 +210,14 @@ for ( @ARGV[ 2 .. $#ARGV ] ) {
 }
 
 my $focus = "";
+my $mappings = mappings( $ARGV[0], [ slurp $ARGV[1] ]);
 
 ReadMode 4;
 
 while ( $focus ne "\3" && $focus ne " " ) {
   print Term::Cap->Tgetent()->Tputs('cl');
-  print_highlighted mappings($ARGV[0], [ slurp $ARGV[1] ]), focus => $focus, ignore => $opts{ignore};
+
+  print_highlighted $mappings, focus => $focus, ignore => $opts{ignore};
 
   $focus = ReadKey() // '';
 
