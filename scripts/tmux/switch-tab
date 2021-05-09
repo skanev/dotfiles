@@ -1,23 +1,27 @@
 #!/bin/sh
 
-app=$(~/.scripts/tmux/current-app $1 $2)
-
-escape=$3
-cmd=$4
-
 switch_to_tab() {
     tmux select-window -t $1 \; refresh-client -S
     true # Don't error out if tab doesn't exist
 }
 
-if [ $cmd == -e ]; then
+if [ "$1" = "-t" ]; then
+  switch_to_tab $2
+fi
+
+app=$(~/.scripts/tmux/current-app $1 $2)
+
+escape=$3
+cmd=$4
+
+if [ "$cmd" = "-e" ]; then
   tmux set @tab-escape yes
   exit
 fi
 
 tab=$cmd
 
-if [ "x$escape" == "xyes" ]; then
+if [ "x$escape" = "xyes" ]; then
     tmux set -q @tab-escape no
     switch_to_tab $tab
     exit
