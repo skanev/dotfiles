@@ -9,6 +9,7 @@ use utf8::all;
 
 use File::Slurp qw( slurp );
 use List::MoreUtils qw( nsort_by );
+use Carp qw( croak );
 use Term::ReadKey qw( ReadMode ReadKey );
 use Term::Cap;
 
@@ -145,8 +146,11 @@ sub print_highlighted( $keys, %opts ) {
   print $colors{border} . $keyboard . "\n";
 
   my $even = 0;
+  my $ignore = $opts{ignore} ? sub( $key ) { $key =~ /^$opts{ignore}$/ } : sub { 0 };
 
   for my $key ( nsort_by { $order{$_} // -1 } keys %$keys ) {
+    next if $ignore->( $key );
+
     my $mapping = $keys->{$key};
 
     my $dimmed = $opts{focus} && $opts{focus} ne $key;
@@ -175,16 +179,26 @@ sub print_highlighted( $keys, %opts ) {
   print "\n\n";
 }
 
-die "Needs two args!" unless @ARGV == 2;
+die "Needs two args!" unless @ARGV >= 2;
+
+my %opts = (
+  ignore => undef,
+);
+
+for ( @ARGV[ 2 .. $#ARGV ] ) {
+  when ( /^--ignore=(.*)$/ ) { $opts{ignore} = qr/$1/ }
+  default { croak "Unknown option: $_" }
+}
 
 my $focus = "";
 
 ReadMode 4;
+
 while ( $focus ne "\3" && $focus ne " " ) {
   print Term::Cap->Tgetent()->Tputs('cl');
-  print_highlighted mappings($ARGV[0], [ slurp $ARGV[1] ]), focus => $focus;
+  print_highlighted mappings($ARGV[0], [ slurp $ARGV[1] ]), focus => $focus, ignore => $opts{ignore};
 
-  $focus = ReadKey;
+  $focus = ReadKey() // '';
 
   last if $focus eq "\3"; # CTRL-C
   last if $focus eq "\a"; # CTRL-G

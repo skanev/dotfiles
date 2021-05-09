@@ -1,4 +1,4 @@
-function! s:explain(cmd, match, pattern)
+function! s:explain(cmd, match, pattern, opts)
   let old_a = @a
 
   redir! @a
@@ -13,8 +13,12 @@ function! s:explain(cmd, match, pattern)
   let file = tempname()
   call writefile(lines, file)
 
-  call s#popup(printf('~/.scripts/explain-vim-keys %s %s', shellescape(a:pattern), file), {'width': 75})
+  let opts = copy(a:opts)
+  call map(opts, 'shellescape(v:val)')
+
+  let cmd = printf('~/.scripts/explain-vim-keys %s %s %s', shellescape(a:pattern), file, join(opts, ' '))
+  call s#popup(cmd, {'width': 75})
 endfunction
 
-command! ExplainLeader call s:explain('nmap '.mapleader, '', mapleader.'_')
-command! ExplainMeta   call s:explain('nmap', '^...<lt>M-.>', "<lt>M-_>", )
+command! ExplainLeader call s:explain('nmap '.mapleader, '', mapleader.'_', [])
+command! ExplainMeta   call s:explain('nmap', '^...<lt>M-.>', "<lt>M-_>", ['--ignore=[1-9]'])
