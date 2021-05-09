@@ -122,6 +122,7 @@ path[(r)*j2sdk*]=()          # removes the first dir matching *j2sdk* from path
 
 # Matching
 
+[[ $PWD == $~pattern ]]              # allows $pattern to have * and so on
 [[ 'foo=abc' == (#b)([^=]##)=(*) ]]  # (with EXTENDED_GLOB) matches backreferences with (#b)
 echo $match[1]                       # the first backref: foo
 echo $match[2]                       # the second backref: abc
