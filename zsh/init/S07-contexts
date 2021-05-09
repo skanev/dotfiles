@@ -1,23 +1,76 @@
 #!/usr/bin/env zsh
 
 # CONTEXTS
-# ========
-# This scripts allow defining project-local aliases, functions and keybindings.
-# If the current directory is changed to one that has a fragment matching the
-# name of a file in ~/.zsh/context, that file gets sourced. It is supposed to
-# provide project-specific settings. CD-ing out of that directory will revert
-# the overrides to the previous state.
+# --------
 #
-# Reverting happens by analyzing the project file and extracting all the
-# definitions. This is performed by processing the file with AWK, so the
-# contents are a bit sensitive to formatting.
+# This scripts allow defining project-local aliases, functions and keybindings.
+#
+# Each context is defined in a directory under some in $c_dirs and looks like
+# this:
+#
+#   contexts/
+#     dotfiles/
+#       detect
+#       zsh
+#     another/
+#       ...
+#
+# This:
+#
+# - defines a context named "dotfiles"
+# - the "detect" file contains patterns, one per line, that specify when the
+#   context is enabled
+# - the "zsh" file contains local zsh stuff (functions, aliases, bindings) that
+#   are available when the context is enabled
+#
+# There is some obscure ZSH and AWK here, which I'm pretty proud of.
 
-c_dir=~/.zsh/contexts
-c_contexts=($c_dir/*(N:t))
+c_dirs=(~/.zsh/contexts)
+
+[[ -v context_extra_dirs ]] && c_dirs+=($context_extra_dirs)
+
+typeset -a c_available          # Stores the names of available contexts
+typeset -A c_available_patterns # Stores name -> pattern1,pattern2
+typeset -A c_available_location # Stores name -> ~/context-dir/name
+
+c_available_patterns=()
+c_available_location=()
+c_available=()
+
+c-load-available-contexts() {
+    local name patterns location
+
+    for dir in $c_dirs; do
+        for file in $dir/*/detect(N); do
+            name=${file:h:t}
+            patterns=${(j#,#)${(f)"$(< $file)"}}
+            location=${file:h}
+
+            if [[ -n $c_available_patterns[$name] ]]; then
+                print "contexts: '$name' already defined in $location" 1>&2
+            fi
+
+            c_available+=($name)
+            c_available_patterns[$name]=$patterns
+            c_available_location[$name]=$location
+        done
+    done
+}
 
 c-chpwd() {
-    local matches first
-    matches=(${${(s:/:)PWD}:*c_contexts})
+    local -aU matches
+    local first
+
+    matches=()
+
+    for name in $c_available; do
+        for pattern in ${(s#,#)c_available_patterns[$name]}; do
+            if [[ $PWD/ == $~pattern ]]; then
+                matches+=($name)
+            fi
+        done
+    done
+
     first=${matches[1]}
 
     case "$#matches/$c_current" in
@@ -48,12 +101,14 @@ c-load() {
         return
     fi
 
-    local file=$c_dir/$1
-    local name
-    local revert
+    local name file revert
+
+    file=$c_available_location[$1]/zsh
 
     c_current=$1
     c_revert=""
+
+    [[ -e $file ]] || return
 
     awk -f <(cat <<\END
       /^[-a-zA-Z0-9_]+[[:space:]]*\(\)[[:space:]]*{/ { gsub("\\(\\)", "", $1); print "function", $1; }
@@ -114,11 +169,13 @@ END
 
 context() {
     if [[ -n $c_current ]]; then
+        local file=$c_available_location[$c_current]/zsh
+
         if [[ $1 == "-e" ]]; then
-            vim "$c_dir/$c_current"
+            vim $file
             e
         else
-            cat "$c_dir/$c_current"
+            cat $file
         fi
     else
         echo "No context for the current directory"
@@ -131,6 +188,8 @@ c-unload() {
     c_current=
     c_revert=
 }
+
+c-load-available-contexts
 
 chpwd_functions=(${chpwd_functions[@]} "c-chpwd")
 
