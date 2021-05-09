@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+context_extra_dirs=(/mnt/c/Users/aquarius/Dropbox/dotfiles)
+
 fvim() {
   (/mnt/c/Users/aquarius/Programs/FVim/FVim.exe --wsl $* &)
 }
@@ -25,6 +27,10 @@ nvim-gtk() {
 
 nvim-qt() {
   NVIM_QT=1 command nvim-qt
+}
+
+nightvim() {
+  VIMRUNTIME=~/code/nvims/neovim/runtime ~/code/nvims/neovim/build/bin/nvim $*
 }
 
 export DOTFILES_VIM=nvim
