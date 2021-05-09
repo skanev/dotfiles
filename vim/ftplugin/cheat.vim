@@ -1,5 +1,6 @@
-if exists('b:did_myftplugin') | finish | endif
-let b:did_myftplugin = 1
+" needs a different variable as it can be second filetype loaded
+if exists('b:did_myftplugin_cheat') | finish | endif
+let b:did_myftplugin_cheat = 1
 
 let s:syntax = matchstr(getline('2'), 'syntax: \zs.*\ze')
 
