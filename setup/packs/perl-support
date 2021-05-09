@@ -22,6 +22,8 @@ perl_modules=(
   LWP::Protocol::https
   JSON::Parse
   File::Slurp
+  List::MoreUtils
+  Term::ReadKey
 )
 
 forced[Alien::libtickit]=1
