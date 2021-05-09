@@ -13,7 +13,7 @@ function! s:explain(cmd, match, pattern)
   let file = tempname()
   call writefile(lines, file)
 
-  execute printf("FloatermNew --width=77 --autoclose=1 ~/.scripts/explain-vim-keys %s %s", shellescape(a:pattern), file)
+  call s#popup(printf('~/.scripts/explain-vim-keys %s %s', shellescape(a:pattern), file), {'width': 75})
 endfunction
 
 command! ExplainLeader call s:explain('nmap '.mapleader, '', mapleader.'_')

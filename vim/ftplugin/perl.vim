@@ -20,10 +20,12 @@ function! s:ShowHelp()
   let word = expand('<cword>')
 
   if word =~ '\v\C^[a-z]'
-    execute "terminal ++close ++shell perldoc -f " . word . ' || read -q'
+    let command = "perldoc -f " . word
   else
-    execute "terminal ++close ++shell perldoc " . word . ' || read -q'
+    let command = "perldoc " . word
   endif
+
+  call s#terminal(command, {})
 endfunction
 
 "}}}
