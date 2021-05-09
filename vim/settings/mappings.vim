@@ -20,6 +20,8 @@ map <Leader>p <Plug>(SynStack)
 map <Leader>g <Cmd>copen<CR>
 nmap <Leader>j :SplitjoinJoin<CR>
 nmap <Leader>s :SplitjoinSplit<CR>
+map <Leader>?, <Cmd>ExplainLeader<CR>
+map <Leader>?m <Cmd>ExplainMeta<CR>
 
 nnoremap <Tab> <C-w><C-w>
 nnoremap <S-Tab> <C-w><C-W>
