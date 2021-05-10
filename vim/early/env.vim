@@ -8,6 +8,7 @@ if has('gui_running')
   if     has('gui_macvim')                  | let g:env.app = 'mvim'
   elseif has('gui_gtk3') || has('gui_gtk2') | let g:env.app = 'gvim'
   elseif has('gui_win32')                   | let g:env.app = 'winvim'
+  elseif has('gui_vimr')                    | let g:env.app = 'vimr'
   else                                      | let g:env.app = 'unknown-gui'
   endif
 elseif has('nvim')

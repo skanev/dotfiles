@@ -10,7 +10,7 @@ let s:themes = [
   \
   \ ['winvim',   '*',   {'font': 'Iosevka Extended:h12',     'line': 3, 'scheme': 'OceanicNext'                     }],
   \
-  \ ['*',        '*',   {'font': 'Iosevka Extended 12',      'line': 2, 'scheme': 'sonokai'                         }]
+  \ ['*',        '*',   {                                               'scheme': 'sonokai'                         }]
   \ ]
 
 let g:sonokai_style = 'shusia'
