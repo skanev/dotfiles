@@ -1,18 +1,19 @@
 let s:themes = [
-  \ ['mvim',     '*',   {'font': 'Monaco for Powerline:h14', 'line': 2                                              }],
+  \ ['mvim',     '*',   {'font': 'Monaco for Powerline:h14',    'line': 2                                              }],
   \
-  \ ['vim',      '*',   {                                               'scheme': 'vividchalk', 'airline': 'murmur' }],
-  \ ['nvim',     '*',   {                                               'scheme': 'vividchalk', 'airline': 'murmur' }],
+  \ ['vim',      '*',   {                                                  'scheme': 'vividchalk', 'airline': 'murmur' }],
+  \ ['nvim',     '*',   {                                                  'scheme': 'vividchalk', 'airline': 'murmur' }],
   \
-  \ ['fvim',     '*',   {'font': 'Fira Code:h16',            'line': 3                                              }],
-  \ ['neovide',  'mac', {'font': 'Iosevka Extended:h16',     'line': 0                                              }],
-  \ ['neovide',  '*',   {'font': 'Fira Code:h16',            'line': 0                                              }],
-  \ ['nvim-qt',  '*',   {'font': 'Fira Code:h16',            'line': 2                                              }],
-  \ ['goneovim', '*',   {'font': 'Fira Code:h16',            'line': 0                                              }],
+  \ ['fvim',     '*',   {'font': 'Fira Code:h16',               'line': 3                                              }],
+  \ ['neovide',  'mac', {'font': 'Iosevka Extended:h16',        'line': 0                                              }],
+  \ ['neovide',  '*',   {'font': 'Fira Code:h16',               'line': 0                                              }],
+  \ ['nvim-qt',  'mac', {'font': 'FiraCode Nerd Font Mono:h15', 'line': 2                                              }],
+  \ ['nvim-qt',  '*',   {'font': 'Fira Code:h16',               'line': 2                                              }],
+  \ ['goneovim', '*',   {'font': 'Fira Code:h16',               'line': 0                                              }],
   \
-  \ ['winvim',   '*',   {'font': 'Iosevka Extended:h12',     'line': 3, 'scheme': 'OceanicNext'                     }],
+  \ ['winvim',   '*',   {'font': 'Iosevka Extended:h12',        'line': 3, 'scheme': 'OceanicNext'                     }],
   \
-  \ ['*',        '*',   {                                               'scheme': 'sonokai'                         }]
+  \ ['*',        '*',   {                                                  'scheme': 'sonokai'                         }]
   \ ]
 
 let g:sonokai_style = 'shusia'
