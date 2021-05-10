@@ -71,6 +71,10 @@ Plug 'vim-scripts/scratch.vim'
 " Temporary(?)
 Plug 'voldikss/vim-floaterm'
 
+if g:tweaks.devicons
+  Plug 'ryanoasis/vim-devicons'
+end
+
 " Someplugins that I used to know
 
 "Plug 'digitaltoad/vim-jade'

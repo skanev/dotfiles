@@ -5,6 +5,7 @@ vim/spell
 vim/bundles
 vim/init.vim
 vim/steal-vim-snippets
+vim/tweaks.local.vim
 vim/autoload/plug.vim
 vim/doc/tags
 
