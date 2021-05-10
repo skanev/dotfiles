@@ -10,7 +10,7 @@ case $DOTFILES_OS in
     DOTFILES_VIG=${DOTFILES_VIG:-command gvim}
     ;;
   (mac)
-    DOTFILES_VIG=${DOTFILES_VIG:-mvim}
+    DOTFILES_VIG=${DOTFILES_VIG:-command mvim}
     ;;
   (*)
     DOTFILES_VIG=${DOTFILES_VIG:-command gvim}
@@ -19,3 +19,7 @@ esac
 
 alias vim=$DOTFILES_VIM
 alias vig=$DOTFILES_VIG
+
+export EDITOR=$DOTFILES_VIM
+export VISUAL=$DOTFILES_VIM
+export GIT_EDITOR=$DOTFILES_VIM
