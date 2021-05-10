@@ -1,0 +1,5 @@
+Various defaults: https://macos-defaults.com/
+
+# Disable press-and-hold for nvim
+
+defaults write nvim-qt ApplePressAndHoldEnabled NO
