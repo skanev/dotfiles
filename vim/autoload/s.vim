@@ -55,6 +55,24 @@ function! s#terminal(command, opts)
   end
 endfunction
 
+function! s:on_term_exit(job_id, code, event)
+  if a:code == 0 | close | endif
+endfunction
+
+highlight SPopup guibg=#221f22
+
+function! s:window_border(width, height)
+  let lines = []
+
+  call add(lines, '╭' . repeat('─', a:width) . '╮')
+  for _ in range(a:height)
+    call add(lines, '│' . repeat(' ', a:width) . '│')
+  endfor
+  call add(lines, '╰' . repeat('─', a:width) . '╯')
+
+  return lines
+endfunction
+
 function! s#popup(command, opts)
   let width  = get(a:opts, 'width', 0.6)
   let height = get(a:opts, 'height', 0.6)
@@ -66,12 +84,32 @@ function! s#popup(command, opts)
     let top = float2nr((&lines - height) / 2) + 1
     let left = float2nr((&columns - width) / 2) + 1
 
-    let buf = nvim_create_buf(v:false, v:true)
-    let opts = {'relative': 'editor', 'width': width, 'height': height, 'row': top, 'col': left, 'style': 'minimal'}
-    let win = nvim_open_win(buf, 0, opts)
+    let border_buf = nvim_create_buf(v:false, v:true)
+    call nvim_buf_set_lines(border_buf, 0, height + 2, v:false, s:window_border(width, height))
+    let border_win = nvim_open_win(border_buf, 0, {
+      \ 'relative': 'editor',
+      \ 'width': width + 2,
+      \ 'height': height + 2,
+      \ 'row': top - 1,
+      \ 'col': left - 1,
+      \ 'style': 'minimal'
+      \ })
 
-    call nvim_set_current_win(win)
-    call termopen(a:command, {'on_exit': function('s:on_term_exit')})
+    call nvim_win_set_option(border_win, 'winhl', 'Normal:SPopup')
+
+    let buf = nvim_create_buf(v:false, v:true)
+    let win = nvim_open_win(buf, 1, {
+      \ 'relative': 'editor',
+      \ 'width': width,
+      \ 'height': height,
+      \ 'row': top,
+      \ 'col': left,
+      \ 'style': 'minimal'
+      \ })
+
+    call nvim_win_set_option(win, 'winhl', 'Normal:SPopup')
+
+    call termopen(a:command, {'on_exit': function('s:close_border_window', [border_win])})
 
     startinsert
   else
@@ -79,6 +117,9 @@ function! s#popup(command, opts)
   end
 endfunction
 
-function! s:on_term_exit(job_id, code, event)
-  if a:code == 0 | close | endif
+function! s:close_border_window(border_window_id, job_id, code, event)
+  if a:code == 0
+    close
+    call nvim_win_close(a:border_window_id, v:true)
+  endif
 endfunction
