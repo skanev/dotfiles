@@ -5,8 +5,10 @@ let s:themes = [
   \ ['nvim',     '*',   {                                               'scheme': 'vividchalk', 'airline': 'murmur' }],
   \
   \ ['fvim',     '*',   {'font': 'Fira Code:h16',            'line': 3                                              }],
+  \ ['neovide',  'mac', {'font': 'Iosevka Extended:h16',     'line': 0                                              }],
   \ ['neovide',  '*',   {'font': 'Fira Code:h16',            'line': 0                                              }],
-  \ ['goneovim', '*',   {'font': 'Fira Code:h16',            'line': 3                                              }],
+  \ ['nvim-qt',  '*',   {'font': 'Fira Code:h16',            'line': 2                                              }],
+  \ ['goneovim', '*',   {'font': 'Fira Code:h16',            'line': 0                                              }],
   \
   \ ['winvim',   '*',   {'font': 'Iosevka Extended:h12',     'line': 3, 'scheme': 'OceanicNext'                     }],
   \
