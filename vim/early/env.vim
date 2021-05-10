@@ -29,7 +29,12 @@ elseif $DOTFILES_OS == 'mac' | let g:env.os = 'mac'
 else                         | let g:env.os = 'unknown'
 endif
 
+function! s:oneof(value, things)
+  return index(a:things, a:value) >= 0
+endfunction
+
 let g:env.tmux = $TMUX != "" && (g:env.app == 'vim' || g:env.app == 'nvim')
+let g:env.cmd_mapping = g:env.os == 'mac' && s:oneof(g:env.app, ['mvim', 'vimr', 'neovide', 'nvim-qt', 'goneovim', 'fvim'])
 
 augroup Env
   autocmd! VimEnter * call s:on_late_startup()

@@ -10,7 +10,7 @@ function! MapMeta(modes, args, options)
   let key = strpart(a:args, 0, 1)
   let commands = strpart(a:args, 2)
 
-  if g:env.app == 'mvim' || g:env.app == 'vimr'
+  if g:env.cmd_mapping
     let mapping = '<D-'.key.'>'
   elseif g:env.app == 'vim'
     let mapping = '<M-'.key.'>'
