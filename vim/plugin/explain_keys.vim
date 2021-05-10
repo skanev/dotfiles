@@ -21,4 +21,4 @@ function! s:explain(cmd, match, pattern, opts)
 endfunction
 
 command! ExplainLeader call s:explain('nmap '.mapleader, '', mapleader.'_', [])
-command! ExplainMeta   call s:explain('nmap', '^...<lt>M-.>', "<lt>M-_>", ['--ignore=[1-9]'])
+command! ExplainMeta   call s:explain('nmap', '^...<lt>'.g:env.meta_key.'-.>', "<lt>".g:env.meta_key."-_>", ['--ignore=[1-9]'])

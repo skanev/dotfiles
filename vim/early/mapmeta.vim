@@ -10,13 +10,11 @@ function! MapMeta(modes, args, options)
   let key = strpart(a:args, 0, 1)
   let commands = strpart(a:args, 2)
 
-  if g:env.cmd_mapping
-    let mapping = '<D-'.key.'>'
-  elseif g:env.app == 'vim'
+  if g:env.app == 'vim'
     let mapping = '<M-'.key.'>'
     call s:register_meta_key(key)
   else
-    let mapping = '<M-'.key.'>'
+    let mapping = printf('<%s-%s>', g:env.meta_key, key)
   endif
 
   for i in range(len(a:modes))

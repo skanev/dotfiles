@@ -34,7 +34,7 @@ function! s:oneof(value, things)
 endfunction
 
 let g:env.tmux = $TMUX != "" && (g:env.app == 'vim' || g:env.app == 'nvim')
-let g:env.cmd_mapping = g:env.os == 'mac' && s:oneof(g:env.app, ['mvim', 'vimr', 'neovide', 'nvim-qt', 'goneovim', 'fvim'])
+let g:env.meta_key = g:env.os == 'mac' && s:oneof(g:env.app, ['mvim', 'vimr', 'neovide', 'nvim-qt', 'goneovim', 'fvim']) ? 'D' : 'M'
 
 augroup Env
   autocmd! VimEnter * call s:on_late_startup()
