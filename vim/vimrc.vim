@@ -24,6 +24,8 @@ call plug#begin(g:dotfiles_dir . '/vim/bundles')
 runtime settings/plugins.vim
 call plug#end()
 
+packadd! matchit
+
 " Settings
 runtime settings/options.vim
 runtime settings/mappings.vim
