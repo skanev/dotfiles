@@ -24,6 +24,18 @@ function! s:satisfies(target, actual)
   return a:target == '*' || a:target == a:actual
 endfunction
 
+function! s:set_font(font)
+  if g:env.app == 'vimr' | return
+  else                   | let &guifont = a:font
+  endif
+endfunction
+
+function! s:set_linespace(linespace)
+  if g:env.app == 'vimr' | return
+  else                   | let &linespace = a:linespace
+  endif
+endfunction
+
 for [app, os, opts] in s:themes
   if !s:satisfies(app, g:env.app) || !s:satisfies(os, g:env.os) | continue | endif
 
@@ -33,7 +45,7 @@ for [app, os, opts] in s:themes
   if s:airline == ''     && has_key(opts, 'airline') | let s:airline = opts.airline    | endif
 endfor
 
-if s:font != ''        | let &guifont = s:font                  | endif
+if s:font != ''        | call s:set_font(s:font)                | endif
 if s:colorscheme != '' | execute "colorscheme " . s:colorscheme | endif
-if s:linespace != -1   | let &linespace = s:linespace           | endif
+if s:linespace != -1   | call s:set_linespace(s:linespace)      | endif
 if s:airline != ''     | let g:airline_theme = s:airline        | endif
