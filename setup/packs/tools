@@ -20,6 +20,7 @@ packages=(
   cloc
   "coreutils -> arch:_ other:coreutils"
   "gawk -> arch:_ other:gawk"
+  "dash -> mac:dash other:_"
 
   # TODO Figure out what to install here
   #macvim

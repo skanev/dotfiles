@@ -1,40 +1,40 @@
-#!/bin/sh
+#!/bin/dash
+
+set -e
 
 switch_to_tab() {
-    tmux select-window -t $1 \; refresh-client -S
-    true # Don't error out if tab doesn't exist
+    tmux set '@tab-escape' no \; select-window -t $1 \; refresh-client -S
 }
 
-if [ "$1" = "-t" ]; then
-  switch_to_tab $2
-fi
+case $1 in
+  (--determine)
+    if [ "$4" = yes ]; then
+      switch_to_tab $5
+    else
+      app=$(~/.scripts/tmux/current-app $2 $3)
 
-app=$(~/.scripts/tmux/current-app $1 $2)
+      case "$app" in
+        (vim|Vim|nvim)
+          tmux send-keys "M-$5"
+          ;;
 
-escape=$3
-cmd=$4
+        (*)
+          switch_to_tab $5
+      esac
 
-if [ "$cmd" = "-e" ]; then
-  tmux set @tab-escape yes
-  exit
-fi
+    fi
+    ;;
 
-tab=$cmd
+  (--of-tmux)
+    switch_to_tab $2
+    ;;
 
-if [ "x$escape" = "xyes" ]; then
-    tmux set -q @tab-escape no
-    switch_to_tab $tab
-    exit
-fi
+  (--escape-next)
+    tmux set '@tab-escape' yes
+    ;;
 
-case "$app" in
-    vim | Vim)
-        tmux send-keys M-$tab
-        ;;
-    nvim)
-        tmux send-keys M-$tab
-        ;;
-    *)
-        switch_to_tab $tab
-        ;;
+  (*)
+    echo "Don't know how to handle options: $*"
+    tmux display "Don't know how to handle options: $*"
+    ;;
 esac

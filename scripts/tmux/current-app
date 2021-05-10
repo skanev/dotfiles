@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/dash
+
+set -e
 
 case $1/$2 in
     ruby/vim)

@@ -112,7 +112,7 @@ else
     let tabs = tabpagenr('$')
 
     if tabs == 1 || a:index > tabs || mode() != 'n'
-      call system('~/.scripts/tmux/switch-tab -t ' . a:index)
+      call system('~/.scripts/tmux/switch-tab --of-tmux ' . a:index)
       return ""
     else
       return ":tabnext " . a:index . "\<CR>"
