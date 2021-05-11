@@ -1,0 +1,22 @@
+---
+syntax: markdown
+---
+
+# Paths
+
+/etc/zprofile aggresively sets up path names unconditionally with
+/usr/libexec/path_helper -s. If it is executed after ~/.zshenv and ~/.zshenv is
+the one that establishes ~/.rbenv and friends, you get the default ruby,
+instead of the rbenv one for login shells in iTerm. This is annoying and should
+probably be automated some other way, but here's how I'm fixing it:
+
+    # /etc/zprofile
+
+    # System-wide profile for interactive zsh(1) login shells.
+
+    # Setup user specific overrides for this in ~/.zprofile. See zshbuiltins(1)
+    # and zshoptions(1) for more details.
+
+    if [[ -x /usr/libexec/path_helper && ! -v DOTFILES_PATHS_LOADED ]]; then
+    	eval `/usr/libexec/path_helper -s`
+    fi
