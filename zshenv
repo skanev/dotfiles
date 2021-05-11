@@ -27,3 +27,5 @@ fi
 path=(~/bin $path)
 
 [[ -f ~/.localenv ]] && source ~/.localenv
+
+export DOTFILES_PATHS_LOADED=1
