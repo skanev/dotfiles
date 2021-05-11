@@ -5,7 +5,7 @@ current_program=$(~/.scripts/tmux/current-app $1 $2)
 if [[ $current_program == "vim" ]]; then
   tmux send-keys M-v
 elif [[ $DOTFILES_OS == "mac" ]]; then
-  tmux load-buffer =(pbpaste) \; paste-buffer
+  tmux load-buffer =(pbpaste) \; paste-buffer -p
 else
-  tmux load-buffer =(xclip -selection clipboard -o) \; paste-buffer
+  tmux load-buffer =(xclip -selection clipboard -o) \; paste-buffer -p
 fi
