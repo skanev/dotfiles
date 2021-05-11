@@ -130,6 +130,13 @@ let g:splitjoin_join_mapping = ''
 
 " junegunn/fzf
 let g:fzf_layout = {'down': '~25%'}
+let g:fzf_action = {
+  \ '': 'SafeOpen',
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+command! -nargs=* SafeOpen if &modified | botright split <args> | else | edit <args> | endif
 
 let s:fzf_files_opts = {
 \ 'window': {'width': 0.6, 'height': 0.6, 'relative': v:false},
