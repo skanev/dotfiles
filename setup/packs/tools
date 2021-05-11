@@ -37,6 +37,7 @@ packages=(
   htop
   httpie
   "less -> arch:_ other:less"
+  "rg -> mac:rg other:_"
 
   "build-essential -> ubuntu:build-essential other:_"
 
