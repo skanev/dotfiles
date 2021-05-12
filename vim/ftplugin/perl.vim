@@ -12,7 +12,7 @@ nmap <buffer> K :call <SID>ShowHelp()<CR>
 
 setlocal complete-=i
 setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-set completefunc=PerlUserCompletion
+setlocal completefunc=PerlUserCompletion
 
 "{{{ Show Help Function
 

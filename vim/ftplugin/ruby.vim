@@ -13,11 +13,11 @@ map <Leader>l <Cmd>call s:PromoteToLet()<CR>
 
 imap <buffer> <C-l> <Space>=><Space>
 
-map [r :A<CR>
-map ]r :R<CR>
+map <buffer> [r :A<CR>
+map <buffer> ]r :R<CR>
 
-onoremap i\| :<c-u>normal! T\|vt\|<CR>
-onoremap a\| :<c-u>normal! F\|vf\|<CR>
+onoremap <buffer> i\| :<c-u>normal! T\|vt\|<CR>
+onoremap <buffer> a\| :<c-u>normal! F\|vf\|<CR>
 
 function! s:PromoteToLet()
   s/\v(\w+)\s+\=\s+(.*)$/let(:\1) { \2 }/
