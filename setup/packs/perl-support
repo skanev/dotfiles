@@ -26,6 +26,7 @@ perl_modules=(
   Term::ReadKey
   Redis
   File::Slurp
+  JSON
 )
 
 forced[Alien::libtickit]=1
