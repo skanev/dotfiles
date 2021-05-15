@@ -29,6 +29,7 @@ inoremap <S-Tab> <C-v><C-i>
 nnoremap <C-p> <C-i>
 nnoremap ,, ,
 nnoremap <Space> :
+vnoremap <Space> :
 nnoremap <expr> Q ''
 
 nmap [c <Plug>(GitGutterPrevHunk)
