@@ -26,6 +26,7 @@ endfunction
 command! -nargs=1 MapMeta  call MapMeta('n', <f-args>, '')
 command! -nargs=1 VMapMeta call MapMeta('v', <f-args>, '')
 command! -nargs=1 IMapMeta call MapMeta('i', <f-args>, '')
+command! -nargs=1 XMapMeta call MapMeta('x', <f-args>, '')
 
 if g:env.app != 'vim'
   finish
