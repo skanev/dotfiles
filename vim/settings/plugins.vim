@@ -45,7 +45,7 @@ Plug 'tpope/vim-abolish'
 Plug 'godlygeek/tabular'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'scrooloose/nerdcommenter'
-Plug 'ervandew/supertab'
+"Plug 'ervandew/supertab'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-endwise'
 Plug 'mileszs/ack.vim'
@@ -70,6 +70,8 @@ Plug 'vim-scripts/scratch.vim'
 
 " Temporary(?)
 Plug 'voldikss/vim-floaterm'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 if g:tweaks.devicons
   Plug 'ryanoasis/vim-devicons'
@@ -103,6 +105,8 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="horizontal"
+
+runtime settings/plugins/coc.vim " This needs to be loaded after ultisnips, as it overrides it
 
 " airblade/vim-gitgutter
 let g:gitgutter_map_keys = 0
