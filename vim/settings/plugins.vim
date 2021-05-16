@@ -45,7 +45,6 @@ Plug 'tpope/vim-abolish'
 Plug 'godlygeek/tabular'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'scrooloose/nerdcommenter'
-"Plug 'ervandew/supertab'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-endwise'
 Plug 'mileszs/ack.vim'
@@ -71,7 +70,25 @@ Plug 'vim-scripts/scratch.vim'
 " Temporary(?)
 Plug 'voldikss/vim-floaterm'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" NVIM
+if g:env.nvim
+  Plug 'nanotee/nvim-lua-guide'
+endif
+
+" Completion
+if g:env.nightly
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'glepnir/lspsaga.nvim'
+  Plug 'hrsh7th/vim-vsnip'
+  Plug 'hrsh7th/vim-vsnip-integ'
+  Plug 'hrsh7th/nvim-compe'
+else
+  Plug 'ervandew/supertab'
+endif
+
+if g:env.app == 'mvim'
+  Plug 'vim-scripts/copy-as-rtf'
+endif
 
 if g:tweaks.devicons
   Plug 'ryanoasis/vim-devicons'
@@ -79,9 +96,12 @@ end
 
 " Someplugins that I used to know
 
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'nvim-lua/completion-nvim'
+"Plug 'Shougo/deoplete.nvim'
+"Plug 'deoplete-plugins/deoplete-lsp'
 "Plug 'digitaltoad/vim-jade'
 "Plug 'tpope/vim-cucumber'
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'francoiscabrol/ranger.vim'
 "Plug 'vim-scripts/Decho'
 "Plug 'kien/rainbow_parentheses.vim'
@@ -95,18 +115,20 @@ end
 "Plug 'vim-scripts/go.vim'
 "Plug 'fatih/vim-go'
 
-if g:env.app == 'mvim'
-  Plug 'vim-scripts/copy-as-rtf'
-endif
+" tpope/vim-surround
+let g:surround_no_insert_mappings = 1
+
+" AndrewRadev/Switch.vim
+let g:switch_mapping = ''
+let g:switch_reverse_mapping = ''
 
 " SirVer/ultisnips
 let g:UltiSnipsSnippetDirectories=[g:dotfiles_dir.'/vim/snips']
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsEditSplit="horizontal"
-
-runtime settings/plugins/coc.vim " This needs to be loaded after ultisnips, as it overrides it
+let g:UltiSnipsExpandTrigger       = "<Tab>"
+let g:UltiSnipsListSnippets        = ""
+let g:UltiSnipsJumpForwardTrigger  = "<C-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+let g:UltiSnipsEditSplit           = "horizontal"
 
 " airblade/vim-gitgutter
 let g:gitgutter_map_keys = 0

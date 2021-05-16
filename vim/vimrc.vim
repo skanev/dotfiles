@@ -34,6 +34,11 @@ runtime settings/mappings.vim
 runtime settings/appearance.vim
 runtime settings/nvim.vim
 
+if g:env.nightly
+  runtime settings/lsp.vim
+  runtime settings/completion.vim
+end
+
 augroup vimStartup
   autocmd!
   autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
@@ -56,6 +61,11 @@ command! Reverse :g/^/m0
 runtime localvimrc
 
 " --- Junk Drawer "  ------------------------------------------------------------
+
+set noswapfile
+set signcolumn=number
+
+
 
 command! Playground :call CreatePlayground()
 
