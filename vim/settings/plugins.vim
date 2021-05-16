@@ -92,7 +92,7 @@ endif
 
 if g:tweaks.devicons
   Plug 'ryanoasis/vim-devicons'
-end
+endif
 
 " Someplugins that I used to know
 
@@ -199,6 +199,7 @@ let g:gist_open_browser_after_post = 1
 let g:gist_post_private = 1
 
 " dense-analysis/ale
+let g:ale_linters_explicit = 1
 let g:ale_linters = {
 \ "ruby": ["rubocop", "ruby"],
 \ "perl": ["perl"]
@@ -230,4 +231,4 @@ let g:ale_ruby_rubocop_executable = 'bundle'
 let g:no_synstack_maps = 1
 
 " preservim/nerdtree
-let NERDTreeIgnore=['node_modules$']
+let NERDTreeIgnore = ['node_modules$']
