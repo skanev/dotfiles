@@ -9,6 +9,7 @@ let g:dotfiles_dir = expand('<sfile>:p:h:h')
 " My 'early' stuff
 runtime early/env.vim
 runtime early/term.vim
+runtime early/insert_leader.vim
 runtime early/tweaks.vim
 runtime early/mapmeta.vim
 runtime early/sonokai_tweaks.vim
