@@ -78,7 +78,7 @@ function! CreatePlayground()
       end
 
       check
-    END
+END
 
     call append(0, template)
     $delete _
