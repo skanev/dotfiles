@@ -34,6 +34,11 @@ runtime settings/mappings.vim
 runtime settings/appearance.vim
 runtime settings/nvim.vim
 
+augroup vimStartup
+  autocmd!
+  autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
+augroup END
+
 " Autocommands
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
