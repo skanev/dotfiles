@@ -32,7 +32,11 @@ set imsearch=-1                " search in the same language as iserting
 
 if has('persistent_undo')
   set undofile                 " have persistent undo
-  set undodir=~/.vim-undo      " where are undo files stored
+  if has('nvim')
+    set undodir=~/.nvim-undo     " where are undo files stored
+  else
+    set undodir=~/.vim-undo      " where are undo files stored
+  endif
 end
 
 if has('nvim')
