@@ -8,9 +8,9 @@ let g:HighlightTrailingWhitespace = 1
 
 highlight TrailingWhitespace guibg=red ctermbg=red
 
-autocmd! InsertLeave,BufEnter * call s:highlight()
-autocmd! InsertEnter          * call s:unhighlight()
-autocmd! ColorScheme          * highlight TrailingWhitespace guibg=red ctermbg=red
+autocmd! InsertLeave,BufEnter,FileType * call s:highlight()
+autocmd! InsertEnter                   * call s:unhighlight()
+autocmd! ColorScheme                   * highlight TrailingWhitespace guibg=red ctermbg=red
 
 command! StripTrailingWhitespace  call s:strip()
 command! TrailingWhitespaceToggle call s:toggle()
@@ -25,6 +25,8 @@ function! s:highlight()
 
   if enabled
     match TrailingWhitespace /\v\s+$/
+  else
+    match none
   endif
 endfunction
 
