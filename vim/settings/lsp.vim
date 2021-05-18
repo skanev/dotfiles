@@ -2,6 +2,7 @@
 "
 lua << EOF
 local nvim_lsp = require('lspconfig')
+local nvim_lspinstall = require('lspinstall')
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -59,6 +60,8 @@ local on_attach = function(client, bufnr)
   end
 end
 
+nvim_lspinstall.setup()
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
@@ -69,6 +72,10 @@ local servers = { "vimls", "tsserver" }
 
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
+end
+
+for _, server in pairs(nvim_lspinstall.installed_servers()) do
+  nvim_lsp[server].setup { on_attach = on_attach, capabilities = capabilities }
 end
 
 local saga = require('lspsaga')
