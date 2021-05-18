@@ -1,14 +1,23 @@
 #!/usr/bin/env perl
 use v5.32;
 use warnings;
+
+use experimental qw( signatures switch );
+
 use autodie qw( :all );
 
 use Carp;
 use Data::Dump qw( dump );
 use String::CamelSnakeKebab qw( upper_camel_case lower_snake_case );
 use JSON::Parse qw( parse_json );
-use LWP::Simple;
 use File::Slurp qw( slurp );
+use Rest::Client;
+
+sub get( $url ) {
+  my $client = REST::Client->new;
+  $client->GET( $url );
+  parse_json $client->responseContent();
+}
 
 sub backtick {
   my $command = shift;
@@ -41,13 +50,13 @@ $exercise_path = "$workspace/$track/$exercise" if $exercise;
 my $command = $ARGV[0];
 
 my %commands = (
-  help => [ sub { run_help() }, 'Show help (default)' ],
+  help   => [ sub { run_help() },   'Show help (default)' ],
   submit => [ sub { run_submit() }, 'Submit the solution' ],
-  test => [ sub { run_test() }, 'Run the tests' ],
-  list => [ sub { run_list() }, 'List all the exercises' ],
-  next => [ sub { run_next() }, 'Download the next exercise' ],
-  open => [ sub { run_open() }, 'Open the exercise' ],
-  web => [ sub { run_web() }, 'Open in browser' ],
+  test   => [ sub { run_test() },   'Run the tests' ],
+  list   => [ sub { run_list() },   'List all the exercises' ],
+  next   => [ sub { run_next() },   'Download the next exercise' ],
+  open   => [ sub { run_open() },   'Open the exercise' ],
+  web    => [ sub { run_web() },    'Open in browser' ],
 );
 
 my %languages = (
@@ -69,6 +78,11 @@ my %languages = (
         write_file $file, $contents;
       }
     },
+  },
+  lua => {
+    solution_file => sub { "$exercise_path/$exercise.lua" },
+    test_file => sub { "$exercise_path/${exercise}_spec.lua" },
+    test => sub { "busted" },
   }
 );
 
@@ -104,8 +118,8 @@ sub exercises_list {
   state $list = 0;
 
   unless ( $list ) {
-    my $json = parse_json get( $config_overrides{$track} // "https://raw.githubusercontent.com/exercism/$track/master/config.json" );
-    $list = [ map $_->{slug}, $json->{exercises}->@* ];
+    my $json = get( $config_overrides{$track} // "https://raw.githubusercontent.com/exercism/$track/master/config.json" );
+    $list = [ map $_->{slug}, $json->{exercises}{practice}->@* ];
   }
 
   @$list;
