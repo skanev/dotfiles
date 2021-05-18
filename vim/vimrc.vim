@@ -37,6 +37,7 @@ runtime settings/nvim.vim
 if g:env.nightly
   runtime settings/lsp.vim
   runtime settings/completion.vim
+  runtime settings/treesitter.vim
 end
 
 augroup vimStartup
@@ -64,8 +65,6 @@ runtime localvimrc
 
 set noswapfile
 set signcolumn=number
-
-
 
 command! Playground :call CreatePlayground()
 
