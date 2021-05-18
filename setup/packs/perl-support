@@ -27,9 +27,13 @@ perl_modules=(
   Redis
   File::Slurp
   JSON
+  IO::Async
+  Neovim::Ext
+  ExtUtils::MakeMaker
 )
 
 forced[Alien::libtickit]=1
+forced[IO::Async]=1
 
 # Add plenv explicitly to path for new installs that just have installed plenv,
 # but haven't loaded it in PATH yet
