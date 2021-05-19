@@ -129,7 +129,8 @@ endfunction
 
 " Use <C-a><Space> to turn as-you-type on and off. Will likely decide to do it
 " in insert mode, so let's have an insert mode mapping.
-imap <C-a><Space> <C-o>:call <SID>toggle_as_you_type()<CR>
+call IMapLeader('imap', v:false, '<Space>', '<Cmd> call '.expand('<SID>').'toggle_as_you_type()<CR>')
+
 
 " We need to insert a tab in a imap, so here's a cheesy way to be able to.
 inoremap <Plug>(insert-tab) <Tab>

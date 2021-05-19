@@ -7,18 +7,59 @@
 "
 " Also let <C-a><C-a> be the default <C-a> functionality
 
-function s:wait() abort
-  let input = nr2char(getchar())
-  let cmd = "\<C-a>" . input
+let s:mappings = {}
+let s:leader = "<C-a>"
+let s:escaped_leader = "\<C-a>"
 
-  if maparg(cmd, 'i')
-    call feedkeys(cmd)
+function! s:wait() abort
+  let input = nr2char(getchar())
+
+  if has_key(s:mappings, input)
+    call feedkeys(s:escaped_leader . input)
   else
-    echo "No mapping for " . cmd
-  endif
+    echomsg "No mapping for " . s:leader . input
+  end
 
   return "\<Ignore>"
 endfunction
 
-imap     <expr> <C-a>      <SID>wait()
-inoremap        <C-a><C-a> <C-a>
+function! s:define(cmd, mapping)
+  let expr = 0
+  let mapping = a:mapping
+
+  let [_, _, pos] = matchstrpos(a:mapping, '^<expr>\s\+')
+  if pos != -1
+    let expr = 1
+    let mapping = mapping[pos:]
+  endif
+
+  let [key, _, pos] = matchstrpos(mapping, '^\S\+\ze\s\+')
+  let rhs = mapping[pos:]
+  let raw_key = key
+
+  let rhs = substitute(rhs, '^\s*', '', '')
+
+  if key =~ '^<\S\+>$'
+    let raw_key = eval('"\' . key . '"')
+  endif
+
+  call IMapLeader(a:cmd, expr, key, rhs)
+endfunction
+
+function! IMapLeader(cmd, expr, key, rhs)
+  let key = a:key
+  if key =~ '^<\S\+>$'
+    let raw_key = eval('"\' . key . '"')
+  endif
+
+  let s:mappings[raw_key] = a:rhs
+
+  execute a:cmd . (a:expr ? ' <expr> ' : ' '). s:leader . key . ' ' . a:rhs
+endfunction
+
+command! -nargs=1 IMapLeader call s:define('imap', <q-args>)
+command! -nargs=1 INoReMapLeader call s:define('inoremap', <q-args>)
+
+imap <expr> <C-a> <SID>wait()
+
+INoReMapLeader <expr> <C-a> <C-a>
