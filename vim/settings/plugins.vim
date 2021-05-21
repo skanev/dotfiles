@@ -88,6 +88,8 @@ if g:env.nightly
 
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-treesitter/playground'
+
+  Plug 'rafcamlet/nvim-luapad'
 else
   Plug 'ervandew/supertab'
 endif
