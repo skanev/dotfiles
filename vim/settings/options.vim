@@ -4,7 +4,7 @@ set nowrap       " don't wrap long lines
 set showcmd      " shows number of selected lines/characters
 
 set incsearch    " search immediatelly instead of waiting <CR>
-set hlsearch     " highlight search results
+set nohlsearch   " highlight search results
 
 set autoindent   " copy indentation from current line when starting a new one
 set autoread     " automatically read changed files

@@ -42,6 +42,7 @@ nmap <silent> yog <Cmd>call s:ToggleGitGutter()<CR>
 
 nnoremap <C-h> :SidewaysLeft<CR>
 nnoremap <C-l> :SidewaysRight<CR>
+nnoremap <C-k> <Cmd>set hlsearch!<CR>
 nnoremap - :Switch<CR>
 cnoremap <C-c> <C-^>
 inoremap <C-c> <C-^>
