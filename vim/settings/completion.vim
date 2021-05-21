@@ -43,13 +43,59 @@ let s:configuration = {
       \   'buffer': v:true,
       \   'calc': v:true,
       \   'nvim_lsp': v:true,
-      \   'nvim_lua': v:true,
-      \   'vsnip': v:true,
+      \   'nvim_lua': v:false,
+      \   'vsnip': v:false,
+      \   'omni': v:false,
       \   'ultisnips': v:true,
       \ }
       \}
 
 let g:compe = s:configuration
+
+lua <<EOF
+-- commented options are defaults
+require('lspkind').init({
+  with_text = true,
+  symbol_map = {
+    Text = '',
+    Method = 'ƒ',
+    Function = '',
+    Constructor = '',
+    Variable = '',
+    Field = '',
+    Class = '',
+    Interface = 'ﰮ',
+    Module = '',
+    Property = '',
+    Unit = '',
+    Value = '',
+    Enum = '了',
+    Keyword = '',
+    Snippet = '﬌',
+    Color = '',
+    File = '',
+    Folder = '',
+    EnumMember = '',
+    Constant = '',
+    Struct = ''
+  },
+})
+
+require('lsp_signature').on_attach({
+  bind = true, -- This is mandatory, otherwise border config won't get registered.
+               -- If you want to hook lspsaga or other signature handler, pls set to false
+  doc_lines = 10, -- only show one line of comment set to 0 if you do not want API comments be shown
+
+  hint_enable = true, -- virtual hint enable
+  hint_prefix = "🐼 ",  -- Panda for parameter
+  hint_scheme = "String",
+  use_lspsaga = true,  -- set to true if you want to use lspsaga popup
+  handler_opts = {
+    border = "shadow"   -- double, single, shadow, none
+  },
+  decorator = {"***", "***"}  -- or decorator = {"***", "***"}  decorator = {"**", "**"} see markdown help
+})
+EOF
 
 " Tweak endwise
 
@@ -90,38 +136,16 @@ endfunction
 
 " Behavior when pressing tab. It's kinda involved
 function! s:tab()
-  " First, check if we're in a vsnip placeholder and can move forward...
-  if vsnip#jumpable(1)
-    return "\<Plug>(vsnip-jump-next)"
-
-  " ...otherwise, there may be a ultisnippet we would like to expand
-  elseif UltiSnips#CanExpandSnippet()
+  if UltiSnips#CanExpandSnippet()
     return "\<C-r>=UltiSnips#ExpandSnippet()\<cr>"
-
-  " ...actually, are we currently within ultisnips? if so, let's just jump
-  " forward... (I may want to change this later)
   elseif g:currently_in_ultisnips
     return "\<C-r>=UltiSnips#ExpandSnippetOrJump()\<cr>"
-
-  " ...is there a menu, open specifically by compe? if so, just accept the
-  " first result...
   elseif pumvisible() && complete_info(['mode']).mode == 'eval'
-    return compe#confirm({ 'select': 1, 'keys': "\<Plug>(foo)", 'mode': 'n' })
-
-  " ...is there a menu that's not from compe? they we pressed <Tab>/<C-x><C-f>
-  " and so on. let's move forward ...
+    return compe#confirm({ 'select': 1, 'keys': "\<Plug>(new-line)", 'mode': 'n' })
   elseif pumvisible()
     return "\<C-n>"
-
-  " ...no menu? let's see if we just don't want to insert a tab in the
-  " beginning of the line...
   elseif getline('.')[0:col('.') - 1] =~ '^\s*$'
     return "\<Plug>(insert-tab)"
-
-  " ...we probably don't have a menu open and would like to complete. Since
-  " completeopt has noselect, pressing <C-n> will show a menu, but not prefill
-  " the first result. Well, you know what they say – if return; doesn't cut
-  " it, do a return; return; (obscure reference)
   else
     return "\<C-n>\<C-n>"
   endif
@@ -131,6 +155,7 @@ endfunction
 " in insert mode, so let's have an insert mode mapping.
 call IMapLeader('imap', v:false, '<Space>', '<Cmd> call '.expand('<SID>').'toggle_as_you_type()<CR>')
 
+inoremap <Plug>(new-line) <CR>
 
 " We need to insert a tab in a imap, so here's a cheesy way to be able to.
 inoremap <Plug>(insert-tab) <Tab>
@@ -149,10 +174,3 @@ inoremap <silent><expr> <C-e>     compe#close('<C-e>')
 " haven't needed to scroll the docs just yet.
 "inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
 "inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
-" vsnips mappings
-"
-" <Tab> is already mapped to go forward, and I don't care about expanding
-" vsnip snippets, thank you very much
-imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'

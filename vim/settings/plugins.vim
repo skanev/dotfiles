@@ -81,8 +81,6 @@ if g:env.nightly
   Plug 'kabouzeid/nvim-lspinstall'
   Plug 'glepnir/lspsaga.nvim'
 
-  Plug 'hrsh7th/vim-vsnip'
-  Plug 'hrsh7th/vim-vsnip-integ'
   Plug 'hrsh7th/nvim-compe'
 
   Plug 'onsails/lspkind-nvim'
