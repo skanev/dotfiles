@@ -85,6 +85,9 @@ if g:env.nightly
   Plug 'hrsh7th/vim-vsnip-integ'
   Plug 'hrsh7th/nvim-compe'
 
+  Plug 'onsails/lspkind-nvim'
+  Plug 'ray-x/lsp_signature.nvim'
+
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-treesitter/playground'
 else
