@@ -41,6 +41,11 @@ let s:modes.crystal_spec.matcher = '_spec\.cr$'
 let s:modes.crystal_spec.run_test      = '"crystal spec " . expand("%")'
 let s:modes.crystal_spec.run_test_line = '"crystal spec " . expand("%") . ":" . line(".")'
 
+let s:modes.lua_spec = {}
+let s:modes.lua_spec.matcher = '_spec\.lua$'
+let s:modes.lua_spec.run_test      = '"busted " . expand("%")'
+let s:modes.lua_spec.run_test_line = '"busted " . expand("%") . ":" . line(".")'
+
 let s:modes.perl = {}
 let s:modes.perl.matcher = '\.t$'
 let s:modes.perl.run_test      = '"prove " . expand("%")'
