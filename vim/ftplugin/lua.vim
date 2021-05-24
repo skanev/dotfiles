@@ -9,3 +9,7 @@ let b:switch_custom_definitions =
     \     'pending(': 'it(',
     \   },
     \ ]
+
+if s#starts_with(expand('%'), g:dotfiles_dir)
+  map <buffer> Q <Cmd>luafile %<CR>
+endif
