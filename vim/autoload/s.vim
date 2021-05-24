@@ -45,6 +45,10 @@ function! s#without(list, other) abort
   return a:list->filter({_, e -> !elements->get(e) })
 endfunction
 
+function! s#starts_with(longer, shorter)
+  return a:longer[0:len(a:shorter)-1] ==# a:shorter
+endfunction
+
 function! s#terminal(command, opts)
   if has('nvim')
     topleft new
