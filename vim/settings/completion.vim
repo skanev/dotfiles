@@ -105,6 +105,7 @@ let g:endwise_no_mappings = 1
 
 " Don't let it steal <Tab> away from us
 let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips-trigger)"
+let g:UltiSnipsMappingsToIgnore = ['select-mode-jump']
 
 " Track whether there is a current snippet or not
 let g:currently_in_ultisnips = 0
@@ -138,10 +139,10 @@ endfunction
 function! s:tab()
   if UltiSnips#CanExpandSnippet()
     return "\<C-r>=UltiSnips#ExpandSnippet()\<cr>"
-  elseif g:currently_in_ultisnips
-    return "\<C-r>=UltiSnips#ExpandSnippetOrJump()\<cr>"
   elseif pumvisible() && complete_info(['mode']).mode == 'eval'
     return compe#confirm({ 'select': 1, 'keys': "\<Plug>(new-line)", 'mode': 'n' })
+  elseif g:currently_in_ultisnips
+    return "\<C-r>=UltiSnips#ExpandSnippetOrJump()\<cr>"
   elseif pumvisible()
     return "\<C-n>"
   elseif getline('.')[0:col('.') - 1] =~ '^\s*$'
@@ -162,6 +163,12 @@ inoremap <Plug>(insert-tab) <Tab>
 
 " Le tab mapping
 imap <expr> <Tab> <SID>tab()
+
+" Snippet jumping back and forth in select mode
+snoremap <Plug>(select-mode-jump-forwards) <Esc><Cmd>call UltiSnips#JumpForwards()<CR>
+snoremap <Plug>(select-mode-jump-backwards) <Esc><Cmd>call UltiSnips#JumpBackwards()<CR>
+smap <Tab> <Plug>(select-mode-jump-forwards)
+smap <S-Tab> <Plug>(select-mode-jump-backwards)
 
 " Compe mappings
 
