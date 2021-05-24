@@ -142,21 +142,6 @@ let g:UltiSnipsEditSplit           = "horizontal"
 let g:gitgutter_map_keys = 0
 let g:gitgutter_enabled = 1
 
-" bling/vim-ariline
-let g:airline_powerline_fonts = 1
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_branch_prefix= ''
-let g:airline_readonly_symbol = ''
-let g:airline_linecolumn_prefix = ''
-
-let g:airline#extensions#keymap#enabled = 0
-let g:airline#extensions#tagbar#enabled = 0
-let g:airline#extensions#hunks#non_zero_only = 1
-let g:airline#extensions#hunks#enabled = g:gitgutter_enabled
-
 let g:vim_json_syntax_conceal = 0
 
 let g:splitjoin_split_mapping = ''

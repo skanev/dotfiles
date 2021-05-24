@@ -34,6 +34,8 @@ runtime settings/mappings.vim
 runtime settings/appearance.vim
 runtime settings/nvim.vim
 
+runtime settings/plugins/airline.vim
+
 if g:env.nightly
   runtime settings/lsp.vim
   runtime settings/completion.vim
