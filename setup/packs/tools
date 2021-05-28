@@ -41,11 +41,12 @@ packages=(
 
   "build-essential -> ubuntu:build-essential other:_"
 
-  "libtool -> ubuntu:libtool other:_"
+  "libtool -> ubuntu:libtool mac:libtool other:_"
   "libtool-bin -> ubuntu:libtool-bin other:_"
   "libtermkey -> ubuntu:libtermkey-dev other:libtermkey"
   "midnight-commander -> mac:midnight-commander other:mc"
   "pkg-config -> arch:pkgconf other:pkg-config"
+  "ctags -> mac:ctags other:_"
 
   "navi [homebrew]"
   "hivemind [homebrew]"
