@@ -103,7 +103,7 @@ local function make_capabilities(config)
   return capabilities
 end
 
-lsp.vimls.setup {
+lsp.vim.setup {
   on_attach = on_attach,
   capabilities = make_capabilities({'snippets'})
 }
