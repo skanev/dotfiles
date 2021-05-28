@@ -9,7 +9,7 @@ let s:themes = [
   \ ['neovide',  '*',   {'font': 'FiraCode Nerd Font:h16',      'line': 0                                              }],
   \ ['nvim-qt',  'mac', {'font': 'FiraCode Nerd Font Mono:h15', 'line': 2                                              }],
   \ ['nvim-qt',  '*',   {'font': 'Fira Code:h16',               'line': 2                                              }],
-  \ ['goneovim', '*',   {'font': 'Fira Code:h16',               'line': 0                                              }],
+  \ ['goneovim', '*',   {'font': 'FiraCode Nerd Font Mono:h16', 'line': 0                                              }],
   \
   \ ['winvim',   '*',   {'font': 'Iosevka Extended:h12',        'line': 3, 'scheme': 'OceanicNext'                     }],
   \
