@@ -8,6 +8,7 @@ case $uname in
   (Darwin)
     export DOTFILES_OS=mac
     export DOTFILES_DISTRO=mac
+    [[ $(arch) == arm64 ]] && export DOTFILES_MAC_ARM=1
     ;;
   (Linux)
     export DOTFILES_OS=linux
