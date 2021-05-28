@@ -18,18 +18,17 @@ perl_modules=(
   File::Path::Expand
   Array::Utils
   String::CamelSnakeKebab
-  LWP::Simple
-  LWP::Protocol::https
   JSON::Parse
   File::Slurp
   List::MoreUtils
   Term::ReadKey
   Redis
   File::Slurp
+  ExtUtils::MakeMaker
+  REST::Client
   JSON
   IO::Async
   Neovim::Ext
-  ExtUtils::MakeMaker
 )
 
 forced[Alien::libtickit]=1
