@@ -8,7 +8,7 @@ install-pack() {
 }
 
 is-pack-installed() {
-  [[ -d ~/.rbenv && -x ~/.plenv/bin/rbenv ]]
+  [[ -d ~/.rbenv && -x ~/.rbenv/bin/rbenv ]]
 }
 
 verify-pack() {
