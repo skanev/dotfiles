@@ -13,6 +13,12 @@ function! MapMeta(modes, args, options)
   if g:env.app == 'vim'
     let mapping = '<M-'.key.'>'
     call s:register_meta_key(key)
+  elseif g:env.app == 'nvim-qt' && g:env.meta_key == 'D'
+    if has_key(s:downcases, key)
+      let mapping = toupper(printf('<S-D-%s>', key))
+    else
+      let mapping = printf('<D-%s>', key)
+    endif
   else
     let mapping = printf('<%s-%s>', g:env.meta_key, key)
   endif
@@ -27,6 +33,14 @@ command! -nargs=1 MapMeta  call MapMeta('n', <f-args>, '')
 command! -nargs=1 VMapMeta call MapMeta('v', <f-args>, '')
 command! -nargs=1 IMapMeta call MapMeta('i', <f-args>, '')
 command! -nargs=1 XMapMeta call MapMeta('x', <f-args>, '')
+
+let s:downcases = {}
+let s:lower = 'abcdefghijklmnopqrstuvwxyz`1234567890-=[]\;,./'."'"
+let s:upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*()_+{}|:<>?'.'"'
+
+for i in range(0, len(s:lower) - 1)
+  let s:downcases[s:upper[i]] = s:lower[i]
+endfor
 
 if g:env.app != 'vim'
   finish
