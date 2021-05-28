@@ -89,6 +89,23 @@ function s:sid()
   return '<SNR>' . matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$') . '_'
 endfun
 
+if g:env.app == 'nvim-qt'
+  call MapMeta('nvic', '- <Cmd>call '.s:sid()."set_font('delta', -1)<CR>", '')
+  call MapMeta('nvic', '= <Cmd>call '.s:sid()."set_font('delta', 1)<CR>", '')
+  call MapMeta('nvic', '0 <Cmd>call '.s:sid()."set_font('reset', 0)<CR>", '')
+
+  function! s:set_font(action, number)
+    if a:action == 'reset'
+      let &guifont = g:appearance.font
+    elseif a:action == 'delta'
+      let size = matchstr(&guifont, '\d\+')
+      let &guifont = substitute(&guifont, '\d\+', size + a:number, '')
+    else
+      throw "Unknown action: " . a:action
+    end
+  endfunction
+endif
+
 " When typing %/ it expands to the directory of the current file.
 
 function s:cmd_mode_slash()

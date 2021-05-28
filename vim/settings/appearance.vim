@@ -17,6 +17,7 @@ let s:themes = [
   \ ]
 
 let g:sonokai_style = 'shusia'
+let g:appearance = {}
 
 let s:font        = ''
 let s:linespace   = -1
@@ -31,6 +32,8 @@ function! s:set_font(font)
   if g:env.app == 'vimr' | return
   else                   | let &guifont = a:font
   endif
+
+  let g:appearance.font = a:font
 endfunction
 
 function! s:set_linespace(linespace)
