@@ -90,9 +90,9 @@ function s:sid()
 endfun
 
 if g:env.app == 'nvim-qt'
-  call MapMeta('nvic', '- <Cmd>call '.s:sid()."set_font('delta', -1)<CR>", '')
-  call MapMeta('nvic', '= <Cmd>call '.s:sid()."set_font('delta', 1)<CR>", '')
-  call MapMeta('nvic', '0 <Cmd>call '.s:sid()."set_font('reset', 0)<CR>", '')
+  call MapMeta('nvic', '', '-', '<Cmd>call '.s:sid()."set_font('delta', -1)<CR>")
+  call MapMeta('nvic', '', '=', '<Cmd>call '.s:sid()."set_font('delta', 1)<CR>")
+  call MapMeta('nvic', '', '0', '<Cmd>call '.s:sid()."set_font('reset', 0)<CR>")
 
   function! s:set_font(action, number)
     if a:action == 'reset'
@@ -120,11 +120,11 @@ endfunction
 
 if !g:env.tmux
   for n in range(1, 9)
-    call MapMeta('n', printf("%s <Cmd>tabnext %s<cR>", n, n), '<silent>')
+    call MapMeta('n', '<silent>', string(n), printf("<Cmd>tabnext %s<cR>", n))
   endfor
 else
   for n in range(1, 9)
-    call MapMeta('nivc', string(n) . ' ' . s:sid() . 'switch_tab(' . n .')', '<expr> <silent>')
+    call MapMeta('nivc', '<expr> <silent>', string(n), s:sid() . 'switch_tab(' . n .')')
   endfor
 
   function! s:switch_tab(index)
