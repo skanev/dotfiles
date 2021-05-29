@@ -10,6 +10,6 @@ let b:switch_custom_definitions =
     \   },
     \ ]
 
-if s#starts_with(expand('%'), g:dotfiles_dir)
-  map <buffer> Q <Cmd>luafile %<CR>
+if s#starts_with(expand('%:p'), g:dotfiles_dir)
+  map <buffer> Q :luafile %<CR>
 endif
