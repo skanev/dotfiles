@@ -6,6 +6,7 @@ setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 nmap <buffer> Q :source %<CR>
 vmap <buffer> Q :<C-U>call <SID>execute_selection()<CR>
 nmap <buffer> <Leader>e <Cmd>execute! getline('.')<CR>
+nmap <buffer> K <Cmd>call <SID>help()<CR>
 
 command! -buffer Switch call s:extended_switch()
 
@@ -73,4 +74,13 @@ function s:read_vim_options()
   endwhile
 
   return words
+endfunction
+
+function! s:help()
+  let plugin = matchstr(getline('.'), 'Plug\s\+[''"]\zs[^''" ]\+\ze[''"]')
+  if plugin != ''
+    call system("open https://github.com/" . plugin)
+  else
+    execute 'help ' . scriptease#helptopic()
+  endif
 endfunction
