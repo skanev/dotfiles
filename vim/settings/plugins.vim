@@ -24,7 +24,7 @@ Plug 'chrisbra/vim-zsh'
 
 " Features
 Plug 'preservim/nerdtree'
-Plug 'vim-scripts/Gundo'
+Plug 'mbbill/undotree'
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
