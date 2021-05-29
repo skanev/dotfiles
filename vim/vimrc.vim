@@ -51,7 +51,7 @@ augroup END
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
-augroup skanev
+augroup mine
   autocmd!
   autocmd InsertEnter * :silent set timeoutlen=200
   autocmd InsertLeave * :silent set timeoutlen=1000
