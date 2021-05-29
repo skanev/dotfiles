@@ -36,3 +36,27 @@ function! s:ExtractVariable()
   endtry
 endfunction
 
+function! s:rubocop_disable_line()
+  let line = line('.')
+  let offences = []
+
+  for item in getloclist('.')
+    if item.lnum != line | continue | endif
+
+    let name = matchstr(item.text, '^[^:]\+\ze:')
+
+    if name != 'warning'
+      call add(offences, name)
+    endif
+  endfor
+
+  if offences == []
+    echohl ErrorMsg
+    echomsg "No offences on this line"
+    echohl None
+  else
+    call setline('.', getline('.') . ' # rubocop:disable ' . join(offences, ' '))
+  endif
+endfunction
+
+command -buffer -nargs=0 RubocopDisableLine call <SID>rubocop_disable_line()
