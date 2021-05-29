@@ -55,6 +55,9 @@ augroup skanev
   autocmd!
   autocmd InsertEnter * :silent set timeoutlen=200
   autocmd InsertLeave * :silent set timeoutlen=1000
+
+  autocmd WinNew      * let w:check_help = 1
+  autocmd BufWinEnter * if exists('w:check_help') | unlet w:check_help | call s:maximize_if_only_help_window(bufnr()) | endif
 augroup END
 
 " Commands
@@ -67,6 +70,17 @@ runtime localvimrc
 
 set noswapfile
 set signcolumn=number
+
+function! s:maximize_if_only_help_window(bufnr)
+  for nr in tabpagebuflist()
+    if a:bufnr == nr     | continue | endif
+    if bufname(nr) == '' | continue | endif
+
+    return
+  endfor
+
+  only
+endfunction
 
 command! Playground :call CreatePlayground()
 
