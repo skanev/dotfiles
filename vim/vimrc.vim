@@ -71,6 +71,18 @@ runtime localvimrc
 set noswapfile
 set signcolumn=number
 
+let g:colorschemes = ['sonokai', 'edge', 'everforest', 'jellybeans', 'lucius',
+      \ 'gruvbox', 'OceanicNext', 'nord', 'tokyonight', 'neon', 'dracula']
+
+function! s:cycle_colors()
+  let current = index(g:colorschemes, g:colors_name)
+  let next = (current + 1) % len(g:colorschemes)
+  execute "colorscheme " . g:colorschemes[next]
+  echomsg g:colorschemes[next]
+endfunction
+
+map <F7> <Cmd>call <SID>cycle_colors()<CR>
+
 function! s:maximize_if_only_help_window(bufnr)
   for nr in tabpagebuflist()
     if a:bufnr == nr     | continue | endif

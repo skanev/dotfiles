@@ -56,11 +56,17 @@ Plug 'AndrewRadev/linediff.vim'
 
 " Colorschemes
 Plug 'sainnhe/sonokai'
+Plug 'sainnhe/edge'
+Plug 'sainnhe/everforest'
 Plug 'nanotech/jellybeans.vim'
 Plug 'jonathanfilip/vim-lucius'
 Plug 'morhetz/gruvbox'
 Plug 'mhartington/oceanic-next'
 Plug 'tpope/vim-vividchalk'
+Plug 'arcticicestudio/nord-vim'
+Plug 'dracula/vim', {'as': 'dracula'}
+Plug 'folke/tokyonight.nvim'
+Plug 'rafamadriz/neon'
 
 " Other
 Plug 'vim-scripts/Gist.vim'
