@@ -77,6 +77,9 @@ endif
 
 " Completion
 if g:env.nightly
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+
   Plug 'neovim/nvim-lspconfig'
   Plug 'kabouzeid/nvim-lspinstall'
   Plug 'glepnir/lspsaga.nvim'
@@ -90,6 +93,8 @@ if g:env.nightly
   Plug 'nvim-treesitter/playground'
 
   Plug 'rafcamlet/nvim-luapad'
+
+  Plug 'nvim-telescope/telescope.nvim'
 else
   Plug 'ervandew/supertab'
 endif
