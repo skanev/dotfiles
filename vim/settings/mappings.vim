@@ -38,7 +38,7 @@ nmap [g <Cmd>colder<CR>
 nmap ]g <Cmd>cnewer<CR>
 
 nmap <silent> yoa <Cmd>ALEToggleBuffer<CR>
-nmap <silent> yog <Cmd>call s:ToggleGitGutter()<CR>
+nmap <silent> yog <Cmd>call <SID>ToggleGitGutter()<CR>
 
 nnoremap <C-h> :SidewaysLeft<CR>
 nnoremap <C-l> :SidewaysRight<CR>
