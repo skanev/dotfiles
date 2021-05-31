@@ -3,7 +3,8 @@
 set -e
 
 switch_to_tab() {
-    tmux set '@tab-escape' no \; select-window -t $1 \; refresh-client -S
+    ! tmux set '@tab-escape' no \; select-window -t $1 \; refresh-client -S
+    true
 }
 
 case $1 in
