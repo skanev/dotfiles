@@ -90,6 +90,21 @@ function! s:toggle_as_you_type()
   call s:setup_as_you_type(!s:is_as_you_type())
 endfunction
 
+function! s:align_next_char()
+  if line('.') == 1 | return '  ' | end
+
+  let pos = col('.') - 1
+  let next_char = getline('.')[pos]
+  let previous = getline(line('.') - 1)
+  let offset = stridx(previous[pos + 1:], next_char)
+
+  if offset == -1
+    return '  '
+  else
+    return repeat(' ', offset + 1)
+  endif
+endfunction
+
 " Behavior when pressing tab. It's kinda involved
 function! s:tab()
   if UltiSnips#CanExpandSnippet()
@@ -102,6 +117,8 @@ function! s:tab()
     return "\<C-n>"
   elseif getline('.')[0:col('.') - 1] =~ '^\s*$'
     return "\<Plug>(insert-tab)"
+  elseif getline('.')[col('.') - 2] == ' '
+    return s:align_next_char()
   else
     return "\<C-n>\<C-n>"
   endif
