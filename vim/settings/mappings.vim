@@ -22,6 +22,9 @@ nmap <Leader>j :SplitjoinJoin<CR>
 nmap <Leader>s :SplitjoinSplit<CR>
 map <Leader>?, <Cmd>ExplainLeader<CR>
 map <Leader>?m <Cmd>ExplainMeta<CR>
+map <Leader>?yo <Cmd>ExplainUnimpairedToggle<CR>
+map <Leader>?[ <Cmd>ExplainUnimpairedPrev<CR>
+map <Leader>?] <Cmd>ExplainUnimpairedNext<CR>
 
 nnoremap <Tab> <C-w><C-w>
 nnoremap <S-Tab> <C-w><C-W>

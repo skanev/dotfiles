@@ -20,5 +20,8 @@ function! s:explain(cmd, match, pattern, opts)
   call s#popup(cmd, {'width': 75})
 endfunction
 
-command! ExplainLeader call s:explain('nmap '.mapleader, '', mapleader.'_', [])
-command! ExplainMeta   call s:explain('nmap', '^...<lt>'.g:env.meta_key.'-.>', "<lt>".g:env.meta_key."-_>", ['--ignore=[1-9]'])
+command! ExplainLeader           call s:explain('nmap '.mapleader, '', mapleader.'_', [])
+command! ExplainMeta             call s:explain('nmap', '^...<lt>'.g:env.meta_key.'-.>', "<lt>".g:env.meta_key."-_>", ['--ignore=[1-9]'])
+command! ExplainUnimpairedToggle call s:explain('nmap yo', '', 'yo_', [])
+command! ExplainUnimpairedPrev   call s:explain('nmap [', '', '[_', [])
+command! ExplainUnimpairedNext   call s:explain('nmap ]', '', ']_', [])
