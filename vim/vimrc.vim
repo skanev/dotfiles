@@ -37,9 +37,9 @@ runtime settings/nvim.vim
 runtime settings/plugins/airline.vim
 
 if g:env.nightly
-  runtime settings/lsp.vim
+  lua require('mine.lsp')
+  lua require('mine.treesitter')
   runtime settings/completion.vim
-  runtime settings/treesitter.vim
 end
 
 augroup vimStartup
