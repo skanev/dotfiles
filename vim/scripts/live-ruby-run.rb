@@ -1,3 +1,4 @@
+require 'stringio'
 require 'json'
 
 file = ARGV[0]
@@ -15,8 +16,12 @@ code.lines.each_with_index do |line, row|
   line = line.chomp
 
   case line
-  when /^#\s*$/
-    transformed[-1] = "capture(#{row - 1}) {\n#{transformed[-1]}\n}"
+  when /^\s*#\.\s*$/
+    transformed << ".tap { |_value| capture(#{row}) { _value } }"
+  when /^\s*#\s*$/
+    transformed[-1] = "capture(#{row}) {\n#{transformed[-1]}\n}"
+  when /^(.*\S\s+)#\.\s*$/
+    transformed << "#$1.tap { |_value| capture(#{row}) { _value } }"
   when /^(.*\S\s+)#\s*$/
     transformed << "capture(#{row}) {\n#$1\n}"
   when /^ {0,2}(puts|p) /
