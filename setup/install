@@ -53,7 +53,22 @@ establish-link kitty ~/.config/kitty
 mkdir -p ~/.vim-backup
 mkdir -p ~/.vim-undo
 
-#establish-pack pyenv
+mkdir -p ~/.config/cheat/
+cat <<END > ~/.config/cheat/conf.yml
+---
+editor: vim
+colorize: true
+style: monokai
+formatter: terminal16m
+pager: less -FRXS
+
+cheatpaths:
+  - name: personal
+    path: $HOME/code/personal/dotfiles/knowledge/cheat/
+    tags: [ personal ]
+    readonly: false
+END
+
 establish-pack homebrew
 establish-pack tools
 establish-pack plenv
