@@ -13,7 +13,7 @@ function! s:on_event(job_id, data, event)
       let annotations = json_decode(join(s:data[a:job_id].stdout, "\n"))
       call s:annotate(s:data[a:job_id].bufnr, annotations)
     else
-      echo s:data[a:job_id].stderr[0]
+      echo get(s:data[a:job_id].stderr, 0, 'Command failed')
     endif
 
     unlet s:data[a:job_id]
@@ -35,10 +35,9 @@ function! s:annotate(bufnr, annotations)
 endfunction
 
 function! s:check(bufnr)
-  let cmd = 'ruby vim/scripts/live-ruby-run.rb foo.rb'
   let script_path = g:dotfiles_dir . '/vim/scripts/live-ruby-run.rb'
   let file_path = expand('%:p')
-  let job_id = jobstart(printf('ruby %s %s', script_path, file_path), s:callbacks)
+  let job_id = jobstart(printf('timeout 2 ruby %s %s', script_path, file_path), s:callbacks)
   let s:data[job_id] = {'stdout': [], 'stderr': [], 'bufnr': a:bufnr, 'finished': 0}
 endfunction
 
