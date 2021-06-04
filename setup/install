@@ -69,9 +69,12 @@ cheatpaths:
     readonly: false
 END
 
+establish-pack pyenv
 establish-pack homebrew
 establish-pack tools
 establish-pack plenv
 establish-pack pyenv
-establish-pack perl-support
 establish-pack rbenv
+establish-pack rustup
+establish-pack neovim
+establish-pack perl-support
