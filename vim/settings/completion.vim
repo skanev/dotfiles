@@ -117,7 +117,7 @@ function! s:tab()
     return "\<C-n>"
   elseif getline('.')[0:col('.') - 1] =~ '^\s*$'
     return "\<Plug>(insert-tab)"
-  elseif getline('.')[col('.') - 2] == ' '
+  elseif getline('.')[col('.') - 2] =~ '\s'
     return s:align_next_char()
   else
     return "\<C-n>\<C-n>"
