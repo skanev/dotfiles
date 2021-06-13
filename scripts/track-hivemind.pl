@@ -17,10 +17,6 @@
 #           "command": "tail -f -n 0 /tmp/hivemind.log",
 #           "problemMatcher": {
 #             "owner": "typescript",
-#             "fileLocation": [
-#               "relative",
-#               "<PATH-TO-WORKSPACE-(I-M-SURE-IT-CAN-BE-INFERRED-BUT-I-CANT-FIGURE-OUT-HOW)"
-#             ],
 #             "pattern": {
 #               "regexp": "^ERROR in ([^\\s]+) (\\d+):(\\d+)-(?:(\\d+):)?(\\d+) (\\w+):(.*)$",
 #               "file": 1,
@@ -53,6 +49,9 @@ use constant FAILURE => '#[bg=colour124,fg=colour255]';
 
 open LOG, '>', '/tmp/hivemind.log';
 
+my $root = `pwd`;
+chomp $root;
+
 sub tmux($command) {
   system "tmux $command";
 }
@@ -78,9 +77,11 @@ while (<>) {
 
   $_ = $1;
 
-  if (/^ERROR in/) {
+  if (/^(ERROR in) (.*)$/) {
+    my ( $prefix, $location ) = ( $1, $2 );
+    $location = "$root/$location" if $location !~ /^\//;
     $errors++;
-    print LOG "$_ ";
+    print LOG "$prefix $location ";
     $log_next_line = 1;
   } elsif ($log_next_line) {
     $log_next_line = 0;
