@@ -192,7 +192,8 @@ sub run_open {
   my $test = $lang->{test_file}->();
 
   system 'open -a Markoff README.md';
-  system "mvim -o $solution $test";
+  system "zsh -ci 'vig -- -o $solution $test'";
+  system "tmux -2 new-session -A -s $exercise";
 }
 
 sub run_web {
