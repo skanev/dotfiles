@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/dash
 
-if [ $(tmux display -p '#W') == 'mutt' ]; then
+if [ $1 == 'mutt' ]; then
     if pgrep -f mutt/bin/fetch-email &>/dev/null; then
         echo "📩 "
         exit 0
