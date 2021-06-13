@@ -1,12 +1,6 @@
 command! MyFtplugin call s:my_ftplugin()
-command! E call s:reload_ftplugin()
 
 let s:ftplugin_dir = fnamemodify(expand('<sfile>'), ':h:s?plugin?ftplugin?')
-
-function! s:reload_ftplugin()
-  unlet! b:did_myftplugin
-  edit
-endfunction
 
 function! s:my_ftplugin()
   if &filetype == ''
@@ -25,3 +19,8 @@ function! s:my_ftplugin()
           \ ])
   endif
 endfunction
+
+augroup my_ftplugin
+  autocmd!
+  autocmd User ResetCustomizations unlet! b:did_myftplugin
+augroup END

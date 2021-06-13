@@ -21,6 +21,14 @@ function! AirlineInSnippet()
   end
 endfunction
 
+function! AirlineInContext()
+  if g:tweaks.devicons
+    return b:context . ' '
+  else
+    return b:context
+  end
+endfunction
+
 augroup airline_ultisnips
   autocmd!
   autocmd  User UltiSnipsEnterFirstSnippet let b:airline_in_ultisnips = 1
@@ -30,4 +38,7 @@ augroup END
 call airline#parts#define_function('snip', 'AirlineInSnippet')
 call airline#parts#define_condition('snip', 'get(b:, "airline_in_ultisnips", 0)')
 
-let g:airline_section_x = airline#section#create_right(['snip', 'filetype'])
+call airline#parts#define_function('context', 'AirlineInContext')
+call airline#parts#define_condition('context', 'get(b:, "context", "") != ""')
+
+let g:airline_section_x = airline#section#create_right(['context', 'snip', 'filetype'])

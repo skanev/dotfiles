@@ -63,6 +63,7 @@ augroup END
 " Commands
 command! Snips UltiSnipsEdit
 command! Reverse :g/^/m0
+command! E doautocmd <nomodeline> User ResetCustomizations | edit
 
 runtime localvimrc
 
