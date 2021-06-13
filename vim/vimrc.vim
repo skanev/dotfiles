@@ -140,3 +140,5 @@ endfunction
 augroup initial_position
   autocmd BufEnter * call s:position()
 augroup END
+
+command! Hfl help function-list
