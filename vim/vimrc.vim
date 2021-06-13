@@ -142,3 +142,7 @@ augroup initial_position
 augroup END
 
 command! Hfl help function-list
+
+augroup vimrc_junk
+  autocmd!
+augroup END
