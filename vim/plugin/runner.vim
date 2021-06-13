@@ -35,16 +35,7 @@ let s:modes.prove.matcher  = '\.t$'
 let s:modes.prove.run_file = 'prove {file}'
 let s:modes.prove.run_line = 'prove {file}:{line}'
 
-function s:configure_buffer()
-  for [mode_name, definition] in items(s:modes)
-    if match(expand("%"), definition.matcher) != -1
-      let b:runner_mode = definition
-      break
-    endif
-  endfor
-endfunction
-
-function s:shell(command, ...) abort
+function! s:shell(command, ...) abort
   if a:0 > 0
     let command = call('printf', [a:command] + a:000)
   else
@@ -102,14 +93,14 @@ function! s:targets.tmux(command) abort
   call s:shell('tmux select-window -t %s \; send-keys -t %s C-u C-l %s C-m', tmux_target, tmux_target, s:tmux_escape_keys(a:command))
 endfunction
 
-function s:tmux_has_available_session()
+function! s:tmux_has_available_session()
   let sessions = s:shell("tmux list-sessions -F '#S'")
   let target_session = fnamemodify(getcwd(), ':t')
 
   return index(sessions, target_session) != -1
 endfunction
 
-function s:tmux_escape_keys(keys)
+function! s:tmux_escape_keys(keys)
   return "'" . substitute(a:keys, "'", "'\\\\''", 'g') . "'"
 endfunction
 
@@ -194,33 +185,6 @@ function! s:substitute_command(command)
   return command
 endfunction
 
-function! s:run_file()
-  call s:configure_buffer()
-  if !s:ensure_mode() | return | endif
-
-  let command = s:substitute_command(b:runner_mode.run_file)
-
-  call s:run(command)
-endfunction
-
-function! s:run_line()
-  call s:configure_buffer()
-  if !s:ensure_mode() | return | end
-
-  let command = s:substitute_command(b:runner_mode.run_line)
-
-  call s:run(command)
-endfunction
-
-function! s:run_file_or_last() abort
-  call s:configure_buffer()
-
-  if     exists('b:runner_mode') | call s:run_file()
-  elseif exists('s:last_run')    | call s:run(s:last_run)
-  else                           | throw "runner: can't run current file and nothing has ran before"
-  endif
-endfunction
-
 unlet! s:last_run
 
 function! s:run(command)
@@ -233,12 +197,33 @@ function! s:run(command)
   end
 endfunction
 
-function! s:run_wrapped(fn)
-  " Clear previous error if any
-  echo
-
+function! s:run_action(...) abort
   try
-    call call(a:fn, [])
+    let mode = s:buffer_runner_mode()
+
+    let command = ''
+
+    for action in a:000
+      if action == 'last'
+        if !exists('s:last_run')
+          throw "runner: can't run current file and nothing has ran before"
+        endif
+
+        let command = s:last_run
+      elseif has_key(mode, 'command')
+        let command = call(mode.command, [action])
+      elseif has_key(mode, 'run_' . action)
+        let command = s:substitute_command(get(mode, 'run_' . action))
+      endif
+
+      if command != '' | break | end
+    endfor
+
+    if command == ''
+      throw "runner: don't know how to run this file"
+    endif
+
+    call s:run(command)
   catch /^runner: /
     call s:report_error(v:exception)
   endtry
@@ -246,13 +231,21 @@ endfunction
 
 " Helper functions
 
-function! s:ensure_mode()
-  if !exists('b:runner_mode')
-    call s:report_error("No runner found for current file")
-    return 0
+function! s:buffer_runner_mode() abort
+  if exists('b:runner_mode')
+    return b:runner_mode
   endif
 
-  return 1
+  for [mode_name, definition] in items(s:modes)
+    if match(expand("%"), definition.matcher) != -1
+      return definition
+    endif
+  endfor
+
+  return {}
+endfunction
+
+function! s:configure_buffer()
 endfunction
 
 function! s:report_error(msg)
@@ -263,9 +256,9 @@ endfunction
 
 " Commands
 
-command! RunnerRunFile       call s:run_wrapped(function('s:run_file'))
-command! RunnerRunFileOrLast call s:run_wrapped(function('s:run_file_or_last'))
-command! RunnerRunLine       call s:run_wrapped(function('s:run_line'))
+command! RunnerRunFile       call s:run_action('file')
+command! RunnerRunFileOrLast call s:run_action('file', 'last')
+command! RunnerRunLine       call s:run_action('line')
 
 " Mappings
 
