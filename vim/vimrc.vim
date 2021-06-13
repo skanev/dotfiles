@@ -47,12 +47,11 @@ augroup vimStartup
   autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
 augroup END
 
-" Autocommands
-autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
-autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
-
 augroup mine
   autocmd!
+  autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+  autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
   autocmd InsertEnter * :silent set timeoutlen=200
   autocmd InsertLeave * :silent set timeoutlen=1000
 
