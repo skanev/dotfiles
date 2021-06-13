@@ -39,6 +39,11 @@ case $1 in
         git commit -n -m WIP
         ;;
 
+    reset)
+        first_commit=$(wip first-commit)
+        [[ -n $first_commit ]] && git reset $first_commit~1
+        ;;
+
     commit)
         wip compact
         git commit --amend --verbose
