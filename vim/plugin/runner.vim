@@ -102,8 +102,85 @@ function! s:targets.tmux(command) abort
   call s:shell('tmux select-window -t %s \; send-keys -t %s C-u C-l %s C-m', tmux_target, tmux_target, s:tmux_escape_keys(a:command))
 endfunction
 
+function s:tmux_has_available_session()
+  let sessions = s:shell("tmux list-sessions -F '#S'")
+  let target_session = fnamemodify(getcwd(), ':t')
+
+  return index(sessions, target_session) != -1
+endfunction
+
 function s:tmux_escape_keys(keys)
   return "'" . substitute(a:keys, "'", "'\\\\''", 'g') . "'"
+endfunction
+
+function! s:targets.terminal(command) abort
+  if !has('nvim') | throw 'no non-nvim support yet (can you imagine?)' | end
+
+  let view = winsaveview()
+
+  if s:terminal_current_runner_window().winnr != -1
+    call s:terminal_close_runner_window()
+  else
+    let height = float2nr((&lines - 3) * 0.3)
+    execute "botright " . height . "new"
+    call termopen(a:command, {'on_exit': function('s:terminal_on_exit', [bufnr()])})
+    let b:runner_buffer = 1
+    set nonumber
+    wincmd p
+  end
+
+  call winrestview(view)
+endfunction
+
+function! s:terminal_on_exit(nbuf, job_id, code, event) abort
+  call nvim_buf_set_option(a:nbuf, 'modifiable', v:true)
+  call timer_start(20, function('s:terminal_callback_tidy_up', [a:nbuf]))
+  if a:code == 0
+    call timer_start(2000, function('s:terminal_callback_close', [win_getid(bufwinnr(a:nbuf))]))
+  end
+endfunction
+
+function! s:terminal_current_runner_window()
+  for nwin in gettabinfo(tabpagenr())[0].windows
+    let nbuf = winbufnr(nwin)
+
+    if getbufvar(nbuf, 'runner_buffer', 0)
+      return {'bufnr': nbuf, 'winnr': bufwinnr(nbuf)}
+    endif
+  endfor
+
+  return {'bufnr': -1, 'winnr': -1}
+endfunction
+
+function! s:terminal_close_runner_window()
+  let window = s:terminal_current_runner_window()
+
+  if window.winnr != -1 && window.winnr != winnr()
+    execute window.winnr . "wincmd q"
+  endif
+endfunction
+
+function! s:terminal_callback_tidy_up(nbuf, timer) abort
+  let lines = nvim_buf_get_lines(a:nbuf, 0, -1, 0)
+
+  let i = len(lines)
+  while i > 0
+    if lines[i - 1] == '' || lines[i - 1] =~ '^\[Process exited \d\+\]$'
+      let i -= 1
+    else
+      break
+    endif
+  endwhile
+
+  call nvim_buf_set_lines(a:nbuf, i, -1, 0, [])
+endfunction
+
+function! s:terminal_callback_close(win_handle, timer) abort
+  if !nvim_win_is_valid(a:win_handle) || a:win_handle == nvim_get_current_win() | return | end
+
+  let view = winsaveview()
+  call nvim_win_close(a:win_handle, 0)
+  call winrestview(view)
 endfunction
 
 " Running
@@ -142,7 +219,6 @@ function! s:run_file_or_last() abort
   elseif exists('s:last_run')    | call s:run(s:last_run)
   else                           | throw "runner: can't run current file and nothing has ran before"
   endif
-
 endfunction
 
 unlet! s:last_run
@@ -150,7 +226,11 @@ unlet! s:last_run
 function! s:run(command)
   let s:last_run = a:command
 
-  call s:targets.tmux(a:command)
+  if s:tmux_has_available_session()
+    call s:targets.tmux(a:command)
+  else
+    call s:targets.terminal(a:command)
+  end
 endfunction
 
 function! s:run_wrapped(fn)
