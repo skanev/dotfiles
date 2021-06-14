@@ -25,9 +25,9 @@
 #
 # There is some obscure ZSH and AWK here, which I'm pretty proud of.
 
-c_dirs=(~/.zsh/contexts)
+c_dirs=($DOTFILES/contexts)
 
-[[ -v context_extra_dirs ]] && c_dirs+=($context_extra_dirs)
+[[ -n $DOTFILES_CONTEXTS_EXTRA ]] && c_dirs+=( ${(s#:#)${DOTFILES_CONTEXTS_EXTRA//\~\//$HOME/}} )
 
 typeset -a c_available          # Stores the names of available contexts
 typeset -A c_available_patterns # Stores name -> pattern1,pattern2
@@ -90,7 +90,9 @@ c-chpwd() {
             ;;
 
         *)
-            print "contexts: Conflict ${(j:, :)matches}" 1>&2
+            local message
+            message=${(j:, :)matches}
+            print "contexts: conflict $message" 1>&2
             ;;
     esac
 }
