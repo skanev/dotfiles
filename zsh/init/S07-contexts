@@ -101,14 +101,24 @@ c-load() {
         return
     fi
 
-    local name file revert
+    local name file revert context_dir
 
-    file=$c_available_location[$1]/zsh
+    context_dir=$c_available_location[$1]
+    file=$context_dir/zsh
 
     c_current=$1
     c_revert=""
 
     [[ -e $file ]] || return
+
+    if [[ -z $TMUX && -e $context_dir/mux ]]; then
+        export MUX_CONFIG=$context_dir/mux
+        export MUX_SESSION=$1
+        c_revert+="unset MUX_CONFIG"
+        c_revert+=$'\n'
+        c_revert+="unset MUX_SESSION"
+        c_revert+=$'\n'
+    fi
 
     awk -f <(cat <<\END
       /^[-a-zA-Z0-9_]+[[:space:]]*\(\)[[:space:]]*{/ { gsub("\\(\\)", "", $1); print "function", $1; }
