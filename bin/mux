@@ -1,0 +1,128 @@
+#!/usr/bin/env zsh
+
+local session
+local -a setup menu_items
+
+[[ -z $MUX_SESSION ]] && export MUX_SESSION=${$(pwd):t}
+
+setup=()
+menu_items=()
+
+directives() {
+  setup+=($*)
+}
+
+menu-item() {
+  local name key cmd
+  local window_name window_command window_before
+
+  name=$1
+  key=""
+  cmd=""
+
+  shift
+
+  while (( $# > 0 )); do
+    case $1 in
+      (-k)
+        key=$2
+        shift 2
+        ;;
+
+      (--tmux)
+        cmd=$2
+        shift 2
+        ;;
+
+      (--window)
+        window_name=$2
+        window_command=$3
+        shift 3
+
+        cmd="new-window -S -n $window_name \"${window_command}\""
+
+        if [[ $1 == "--before" ]]; then
+          window_before=$2
+          shift 2
+
+          cmd="$cmd ; move-window -s $window_name -b -t $window_before ; move-window -r"
+        fi
+
+        ;;
+
+      (*)
+        echo "Unknown argument: $1" >&2
+        exit 1
+        ;;
+    esac
+  done
+
+  menu_items+=($name $key $cmd)
+}
+
+run-tmux() {
+  local cmd="tmux ${${(j: \; :)*}}"
+  eval $cmd
+}
+
+start() {
+  if [[ -z $(tmux list-sessions -F '#S' -f "#{==:#S,$MUX_SESSION}" 2> /dev/null) ]]; then
+    eval "exec tmux new-session -s $MUX_SESSION -n shell \; ${${(j: \; :)setup}}"
+  else
+    tmux attach-session -t $MUX_SESSION
+  fi
+}
+
+recreate() {
+  local -a directives
+
+  directives=(
+    "set-option renumber-windows off"
+    "new-window -t :100 -n peg"
+  )
+
+  for number in $(tmux list-windows -F "#I"); do
+    directives+=("kill-window -t :$number")
+  done
+
+  directives+=(
+    "new-window -n shell"
+    "kill-window -t :100"
+    $setup
+    "set-option renumber-windows on"
+  )
+
+  run-tmux $directives
+}
+
+menu-separator() {
+  menu_items+=("")
+}
+
+display-menu() {
+  tmux display-menu -x C -y C -T "Commands" "${menu_items[@]}"
+}
+
+[[ -n $MUX_CONFIG ]] && source $MUX_CONFIG
+
+menu-separator
+menu-item 'Respawn' -k r --tmux 'respawn-pane -k'
+
+case $1 in
+  (menu)
+    display-menu
+    ;;
+
+  (recreate)
+    recreate
+    ;;
+
+  (start|)
+    start
+    ;;
+
+  (*)
+    echo "$0: don't know how to run $1" >&2
+    exit 1
+    ;;
+esac
