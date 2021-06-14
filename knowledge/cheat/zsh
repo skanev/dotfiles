@@ -100,6 +100,7 @@ echo ${(F)array}             # joins elements with "\n"
 echo ${(q)array}             # quotes each word
 echo ${array:#*x*}           # array elements not matching *x*
 echo ${(M)array:#*x*}        # array elements matchings *x*
+echo "${array[@]}"           # quoted array expand - properly expands to positional args to echo
 ${(z)command} | cat          # split with parsing (can contain multiple words, but be executed)
 
 # Associative Arrays
