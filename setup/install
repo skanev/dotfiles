@@ -41,6 +41,8 @@ establish-link tmux.conf ~/.tmux.conf
 establish-link nvim  ~/.config/nvim
 establish-link kitty ~/.config/kitty
 
+establish-link bin ~/.bin
+
 # X Server
 #
 # TODO is this necessary or up-to-date?

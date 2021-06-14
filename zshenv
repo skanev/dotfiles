@@ -24,7 +24,7 @@ fi
 [[ -d ~/.plenv ]] && path=(~/.plenv/bin ~/.plenv/shims $path)
 [[ -d ~/.rbenv ]] && path=(~/.rbenv/bin ~/.rbenv/shims $path)
 
-path=(~/bin $path)
+path=(~/bin ~/.bin $path)
 
 [[ -f ~/.localenv ]] && source ~/.localenv
 
