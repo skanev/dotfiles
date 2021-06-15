@@ -153,6 +153,10 @@ case $1 in
     attach-or-start
     ;;
 
+  (--zsh-complete)
+    echo menu recreate start attach-or-start
+    ;;
+
   (*)
     echo "$0: don't know how to run $1" >&2
     exit 1

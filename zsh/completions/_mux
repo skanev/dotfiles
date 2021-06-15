@@ -1,0 +1,4 @@
+#compdef mux
+#!/usr/bin/env zsh
+
+compadd $(mux --zsh-complete)

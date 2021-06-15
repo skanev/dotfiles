@@ -7,6 +7,11 @@ DOTFILES=${$(readlink ~/.zsh):h}
 
 [[ -f ~/.localrc ]] && source ~/.localrc
 
+if [[ ! $fpath = *$USER/.zsh/functions* ]];then
+  fpath=(~$USER/.zsh/functions ~$USER/.zsh/completions $fpath)
+  autoload ${fpath[1]}/*(:t) ${fpath[2]}/*(:t)
+fi
+
 for zshrc_file in ~/.zsh/init/S[0-9][0-9]*[^~] ; do
   source $zshrc_file
 done

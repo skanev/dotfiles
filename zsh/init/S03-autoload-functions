@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-
-# Autoloads all functions in ~/.zsh/functions
-if [[ ! $fpath = *$USER/.zsh/functions* ]];then
-  fpath=(~$USER/.zsh/functions $fpath)
-  autoload ${fpath[1]}/*(:t)
-fi

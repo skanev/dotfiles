@@ -3,12 +3,6 @@
 
 # Not Completion but still important
 
-# TODO: This should be somewhere else with the other autoloading
-#if [[ ! $fpath = *$USER/.zsh/completions* ]]; then
-  #fpath=(~$USER/.zsh/completions $fpath)
-  #autoload ${fpath[1]}/*(:t)
-#fi
-
 setopt NO_FLOW_CONTROL
 
 ## Completion
@@ -43,7 +37,6 @@ zstyle ':completion::complete:*' use-cache 1
 
 zstyle ':completion:*:descriptions' format '%B-- %d --%b'
 
-
 zstyle ':completion:*:*:kill:*' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 zstyle ':completion:*:complete:kill:argument-rest:processes' command "ps -u `whoami` -o pid,user,comm -w -w"
 
@@ -64,9 +57,9 @@ autoload -U compinit
 
   # Run compinit -C only once a day
   if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-    compinit
+    compinit -u
   else
-    compinit -C
+    compinit -Cu
   fi
 }
 
