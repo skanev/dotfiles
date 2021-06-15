@@ -57,6 +57,10 @@ c-load-available-contexts() {
     done
 }
 
+has-mux-context() {
+    [[ -n $MUX_CONFIG ]]
+}
+
 c-chpwd() {
     local -aU matches
     local first
@@ -105,15 +109,16 @@ c-load() {
 
     local name file revert context_dir
 
+    typeset -g c_dir
+
     context_dir=$c_available_location[$1]
+    c_dir=$context_dir
     file=$context_dir/zsh
 
     c_current=$1
     c_revert=""
 
-    [[ -e $file ]] || return
-
-    if [[ -z $TMUX && -e $context_dir/mux ]]; then
+    if [[ -e $context_dir/mux ]]; then
         export MUX_CONFIG=$context_dir/mux
         export MUX_SESSION=$1
         c_revert+="unset MUX_CONFIG"
@@ -121,6 +126,8 @@ c-load() {
         c_revert+="unset MUX_SESSION"
         c_revert+=$'\n'
     fi
+
+    [[ -e $file ]] || return
 
     awk -f <(cat <<\END
       /^[-a-zA-Z0-9_]+[[:space:]]*\(\)[[:space:]]*{/ { gsub("\\(\\)", "", $1); print "function", $1; }
@@ -199,6 +206,7 @@ c-unload() {
 
     c_current=
     c_revert=
+    c_dir=
 }
 
 c-load-available-contexts
