@@ -1,0 +1,45 @@
+#!/usr/bin/env zsh
+
+typeset -gA jump_locations
+
+jump-load-locations() {
+  [[ -n $jump_locations_loaded ]] && return
+
+  local name path
+
+  for line in ${(f)"$(< ~/.jumplist)"}; do
+    if [[ $line =~ '^(.*): *(.*)$' ]]; then
+      name=$match[1]
+      path=$match[2]
+      jump_locations[$name]=$path
+    else
+      echo "unrecognized line $line"
+    fi
+  done
+}
+
+jump-load-locations
+unfunction jump-load-locations
+
+j() {
+  if [[ -n $jump_locations[$1] ]]; then
+    cd ${~jump_locations[$1]}
+    if has-mux-context && [[ -z $DONT_MUX ]]; then
+      mux
+    fi
+  else
+    echo "no location $1"
+    false
+  fi
+}
+
+cj() {
+  DONT_MUX=1 j $*
+}
+
+_j() {
+  compadd ${(k)jump_locations}
+}
+
+compdef _j j
+compdef _j cj
