@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+choose() {
+  tmux list-sessions -F '[39]#{session_name}|            [220]#{session_windows} window(s)|        [154]#{?#{>=:#{session_attached},1},*,}|[0]' |
+    column -s '|' -t |
+    perl -pe 's/\[(\d+)\]/\e[38;5;$1m/g; s/$/\e[0m/' |
+    fzf --reverse --keep-right --ansi
+}
+
+declare -a result
+result=($(choose))
+target=$result[1]
+
+tmux switch-client -t $target
