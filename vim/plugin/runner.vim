@@ -1,5 +1,11 @@
 let s:modes = {}
 
+" Left here for debugging purposes
+"let s:modes.vim          = {}
+"let s:modes.vim.matcher  = '\.vim$'
+"let s:modes.vim.run_file = 'head -n 10 {file}'
+"let s:modes.vim.run_line = 'awk "NR={line}" {file}'
+
 let s:modes.test_unit          = {}
 let s:modes.test_unit.matcher  = '_test\.rb$'
 let s:modes.test_unit.run_file = 'rails test {file}'
