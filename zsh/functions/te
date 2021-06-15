@@ -3,6 +3,10 @@
 # Like "e", but times the reloading of zsh. Useful to debug why starting the
 # shell is slow.
 
-export TIME_BEFORE_TE=$(date +%s.%N)
+if which gdate > /dev/null 2>&1; then
+  export TIME_BEFORE_TE=$(gdate +%s.%N)
+else
+  export TIME_BEFORE_TE=$(date +%s.%N)
+fi
 
 e

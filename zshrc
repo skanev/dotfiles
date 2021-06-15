@@ -20,7 +20,13 @@ fi
 
 if [[ -n $TIME_BEFORE_TE ]]; then
   local after elapsed
-  after=$(date +%s.%N)
+
+  if which gdate > /dev/null 2>&1; then
+    after=$(gdate +%s.%N)
+  else
+    after=$(date +%s.%N)
+  fi
+
   (( elapsed = $after - $TIME_BEFORE_TE ))
   unset TIME_BEFORE_TE
   echo "Time to load: $elapsed"
