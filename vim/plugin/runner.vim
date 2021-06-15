@@ -132,7 +132,7 @@ function! s:terminal_on_exit(nbuf, job_id, code, event) abort
   call nvim_buf_set_option(a:nbuf, 'modifiable', v:true)
   call timer_start(20, function('s:terminal_callback_tidy_up', [a:nbuf]))
   if a:code == 0
-    call timer_start(2000, function('s:terminal_callback_close', [win_getid(bufwinnr(a:nbuf))]))
+    call timer_start(3000, function('s:terminal_callback_close', [win_getid(bufwinnr(a:nbuf))]))
   end
 endfunction
 
