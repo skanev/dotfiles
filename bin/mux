@@ -61,15 +61,41 @@ menu-item() {
 }
 
 run-tmux() {
-  local cmd="tmux ${${(j: \; :)*}}"
+  local cmd
+
+  cmd=""
+
+  if [[ $1 == '--exec' ]]; then
+    cmd="exec "
+    shift
+  fi
+
+  local cmd="${cmd}tmux ${${(j: \; :)*}}"
+
   eval $cmd
 }
 
 start() {
-  if [[ -z $(tmux list-sessions -F '#S' -f "#{==:#S,$MUX_SESSION}" 2> /dev/null) ]]; then
-    eval "exec tmux new-session -s $MUX_SESSION -n shell \; ${${(j: \; :)setup}}"
+  if [[ -z $TMUX ]]; then
+    run-tmux --exec "new-session -s $MUX_SESSION -n shell" "${setup[@]}"
   else
-    tmux attach-session -t $MUX_SESSION
+    run-tmux "new-session -d -s $MUX_SESSION -n shell" "switch-client -t $MUX_SESSION" "${setup[@]}"
+  fi
+}
+
+attach() {
+  if [[ -n $TMUX ]]; then
+    tmux switch-client -t $MUX_SESSION
+  else
+    tmux attach-session -d -t $MUX_SESSION
+  fi
+}
+
+attach-or-start() {
+  if tmux has-session -t $MUX_SESSION 2> /dev/null; then
+    attach
+  else
+    start
   fi
 }
 
@@ -108,6 +134,8 @@ display-menu() {
 menu-separator
 menu-item 'Respawn' -k r --tmux 'respawn-pane -k'
 
+[[ -z $1 ]] && 1=attach-or-start
+
 case $1 in
   (menu)
     display-menu
@@ -117,8 +145,12 @@ case $1 in
     recreate
     ;;
 
-  (start|)
+  (start)
     start
+    ;;
+
+  (attach-or-start)
+    attach-or-start
     ;;
 
   (*)
