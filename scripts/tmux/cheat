@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+if [[ -n $1 && -f $DOTFILES/knowledge/tmux-cheat/$1 ]]; then
+  tmux display-popup -E less $DOTFILES/knowledge/tmux-cheat/$1
+else
+  tmux display-message "no cheat for current command: $1"
+fi
