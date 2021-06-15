@@ -154,6 +154,9 @@ while IFS=: read a b c       # reads "1:2:3" into a=1 b=2 c=3
 
 [ -z $DIR/*(DN[1]) ]         # check if $DIR is empty (note the [ instead of [[)
 
+echo "$(< filename)"         # read filename into a string
+lines=(${(f)"$(< file)"})    # read each line from file
+
 # Debugging
 
 set -x             # Enabled showing each command (XTRACE)
