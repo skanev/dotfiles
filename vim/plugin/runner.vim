@@ -259,11 +259,24 @@ function! s:report_error(msg)
   echohl None
 endfunction
 
+" Local configuration
+
+function! s:set_runner(command)
+  let command = a:command
+
+  if stridx(a:command, '{file}') == -1
+    let command .= ' {file}'
+  endif
+
+  let b:runner_mode = {'run_file': command}
+endfunction
+
 " Commands
 
-command! RunnerRunFile       call s:run_action('file')
-command! RunnerRunFileOrLast call s:run_action('file', 'last')
-command! RunnerRunLine       call s:run_action('line')
+command! -nargs=0 RunnerRunFile       call s:run_action('file')
+command! -nargs=0 RunnerRunFileOrLast call s:run_action('file', 'last')
+command! -nargs=0 RunnerRunLine       call s:run_action('line')
+command! -nargs=1 RunWith             call s:set_runner(<q-args>)
 
 " Mappings
 
