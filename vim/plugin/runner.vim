@@ -35,6 +35,14 @@ let s:modes.prove.matcher  = '\.t$'
 let s:modes.prove.run_file = 'prove {file}'
 let s:modes.prove.run_line = 'prove {file}:{line}'
 
+function! s:call_system(command)
+  let oldshell = &shell
+  set shell=/bin/dash
+  let result = system(a:command)
+  let &shell = oldshell
+  return result
+endfunction
+
 function! s:shell(command, ...) abort
   if a:0 > 0
     let command = call('printf', [a:command] + a:000)
@@ -42,10 +50,7 @@ function! s:shell(command, ...) abort
     let command = a:command
   endif
 
-  let oldshell = &shell
-  set shell=/bin/dash
-  let result = system(command)
-  let &shell = oldshell
+  let result = s:call_system(command)
 
   if v:shell_error != 0
     echohl ErrorMsg
@@ -93,11 +98,11 @@ function! s:targets.tmux(command) abort
   call s:shell('tmux select-window -t %s \; send-keys -t %s C-u C-l %s C-m', tmux_target, tmux_target, s:tmux_escape_keys(a:command))
 endfunction
 
-function! s:tmux_has_available_session()
-  let sessions = s:shell("tmux list-sessions -F '#S'")
+function! s:tmux_has_available_session() abort
   let target_session = fnamemodify(getcwd(), ':t')
+  let result = s:call_system("tmux has-session -t " . target_session)
 
-  return index(sessions, target_session) != -1
+  return v:shell_error == 0
 endfunction
 
 function! s:tmux_escape_keys(keys)
