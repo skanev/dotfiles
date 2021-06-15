@@ -1,8 +1,6 @@
 #!/usr/bin/env zsh
 # Runs in interactive session
 
-DOTFILES=${$(readlink ~/.zsh):h}
-
 . ~/.zsh/config
 
 [[ -f ~/.localrc ]] && source ~/.localrc

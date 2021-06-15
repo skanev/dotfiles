@@ -1,6 +1,8 @@
 #!/usr/bin/zsh
 # Runs in all invocations of zsh
 
+DOTFILES=${$(readlink ~/.zsh):h}
+
 [[ -v DOTFILES_OS ]] || source ~/.zsh/distro-prober
 
 [[ -x /usr/libexec/path_helper ]] && eval `/usr/libexec/path_helper -s`
