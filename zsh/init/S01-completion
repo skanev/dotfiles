@@ -3,6 +3,12 @@
 
 # Not Completion but still important
 
+# TODO: This should be somewhere else with the other autoloading
+#if [[ ! $fpath = *$USER/.zsh/completions* ]]; then
+  #fpath=(~$USER/.zsh/completions $fpath)
+  #autoload ${fpath[1]}/*(:t)
+#fi
+
 setopt NO_FLOW_CONTROL
 
 ## Completion
@@ -280,7 +286,7 @@ setopt always_to_end
 
 zmodload -i zsh/complist
 
-compinit
+compinit -u
 
 ## case-insensitive (all),partial-word and then substring completion
 if [ "x$CASE_SENSITIVE" = "xtrue" ]; then
