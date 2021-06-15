@@ -26,6 +26,7 @@ j() {
     cd ${~jump_locations[$1]}
     if has-mux-context && [[ -z $DONT_MUX ]]; then
       mux
+      popd > /dev/null
     fi
   else
     echo "no location $1"
