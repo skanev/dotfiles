@@ -8,10 +8,10 @@
 [[ -d /usr/local/opt/coreutils/libexec/gnubin ]] && path=(/usr/local/opt/coreutils/libexec/gnubin $path)
 [[ -d /usr/local/opt/gnu-sed/libexec/gnubin   ]] && path=(/usr/local/opt/gnu-sed/libexec/gnubin $path)
 
-if [[ -d /home/linuxbrew ]]; then
-  export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew";
-  export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar";
-  export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew";
+if [[ $DOTFILES_OS != mac && -d /home/linuxbrew ]]; then
+  export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+  export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
+  export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
 
   path=(/home/linuxbrew/.linuxbrew/bin /home/linuxbrew/.linuxbrew/sbin $path)
   infopath=(/home/linuxbrew/.linuxbrew/share/info $infopath)
