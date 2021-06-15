@@ -135,6 +135,8 @@ function! s:targets.terminal(command) abort
 endfunction
 
 function! s:terminal_on_exit(nbuf, job_id, code, event) abort
+  if !nvim_buf_is_valid(a:nbuf) | return | end
+
   call nvim_buf_set_option(a:nbuf, 'modifiable', v:true)
   call timer_start(20, function('s:terminal_callback_tidy_up', [a:nbuf]))
   if a:code == 0
