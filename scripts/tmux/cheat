@@ -1,6 +1,85 @@
-#!/usr/bin/env zsh
-if [[ -n $1 && -f $DOTFILES/knowledge/tmux-cheat/$1 ]]; then
-  tmux display-popup -E less $DOTFILES/knowledge/tmux-cheat/$1
-else
-  tmux display-message "no cheat for current command: $1"
-fi
+#!/usr/bin/env perl
+
+use v5.32;
+use warnings;
+use experimental qw( signatures switch );
+
+use File::Basename qw( dirname basename );
+use Cwd qw( realpath );
+use Term::ReadKey qw( ReadMode ReadKey );
+use Term::Cap;
+use File::Slurp qw( read_file );
+
+my $dir = realpath(dirname(__FILE__) . "/../../knowledge/tmux-cheat");
+
+my %cheats;
+my $current;
+
+sub also(@aliases) {
+  $current->{aliases} = [ @aliases ];
+}
+
+sub shortcut($key, $name) {
+  push $current->{shortcuts}->@*, { key => $key, name => $name };
+}
+
+sub source($file) {
+  my $name = basename $file, '.pl';
+  $current = {};
+
+  eval read_file $file;
+
+  my $contents = "";
+
+  if ( $current->{shortcuts}->@* ) {
+    $contents .= "\n";
+    for my $shortcut ( $current->{shortcuts}->@* ) {
+      $contents .= "  \e[1;38;5;214m" . sprintf( '%-6s', $shortcut->{key} ) . " \e[0;38;5;255m" . $shortcut->{name} . "\e[0m\n";
+    }
+    $contents .= "\n";
+  }
+
+  $current->{content} = $contents;
+  $current->{file} = $file;
+
+  $cheats{$_} = $current for ( $name, $current->{aliases}->@* );
+}
+
+for my $file ( glob "$dir/*" ) {
+  source $file;
+}
+
+my $popup = 0;
+
+if ( ($ARGV[0] // '') eq '--run-popup' ) {
+  $popup = 1;
+  shift @ARGV;
+}
+
+my $sheet = $ARGV[0] // '';
+
+if ( ! $cheats{$sheet} ) {
+  system "tmux display-message 'No cheat for $sheet'";
+} elsif ( $popup ) {
+  system "tmux display-popup -E '~/.scripts/tmux/cheat $sheet'";
+} else {
+  ReadMode 4;
+
+  while (1) {
+    my $cheat = $cheats{$sheet};
+    say $cheat->{content};
+
+    my $key = ReadKey() // '';
+
+    if ( $key eq 'e' ) {
+      ReadMode 0;
+      system "vim $cheat->{file}";
+      source $cheat->{file};
+      ReadMode 4;
+      print Term::Cap->Tgetent()->Tputs('cl');
+    } else {
+      last;
+    }
+  }
+  ReadMode 0;
+}
