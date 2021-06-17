@@ -76,10 +76,11 @@ run-tmux() {
 }
 
 start() {
+  local variables="-e TMUX_MUX_SESSION=$MUX_SESSION -e TMUX_MUX_CONFIG=$MUX_CONFIG"
   if [[ -z $TMUX ]]; then
-    run-tmux --exec "new-session -s $MUX_SESSION -n shell" "${setup[@]}"
+    run-tmux --exec "new-session -s $MUX_SESSION -n shell $variables" "${setup[@]}"
   else
-    run-tmux "new-session -d -s $MUX_SESSION -n shell" "switch-client -t $MUX_SESSION" "${setup[@]}"
+    run-tmux "new-session -d -s $MUX_SESSION -n shell $variables" "switch-client -t $MUX_SESSION" "${setup[@]}"
   fi
 }
 
