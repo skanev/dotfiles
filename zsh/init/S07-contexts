@@ -32,6 +32,7 @@ c_dirs=($DOTFILES/contexts)
 typeset -a c_available          # Stores the names of available contexts
 typeset -A c_available_patterns # Stores name -> pattern1,pattern2
 typeset -A c_available_location # Stores name -> ~/context-dir/name
+typeset -a c_revert             # When in a context, commands that would unload the context
 
 c_available_patterns=()
 c_available_location=()
@@ -121,10 +122,8 @@ c-load() {
     if [[ -e $context_dir/mux ]]; then
         export MUX_CONFIG=$context_dir/mux
         export MUX_SESSION=$1
-        c_revert+="unset MUX_CONFIG"
-        c_revert+=$'\n'
-        c_revert+="unset MUX_SESSION"
-        c_revert+=$'\n'
+        c_revert+=('unset MUX_CONFIG')
+        c_revert+=('unset MUX_SESSION')
     fi
 
     [[ -e $file ]] || return
@@ -179,8 +178,7 @@ END
                 ;;
         esac
 
-        c_revert+=$revert
-        c_revert+=$'\n'
+        c_revert+=($revert)
     done
 
     source $file
@@ -202,7 +200,7 @@ context() {
 }
 
 c-unload() {
-    eval $c_revert
+    eval ${(F)c_revert}
 
     c_current=
     c_revert=
