@@ -8,82 +8,25 @@ use autodie;
 
 use lib::relative '../support/perl/lib';
 
-use Carp qw( croak confess );
-use Data::Dump qw( dump );
+use Carp qw( croak );
 use Swamp::Stalker::Depot;
-use Swamp::Stalker::Consumer qw( :DSL );
-use Swamp::Stalker::Surveyor qw( surveyor );
+use Swamp::Stalker::Surveyors::RSpec;
+use Swamp::Stalker::Surveyors::Rubocop;
 
-sub neat( $value ) {
-  chomp $value;
-  $value;
-}
-
-my $rspec = surveyor(
-  begin => sub { line =~ /^(→ rspec|Failures:|Finished in)/ },
-  finish => sub { line =~ /^→ / },
-  blank => sub { { failures => [], finished => 0 } },
-  process => sub {
-    given ( line ) {
-      when ( /^  (\d+)\) (.*)$/ ) {
-        my ( $number, $name ) = ( $1, $2 );
-        my $message = "";
-
-        while ( peek =~ /^(    |$)/ ) {
-          $message .= consume;
-        }
-
-        push data->{failures}->@*, { number => $number, name => $name, message => $message };
-      }
-
-      when ( /^Finished in \S+ seconds?/ ) {
-        if ( peek =~ /^\d+ examples?, (\d+) failures?/ ) {
-          consume;
-          data->{finished} = 1;
-          bail if $1 == 0;
-        }
-      }
-
-      when ( /^Failed examples:/ ) {
-        consume while peek =~ /^\s*$/;
-
-        my $i = 0;
-
-        data->{failures}[$i++]{command} = neat consume while peek =~ /^rspec/;
-
-        bail;
-      }
-    }
-  },
-  complete => sub { depot->report( 'rspec', data ) },
-  poke => sub( $depot, $command = "quickfix", @args ) {
-    my $data = $depot->get( 'rspec' );
-
-    if ( $command eq 'quickfix' ) {
-      return unless defined $data->{failures};
-
-      for ( map { $_->{command} } $data->{failures}->@* ) {
-        s/^rspec \.\///;
-        say;
-      }
-    } elsif ( $command eq 'rerun' ) {
-      return unless defined $data->{failures};
-      return unless $data->{failures}->@* > 0;
-
-      say "rspec " . join ' ', map { s/^rspec \.\/(\S+) #.*$/$1/re } map { $_->{command} } $data->{failures}->@*;
-
-    } else {
-      confess "Unknown poke $command";
-    }
-  }
+my @surveyors = (
+  Swamp::Stalker::Surveyors::RSpec::surveyor,
+  Swamp::Stalker::Surveyors::Rubocop::surveyor,
 );
 
 my $depot = Swamp::Stalker::Depot->new;
 
 if ( ! defined $ARGV[0] || $ARGV[0] eq 'stalk' ) {
-  Swamp::Stalker::Consumer::devour $depot, $rspec;
+  Swamp::Stalker::Consumer::devour $depot, @surveyors;
 } elsif ( $ARGV[0] eq 'poke' ) {
-  $rspec->poke( $depot, splice( @ARGV, 1 ) );
+  my $last = $depot->get( 'last' ) // {};
+  my $result = $last->{result}{$ARGV[1]} // '';
+  chomp $result;
+  say $result;
 } else {
   croak "Unknown command $ARGV[0]";
 }

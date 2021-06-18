@@ -19,8 +19,11 @@ sub new {
 sub begin( $self )    { $self->{opts}{begin}->() }
 sub finish( $self )   { $self->{opts}{finish}->() }
 sub process( $self )  { $self->{opts}{process}->() }
-sub complete( $self ) { $self->{opts}{complete}->() }
 sub blank( $self )    { $self->{opts}{blank}->() }
+
+sub complete( $self, $depot ) {
+  $self->{opts}{complete}->( $depot )
+}
 
 sub poke( $self, $depot, @args ) {
   $self->{opts}{poke}( $depot, @args );

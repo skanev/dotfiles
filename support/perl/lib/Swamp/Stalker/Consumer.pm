@@ -11,22 +11,33 @@ use Exporter 'import';
 use Term::ANSIColor qw( colorstrip );
 use Carp qw( confess );
 use Swamp::Stalker::Depot;
+use IO::Handle;
 
 our @EXPORT = ();
 our @EXPORT_OK = qw( devour line data peek consume bail depot );
 our %EXPORT_TAGS = ( DSL => [ qw( line data peek consume bail depot ) ] );
 
-my $active = 0;
 my $current = undef;
 my $next = undef;
 my $eof = 0;
 my $data = {};
-my $depot = Swamp::Stalker::Depot->new;
+my $depot;
+
+my $stream = \*STDIN;
+my $surveyor = 0;
+
+sub use_stream( $new_stream ) {
+  $stream = $new_stream;
+  $current = undef;
+  $next = undef;
+  $data = {};
+  $eof = 0;
+}
 
 sub read_next() {
   return if $eof || defined $next;
 
-  my $raw = <STDIN>;
+  my $raw = <$stream>;
 
   if ( ! defined $raw ) {
     $eof = 1;
@@ -35,7 +46,7 @@ sub read_next() {
     return;
   }
 
-  my $letter = $active ? "A" : "I";
+  $raw =~ s/\r\n/\n/g;
 
   my $line = colorstrip $raw;
   $next = [ $line, $raw ];
@@ -53,8 +64,6 @@ sub consume() {
 }
 
 sub line {
-  read_next;
-
   $current->[0];
 }
 
@@ -68,8 +77,10 @@ sub peek {
 }
 
 sub bail {
-  confess unless $active;
-  $active = 0
+  confess unless $surveyor;
+  $surveyor->complete( $depot );
+  $surveyor = 0;
+  $data = undef;
 }
 
 sub depot {
@@ -80,24 +91,24 @@ sub use_depot( $value ) {
   $depot = $value
 }
 
-sub devour( $depot, $surveyor ) {
+sub devour( $depot, @surveyors ) {
   use_depot $depot;
+  $surveyor = 0;
+  $data = undef;
 
   while ( consume ) {
-    if ( $surveyor->begin ) {
-      $active = 1;
-      $data = $surveyor->blank;
-    }
-
-    if ( $active ) {
-      $surveyor->process;
-
-      if ( ! $active || $surveyor->finish ) {
-        $active = 0;
-        $surveyor->complete;
-        $data = undef;
+    if ( !$surveyor ) {
+      for my $some ( @surveyors ) {
+        if ( $some->begin ) {
+          $surveyor = $some;
+          $data = $surveyor->blank;
+          last;
+        }
       }
     }
+
+    $surveyor->process if $surveyor;
+    bail if $surveyor && $surveyor->finish;
   }
 }
 

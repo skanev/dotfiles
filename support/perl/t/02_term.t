@@ -15,4 +15,3 @@ END
 is( wrap(' text ', '2'), "\e[2m text \e[0m" );
 
 done_testing();
-
