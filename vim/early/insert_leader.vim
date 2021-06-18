@@ -14,7 +14,11 @@ let s:escaped_leader = "\<C-a>"
 function! s:wait() abort
   let input = nr2char(getchar())
 
-  if has_key(s:mappings, input)
+  let mappings = {}
+  let mappings = extend(mappings, s:mappings)
+  let mappings = extend(mappings, get(b:, 'insert_leader_mappings', {}))
+
+  if has_key(mappings, input)
     call feedkeys(s:escaped_leader . input)
   else
     echomsg "No mapping for " . s:leader . input
@@ -23,13 +27,20 @@ function! s:wait() abort
   return "\<Ignore>"
 endfunction
 
-function! s:define(cmd, mapping)
+function! s:define(cmd, mapping) abort
   let expr = 0
   let mapping = a:mapping
+  let options = {}
 
-  let [_, _, pos] = matchstrpos(a:mapping, '^<expr>\s\+')
+  let [_, _, pos] = matchstrpos(mapping, '^<buffer>\s\+')
   if pos != -1
-    let expr = 1
+    let options.buffer = 1
+    let mapping = mapping[pos:]
+  endif
+
+  let [_, _, pos] = matchstrpos(mapping, '^<expr>\s\+')
+  if pos != -1
+    let options.expr = 1
     let mapping = mapping[pos:]
   endif
 
@@ -43,18 +54,32 @@ function! s:define(cmd, mapping)
     let raw_key = eval('"\' . key . '"')
   endif
 
-  call IMapLeader(a:cmd, expr, key, rhs)
+  call IMapLeader(a:cmd, options, key, rhs)
 endfunction
 
-function! IMapLeader(cmd, expr, key, rhs)
-  let key = a:key
+function! IMapLeader(cmd, options, key, rhs)
+  let key    = a:key
+  let buffer = get(a:options, 'buffer', 0)
+  let expr   = get(a:options, 'expr', 0)
+
   if key =~ '^<\S\+>$'
     let raw_key = eval('"\' . key . '"')
+  else
+    let raw_key = key
   endif
 
-  let s:mappings[raw_key] = a:rhs
+  if buffer
+    let b:insert_leader_mappings = get(b:, 'insert_leader_mappings', {})
+    let b:insert_leader_mappings[raw_key] = a:rhs
+  else
+    let s:mappings[raw_key] = a:rhs
+  end
 
-  execute a:cmd . (a:expr ? ' <expr> ' : ' '). s:leader . key . ' ' . a:rhs
+  let modifiers = ' '
+  if expr   | let modifiers .= '<expr> '   | end
+  if buffer | let modifiers .= '<buffer> ' | end
+
+  execute a:cmd . modifiers . s:leader . key . ' ' . a:rhs
 endfunction
 
 command! -nargs=1 IMapLeader call s:define('imap', <q-args>)

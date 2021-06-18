@@ -7,8 +7,9 @@ if exists('b:did_myftplugin') | finish | endif
 let b:did_myftplugin = 1
 
 imap <buffer> <C-l> <Space>=><Space>
-imap <buffer> <C-j> ->
 nmap <buffer> K :call <SID>ShowHelp()<CR>
+
+IMapLeader <buffer> j ->
 
 setlocal complete-=i
 setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab

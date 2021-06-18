@@ -126,7 +126,7 @@ endfunction
 
 " Use <C-a><Space> to turn as-you-type on and off. Will likely decide to do it
 " in insert mode, so let's have an insert mode mapping.
-call IMapLeader('imap', v:false, '<Space>', '<Cmd> call '.expand('<SID>').'toggle_as_you_type()<CR>')
+call IMapLeader('imap', {}, '<Space>', '<Cmd> call '.expand('<SID>').'toggle_as_you_type()<CR>')
 
 inoremap <Plug>(new-line) <CR>
 
