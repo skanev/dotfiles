@@ -9,8 +9,8 @@ prompt_zsh_level () {
 }
 
 prompt_current_context () {
-  if [[ -n $c_current ]]; then
-    print " ($c_current)"
+  if [[ -n $c_current[name] ]]; then
+    print " (${c_current[name]})"
   fi
 }
 

@@ -29,10 +29,11 @@ c_dirs=($DOTFILES/contexts)
 
 [[ -n $DOTFILES_CONTEXTS_EXTRA ]] && c_dirs+=( ${(s#:#)${DOTFILES_CONTEXTS_EXTRA//\~\//$HOME/}} )
 
-typeset -a c_available          # Stores the names of available contexts
-typeset -A c_available_patterns # Stores name -> pattern1,pattern2
-typeset -A c_available_location # Stores name -> ~/context-dir/name
-typeset -a c_revert             # When in a context, commands that would unload the context
+typeset -ag c_available          # Stores the names of available contexts
+typeset -Ag c_available_patterns # Stores name -> pattern1,pattern2
+typeset -Ag c_available_location # Stores name -> ~/context-dir/name
+typeset -Ag c_current            # Data about the current context
+typeset -ag c_revert             # When in a context, commands that would unload the context
 
 c_available_patterns=()
 c_available_location=()
@@ -78,7 +79,7 @@ c-chpwd() {
 
     first=${matches[1]}
 
-    case "$#matches/$c_current" in
+    case "$#matches/${c_current[name]}" in
         0/)
             ;;
 
@@ -103,40 +104,40 @@ c-chpwd() {
 }
 
 c-load() {
-    if [[ -n $c_current ]]; then
-        print "contexts: Can't load $1: already loaded $c_current" 1>&2
+    if [[ -n $c_current[name] ]]; then
+        print "contexts: Can't load $1: already loaded ${c_current[name]}" 1>&2
         return
     fi
 
     local name file revert context_dir
 
-    typeset -g c_dir
-
     context_dir=$c_available_location[$1]
-    c_dir=$context_dir
     file=$context_dir/zsh
 
-    c_current=$1
+    c_current[name]=$1
+    c_current[dir]=$context_dir
+    [[ -e $context_dir/zsh ]] && c_current[zsh]=$context_dir/zsh
+    [[ -e $context_dir/mux ]] && c_current[mux]=$context_dir/mux
     c_revert=""
 
-    if [[ -e $context_dir/mux ]]; then
-        export MUX_CONFIG=$context_dir/mux
+    if [[ -n $c_current[mux] ]]; then
+        export MUX_CONFIG=$c_current[mux]
         export MUX_SESSION=$1
         c_revert+=('unset MUX_CONFIG')
         c_revert+=('unset MUX_SESSION')
     fi
 
-    [[ -e $file ]] || return
+    [[ -e $c_current[zsh] ]] || return
 
     awk -f <(cat <<\END
-      /^[-a-zA-Z0-9_]+[[:space:]]*\(\)[[:space:]]*{/ { gsub("\\(\\)", "", $1); print "function", $1; }
-      /^function[[:space:]]/ { gsub("\\(\\)", "", $2); print "function", $2; }
-      /^alias [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $2); print "alias", $2; }
-      /^alias -g [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $3); print "galias", $3; }
-      /^bindkey / { print "bindkey -L", $2; }
-      /^zle -N / { print "widget", $3; }
+    /^[-a-zA-Z0-9_]+[[:space:]]*\(\)[[:space:]]*{/ { gsub("\\(\\)", "", $1); print "function", $1; }
+    /^function[[:space:]]/ { gsub("\\(\\)", "", $2); print "function", $2; }
+    /^alias [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $2); print "alias", $2; }
+    /^alias -g [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $3); print "galias", $3; }
+    /^bindkey / { print "bindkey -L", $2; }
+    /^zle -N / { print "widget", $3; }
 END
-    ) $file |
+    ) $c_current[zsh] |
     while read -r line; do
         name=${${(s: :)line}[2]}
 
@@ -181,18 +182,32 @@ END
         c_revert+=($revert)
     done
 
-    source $file
+    source $c_current[zsh]
 }
 
 context() {
-    if [[ -n $c_current ]]; then
-        local file=$c_available_location[$c_current]/zsh
+    if (( $#c_current == 0 )); then
+        echo "No context for the current directory" >&2
+        false
+        return
+    fi
 
+    local cmd=${1:-show}
+
+    case $cmd in
+        (show)
+            for key in ${(k)c_current}; do
+                printf "%-10s %s\n" "$key:" $c_current[$key]
+            done
+            ;;
+    esac
+
+    if [[ -n $c_current[name] ]]; then
         if [[ $1 == "-e" ]]; then
-            vim $file
+            vim $c_current[zsh]
             e
         else
-            cat $file
+            cat $c_current[zsh]
         fi
     else
         echo "No context for the current directory"
@@ -202,9 +217,8 @@ context() {
 c-unload() {
     eval ${(F)c_revert}
 
-    c_current=
+    c_current=()
     c_revert=
-    c_dir=
 }
 
 c-load-available-contexts
