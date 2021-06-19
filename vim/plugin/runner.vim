@@ -1,3 +1,4 @@
+let s:target_always_vim = 0
 let s:modes = {}
 
 " Left here for debugging purposes
@@ -203,7 +204,7 @@ unlet! s:last_run
 function! s:run(command)
   let s:last_run = a:command
 
-  if s:tmux_has_available_session()
+  if !s:target_always_vim && s:tmux_has_available_session()
     call s:targets.tmux(a:command)
   else
     call s:targets.terminal(a:command)
@@ -242,6 +243,15 @@ function! s:run_action(...) abort
   endtry
 endfunction
 
+" Target configuration
+function! s:always_vim()
+  let s:target_always_vim = 1
+endfunction
+
+function! s:reset_target()
+  let s:target_always_vim = 0
+endfunction
+
 " Helper functions
 
 function! s:buffer_runner_mode() abort
@@ -256,9 +266,6 @@ function! s:buffer_runner_mode() abort
   endfor
 
   return {}
-endfunction
-
-function! s:configure_buffer()
 endfunction
 
 function! s:report_error(msg)
@@ -285,6 +292,8 @@ command! -nargs=0 RunnerRunFile       call s:run_action('file')
 command! -nargs=0 RunnerRunFileOrLast call s:run_action('file', 'last')
 command! -nargs=0 RunnerRunLine       call s:run_action('line')
 command! -nargs=1 RunWith             call s:set_runner(<q-args>)
+command! -nargs=0 RunnerAlwaysVim     call s:always_vim()
+command! -nargs=0 RunnerResetTarget   call s:reset_target()
 
 " Mappings
 
