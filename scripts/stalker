@@ -20,13 +20,30 @@ my @surveyors = (
 
 my $depot = Swamp::Stalker::Depot->new;
 
-if ( ! defined $ARGV[0] || $ARGV[0] eq 'stalk' ) {
+my $command = $ARGV[0] // '';
+
+if ( $command eq '' || $command eq 'stalk' ) {
   Swamp::Stalker::Consumer::devour $depot, @surveyors;
-} elsif ( $ARGV[0] eq 'poke' ) {
+} elsif ( $command eq 'poke' ) {
+  my $subcommand = $ARGV[1] // 'quickfix';
+
+  if ( $subcommand eq 'quickfix' ) {
+    my $last = $depot->get( 'last' ) // 0;
+    if ( $last ) {
+      say "# stalker quickfix $last->{id}";
+      print $last->{result}{quickfix};
+    }
+  } elsif ( $subcommand eq 'stacktrace' ) {
+    my ( $id, $index ) = ( $ARGV[2], $ARGV[3] );
+
+    print $depot->get( "runs:$id" )->{result}{stacktrace}[$index];
+  } elsif ( $subcommand eq 'rerun' ) {
+    say $depot->get( 'last' )->{result}{rerun};
+  }
+} elsif ( $command eq 'dump' ) {
   my $last = $depot->get( 'last' ) // {};
-  my $result = $last->{result}{$ARGV[1]} // '';
-  chomp $result;
-  say $result;
+  use Data::Dump qw(dump);
+  dump $last;
 } else {
   croak "Unknown command $ARGV[0]";
 }

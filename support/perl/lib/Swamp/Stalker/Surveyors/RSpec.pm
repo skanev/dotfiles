@@ -23,12 +23,19 @@ sub surveyor {
         when ( /^  (\d+)\) (.*)$/ ) {
           my ( $number, $name ) = ( $1, $2 );
           my $message = "";
+          my $stacktrace = "";
 
           while ( peek =~ /^(    |$)/ ) {
-            $message .= consume;
+            my $line = consume;
+            $message .= $line;
+            if ( $line =~ /^     # ([^:]+):(\d+):(.*)/ && $1 ne '-e' ) {
+              my ( $file, $line, $detail ) = ( $1, $2, $3 );
+              $file =~ s/^\.\///;
+              $stacktrace .= "$file:$line $detail\n"
+            }
           }
 
-          push data->{failures}->@*, { number => $number, name => $name, message => $message };
+          push data->{failures}->@*, { number => $number, name => $name, message => $message, stacktrace => $stacktrace };
         }
 
         when ( /^Finished in \S+ seconds?/ ) {
@@ -61,6 +68,8 @@ sub surveyor {
              map { "$_->{command}\n" }
              @failures;
 
+      $data->{result}{stacktrace} = [ map { $_->{stacktrace} } @failures ];
+
       $data->{result}{rerun} = @failures == 0 ? '' :
         "rspec " . join ' ',
              map { s/^rspec (\S+) #.*$/$1/r }
@@ -68,7 +77,6 @@ sub surveyor {
              @failures;
 
       $depot->report( 'rspec', $data );
-      $depot->report( 'last', $data );
     },
     poke => sub( $depot, $command = "quickfix", @args ) {
       my $data = $depot->get( 'rspec' );

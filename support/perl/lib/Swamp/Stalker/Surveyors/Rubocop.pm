@@ -38,7 +38,6 @@ sub surveyor {
       $data->{result}{rerun} = @failures == 0 ? '' : 'rubocop ' . join ' ', uniq map { $_->{file} } @failures;
 
       $depot->report( 'rubocop', $data );
-      $depot->report( 'last', $data ),
     },
     poke => sub( $depot, $command = "quickfix", @args ) {
       my $data = $depot->get( 'rubocop' );

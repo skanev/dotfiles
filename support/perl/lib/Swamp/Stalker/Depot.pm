@@ -8,6 +8,7 @@ use autodie;
 
 use Redis;
 use JSON qw( encode_json decode_json );
+use Time::HiRes qw( time );
 
 use constant PREFIX => 'stalker:';
 
@@ -23,7 +24,14 @@ sub new {
 }
 
 sub report( $self, $name, $data ) {
-  $self->{redis}->set( PREFIX . $name, encode_json( $data ) );
+  my $id = time() . "";
+  $data->{id} = $id;
+
+  my $encoded = encode_json( $data );
+  $self->{redis}->set( PREFIX . $name, $encoded );
+  $self->{redis}->set( PREFIX . 'last', $encoded );
+  $self->{redis}->set( PREFIX . "runs:$id", $encoded );
+  $self->{redis}->expire( PREFIX . "runs:$id", 86400 );
 }
 
 sub get( $self, $name ) {

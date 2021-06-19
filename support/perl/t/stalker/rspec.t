@@ -30,12 +30,8 @@ Failures:
      Failure/Error
        First error message
        is on two lines
-     # ./app/graphql/graph/types/category_type.rb:13:in `display_name'
-     # ./app/graphql/graph/types/base_field.rb:16:in `resolve'
-     # ./spec/support/graphql_helpers.rb:17:in `block in resolve'
-     # ./lib/user_context.rb:25:in `with'
-     # ./spec/support/graphql_helpers.rb:9:in `resolve'
-     # ./spec/graphql/graph/queries/category_spec.rb:24:in `block (2 levels) in <main>'
+     # ./first/one.rb:1:in `first'
+     # ./first/two.rb:2:in `block in first'
      # -e:1:in `<main>'
 
   2) Main spec second failure
@@ -45,7 +41,7 @@ Failures:
             got: 1
 
        (compared using ==)
-     # ./spec/graphql/graph/queries/category_spec.rb:74:in `block (2 levels) in <main>'
+     # ./second/one.rb:1:in `second`
      # -e:1:in `<main>'
 
 Finished in 2.42 seconds (files took 0.14302 seconds to load)
@@ -68,6 +64,13 @@ spec/something_spec.rb:1 Main spec first failure
 spec/something_spec.rb:2 Main spec second failure
 END
 is $poke->( 'rerun' ), 'rspec ./spec/something_spec.rb:1 ./spec/something_spec.rb:2';
+is $data->{result}{stacktrace}[0], <<END;
+first/one.rb:1 in `first'
+first/two.rb:2 in `block in first'
+END
+is $data->{result}{stacktrace}[1], <<END;
+second/one.rb:1 in `second`
+END
 
 ( $data, $poke ) = consume Swamp::Stalker::Surveyors::RSpec::surveyor, <<END;
 → rspec --format documentation spec/spec_someting_spec.rb
