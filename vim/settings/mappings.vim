@@ -58,7 +58,7 @@ map <expr> g= ':Tabularize /\V' . expand('<cWORD>') . '<CR>'
 cnoremap <expr> / <SID>cmd_mode_slash()
 
 MapMeta f <Cmd>Files<CR>
-MapMeta j <Cmd>Buffers<CR>
+MapMeta j <Cmd>lua require('mine.telescope').buffers()<CR>
 MapMeta k <Cmd>NERDTreeToggle<CR>
 
 MapMeta ] >>
