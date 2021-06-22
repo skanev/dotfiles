@@ -113,9 +113,25 @@ snippet local "local x = 1"
 local ${1:x} = ${0:1}
 endsnippet
 
+snippet met "function Class:method()" b
+function ${1:`!p
+answer = None
+lines = vim.eval("getbufline('', 1, '$')")
+lines = list(lines[0:int(vim.eval("line('.') - 1"))])
+lines.reverse()
+for line in lines:
+	if match := re.match(r'^function (\w+):(\w+)\(', line):
+		answer = match.group(1)
+		break
+
+snip.rv = answer or 'Class'`}:${2:name}(${3})
+	${0}
+end
+endsnippet
+
 snippet cons
 function ${1:name}:new(${2})
-	local instance = {`!p snip.rv = ", ".join("{0} = {0}".format(x.strip()) for x in t[2].split(",") if x.strip() != '')`}
+	local instance = {${3:`!p snip.rv = ", ".join("%s = %s" % (x.strip(), x.strip()) for x in t[2].split(",") if x.strip() != '')`}}
 	self.__index = self
 	${0}
 	return setmetatable(instance, self)
