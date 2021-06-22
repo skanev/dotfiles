@@ -1,10 +1,10 @@
 #!/bin/sh
 
-urls=$(tmux capture-pane \; show-buffer -b0 \; delete-buffer -b0 |
+urls=$(tmux capture-pane -p |
        grep -iIohE 'https?://[^[:space:]]+' |
        sort -u |
        tail -n 8)
 
 for url in $urls; do
-    open "$url" -a "Google Chrome"
+    open "$url"
 done
