@@ -1,4 +1,5 @@
 let s:dirs = [g:dotfiles_dir . '/contexts/']
+let g:context_folder = ''
 
 if $DOTFILES_CONTEXTS_EXTRA != ''
   call extend(s:dirs, map(split($DOTFILES_CONTEXTS_EXTRA, ':'), 'fnamemodify(v:val, ":p")'))
@@ -13,19 +14,27 @@ function s:setup()
       let pattern = glob2regpat(glob)
       let name = fnamemodify(detect, ':h:t')
       let dir = fnamemodify(detect, ':h')
+
       if filereadable(dir . '/buffer.vim')
         let buffer = dir . '/buffer.vim'
       else
         let buffer = ''
       end
-      let context = {'name': name, 'dir': dir, 'pattern': pattern, 'glob': glob, 'buffer': buffer}
+
+      if filereadable(dir . '/folder.vim')
+        let folder = dir . '/folder.vim'
+      else
+        let folder = ''
+      endif
+
+      let context = {'name': name, 'dir': dir, 'pattern': pattern, 'glob': glob, 'buffer': buffer, 'folder': folder}
 
       let s:contexts[name] = context
     endfor
   endfor
 endfunction
 
-function! s:establish_context() abort
+function! s:establish_buffer_context() abort
   if exists('b:context_loaded') | return | end
 
   let b:context_loaded = 1
@@ -60,8 +69,30 @@ endfunction
 
 call s:setup()
 
+function! s:establish_directory_context()
+  let pwd = getcwd() . '/'
+
+  for context in values(s:contexts)
+    if pwd =~ context.pattern && context.folder != ''
+
+      " TODO Support per-window and per-tab contexts (although I doubt I will
+      " use them often)
+
+      if get(v:event, 'scope', 'global') == 'global' && get(g:, 'context_folder', '') != context.name
+        execute "source " . context.folder
+        let g:context_folder = context.name
+      end
+
+      return
+    endif
+  endfor
+endfunction
+
+call s:establish_directory_context()
+
 augroup contexts
   autocmd!
-  autocmd BufNewFile,BufRead * call s:establish_context()
+  autocmd BufNewFile,BufRead * call s:establish_buffer_context()
+  autocmd DirChanged * call s:establish_directory_context()
   autocmd User ResetCustomizations unlet! b:context | unlet! b:context_loaded
 augroup END
