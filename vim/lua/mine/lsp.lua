@@ -136,11 +136,13 @@ local function make_capabilities(config)
     end
   end
 
-  capabilities.textDocument.completion.completionItem.resolveSupport = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  }
+  if config.resolveSupport ~= false then
+    capabilities.textDocument.completion.completionItem.resolveSupport = {
+      'documentation',
+      'detail',
+      'additionalTextEdits',
+    }
+  end
 
   return capabilities
 end
@@ -182,6 +184,11 @@ lsp.python.setup {
 }
 
 lsp.tsserver.setup {
+  on_attach = on_attach,
+  capabilities = make_capabilities({'snippets'}),
+}
+
+lsp.rust.setup {
   on_attach = on_attach,
   capabilities = make_capabilities({'snippets'}),
 }
