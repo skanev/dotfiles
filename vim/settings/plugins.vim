@@ -21,6 +21,7 @@ Plug 'peitalin/vim-jsx-typescript'
 Plug 'jparise/vim-graphql'
 Plug 'vim-scripts/nginx.vim'
 Plug 'chrisbra/vim-zsh'
+Plug 'rust-lang/rust.vim'
 
 " Features
 Plug 'preservim/nerdtree'
