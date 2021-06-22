@@ -199,19 +199,30 @@ context() {
             for key in ${(k)c_current}; do
                 printf "%-10s %s\n" "$key:" $c_current[$key]
             done
+
+            if [[ -e $c_current[zsh] ]]; then
+                echo "-------- zsh --------"
+                cat $c_current[zsh]
+                echo
+            fi
+
+            if [[ -e $c_current[mux] ]]; then
+                echo "-------- mux --------"
+                cat $c_current[mux]
+                echo
+            fi
+
+            ;;
+
+        (mux)
+            vi $c_current[dir]/mux
+            ;;
+
+        (zsh|-e)
+            vi $c_current[dir]/zsh
+            e
             ;;
     esac
-
-    if [[ -n $c_current[name] ]]; then
-        if [[ $1 == "-e" ]]; then
-            vim $c_current[zsh]
-            e
-        else
-            cat $c_current[zsh]
-        fi
-    else
-        echo "No context for the current directory"
-    fi
 }
 
 c-unload() {
