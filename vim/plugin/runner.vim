@@ -35,12 +35,26 @@ let s:modes.crystal_spec.run_line = 'crystal spec {file}:{line}'
 let s:modes.busted          = {}
 let s:modes.busted.matcher  = '_spec\.lua$'
 let s:modes.busted.run_file = 'busted {file}'
-let s:modes.busted.run_line = 'busted {file}{line}'
 
 let s:modes.prove          = {}
 let s:modes.prove.matcher  = '\.t$'
 let s:modes.prove.run_file = 'prove {file}'
 let s:modes.prove.run_line = 'prove {file}:{line}'
+
+function! s:rust_run_file_command()
+  let filename = expand('%')
+  let match = matchstr(filename, '^tests/\zs.*\ze\.rs$')
+
+  if match != ''
+    return printf('cargo test --test %s', substitute(match, '/', '::', 'g'))
+  else
+    echo 'cargo test'
+  endif
+endfunction
+
+let s:modes.rust          = {}
+let s:modes.rust.matcher  = 'tests/.*\.rs$'
+let s:modes.rust.run_file = function('s:rust_run_file_command')
 
 function! s:call_system(command)
   let oldshell = &shell
@@ -190,13 +204,19 @@ endfunction
 
 " Running
 
-function! s:substitute_command(command)
-  let command = a:command
+function! s:get_command(command)
+  if type(a:command) == v:t_string
+    let command = a:command
 
-  let command = substitute(command, '{file}', expand('%'), 'g')
-  let command = substitute(command, '{line}', line('.'), 'g')
+    let command = substitute(command, '{file}', expand('%'), 'g')
+    let command = substitute(command, '{line}', line('.'), 'g')
 
-  return command
+    return command
+  elseif type(a:command) == v:t_func
+    return call(a:command, [])
+  else
+    throw "don't know how to process command " . string(a:command)
+  end
 endfunction
 
 unlet! s:last_run
@@ -227,7 +247,7 @@ function! s:run_action(...) abort
       elseif has_key(mode, 'command')
         let command = call(mode.command, [action])
       elseif has_key(mode, 'run_' . action)
-        let command = s:substitute_command(get(mode, 'run_' . action))
+        let command = s:get_command(get(mode, 'run_' . action))
       endif
 
       if command != '' | break | end
