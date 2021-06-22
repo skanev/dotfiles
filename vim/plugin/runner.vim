@@ -259,11 +259,13 @@ function! s:buffer_runner_mode() abort
     return b:runner_mode
   endif
 
-  for [mode_name, definition] in items(s:modes)
-    if match(expand("%"), definition.matcher) != -1
-      return definition
-    endif
-  endfor
+  if &buftype != 'nofile' && &buftype != 'terminal'
+    for [mode_name, definition] in items(s:modes)
+      if match(expand("%"), definition.matcher) != -1
+        return definition
+      endif
+    endfor
+  end
 
   return {}
 endfunction
