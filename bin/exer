@@ -70,7 +70,6 @@ my %languages = (
     test_file => sub { "$exercise_path/spec/" . lower_snake_case( $exercise ) . '_spec.cr' },
     test => sub { 'crystal spec' },
     after_checkout => sub {
-      # TODO Replace pending with it in specs
       say "$exercise_path/spec/*_spec.cr";
       for my $file ( glob "$exercise_path/spec/*_spec.cr" ) {
         my $contents = slurp( $file );
@@ -83,11 +82,19 @@ my %languages = (
     solution_file => sub { "$exercise_path/$exercise.lua" },
     test_file => sub { "$exercise_path/${exercise}_spec.lua" },
     test => sub { "busted" },
-  }
-);
-
-my %config_overrides = (
-  crystal => 'https://raw.githubusercontent.com/exercism/crystal/7ab057f03233b5fafa898dc6ce136e11133133ba/config.json'
+  },
+  rust => {
+    solution_file => sub { "$exercise_path/src/lib.rs" },
+    test_file => sub { "$exercise_path/tests/$exercise.rs" },
+    test => sub { "cargo test tests/$exercise.rs" },
+    after_checkout => sub {
+      for my $file ( glob "$exercise_path/tests/*.rs" ) {
+        my $contents = slurp( $file );
+        $contents =~ s/^#\[ignore\]\n//mg;
+        write_file $file, $contents;
+      }
+    },
+  },
 );
 
 my $lang = $languages{$track};
@@ -118,7 +125,7 @@ sub exercises_list {
   state $list = 0;
 
   unless ( $list ) {
-    my $json = get( $config_overrides{$track} // "https://raw.githubusercontent.com/exercism/$track/master/config.json" );
+    my $json = get( "https://raw.githubusercontent.com/exercism/$track/master/config.json" );
     $list = [ map $_->{slug}, $json->{exercises}{practice}->@* ];
   }
 
