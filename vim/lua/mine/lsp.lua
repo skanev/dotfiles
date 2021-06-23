@@ -194,7 +194,7 @@ lsp.tsserver.setup {
 
 lsp.rust.setup {
   on_attach = on_attach,
-  capabilities = make_capabilities({'snippets'}),
+  capabilities = make_capabilities({'snippets', resolveSupport = false}),
 }
 
 require('lspsaga').init_lsp_saga()
