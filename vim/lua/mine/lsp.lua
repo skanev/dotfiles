@@ -29,13 +29,15 @@ require('lspkind').init({
 })
 
 require('lsp_signature').on_attach({
-  bind = true, -- This is mandatory, otherwise border config won't get registered.
+  bind = false, -- This is mandatory, otherwise border config won't get registered.
                -- If you want to hook lspsaga or other signature handler, pls set to false
   doc_lines = 10, -- only show one line of comment set to 0 if you do not want API comments be shown
 
   hint_enable = true, -- virtual hint enable
+  fix_pos = true,
   hint_prefix = "🐼 ",  -- Panda for parameter
   hint_scheme = "String",
+  hi_parameter = "Search",
   use_lspsaga = true,  -- set to true if you want to use lspsaga popup
   handler_opts = {
     border = "shadow"   -- double, single, shadow, none
@@ -98,6 +100,8 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d',         '<Cmd>lua require("lspsaga.diagnostic").lsp_jump_diagnostic_prev()<CR>', opts)
   buf_set_keymap('n', ']d',         '<Cmd>lua require("lspsaga.diagnostic").lsp_jump_diagnostic_next()<CR>', opts)
   buf_set_keymap('n', 'yot',        '<Cmd>lua toggle_diagnostics()<CR>',                                     opts)
+
+  vim.cmd[[IMapMeta <buffer> i <Cmd>lua require('mine').toggle_signature_help()<CR>]]
 
   if client.resolved_capabilities.document_formatting then
     buf_set_keymap("n", "<Leader>.f", "<Cmd>lua vim.lsp.buf.formatting()<CR>", opts)
