@@ -62,6 +62,7 @@ augroup END
 " Commands
 command! Snips UltiSnipsEdit
 command! Reverse :g/^/m0
+command! MineLog call s#terminal(printf("tail -f %s/mine.nvim.log", stdpath('data')), {'mode': 'side'})
 command! E doautocmd <nomodeline> User ResetCustomizations | edit
 
 runtime localvimrc

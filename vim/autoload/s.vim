@@ -49,11 +49,17 @@ function! s#starts_with(longer, shorter)
   return a:longer[0:len(a:shorter)-1] ==# a:shorter
 endfunction
 
-function! s#terminal(command, opts)
+function! s#terminal(command, opts) abort
   if has('nvim')
     topleft new
     call termopen(a:command, {'on_exit': function('s:on_term_exit')})
-    startinsert
+
+    let mode = get(a:opts, 'mode', 'enter')
+    if mode == 'enter'
+      startinsert
+    elseif mode == 'side'
+      wincmd p
+    end
   else
     echoerr "Not supported in VIM yet (can you imagine?)"
   end
