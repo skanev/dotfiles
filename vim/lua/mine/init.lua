@@ -1,9 +1,13 @@
 local M = {}
 
 function M.toggle_signature_help()
-  local winid = vim.api.nvim_buf_get_var(0, 'saga_signature_help_win')[1]
+  local success, result = pcall(vim.api.nvim_buf_get_var, 0, 'saga_signature_help_win')
 
-  if not winid then return end
+  if not success then return end
+
+  local winid = result[1]
+
+  if not success or not winid then return end
 
   if vim.api.nvim_win_is_valid(winid) then
     vim.api.nvim_win_close(winid, true)
