@@ -45,26 +45,6 @@ require('lsp_signature').on_attach({
   decorator = {"***", "***"}  -- or decorator = {"***", "***"}  decorator = {"**", "**"} see markdown help
 })
 
-vim.g.diagnostics_active = true
-
-function _G.toggle_diagnostics()
-  if vim.g.diagnostics_active then
-    vim.g.diagnostics_active = false
-    vim.lsp.diagnostic.clear(0)
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
-  else
-    vim.g.diagnostics_active = true
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-      vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = true,
-        signs = true,
-        underline = true,
-        update_in_insert = false,
-      }
-    )
-  end
-end
-
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -121,6 +101,7 @@ local on_attach = function(client, bufnr)
     ]], false)
   end
 
+  require('mine.diagnostics').set_diagnostic_level('full')
   -- Disable Diagnostcs globally
   --vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 end

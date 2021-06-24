@@ -16,4 +16,8 @@ function M.toggle_signature_help()
   end
 end
 
+function M.cycle_diagnostics()
+  require('mine.diagnostics').cycle_diagnostics()
+end
+
 return M
