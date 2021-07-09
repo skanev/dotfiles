@@ -29,6 +29,7 @@ alias gs="scmpuff_status"
 alias ga="git add"
 alias gd="git diff"
 alias gds="git diff --cached"
+alias gdo="git rev-parse --abbrev-ref HEAD | xargs -I'{}' git diff origin/{}..HEAD"
 alias gc="git commit --verbose"
 alias no-hooks-gc="UNHOOK='lint-coffeescript.pre-commit ruby-diff-style.pre-commit' gc"
 alias gca="git commit --amend"
@@ -85,6 +86,8 @@ alias kubedemo='kubectl --kubeconfig=/Users/bikezilla/.kube/demo_cluster.yml'
 alias kubestaging='kubectl --kubeconfig=/Users/bikezilla/.kube/staging_cluster.yml'
 alias kubeproduction='kubectl --kubeconfig=/Users/bikezilla/.kube/production_cluster.yml'
 alias kubeinfrastructure='kubectl --kubeconfig=/Users/bikezilla/.kube/infrastructure_cluster.yml'
+
+alias monojump="cd ~/dev/work/docker && bin/kuby jump monolith --kubeconfig ~/.kube/production_cluster.yml"
 
 
 grep-in-project () {
