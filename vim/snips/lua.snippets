@@ -1,3 +1,14 @@
+snippet unload
+package.loaded['${1:`!p
+import re
+match = re.match(r'.*/lua/(.*)\.lua', path)
+if match:
+    snip.rv = match[1].replace('/', '.')
+else:
+    snip.rv = 'package'
+`}'] = nil$0
+endsnippet
+
 snippet elif
 elseif ${1:condition} then
 	${0:--body}
