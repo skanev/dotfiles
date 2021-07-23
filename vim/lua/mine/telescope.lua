@@ -83,10 +83,12 @@ local function show_buffers_chooser()
         results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
         preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
       },
-      width = 0.8,
       previewer = false,
       prompt_title = false,
-      sort_lastused = true
+      sort_lastused = true,
+      layout_config = {
+        width = 0.65
+      },
     })
   )
 end
