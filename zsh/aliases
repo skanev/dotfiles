@@ -44,7 +44,7 @@ alias tat="tmux attach"
 alias m="make"
 alias be="bundle exec"
 alias vii="gvim --remote-silent"
-alias gemopen="VIM_COLORSCHEME=blackboard BUNDLER_EDITOR=mvim bundle open"
+alias gemopen="BUNDLER_EDITOR='zsh -ci vig' bundle open"
 
 alias ree="RUBY_HEAP_MIN_SLOTS=1000000 RUBY_HEAP_SLOTS_INCREMENT=1000000 RUBY_HEAP_SLOTS_GROWTH_FACTOR=1 RUBY_GC_MALLOC_LIMIT=1000000000 RUBY_HEAP_FREE_MIN=500000"
 
