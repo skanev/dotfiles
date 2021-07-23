@@ -8,7 +8,6 @@ install-pack() {
 
 is-pack-installed() {
   is-executable brew
-  false
 }
 
 verify-pack() {
