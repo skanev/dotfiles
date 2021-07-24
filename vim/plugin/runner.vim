@@ -41,7 +41,7 @@ let s:modes.prove.matcher  = '\.t$'
 let s:modes.prove.run_file = 'prove {file}'
 let s:modes.prove.run_line = 'prove {file}:{line}'
 
-function! s:rust_run_file_command()
+function! s:rust_run_file_command() abort
   let filename = expand('%')
   let match = matchstr(filename, '^tests/\zs.*\ze\.rs$')
 
@@ -52,9 +52,24 @@ function! s:rust_run_file_command()
   endif
 endfunction
 
+function! s:rust_run_line_command() abort
+  let filename = expand('%')
+  let module_name = matchstr(filename, '^tests/\zs.*\ze\.rs$')
+  let test_line = search('#\[test\]\n\(//.*\n\)*\zs\(pub \)\?fn \w\+\ze', 'bnWc')
+
+  if module_name == "" || test_line == 0
+    throw "runner: can't quite figure out how to run this line"
+  endif
+
+  let fn_name = matchstr(getline(test_line), 'fn \zs\w\+\ze')
+
+  return printf('cargo test --test %s --all %s', substitute(module_name, '/', '::', 'g'), fn_name)
+endfunction
+
 let s:modes.rust          = {}
 let s:modes.rust.matcher  = 'tests/.*\.rs$'
 let s:modes.rust.run_file = function('s:rust_run_file_command')
+let s:modes.rust.run_line = function('s:rust_run_line_command')
 
 function! s:call_system(command)
   let oldshell = &shell
