@@ -59,7 +59,7 @@ autoload -U compinit
   if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
     compinit -u
   else
-    compinit -Cu
+    compinit -C
   fi
 }
 
