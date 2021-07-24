@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+directives 'new-window -n what zsh'
+
+menu-item 'baba' -k 'b' --tmux 'echo baba'

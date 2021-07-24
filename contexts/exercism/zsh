@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+
+enext() {
+    if [[ $PWD:h:t != Exercism ]]; then
+        echo "must be in ~/Exercism/TRACK-DIR"
+        false
+        return
+    fi
+
+    if [[ -n $TMUX ]]; then
+        echo "must not be in tmux"
+        false
+        return
+    fi
+
+    exer next
+    ( cd *(/om[1]) && exer open )
+}
