@@ -124,6 +124,10 @@ function! s:tab()
   endif
 endfunction
 
+function! s:start_completion() abort
+  return "\<C-r>=luaeval('require(\"mine\").hide_signature_help() or \"\"')\<CR>" . compe#complete()
+endfunction
+
 " Use <C-a><Space> to turn as-you-type on and off. Will likely decide to do it
 " in insert mode, so let's have an insert mode mapping.
 call IMapLeader('imap', {}, '<Space>', '<Cmd> call '.expand('<SID>').'toggle_as_you_type()<CR>')
@@ -144,7 +148,7 @@ smap <S-Tab> <Plug>(select-mode-jump-backwards)
 
 " Compe mappings
 
-inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <C-Space> <SID>start_completion()
 imap     <silent><expr> <CR>      compe#confirm('<CR>') . "\<Plug>DiscretionaryEnd"
 inoremap <silent><expr> <C-y>     compe#confirm('<C-y>')
 inoremap <silent><expr> <C-e>     compe#close('<C-e>')
