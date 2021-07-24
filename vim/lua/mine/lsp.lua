@@ -178,4 +178,11 @@ lsp.rust.setup {
   capabilities = make_capabilities({'snippets', resolveSupport = false}),
 }
 
-require('lspsaga').init_lsp_saga()
+require('lspsaga').init_lsp_saga {
+  code_action_prompt = {
+    enable = true,
+    sign = true,
+    sign_priority = 20,
+    virtual_text = false,
+  },
+}
