@@ -3,7 +3,7 @@
 typeset -gA jump_locations
 
 jump-load-locations() {
-  [[ -n $jump_locations_loaded ]] && return
+  [[ -n $jump_locations_loaded || ! -f ~/.jumplist ]] && return
 
   local name path
 
