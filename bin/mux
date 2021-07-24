@@ -126,6 +126,18 @@ menu-separator() {
   menu_items+=("")
 }
 
+sticky-first-pane() {
+  directives 'set-option -t :1.0 -p remain-on-exit' \
+             'set-hook -t :1.0 pane-died respawn-pane' \
+             'pipe-pane "~/.scripts/stalker stalk"'
+}
+
+inactive-server-pane() {
+  directives "new-window -n server \"$1\"" \
+             'set-option -p remain-on-exit' \
+             'send-keys C-c'
+}
+
 display-menu() {
   tmux display-menu -x C -y C -T "Commands" "${menu_items[@]}"
 }
@@ -134,6 +146,8 @@ display-menu() {
 
 menu-separator
 menu-item 'Respawn' -k r --tmux 'respawn-pane -k'
+
+directives 'select-window -t :1'
 
 [[ -z $1 ]] && 1=attach-or-start
 

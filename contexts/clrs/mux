@@ -1,0 +1,3 @@
+#!/usr/bin/env zsh
+sticky-first-pane
+inactive-server-pane "rake shotgun"
