@@ -5,6 +5,8 @@ local make_entry = require('telescope.make_entry')
 local themes = require('telescope.themes')
 local conf = require('telescope.config').values
 
+require('telescope').load_extension('ultisnips')
+
 -- a copy of require('telescope.builtin.internal').buffers, because it's not
 -- customizable enough. mostly necessary for the mappings
 local function telescope_buffers(opts)

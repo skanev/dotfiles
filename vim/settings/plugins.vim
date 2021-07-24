@@ -102,6 +102,7 @@ if g:env.nightly
   Plug 'rafcamlet/nvim-luapad'
 
   Plug 'nvim-telescope/telescope.nvim'
+  Plug 'fhill2/telescope-ultisnips.nvim'
 else
   Plug 'ervandew/supertab'
 endif
@@ -191,9 +192,10 @@ function! s:fzf_buffers(fullscreen)
       \}, a:fullscreen)
 endfunction
 
-command! -bang -nargs=? -complete=dir Files   call fzf#vim#files(<q-args>, copy(s:fzf_files_opts), <bang>0)
-command! -bang                        Buffers call s:fzf_buffers(<bang>0)
-command! -bang -nargs=*               Ag      call fzf#vim#ag(<q-args>, s:fzf_ag_options(), <bang>0)
+command! -bang -nargs=? -complete=dir Files    call fzf#vim#files(<q-args>, copy(s:fzf_files_opts), <bang>0)
+command! -bang                        Buffers  call s:fzf_buffers(<bang>0)
+command! -bang -nargs=*               Ag       call fzf#vim#ag(<q-args>, s:fzf_ag_options(), <bang>0)
+command! -bang                        Snippets Telescope ultisnips
 
 " mileszs/ack.vim
 let g:ackprg = "ag --vimgrep"

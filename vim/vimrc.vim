@@ -39,6 +39,7 @@ runtime settings/plugins/airline.vim
 if g:env.nightly
   lua require('mine.lsp')
   lua require('mine.treesitter')
+  lua require('mine.telescope')
   runtime settings/completion.vim
 end
 
