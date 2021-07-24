@@ -24,7 +24,7 @@ unfunction jump-load-locations
 j() {
   if [[ -n $jump_locations[$1] ]]; then
     cd ${~jump_locations[$1]}
-    if has-mux-context && [[ -z $DONT_MUX ]]; then
+    if has-mux-context && [[ -z $DONT_MUX ]] && [[ -z $TMUX || $1 != $(tmux display -p '#S') ]] ; then
       mux
       popd > /dev/null
     fi
