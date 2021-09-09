@@ -17,13 +17,14 @@ local function set_diagnostic_level(level)
     }
   )
 
-  local handler = function(what, name, data, how)
-    _I.last_diagnostics[vim.api.nvim_get_current_buf()] = { what, name, data, how }
-    ----log.info(vim.inspect(data))
+  local handler = function(err, result, context, config)
+    -- TODO worth filtering for current buffer only
+    _I.last_diagnostics[vim.api.nvim_get_current_buf()] = { err, result, context, config }
+    --log.info(vim.inspect({ err, result, context, config }))
 
-    data = util.shallow_copy(data)
+    result = util.shallow_copy(result)
 
-    data.diagnostics = util.filter(data.diagnostics, function(item)
+    result.diagnostics = result.diagnostics and util.filter(result.diagnostics, function(item)
       if level == 'none' then
         return false
       elseif level == 'light' then
@@ -36,7 +37,7 @@ local function set_diagnostic_level(level)
       end
     end)
 
-    original_handler(what, name, data, how)
+    original_handler(err, result, context, config)
   end
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = handler
