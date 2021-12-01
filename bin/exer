@@ -57,6 +57,7 @@ my %commands = (
   next   => [ sub { run_next() },   'Download the next exercise' ],
   open   => [ sub { run_open() },   'Open the exercise' ],
   web    => [ sub { run_web() },    'Open in browser' ],
+  'info' => [ sub { run_info() },   'Show info for the current exercise' ],
 );
 
 my %languages = (
@@ -94,6 +95,22 @@ my %languages = (
         write_file $file, $contents;
       }
     },
+  },
+  kotlin => {
+    solution_file => sub { "$exercise_path/src/main/kotlin/@{[ upper_camel_case $exercise ]}.kt" },
+    test_file => sub { "$exercise_path/src/test/kotlin/@{[ upper_camel_case $exercise ]}Test.kt" },
+    test => sub { "./gradlew test" },
+    after_checkout => sub {
+      backtick "chmod a+x $exercise_path/gradlew";
+      for my $file ( glob "$exercise_path/src/test/kotlin/*.kt" ) {
+        my $contents = slurp( $file );
+        $contents =~ s/^\s+\@Ignore\n//mg;
+        write_file $file, $contents;
+      }
+    },
+    open => sub( $file, $test ) {
+      backtick "open -a 'IntelliJ IDEA Ultimate' --args ."
+    }
   },
 );
 
@@ -198,6 +215,11 @@ sub run_open {
   my $solution = $lang->{solution_file}->();
   my $test = $lang->{test_file}->();
 
+  if ( $lang->{open} ) {
+    $lang->{open}->( $solution, $test );
+    return;
+  }
+
   system 'open -a Markoff README.md';
   system "zsh -ci 'vig -- -o $solution $test'";
   system "tmux -2 new-session -A -s $exercise";
@@ -207,6 +229,13 @@ sub run_web {
   croak "No exercise" unless defined $exercise;
 
   system "exercism open $exercise";
+}
+
+sub run_info() {
+  say "Exercise:      " . $exercise;
+  say "Solution file: " . $lang->{solution_file}->();
+  say "Test file:     " . $lang->{test_file}->();
+  say "Text runner:   " . $lang->{test}->();
 }
 
 my $action = $commands{$command // 'help'}->[0] or croak "Unrecognized command $command";
