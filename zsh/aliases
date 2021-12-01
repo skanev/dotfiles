@@ -65,5 +65,7 @@ alias zk="explain-bindkey"
 alias keys="~/.scripts/keymaps =(bindkey -L)"
 alias args="printf '⟪%s⟫\n'"
 
+alias gitconfig="vim ~/.gitconfig"
+
 alias -g RERR="2>&1"
 alias -g P="| pd"
