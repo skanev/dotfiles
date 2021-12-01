@@ -1,5 +1,11 @@
 local lsp = require('lspconfig')
-require('lspinstall').setup()
+local lsp_installer = require("nvim-lsp-installer")
+
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
 
 require('lspkind').init({
   with_text = true,
@@ -29,8 +35,7 @@ require('lspkind').init({
 })
 
 require('lsp_signature').on_attach({
-  bind = false, -- This is mandatory, otherwise border config won't get registered.
-               -- If you want to hook lspsaga or other signature handler, pls set to false
+  bind = false,
   doc_lines = 10, -- only show one line of comment set to 0 if you do not want API comments be shown
 
   hint_enable = true, -- virtual hint enable
@@ -38,7 +43,6 @@ require('lsp_signature').on_attach({
   hint_prefix = "🐼 ",  -- Panda for parameter
   hint_scheme = "String",
   hi_parameter = "Search",
-  use_lspsaga = true,  -- set to true if you want to use lspsaga popup
   handler_opts = {
     border = "shadow"   -- double, single, shadow, none
   },
@@ -57,29 +61,22 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd',         '<Cmd>lua vim.lsp.buf.definition()<CR>',                                 opts)
   buf_set_keymap('n', 'gR',         '<Cmd>lua vim.lsp.buf.references()<CR>',                                 opts)
   buf_set_keymap('n', 'gI',         '<Cmd>lua vim.lsp.buf.implementation()<CR>',                             opts)
-  buf_set_keymap('n', '<Leader>.D', '<Cmd>lua require("lspsaga.diagnostic").show_cursor_diagnostics()<CR>',  opts)
-  buf_set_keymap('n', '<Leader>.K', '<Cmd>Lspsaga hover_doc<CR>',                                            opts)
---buf_set_keymap('n', '<Leader>.a', '<Cmd>lua vim.lsp.buf.code_action()<CR>',                                opts)
-  buf_set_keymap('n', '<Leader>.a', '<Cmd>lua require("lspsaga.codeaction").code_action()<CR>',              opts)
-  buf_set_keymap('n', '<Leader>.d', '<Cmd>lua require("lspsaga.diagnostic").show_line_diagnostics()<CR>',    opts)
-  buf_set_keymap('n', '<Leader>.e', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',               opts)
-  buf_set_keymap('n', '<Leader>.h', '<Cmd>lua require("lspsaga.provider").lsp_finder()<CR>',                 opts)
+  buf_set_keymap('n', '<Leader>.a', '<Cmd>lua vim.lsp.buf.code_action()<CR>',                                opts)
+  buf_set_keymap('n', '<Leader>.d', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',               opts)
   buf_set_keymap('n', '<Leader>.k', '<Cmd>lua vim.lsp.buf.hover()<CR>',                                      opts)
-  buf_set_keymap('n', '<Leader>.p', '<Cmd>lua require"lspsaga.provider".preview_definition()<CR>',           opts)
+  buf_set_keymap('n', '<Leader>.o', '<Cmd>lua require("telescope.builtin").lsp_document_symbols()<CR>',      opts)
   buf_set_keymap('n', '<Leader>.q', '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>',                         opts)
---buf_set_keymap('n', '<Leader>.r', '<Cmd>lua vim.lsp.buf.rename()<CR>',                                     opts)
-  buf_set_keymap('n', '<Leader>.r', '<Cmd>lua require("lspsaga.rename").rename()<CR>',                       opts)
---buf_set_keymap('n', '<Leader>.s', '<Cmd>lua vim.lsp.buf.signature_help()<CR>',                             opts)
-  buf_set_keymap('n', '<Leader>.s', '<Cmd>lua require("lspsaga.signaturehelp").signature_help()<CR>',        opts)
+  buf_set_keymap('n', '<Leader>.r', '<Cmd>lua vim.lsp.buf.rename()<CR>',                                     opts)
+  buf_set_keymap('n', '<Leader>.s', '<Cmd>lua vim.lsp.buf.signature_help()<CR>',                             opts)
   buf_set_keymap('n', '<Leader>.t', '<Cmd>lua vim.lsp.buf.type_definition()<CR>',                            opts)
 --buf_set_keymap('n', '<Leader>wa', '<Cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',                       opts)
 --buf_set_keymap('n', '<Leader>wl', '<Cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
 --buf_set_keymap('n', '<Leader>wr', '<Cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',                    opts)
---buf_set_keymap('n', '[d',         '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',                           opts)
---buf_set_keymap('n', ']d',         '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>',                           opts)
-  buf_set_keymap('n', '[d',         '<Cmd>lua require("lspsaga.diagnostic").lsp_jump_diagnostic_prev()<CR>', opts)
-  buf_set_keymap('n', ']d',         '<Cmd>lua require("lspsaga.diagnostic").lsp_jump_diagnostic_next()<CR>', opts)
+  buf_set_keymap('n', '[d',         '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',                           opts)
+  buf_set_keymap('n', ']d',         '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>',                           opts)
   buf_set_keymap('n', 'yot',        '<Cmd>lua toggle_diagnostics()<CR>',                                     opts)
+
+  buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>',                                      opts)
 
   vim.cmd[[IMapMeta <buffer> i <Cmd>lua require('mine').toggle_signature_help()<CR>]]
 
@@ -131,58 +128,44 @@ local function make_capabilities(config)
 
   return capabilities
 end
-
-lsp.vim.setup {
-  on_attach = on_attach,
-  capabilities = make_capabilities({'snippets'})
-}
-
-lsp.lua.setup {
-  on_attach = on_attach,
-  capabilities = make_capabilities({'snippets'}),
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-        path = vim.split(package.path, ';'),
-      },
-      completion = {
-        callSnippet = 'Replace',
-      },
-      diagnostics = {
-        globals = {'vim', 'it', 'describe'},
-      },
-      workspace = {
-        library = {
-          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+-- Register a handler that will be called for all installed servers.
+-- Alternatively, you may also register handlers on specific server instances instead (see example below).
+lsp_installer.on_server_ready(function(server)
+  if server.name == 'sumneko_lua' then
+    server:setup {
+      on_attach = on_attach,
+      capabilities = make_capabilities({'snippets'}),
+      settings = {
+        Lua = {
+          runtime = {
+            version = 'LuaJIT',
+            path = vim.split(package.path, ';'),
+          },
+          completion = {
+            callSnippet = 'Replace',
+          },
+          diagnostics = {
+            globals = {'vim', 'it', 'describe'},
+          },
+          workspace = {
+            library = {
+              [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+              [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+            },
+          },
+          telemetry = {enable = false},
         },
       },
-      telemetry = {enable = false},
-    },
-  },
-}
-
-lsp.python.setup {
-  on_attach = on_attach,
-  capabilities = make_capabilities({'snippets'}),
-}
-
-lsp.tsserver.setup {
-  on_attach = on_attach,
-  capabilities = make_capabilities({'snippets'}),
-}
-
-lsp.rust.setup {
-  on_attach = on_attach,
-  capabilities = make_capabilities({'snippets', resolveSupport = false}),
-}
-
-require('lspsaga').init_lsp_saga {
-  code_action_prompt = {
-    enable = true,
-    sign = true,
-    sign_priority = 20,
-    virtual_text = false,
-  },
-}
+    }
+  elseif server.name == 'rust_analyzer' then
+    server:setup {
+      on_attach = on_attach,
+      capabilities = make_capabilities({'snippets', resolveSupport = false}),
+    }
+  else
+    server:setup {
+      on_attach = on_attach,
+      capabilities = make_capabilities({'snippets'}),
+    }
+  end
+end)

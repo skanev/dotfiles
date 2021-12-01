@@ -88,8 +88,7 @@ if g:env.nightly
   Plug 'nvim-lua/plenary.nvim'
 
   Plug 'neovim/nvim-lspconfig'
-  Plug 'kabouzeid/nvim-lspinstall'
-  Plug 'glepnir/lspsaga.nvim'
+  Plug 'williamboman/nvim-lsp-installer'
 
   Plug 'hrsh7th/nvim-compe'
 
