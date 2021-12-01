@@ -16,6 +16,7 @@ sub new {
   return bless $self, $class;
 }
 
+sub name( $self )     { $self->{opts}{name} }
 sub begin( $self )    { $self->{opts}{begin}->() }
 sub finish( $self )   { $self->{opts}{finish}->() }
 sub process( $self )  { $self->{opts}{process}->() }

@@ -11,6 +11,7 @@ use Exporter 'import';
 use Term::ANSIColor qw( colorstrip );
 use Carp qw( confess );
 use Swamp::Stalker::Depot;
+use Swamp::Stalker::Logger qw( trace );
 use IO::Handle;
 
 our @EXPORT = ();
@@ -79,6 +80,7 @@ sub peek {
 sub bail {
   confess unless $surveyor;
   $surveyor->complete( $depot );
+  trace "[LEAVE] " . $surveyor->name . " :: " . line;
   $surveyor = 0;
   $data = undef;
 }
@@ -97,10 +99,14 @@ sub devour( $depot, @surveyors ) {
   $data = undef;
 
   while ( consume ) {
+    my $just_entered = 0;
+
     if ( !$surveyor ) {
       for my $some ( @surveyors ) {
         if ( $some->begin ) {
+          trace "[ENTER] " . $some->name . " :: " . line;
           $surveyor = $some;
+          $just_entered = 1;
           $data = $surveyor->blank;
           last;
         }
@@ -108,7 +114,7 @@ sub devour( $depot, @surveyors ) {
     }
 
     $surveyor->process if $surveyor;
-    bail if $surveyor && $surveyor->finish;
+    bail if $surveyor && !$just_entered && $surveyor->finish;
   }
 }
 

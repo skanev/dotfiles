@@ -9,41 +9,121 @@ use autodie;
 use lib::relative '../support/perl/lib';
 
 use Carp qw( croak );
+use List::Util qw( first );
+use Data::Dump qw( dump );
+
 use Swamp::Stalker::Depot;
 use Swamp::Stalker::Surveyors::RSpec;
 use Swamp::Stalker::Surveyors::Rubocop;
+use Swamp::Stalker::Surveyors::RubyStacktrace;
 
 my @surveyors = (
   Swamp::Stalker::Surveyors::RSpec::surveyor,
   Swamp::Stalker::Surveyors::Rubocop::surveyor,
+  Swamp::Stalker::Surveyors::RubyStacktrace::surveyor,
 );
 
 my $depot = Swamp::Stalker::Depot->new;
 
+my %commands;
+
 my $command = $ARGV[0] // '';
 
-if ( $command eq '' || $command eq 'stalk' ) {
+sub stalk( @args ) {
   Swamp::Stalker::Consumer::devour $depot, @surveyors;
-} elsif ( $command eq 'poke' ) {
-  my $subcommand = $ARGV[1] // 'quickfix';
-
-  if ( $subcommand eq 'quickfix' ) {
-    my $last = $depot->get( 'last' ) // 0;
-    if ( $last ) {
-      say "# stalker quickfix $last->{id}";
-      print $last->{result}{quickfix};
-    }
-  } elsif ( $subcommand eq 'stacktrace' ) {
-    my ( $id, $index ) = ( $ARGV[2], $ARGV[3] );
-
-    print $depot->get( "runs:$id" )->{result}{stacktrace}[$index];
-  } elsif ( $subcommand eq 'rerun' ) {
-    say $depot->get( 'last' )->{result}{rerun};
-  }
-} elsif ( $command eq 'dump' ) {
-  my $last = $depot->get( 'last' ) // {};
-  use Data::Dump qw(dump);
-  dump $last;
-} else {
-  croak "Unknown command $ARGV[0]";
 }
+
+sub quickfix( @args ) {
+  my $event = ( $depot->events( 'linter', 'tests' ) )[0];
+
+  if ( $event ) {
+    say "# stalker quickfix $event->{id}";
+    print $event->{quickfix};
+  }
+}
+
+sub failure( $id, $index ) {
+  my $event = $depot->fetch( $id );
+
+  print $event->{failures}[$index]{quickfix};
+}
+
+sub rerun( @args ) {
+  my $event = ( $depot->events( 'linter', 'tests' ) )[0];
+
+  if ( $event ) {
+    say $event->{rerun};
+  }
+}
+
+sub stacktrace() {
+  my $event = ( $depot->events( 'stacktrace' ) )[0];
+
+  if ( $event ) {
+    print $event->{quickfix};
+  }
+}
+
+sub events( @args ) {
+  for my $event ( $depot->events ) {
+    my $summary = "";
+    given ( $event->{type} ) {
+      when ( 'tests' ) {
+        $summary = ( $event->{runner} // '<unknown>' ) . ' runnner, ' . ( $event->{failures}->@* ) . ' failure(s)'
+      }
+      when ( 'rerun' ) {
+        $summary = $event->{command} ? substr( "rerun: $event->{command}", 0, 80) : 'all good';
+      }
+      when ( 'linter' ) {
+        $summary = ( $event->{linter} // '<unknown>' ) . ' linter, ' . ( $event->{failures}->@* ) . ' failures(s)';
+      }
+    };
+
+    printf " %s  %-15s %-25s %s\n", $event->{timestamp}, $event->{type}, $event->{id}, $summary;
+  }
+}
+
+sub dump_events() {
+  for my $event ( $depot->events ) {
+    say dump $event;
+  }
+}
+
+sub clear() {
+  $depot->clear();
+}
+
+sub usage() {
+  say "stalker: monitors outputs for interesting things";
+  say "";
+
+  for my $name ( keys %commands ) {
+    my ( $fn , $doc ) = $commands{$name}->@*;
+    printf "    %-10s  %s\n", $name, $doc;
+  }
+
+  say "";
+}
+
+%commands = (
+  stalk =>      [ \&stalk, 'Stalk the standard input for interesting stuff' ],
+  usage =>      [ \&usage, 'Show this help' ],
+  rerun =>      [ \&rerun, 'Outputs the rerun command of the last failure' ],
+  failure =>    [ \&failure, 'Shows the quickfix of a specific failure in a run' ],
+  quickfix =>   [ \&quickfix, 'Show the a quickfix' ],
+  events =>     [ \&events, 'Summarises all the recent events' ],
+  dump =>       [ \&dump_events, 'Dumps all the recent events' ],
+  clear =>      [ \&clear, 'Removes all events' ],
+  stacktrace => [ \&stacktrace, 'Shows the latest stacktrace' ],
+);
+
+if ( ! $commands{$command} ) {
+  usage();
+  exit;
+}
+
+my ( $fn, $doc ) = $commands{$command}->@*;
+
+shift @ARGV;
+
+$fn->( @ARGV );

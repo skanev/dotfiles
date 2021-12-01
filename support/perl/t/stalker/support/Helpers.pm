@@ -13,6 +13,16 @@ our @EXPORT_OK = qw( consume );
 package MockDepot {
   sub new( $class ) {
     my $self = bless {}, $class;
+    $self->{_events} = [];
+    $self;
+  }
+
+  sub event( $self, $data ) {
+    push $self->{_events}->@*, $data;
+  }
+
+  sub events( $self ) {
+    $self->{_events};
   }
 
   sub report( $self, $name, $data ) {
@@ -37,7 +47,7 @@ sub consume( $surveyor, $output ) {
 
   my $poker = sub { $surveyor->poke( $mock, @_ ) };
 
-  ( $mock->data, $poker );
+  ( $mock->data, $poker, $mock );
 }
 
 1;

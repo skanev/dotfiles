@@ -12,6 +12,7 @@ use Swamp::Stalker::Consumer qw( :DSL );
 
 sub surveyor {
   Swamp::Stalker::Surveyor::surveyor(
+    name => 'rubocop',
     begin => sub { line =~ /^(Inspecting \d+ file?|Offenses:)/ },
     finish => sub { line =~ /^→ / },
     blank => sub { { failures => [], finished => 0 } },
@@ -33,9 +34,25 @@ sub surveyor {
       my $data = data;
       my @failures = $data->{failures}->@*;
 
+      my $quickfix = join '', map { "$_->{summary}\n" } @failures;
+      my $rerun = @failures == 0 ? '' : 'rubocop ' . join ' ', uniq map { $_->{file} } @failures;
+
       $data->{result} = {};
-      $data->{result}{quickfix} = join '', map { "$_->{summary}\n" } @failures;
-      $data->{result}{rerun} = @failures == 0 ? '' : 'rubocop ' . join ' ', uniq map { $_->{file} } @failures;
+      $data->{result}{quickfix} = $quickfix;
+      $data->{result}{rerun} = $rerun;
+
+      $depot->event({
+        type => 'linter',
+        linter => 'rubocop',
+        quickfix => $quickfix,
+        failures => [ map { $_->{summary} } @failures ],
+        rerun => $rerun,
+      });
+
+      $depot->event({
+        type => 'rerun',
+        command => $rerun,
+      });
 
       $depot->report( 'rubocop', $data );
     },

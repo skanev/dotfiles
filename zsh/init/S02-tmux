@@ -33,7 +33,7 @@ zstyle ':completion:tmux-pane-words-anywhere:*' matcher-list 'b:=* m:{A-Za-z}={a
 zstyle ':completion:tmux-pane-paths:*' completer _tmux_pane_paths
 
 rerun() {
-  local cmd=$(~/.scripts/stalker poke rerun)
+  local cmd=$(~/.scripts/stalker rerun)
   if [[ -z "$cmd" ]]; then
     echo "All good!"
   else

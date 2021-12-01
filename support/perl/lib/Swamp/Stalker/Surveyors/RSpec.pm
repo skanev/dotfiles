@@ -15,6 +15,7 @@ sub neat( $value ) {
 
 sub surveyor {
   Swamp::Stalker::Surveyor::surveyor(
+    name => 'rspec',
     begin => sub { line =~ /^(→ rspec|Failures:|Finished in)/ },
     finish => sub { line =~ /^→ / },
     blank => sub { { failures => [], finished => 0 } },
@@ -23,7 +24,7 @@ sub surveyor {
         when ( /^  (\d+)\) (.*)$/ ) {
           my ( $number, $name ) = ( $1, $2 );
           my $message = "";
-          my $stacktrace = "";
+          my $quickfix = "";
 
           while ( peek =~ /^(    |$)/ ) {
             my $line = consume;
@@ -31,11 +32,11 @@ sub surveyor {
             if ( $line =~ /^     # ([^:]+):(\d+):(.*)/ && $1 ne '-e' ) {
               my ( $file, $line, $detail ) = ( $1, $2, $3 );
               $file =~ s/^\.\///;
-              $stacktrace .= "$file:$line $detail\n"
+              $quickfix .= "$file:$line $detail\n"
             }
           }
 
-          push data->{failures}->@*, { number => $number, name => $name, message => $message, stacktrace => $stacktrace };
+          push data->{failures}->@*, { number => $number, name => $name, message => $message, quickfix => $quickfix };
         }
 
         when ( /^Finished in \S+ seconds?/ ) {
@@ -61,20 +62,36 @@ sub surveyor {
       my $data = data;
       my @failures = $data->{failures}->@*;
 
-      $data->{result} = {};
-      $data->{result}{quickfix} =
+      my $quickfix =
         join '',
              map { s/^rspec \.\/(\S+) # (.*)$/$1 $2/r }
              map { "$_->{command}\n" }
              @failures;
 
-      $data->{result}{stacktrace} = [ map { $_->{stacktrace} } @failures ];
-
-      $data->{result}{rerun} = @failures == 0 ? '' :
+      my $rerun = @failures == 0 ? '' :
         "rspec " . join ' ',
              map { s/^rspec (\S+) #.*$/$1/r }
              map { $_->{command} }
              @failures;
+
+      $data->{result} = {};
+      $data->{result}{quickfix} = $quickfix;
+      $data->{result}{stacktrace} = [ map { $_->{quickfix} } @failures ];
+      $data->{result}{rerun} = $rerun;
+
+      $depot->event({
+        type => 'tests',
+        runner => 'rspec',
+        failures => $data->{failures},
+        quickfix => $quickfix,
+        rerun => $rerun,
+      });
+
+      $depot->event({
+        type => 'rerun',
+        command => $rerun,
+        runner => 'rspec',
+      });
 
       $depot->report( 'rspec', $data );
     },
