@@ -9,7 +9,7 @@ autocmd BufnewFile,BufRead *.rb setlocal complete-=i
 
 map <Leader>f :AS<CR><C-w>r
 xnoremap <Leader>e <ESC>:call s:ExtractVariable()<CR>
-map <Leader>l <Cmd>call s:PromoteToLet()<CR>
+map <Leader>l <Cmd>call <SID>PromoteToLet()<CR>
 
 imap <buffer> <C-l> <Space>=><Space>
 
