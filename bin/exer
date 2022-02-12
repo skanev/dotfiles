@@ -87,7 +87,7 @@ my %languages = (
   rust => {
     solution_file => sub { "$exercise_path/src/lib.rs" },
     test_file => sub { "$exercise_path/tests/$exercise.rs" },
-    test => sub { "cargo test tests/$exercise.rs" },
+    test => sub { "cargo test" },
     after_checkout => sub {
       for my $file ( glob "$exercise_path/tests/*.rs" ) {
         my $contents = slurp( $file );
