@@ -55,6 +55,7 @@ Plug 'AndrewRadev/switch.vim'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'AndrewRadev/linediff.vim'
+Plug 'mattn/emmet-vim'
 
 " Colorschemes
 Plug 'sainnhe/sonokai'
