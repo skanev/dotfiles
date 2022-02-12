@@ -22,6 +22,7 @@ Plug 'jparise/vim-graphql'
 Plug 'vim-scripts/nginx.vim'
 Plug 'chrisbra/vim-zsh'
 Plug 'rust-lang/rust.vim'
+Plug 'hashivim/vim-terraform'
 
 " Features
 Plug 'preservim/nerdtree'

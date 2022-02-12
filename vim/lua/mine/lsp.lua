@@ -34,20 +34,20 @@ require('lspkind').init({
   },
 })
 
-require('lsp_signature').on_attach({
-  bind = false,
-  doc_lines = 10, -- only show one line of comment set to 0 if you do not want API comments be shown
+--require('lsp_signature').on_attach({
+  --bind = false,
+  --doc_lines = 10, -- only show one line of comment set to 0 if you do not want API comments be shown
 
-  hint_enable = true, -- virtual hint enable
-  fix_pos = true,
-  hint_prefix = "🐼 ",  -- Panda for parameter
-  hint_scheme = "String",
-  hi_parameter = "Search",
-  handler_opts = {
-    border = "shadow"   -- double, single, shadow, none
-  },
-  decorator = {"***", "***"}  -- or decorator = {"***", "***"}  decorator = {"**", "**"} see markdown help
-})
+  --hint_enable = true, -- virtual hint enable
+  --fix_pos = true,
+  --hint_prefix = "🐼 ",  -- Panda for parameter
+  --hint_scheme = "String",
+  --hi_parameter = "Search",
+  --handler_opts = {
+    --border = "shadow"   -- double, single, shadow, none
+  --},
+  --decorator = {"***", "***"}  -- or decorator = {"***", "***"}  decorator = {"**", "**"} see markdown help
+--})
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -158,6 +158,11 @@ lsp_installer.on_server_ready(function(server)
       },
     }
   elseif server.name == 'rust_analyzer' then
+    server:setup {
+      on_attach = on_attach,
+      capabilities = make_capabilities({'snippets', resolveSupport = false}),
+    }
+  elseif server.name == 'terraformls' then
     server:setup {
       on_attach = on_attach,
       capabilities = make_capabilities({'snippets', resolveSupport = false}),
