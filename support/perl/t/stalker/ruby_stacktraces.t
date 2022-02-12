@@ -89,4 +89,22 @@ is_deeply $mock->events->[0], {
     END
 };
 
+#→ rake db:reset
+#Running via Spring preloader in process 5603
+#Dropped database 'logbook_development'
+#Dropped database 'logbook_test'
+#Created database 'logbook_development'
+#Created database 'logbook_test'
+#rake aborted!
+#TypeError: expected numeric
+#/Users/aquarius/code/personal/logbook/db/seeds.rb:8:in `block in <main>'
+#/Users/aquarius/code/personal/logbook/db/seeds.rb:6:in `downto'
+#/Users/aquarius/code/personal/logbook/db/seeds.rb:6:in `each'
+#/Users/aquarius/code/personal/logbook/db/seeds.rb:6:in `<main>'
+#<internal:/Users/aquarius/.rbenv/versions/3.0.1/lib/ruby/3.0.0/rubygems/core_ext/kernel_require.rb>:85:in `require'
+#<internal:/Users/aquarius/.rbenv/versions/3.0.1/lib/ruby/3.0.0/rubygems/core_ext/kernel_require.rb>:85:in `require'
+#-e:1:in `<main>'
+#Tasks: TOP => db:reset => db:setup => db:seed
+#(See full trace by running task with --trace)
+
 done_testing();

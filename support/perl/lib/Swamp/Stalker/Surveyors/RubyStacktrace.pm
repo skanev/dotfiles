@@ -25,6 +25,7 @@ sub surveyor {
         when ( /^\w+Error: (.*)$/ ) {
           my $message = line;
           my $next = consume;
+          $next =~ s/^([^:]+):(\d+):(.*)$/$1:$2 $3/;
 
           chomp $message;
           chomp $next;
