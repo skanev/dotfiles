@@ -5,13 +5,12 @@ alias localrc="vim ~/.localrc && source ~/.localrc"
 
 alias tmux="tmux -2"
 
-alias rdm="bundle exec rake db:migrate"
-alias rdtp="bundle exec rake db:test:prepare"
-alias rdmr="bundle exec rake db:migrate:reset"
+alias rdm="rake db:migrate"
+alias rdtp="rake db:test:prepare"
+alias rdmr="rake db:migrate:redo"
 alias rrs="bundle exec rake spec"
-alias rc="bundle exec rake cucumber"
-alias rco="bundle exec rake cypress:open"
-alias rcr="bundle exec rake cypress:run"
+alias rco="rake cypress:open"
+alias rcr="rake cypress:run"
 
 alias rg="rails generate"
 alias rmig="rails generate migration"
@@ -49,7 +48,7 @@ alias gemopen="BUNDLER_EDITOR='zsh -ci vig' bundle open"
 alias clj="rlwrap --quote-characters=\"'\" --command clojure clj"
 alias gist="gist -o"
 
-alias pd="ruby ~/code/personal/cleric/wut.rb | less -FXRS"
+alias pd="(ruby ~/code/personal/cleric/wut.rb | less -FXRS)"
 alias ped="perl -pe"
 
 alias wdp="wip diff P"
