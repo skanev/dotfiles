@@ -1,0 +1,67 @@
+snippet rc "<% %>" w
+<% ${0} %>
+endsnippet
+
+snippet rce "<%= %>" w
+<%= ${1} %>
+endsnippet
+
+snippet % "<% %>" w
+<% ${0} %>
+endsnippet
+
+snippet = "<%= %>" w
+<%= ${1} %>
+endsnippet
+
+snippet end
+<% end %>
+endsnippet
+
+snippet ead
+<% ${1}.each do |${2}| %>
+	${0}
+<% end %>
+endsnippet
+
+snippet rp
+<%= render partial: '${0:item}' %>
+endsnippet
+
+snippet rpl
+<%= render partial: '${1:item}', locals: {${2:name}: ${3:value}}${0} %>
+endsnippet
+
+snippet fw
+<%= form_with ${1:args} do |form| %>
+	${0}
+<% end %>
+endsnippet
+
+snippet ffi
+<%= ${1:form}.input :${0:attribute} %>
+endsnippet
+
+snippet lim
+<%= link_to ${1:model}.${2:name}, ${3:$1}_path(${0:$1}) %>
+endsnippet
+
+snippet lt
+<%= link_to '${1:name}', ${0:dest} %>
+endsnippet
+
+snippet if
+<% if ${1} %>
+	${0:${VISUAL}}
+<% end %>
+endsnippet
+
+snippet ife
+<% if ${1} %>
+	${2}
+<% else %>
+	${0}
+<% end %>
+endsnippet
+
+extends html
