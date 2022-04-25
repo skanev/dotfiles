@@ -5,7 +5,7 @@ let s:themes = [
   \ ['nvim',     '*',   {                                                  'scheme': 'vividchalk', 'airline': 'murmur' }],
   \
   \ ['fvim',     '*',   {'font': 'Fira Code:h16',               'line': 3                                              }],
-  \ ['neovide',  'mac', {'font': 'Iosevka Extended:h16',        'line': 0                                              }],
+  \ ['neovide',  'mac', {'font': 'FiraCode Nerd Font Mono:h15', 'line': 2                                              }],
   \ ['neovide',  '*',   {'font': 'FiraCode Nerd Font:h16',      'line': 0                                              }],
   \ ['nvim-qt',  'mac', {'font': 'FiraCode Nerd Font Mono:h15', 'line': 2                                              }],
   \ ['nvim-qt',  '*',   {'font': 'Fira Code:h16',               'line': 2                                              }],
