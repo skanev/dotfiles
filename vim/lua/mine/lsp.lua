@@ -1,4 +1,5 @@
 local lsp = require('lspconfig')
+local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local lsp_installer = require("nvim-lsp-installer")
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -104,7 +105,7 @@ local on_attach = function(client, bufnr)
 end
 
 local function make_capabilities(config)
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
   if not config then
     config = {}
@@ -113,6 +114,8 @@ local function make_capabilities(config)
   for _, value in ipairs(config) do
     if value == 'snippets' then
       capabilities.textDocument.completion.completionItem.snippetSupport = true
+    elseif value == 'no-snippets' then
+      capabilities.textDocument.completion.completionItem.snippetSupport = false
     else
       error("Unknown capability: " .. value, 2)
     end
@@ -160,7 +163,10 @@ lsp_installer.on_server_ready(function(server)
   elseif server.name == 'rust_analyzer' then
     server:setup {
       on_attach = on_attach,
-      capabilities = make_capabilities({'snippets', resolveSupport = false}),
+      -- TODO: Snippets in rust-analyzer are a bit annoying as they are on the
+      -- top. They seem useful. It's be cool if I either get used to them or
+      -- figure out how to put them low.
+      capabilities = make_capabilities({'no-snippets', resolveSupport = false}),
     }
   elseif server.name == 'terraformls' then
     server:setup {

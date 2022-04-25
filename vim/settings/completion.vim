@@ -1,3 +1,5 @@
+finish " for nvim-compe; trying to drop it, but I'm too chicken to delete from git
+
 " COMPLETION WITH NVIM, COMPE, ULTISNIPS AND VSNIPS
 "
 " This is the outcome of a lot of blood and sweat. It sets up completion in a

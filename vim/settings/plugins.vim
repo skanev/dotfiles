@@ -92,8 +92,6 @@ if g:env.nightly
   Plug 'neovim/nvim-lspconfig'
   Plug 'williamboman/nvim-lsp-installer'
 
-  Plug 'hrsh7th/nvim-compe'
-
   Plug 'onsails/lspkind-nvim'
   Plug 'ray-x/lsp_signature.nvim'
 
@@ -104,6 +102,15 @@ if g:env.nightly
 
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'fhill2/telescope-ultisnips.nvim'
+
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  "Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+
+  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 else
   Plug 'ervandew/supertab'
 endif
