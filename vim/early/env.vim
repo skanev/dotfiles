@@ -36,7 +36,6 @@ endfunction
 let g:env.tmux = $TMUX != "" && (g:env.app == 'vim' || g:env.app == 'nvim')
 let g:env.meta_key = g:env.os == 'mac' && s:oneof(g:env.app, ['mvim', 'vimr', 'neovide', 'nvim-qt', 'goneovim', 'fvim']) ? 'D' : 'M'
 let g:env.nvim = has('nvim')
-let g:env.nightly = has('nvim-0.5.0')
 
 augroup Env
   autocmd! VimEnter * call s:on_late_startup()

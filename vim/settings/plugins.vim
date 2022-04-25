@@ -82,10 +82,8 @@ Plug 'voldikss/vim-floaterm'
 " NVIM
 if g:env.nvim
   Plug 'nanotee/nvim-lua-guide'
-endif
 
-" Completion
-if g:env.nightly
+  " Completion
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
 
