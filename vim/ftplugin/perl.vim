@@ -2,6 +2,7 @@
 " TODO: The path below should not be hardcoded
 " (this needs to be here because vim-perl clobbers it on reopneing a file)
 exec "setlocal path+=" . g:dotfiles_dir . "/support/perl/lib"
+exec "setlocal path+=" . g:dotfiles_dir . "/support/perl/t/stalker/support"
 
 if exists('b:did_myftplugin') | finish | endif
 let b:did_myftplugin = 1
