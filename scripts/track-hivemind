@@ -1,123 +1,83 @@
-#!/usr/bin/env perl
+#!/usr/bin/env ruby
 # You can pipe hivemind to this process and it will update the tmux status bar
-# with a status bar fragment that indicates whether it compiles or not.
-#
-# TODO:
-# [ ] Croaks on invalid unicode symbols in while(<>) instead of shlurping them
+# with a status bar fragment that indicates whether it compiles or not. It used
+# to be a perl script, but now it depends on a bunch of Ruby stuff that hasn't
+# started to take shape at the time of this writing.
 #
 # In order to get it working, add the following task in VSCode.
 #
-#     "tasks": {
-#       "version": "2.0.0",
-#       "tasks": [
-#         {
-#           "label": "Track Hivemind",
-#           "type": "shell",
-#           "isBackground": true,
-#           "command": "tail -f -n 0 /tmp/hivemind.log",
-#           "problemMatcher": {
-#             "owner": "typescript",
-#             "pattern": {
-#               "regexp": "^ERROR in ([^\\s]+) (\\d+):(\\d+)-(?:(\\d+):)?(\\d+) (\\w+):(.*)$",
-#               "file": 1,
-#               "line": 2,
-#               "column": 3,
-#               "endLine": 4,
-#               "endColumn": 5,
-#               "code": 6,
-#               "message": 7
-#             },
-#             "background": {
-#               "activeOnStart": false,
-#               "beginsPattern": "^STARTED$",
-#               "endsPattern": "^(FAILURE|SUCCESS)$"
-#             }
-#           }
-#         }
-#       ]
-#     }
+#    {
+#      // See https://go.microsoft.com/fwlink/?LinkId=733558
+#      // for the documentation about the tasks.json format
+#      "version": "2.0.0",
+#      "tasks": [
+#        {
+#          "label": "Track Hivemind",
+#          "type": "shell",
+#          "isBackground": true,
+#          "command": "tail -f -n 0 /tmp/hivemind.log",
+#          "problemMatcher": {
+#            "owner": "hivemind",
+#            "fileLocation": "autoDetect",
+#            "pattern": {
+#              "regexp": "^ERROR in ([^ :]+) (\\d+):(\\d+)-(\\d+) (?:(TS\\d+): )?(.*)",
+#              "file": 1,
+#              "line": 2,
+#              "column": 3,
+#              "endColumn": 4,
+#              "code": 5,
+#              "message": 6
+#            },
+#            "background": {
+#              "activeOnStart": false,
+#              "beginsPattern": "^STARTED$",
+#              "endsPattern": "^(FAILURE|SUCCESS)$"
+#            }
+#          }
+#        }
+#      ]
+#    }
 
-use v5.30;
-use utf8::all;
-use strict;
-use experimental qw(switch signatures);
-use Term::ANSIColor qw(colorstrip);
+require 'pathname'
 
-use constant SUCCESS => '#[bg=colour236,fg=colour82]';
-use constant WAITING => '#[bg=colour236,fg=colour243]';
-use constant FAILURE => '#[bg=colour124,fg=colour255]';
+$LOAD_PATH.unshift Pathname.new(__FILE__).realpath.join('../../support/ruby/mire/lib')
+require 'mire'
 
-open LOG, '>', '/tmp/hivemind.log';
+include Mire
 
-my $root = `pwd`;
-chomp $root;
+log = File.open '/tmp/hivemind.log', 'w'
+log.sync = true
 
-sub tmux($command) {
-  system "tmux $command";
-}
+trap('SIGINT') do
+  log.close
+  log = nil
+end
 
-sub set_status($message) { tmux "set \@info \"$message\""; }
-sub clear_status()       { tmux 'set -u @info'; }
-sub refresh_client()     { tmux 'refresh-client -S'; }
+track_hivemind(STDIN) do |bus|
+  bus.listen(
+    start: -> { log&.puts 'STARTED' },
+    error: -> (message) { log&.puts "ERROR in #{message}" },
+    finish: -> (errors) { log&.puts(errors.zero? ? 'SUCCESS' : 'FAILURE') },
+  )
 
-set_status '⏳';
+  failed_previously = false
 
-$SIG{INT} = sub { clear_status };
-
-my $errors = 0;
-my $last_failed = 0;
-my $log_next_line = 1;
-
-while (<>) {
-  print;
-
-  $_ = colorstrip $_;
-
-  next unless /^webpack +\| (.*)$/;
-
-  $_ = $1;
-
-  if (/^(ERROR in) (.*)$/) {
-    my ( $prefix, $location ) = ( $1, $2 );
-    $location = "$root/$location" if $location !~ /^\//;
-    $errors++;
-    print LOG "$prefix $location ";
-    $log_next_line = 1;
-  } elsif ($log_next_line) {
-    $log_next_line = 0;
-
-    if (/^SyntaxError: [^:]+: (.*) \((\d+):(\d+)\)/) {
-      say LOG "$2:$3-$3 SyntaxError: $1";
-    } elsif (/^Module build failed/) {
-      say LOG "1:1-2 $_";
-    } else {
-      say LOG $_;
-    }
-  }
-
-  next unless /｢wdm｣: (.*)/;
-
-  given ($1) {
-    when('Failed to compile.') {
-      $last_failed = 1;
-      set_status "${\FAILURE} 💥 $errors";
-      say LOG 'FAILURE';
-    }
-    when('Compiling...') {
-      $errors = 0;
-      my $prefix = $last_failed ? FAILURE : WAITING;
-      set_status "$prefix …";
-      say LOG 'STARTED';
-    }
-    when('Compiled successfully.') {
-      $errors = 0;
-      $last_failed = 0;
-      set_status "${\SUCCESS} ✔︎";
-      say LOG 'SUCCESS';
-    }
-    default { next }
-  }
-  refresh_client;
-}
-
-clear_status;
+  bus.listen(
+    start: -> {
+      Tmux.status_working(failed_previously ? Tmux::FAILURE : Tmux::WAITING)
+      Tmux.refresh_client
+    },
+    line: -> (line) { print line },
+    finish: -> (errors) {
+      if errors.zero?
+        Tmux.status_success
+        failed_previously = false
+      else
+        Tmux.status_failure errors
+        failed_previously = true
+      end
+      Tmux.refresh_client
+    },
+    exit: -> { Tmux.status_clear }
+  )
+end
