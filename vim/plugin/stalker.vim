@@ -7,7 +7,7 @@ function! s:set_quickfix(value, title, context) abort
 endfunction
 
 function! s:load_quickfix() abort
-  let output = system('~/.scripts/stalker quickfix')
+  let output = system('~/.scripts/mire stalker quickfix')
   let id = matchstr(split(output, "\n")[0], '# stalker quickfix \zs\S\+')
   call s:set_quickfix(output, 'stalker quickfix', {'id': id})
 endfunction
@@ -35,7 +35,7 @@ function! s:load_failure() abort
 
   let title = data.items[index - 1].text
   let id = data.context.id
-  let output = system(printf('~/.scripts/stalker failure %s %s', id, index - 1))
+  let output = system(printf('~/.scripts/mire stalker failure %s %s', id, index - 1))
   call s:set_quickfix(output, 'stalker failure', {'id': 'stalker-failure'})
 endfunction
 

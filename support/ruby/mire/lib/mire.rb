@@ -1,4 +1,10 @@
+require 'json'
+
 require_relative 'mire/tmux'
+require_relative 'mire/beholders/beholder'
+require_relative 'mire/beholders/rspec'
+require_relative 'mire/depot'
+require_relative 'mire/stalker'
 
 module Mire
   extend self
@@ -24,6 +30,10 @@ module Mire
         end
       end
     end
+  end
+
+  def strip_ansi(text)
+    text.gsub(/\033\[\d{1,2}(;\d{1,2}){0,3}[mGK]/, '')
   end
 
   def track_hivemind(io)
@@ -57,7 +67,7 @@ module Mire
       line = io.readline
       bus.emit :line, line
 
-      line = line.chomp.gsub(/\033\[\d{1,2}(;\d{1,2}){0,3}[mGK]/, '')
+      line = strip_ansi(line).chomp
 
       if line.start_with? 'webpack |'
         line = line.sub(/^webpack \| /, '')
