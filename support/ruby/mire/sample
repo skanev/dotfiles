@@ -1,0 +1,56 @@
+
+Mire
+  #track_hivemind
+[31m    parses a standard run (FAILED - 1)[0m
+[32m    parses a success[0m
+[32m    parses a success without an indication that it started[0m
+[32m    parses two subsequent failures without an starting indication inbetween[0m
+
+Mire::Beholders::Rspec
+[31m  supports a complicated failure (FAILED - 2)[0m
+[32m  handles two consecutive runs[0m
+
+Failures:
+
+  1) Mire#track_hivemind parses a standard run
+     [31mFailure/Error: expected.should eq result[0m
+     [31m[0m
+     [31m  expected: ["STARTED", "ERROR in ./a.ts 10:11-19 TS02: First", "ERROR in ./b.ts 20:21-29 TS02: Second", "FAILURE"][0m
+     [31m       got: ["STARTED", "ERROR in ./a.ts 10:11-19 TS01: First", "ERROR in ./b.ts 20:21-29 TS02: Second", "FAILURE"][0m
+     [31m[0m
+     [31m  (compared using ==)[0m
+     [36m# ./spec/integration/hivemind_tracker_spec.rb:41:in `block (3 levels) in <top (required)>'[0m
+
+  2) Mire::Beholders::Rspec supports a complicated failure
+     [31mFailure/Error:[0m
+     [31m  stalker_events.should match [[0m
+     [31m    {[0m
+     [31m      quickfix: <<~END,[0m
+     [31m        ./spec/something_spec.rb:1 Main spec first failure[0m
+     [31m        ./spec/something_spec.rb:2 Main spec second failure[0m
+     [31m      END[0m
+     [31m      failures: [[0m
+     [31m        "first/one.rb:1 in `first'\nfirst/two.rb:2 in `block in first'\n",[0m
+     [31m        "second/one.rb:1 in `second'\n",[0m
+     [31m      ],[0m
+     [31m[0m
+     [31m  expected [{:failures=>["first/one.rb:1 in `first''\nfirst/two.rb:2 in `block in first'\n", "second/one.rb:1 in...Main spec second failure\n", :rerun=>"rspec ./spec/something_spec.rb:1 ./spec/something_spec.rb:2"}] to match [{:quickfix=>"./spec/something_spec.rb:1 Main spec first failure\n./spec/something_spec.rb:2 Main spec second failure\n", :failures=>["first/one.rb:1 in `first'\nfirst/two.rb:2 in `block in first'\n", "second/one.rb:1 in `second'\n"], :rerun=>"rspec ./spec/something_spec.rb:1 ./spec/something_spec.rb:2"}][0m
+     [31m  Diff:[0m[0m
+     [31m  [0m[34m@@ -1,5 +1,5 @@[0m
+     [31m  [0m[0m [{:failures=>[0m
+     [31m  [0m[31m-   ["first/one.rb:1 in `first'\nfirst/two.rb:2 in `block in first'\n",[0m
+     [31m  [0m[32m+   ["first/one.rb:1 in `first''\nfirst/two.rb:2 in `block in first'\n",[0m
+     [31m  [0m[0m     "second/one.rb:1 in `second'\n"],[0m
+     [31m  [0m[0m   :quickfix=>[0m
+     [31m  [0m[0m    "./spec/something_spec.rb:1 Main spec first failure\n./spec/something_spec.rb:2 Main spec second failure\n",[0m
+     [31m  [0m[0m
+     [36m# ./spec/mire/beholders/rspec_spec.rb:92:in `block (2 levels) in <module:Beholders>'[0m
+
+Finished in 0.0147 seconds (files took 0.07961 seconds to load)
+[31m6 examples, 2 failures[0m
+
+Failed examples:
+
+[31mrspec ./spec/integration/hivemind_tracker_spec.rb:20[0m [36m# Mire#track_hivemind parses a standard run[0m
+[31mrspec ./spec/mire/beholders/rspec_spec.rb:21[0m [36m# Mire::Beholders::Rspec supports a complicated failure[0m
+

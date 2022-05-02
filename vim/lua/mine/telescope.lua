@@ -12,7 +12,7 @@ require('telescope').load_extension('ultisnips')
 local function telescope_buffers(opts)
   local bufnrs = filter(function(b)
     if 1 ~= vim.fn.buflisted(b) then
-        return false
+      return false
     end
     -- only hide unloaded buffers if opts.show_all_buffers is false, keep them listed if true or nil
     if opts.show_all_buffers == false and not vim.api.nvim_buf_is_loaded(b) then
@@ -75,6 +75,8 @@ local function telescope_buffers(opts)
     end,
   }):find()
 end
+
+package.loaded['mine.telescope'] = nil
 
 local function show_buffers_chooser()
   telescope_buffers(

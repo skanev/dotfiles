@@ -1,0 +1,2 @@
+#!/usr/bin/env zsh
+$DOTFILES/support/ruby/mire/bin/mire $*
