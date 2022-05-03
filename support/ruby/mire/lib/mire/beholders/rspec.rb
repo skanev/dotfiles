@@ -10,6 +10,7 @@ module Mire
               quickfix: '',
               failures: [],
               rerun: '',
+              beholder: :rspec,
             }
           end
 
@@ -35,7 +36,16 @@ module Mire
 
               event[:failures] << locations.join
             },
-            finished: -> { notify :event, event },
+            finished: -> {
+              if event[:failures].empty?
+                event[:title] = 'RSpec ran successfully'
+                event[:status] = :success
+              else
+                event[:title] = "RSpec had #{event[:failures].count} failed spec(s)"
+                event[:status] = :failure
+              end
+              notify :event, event
+            },
           )
         end
       end

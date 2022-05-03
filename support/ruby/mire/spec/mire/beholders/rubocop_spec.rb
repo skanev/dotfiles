@@ -63,6 +63,8 @@ module Mire
 
         stalker_events.should match [
           a_hash_including(
+            title: 'Rubocop found 2 offense(s)',
+            status: :failure,
             quickfix: <<~END,
               dir/first.rb:1:2 Lint/UselessAssignment: Useless assignment to variable - foo.
               dir/second.rb:2:3 Layout/ExtraSpacing: Unnecessary spacing detected.
@@ -118,7 +120,13 @@ module Mire
 
         events.should eq expected
 
-        stalker_events.should eq [{quickfix: '', rerun: ''}]
+        stalker_events.should eq [{
+          title: 'Rubocop ran successfully',
+          beholder: :rubocop,
+          status: :success,
+          quickfix: '',
+          rerun: '',
+        }]
       end
     end
   end

@@ -15,7 +15,9 @@ module Mire
 
     def store_stalker_event(event)
       event = event.dup
-      event[:id] = Time.now.to_f.to_s
+      now = Time.now
+      event[:id] = now.to_f.to_s
+      event[:timestamp] = now.to_s
 
       @redis.lpush 'stalker:events', event.to_json
       @redis.ltrim 'stalker:events', 0, 30

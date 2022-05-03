@@ -13,7 +13,6 @@ module Mire
       beholders.each do |beholder|
         beholder.on_conclusion do |*args|
           args => [:event, event]
-          p event
           depot.store_stalker_event event
         end
       end

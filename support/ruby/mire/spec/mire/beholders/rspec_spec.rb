@@ -92,6 +92,9 @@ module Mire
         events.should eq expected
         stalker_events.should match [
           {
+            title: 'RSpec had 2 failed spec(s)',
+            status: :failure,
+            beholder: :rspec,
             quickfix: <<~END,
               spec/something_spec.rb:1 Main spec first failure
               spec/something_spec.rb:2 Main spec second failure
@@ -161,6 +164,8 @@ module Mire
             rerun: 'rspec ./spec/something_spec.rb:1',
           ),
           a_hash_including(
+            title: 'RSpec ran successfully',
+            status: :success,
             quickfix: '',
             rerun: '',
           ),

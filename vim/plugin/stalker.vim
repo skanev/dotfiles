@@ -6,8 +6,14 @@ function! s:set_quickfix(value, title, context) abort
   let &errorformat = oldfmt
 endfunction
 
-function! s:load_quickfix() abort
-  let output = system('~/.scripts/mire stalker quickfix')
+function! s:load_quickfix(id) abort
+  if a:id == ''
+    let command = '~/.scripts/mire stalker quickfix'
+  else
+    let command = printf('~/.scripts/mire stalker quickfix --id %s', a:id)
+  endif
+
+  let output = system(command)
   let id = matchstr(split(output, "\n")[0], '# stalker quickfix \zs\S\+')
   call s:set_quickfix(output, 'stalker quickfix', {'id': id})
 endfunction
@@ -44,9 +50,10 @@ function! s:load_stacktrace()
   call s:set_quickfix(output, 'stalker stacktrace', {})
 endfunction
 
-command! -nargs=0 StalkerQuickfix call s:load_quickfix()
+command! -nargs=? StalkerQuickfix call s:load_quickfix(<q-args>)
 command! -nargs=0 StalkerFailure call s:load_failure()
 command! -nargs=0 StalkerStacktrace call s:load_stacktrace()
+command! -nargs=0 StalkerEvents lua require('mine.telescope').stalker_events()
 
 map <Leader>q <Cmd>StalkerQuickfix<CR>
 map <Leader>Q <Cmd>StalkerFailure<CR>

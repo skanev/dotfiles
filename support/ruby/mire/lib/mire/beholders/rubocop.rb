@@ -9,6 +9,7 @@ module Mire
             {
               quickfix: '',
               rerun: '',
+              beholder: :rubocop,
             }
           end
 
@@ -23,6 +24,15 @@ module Mire
               event[:rerun] << "#{file} "
             },
             finished: -> {
+              failures = event[:quickfix].count("\n")
+              if failures.zero?
+                event[:title] = 'Rubocop ran successfully'
+                event[:status] = :success
+              else
+                event[:title] = "Rubocop found #{failures} offense(s)"
+                event[:status] = :failure
+              end
+
               event[:rerun] = "rubocop #{event[:rerun].strip.split.uniq.join(' ')}" if event[:rerun] != ''
               notify :event, event
             },

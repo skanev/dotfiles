@@ -39,8 +39,17 @@ module Mire
 
       c.desc 'Show the latest quickfix so it is consumable by Vim'
       c.command :quickfix do |sc|
-        sc.action do
-          if (event = Mire::Depot.instance.stalker_events.detect { _1['quickfix'] })
+        sc.desc 'The id of the quickfix event to show'
+        sc.flag :id
+        sc.action do |_, options|
+          event =
+            if options[:id]
+              Mire::Depot.instance.stalker_events.detect { _1['id'] == options[:id] }
+            else
+              Mire::Depot.instance.stalker_events.detect { _1['quickfix'] }
+            end
+
+          if event
             puts "# stalker quickfix #{event['id']}"
             print event['quickfix']
           end
@@ -54,6 +63,26 @@ module Mire
           if (event = Mire::Depot.instance.stalker_events.detect { _1['quickfix'] && _1['id'] == id })
             puts event['failures'][index.to_i]
           end
+        end
+      end
+
+      c.desc 'Shows the summary of all the events'
+      c.command :events do |sc|
+        sc.action do
+          require 'time'
+          relevant = Mire::Depot.instance.stalker_events.map do |event|
+            time = event['timestamp']&.then { Time.parse(_1) }
+            is_today = time && Time.now.strftime('%Y-%m-%d') == time.strftime('%Y-%m-%d')
+            short_time = is_today ? time&.strftime('Today %H:%M') : time&.strftime('%Y-%m-%d %H:%m')
+            {
+              title: event['title'],
+              id: event['id'],
+              short_time:,
+              beholder: event['beholder'],
+              status: event['status'],
+            }
+          end
+          puts relevant.to_json
         end
       end
     end
