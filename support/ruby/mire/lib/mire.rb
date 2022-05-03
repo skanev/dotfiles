@@ -3,6 +3,7 @@ require 'json'
 require_relative 'mire/tmux'
 require_relative 'mire/beholders/beholder'
 require_relative 'mire/beholders/rspec'
+require_relative 'mire/beholders/rubocop'
 require_relative 'mire/depot'
 require_relative 'mire/stalker'
 
@@ -56,7 +57,7 @@ module Mire
       errors += 1
     end
 
-    finish = lambda do |success|
+    finish = lambda do |_|
       bus.emit :finish, errors
 
       compiling = false
@@ -69,11 +70,9 @@ module Mire
 
       line = strip_ansi(line).chomp
 
-      if line.start_with? 'webpack |'
-        line = line.sub(/^webpack \| /, '')
-      else
-        next
-      end
+      next unless line.start_with? 'webpack |'
+
+      line = line.sub(/^webpack \| /, '')
 
       if line =~ /^(?:ERROR in) (.*)$/
         start.() unless compiling

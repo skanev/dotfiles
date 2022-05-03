@@ -6,4 +6,3 @@ require 'mire'
 require 'mire/cli'
 
 Mire::CLI.start
-

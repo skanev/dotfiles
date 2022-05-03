@@ -100,8 +100,8 @@ module Mire
               "first/one.rb:1 in `first'\nfirst/two.rb:2 in `block in first'\n",
               "second/one.rb:1 in `second'\n",
             ],
-            rerun: 'rspec ./spec/something_spec.rb:1 ./spec/something_spec.rb:2'
-          }
+            rerun: 'rspec ./spec/something_spec.rb:1 ./spec/something_spec.rb:2',
+          },
         ]
       end
 

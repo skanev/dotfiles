@@ -25,9 +25,7 @@ module Mire
       end
 
       def feed_io(io)
-        until io.eof?
-          feed_line io.readline
-        end
+        feed_line io.readline until io.eof?
       end
 
       private
@@ -42,6 +40,7 @@ module Mire
 
       def read_next
         return if @next
+
         @next = Fiber.yield
       end
 

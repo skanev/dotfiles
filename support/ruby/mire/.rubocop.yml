@@ -1,0 +1,38 @@
+require:
+  - rubocop-rspec
+AllCops:
+  NewCops: enable
+
+Layout/EmptyLineAfterGuardClause: {Enabled: false}
+Layout/IndentationWidth: {AllowedPatterns: ['^\s*in ']} # This is a bit buggy, gets triggered by an empty else in a case/in, but it is what it is
+Layout/LineLength: {AllowedPatterns: ['^\s*in /']}
+Layout/SpaceInLambdaLiteral: {EnforcedStyle: require_space}
+Layout/SpaceInsideHashLiteralBraces: {EnforcedStyle: no_space}
+Metrics/AbcSize: {Enabled: false}
+Metrics/BlockLength: {Enabled: false}
+Metrics/CyclomaticComplexity: {Enabled: false}
+Metrics/MethodLength: {Enabled: false}
+Metrics/ModuleLength: {Enabled: false}
+Metrics/PerceivedComplexity: {Enabled: false}
+Naming/AccessorMethodName: {Enabled: false}
+Naming/HeredocDelimiterNaming: {Enabled: false}
+Style/Documentation: {Enabled: false}
+Style/EmptyMethod: {EnforcedStyle: expanded}
+Style/FrozenStringLiteralComment: {Enabled: false}
+Style/Lambda: {Enabled: false}
+Style/LambdaCall: {EnforcedStyle: braces}
+Style/ModuleFunction: {Enabled: false}
+Style/MutableConstant: {Enabled: false}
+Style/NumericPredicate: {Enabled: false}
+Style/ParallelAssignment: {Enabled: false}
+Style/PercentLiteralDelimiters: {Enabled: false}
+Style/PerlBackrefs: {Enabled: false}
+Style/RegexpLiteral: {Enabled: false}
+Style/SpecialGlobalVars: {Enabled: false}
+Style/TrailingCommaInArguments: {EnforcedStyleForMultiline: comma}
+Style/TrailingCommaInArrayLiteral: {EnforcedStyleForMultiline: comma}
+Style/TrailingCommaInHashLiteral: {EnforcedStyleForMultiline: comma}
+Style/WordArray: {Enabled: false}
+
+RSpec/FilePath: {Exclude: ['spec/integration/*_spec.rb']}
+RSpec/ExampleLength: {Enabled: false}

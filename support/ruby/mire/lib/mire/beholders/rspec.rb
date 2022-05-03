@@ -5,11 +5,13 @@ module Mire
         @callbacks = []
 
         begin
-          make_event = -> {{
-            quickfix: "",
-            failures: [],
-            rerun: "",
-          }}
+          make_event = lambda do
+            {
+              quickfix: '',
+              failures: [],
+              rerun: '',
+            }
+          end
 
           event = nil
 
@@ -70,9 +72,7 @@ module Mire
             number = $1.to_i
             message = [line.sub(/^  /, '')]
 
-            while peek =~ /^(    |$)/
-              message << consume.sub(/^  /, '')
-            end
+            message << consume.sub(/^  /, '') while peek =~ /^(    |$)/
 
             message = message.join
 

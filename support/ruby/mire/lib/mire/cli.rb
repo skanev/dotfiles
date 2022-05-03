@@ -13,13 +13,12 @@ module Mire
     desc 'Listen to stdin with stalker'
     command :stalk do |c|
       c.action do
-        Mire::Stalker.stalk STDIN
+        Mire::Stalker.stalk $stdin
       end
     end
 
     desc 'Utilities for interacting with stalker'
     command :stalker do |c|
-
       c.desc 'Dump all the stalker events'
       c.command :dump do |sc|
         sc.action do
@@ -31,7 +30,7 @@ module Mire
       c.desc 'Show the latest quickfix so it is consumable by Vim'
       c.command :quickfix do |sc|
         sc.action do
-          if event = Mire::Depot.instance.stalker_events.detect { _1['quickfix'] }
+          if (event = Mire::Depot.instance.stalker_events.detect { _1['quickfix'] })
             puts "# stalker quickfix #{event['id']}"
             print event['quickfix']
           end
@@ -41,7 +40,7 @@ module Mire
       c.desc 'Show the latest quickfix so it is consumable by Vim'
       c.command :quickfix do |sc|
         sc.action do
-          if event = Mire::Depot.instance.stalker_events.detect { _1['quickfix'] }
+          if (event = Mire::Depot.instance.stalker_events.detect { _1['quickfix'] })
             puts "# stalker quickfix #{event['id']}"
             print event['quickfix']
           end
@@ -52,7 +51,7 @@ module Mire
       c.command :failure do |sc|
         sc.action do |_, _, args|
           id, index = *args
-          if event = Mire::Depot.instance.stalker_events.detect { _1['quickfix'] && _1['id'] == id }
+          if (event = Mire::Depot.instance.stalker_events.detect { _1['quickfix'] && _1['id'] == id })
             puts event['failures'][index.to_i]
           end
         end

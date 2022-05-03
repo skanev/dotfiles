@@ -1,7 +1,10 @@
 source 'https://rubygems.org'
 
-gem 'rspec'
+gem 'awesome_print'
+gem 'gli'
 gem 'redis'
 gem 'redis-namespace'
-gem 'gli'
-gem 'awesome_print'
+gem 'rspec'
+
+gem 'rubocop', require: false
+gem 'rubocop-rspec', require: false
