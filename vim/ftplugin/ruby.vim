@@ -37,18 +37,7 @@ function! s:ExtractVariable()
 endfunction
 
 function! s:rubocop_disable_line()
-  let line = line('.')
-  let offences = []
-
-  for item in getloclist('.')
-    if item.lnum != line | continue | endif
-
-    let name = matchstr(item.text, '^[^:]\+\ze:')
-
-    if name != 'warning'
-      call add(offences, name)
-    endif
-  endfor
+  let offenses = s#rubocop#current_line_offenses()
 
   if offences == []
     echohl ErrorMsg
@@ -59,4 +48,41 @@ function! s:rubocop_disable_line()
   endif
 endfunction
 
+function! s:rubocop_disable_in_project()
+  let offenses = s#rubocop#current_line_offenses()
+
+  if offenses == []
+    echohl ErrorMsg | echomsg "No offences on this line" | echohl None
+  elseif !filereadable('.rubocop.yml')
+    echohl ErrorMsg | echomsg "No .rubocop.yml in current directory" | echohl None
+  else
+    let bufid = bufnr('.rubocop.yml')
+    if bufid != -1 && tabpagebuflist()->index(bufid) != -1
+      execute bufid->bufwinnr() "wincmd w"
+    else
+      botright split .rubocop.yml
+    end
+
+    for offense in offenses
+      call append('$', offense . ": {Enabled: false}")
+      normal G
+    endfor
+  endif
+endfunction
+
+function! s:rubocop_show_info()
+  let offenses = s#rubocop#current_line_offenses()
+
+  if offenses == []
+    echohl ErrorMsg | echomsg "No offences on this line" | echohl None
+  else
+    for offense in offenses
+      let url = s#rubocop#help_url(offense)
+      call system("open " . url)
+    endfor
+  endif
+endfunction
+
 command -buffer -nargs=0 RubocopDisableLine call <SID>rubocop_disable_line()
+command -buffer -nargs=0 RubocopDisableInProject call <SID>rubocop_disable_in_project()
+command -buffer -nargs=0 RubocopShowInfo call <SID>rubocop_show_info()
