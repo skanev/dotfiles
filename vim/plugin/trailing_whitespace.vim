@@ -12,7 +12,9 @@ autocmd! InsertLeave,BufEnter,FileType * call s:highlight()
 autocmd! InsertEnter                   * call s:unhighlight()
 autocmd! ColorScheme                   * highlight TrailingWhitespace guibg=red ctermbg=red
 
+":: Trailing Whitespace: Strip
 command! StripTrailingWhitespace  call s:strip()
+":: Trailing Whitespace: Toggle showing
 command! TrailingWhitespaceToggle call s:toggle()
 
 function! s:highlight()

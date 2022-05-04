@@ -50,10 +50,13 @@ function! s:load_stacktrace()
   call s:set_quickfix(output, 'stalker stacktrace', {})
 endfunction
 
+":: Stalker: Show events
+command! -nargs=0 StalkerEvents lua require('mine.telescope').stalker_events()
+":: Stalker: Load last quickfix
 command! -nargs=? StalkerQuickfix call s:load_quickfix(<q-args>)
+":: Stalker: Load current failure
 command! -nargs=0 StalkerFailure call s:load_failure()
 command! -nargs=0 StalkerStacktrace call s:load_stacktrace()
-command! -nargs=0 StalkerEvents lua require('mine.telescope').stalker_events()
 
 map <Leader>q <Cmd>StalkerQuickfix<CR>
 map <Leader>Q <Cmd>StalkerFailure<CR>

@@ -1,9 +1,11 @@
 require 'json'
 
 require_relative 'mire/tmux'
+require_relative 'mire/dotfiles'
 require_relative 'mire/beholders/beholder'
 require_relative 'mire/beholders/rspec'
 require_relative 'mire/beholders/rubocop'
+require_relative 'mire/vim/palette'
 require_relative 'mire/depot'
 require_relative 'mire/stalker'
 

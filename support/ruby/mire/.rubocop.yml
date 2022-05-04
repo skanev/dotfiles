@@ -36,3 +36,4 @@ Style/WordArray: {Enabled: false}
 
 RSpec/FilePath: {Exclude: ['spec/integration/*_spec.rb']}
 RSpec/ExampleLength: {Enabled: false}
+RSpec/DescribedClass: {Enabled: false}

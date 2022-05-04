@@ -83,6 +83,9 @@ function! s:rubocop_show_info()
   endif
 endfunction
 
+":: Rubocop: Disable line
 command -buffer -nargs=0 RubocopDisableLine call <SID>rubocop_disable_line()
+":: Rubocop: Disable in project
 command -buffer -nargs=0 RubocopDisableInProject call <SID>rubocop_disable_in_project()
+":: Rubocop: Show offense info
 command -buffer -nargs=0 RubocopShowInfo call <SID>rubocop_show_info()

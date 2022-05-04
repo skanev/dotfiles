@@ -86,5 +86,15 @@ module Mire
         end
       end
     end
+
+    desc 'Helpers for vim'
+    command :vim do |c|
+      c.desc 'Show all documented palette entities'
+      c.command 'palette:documented' do |sc|
+        sc.action do
+          puts Vim::Palette.all_in_dotfiles.to_json
+        end
+      end
+    end
   end
 end
