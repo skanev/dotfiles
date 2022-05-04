@@ -30,6 +30,8 @@ set keymap=bulgarian-skanev    " my input method for Bulgarian
 set iminsert=0                 " don't switch to BDS automatically
 set imsearch=-1                " search in the same language as iserting
 
+set nohidden                   " do not allow navigating away from unsaved buffers
+
 if has('persistent_undo')
   set undofile                 " have persistent undo
   if has('nvim')
