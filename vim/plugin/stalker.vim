@@ -51,7 +51,7 @@ function! s:load_stacktrace()
 endfunction
 
 ":: Stalker: Show events
-command! -nargs=0 StalkerEvents lua require('mine.telescope').stalker_events()
+command! -nargs=0 StalkerEvents <Cmd>Telescope stalker<CR>
 ":: Stalker: Load last quickfix
 command! -nargs=? StalkerQuickfix call s:load_quickfix(<q-args>)
 ":: Stalker: Load current failure

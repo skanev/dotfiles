@@ -1,6 +1,7 @@
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 local actions = require('telescope.actions')
+local themes = require('telescope.themes')
 local action_state = require('telescope.actions.state')
 local entry_display = require('telescope.pickers.entry_display')
 local u = require('mine.util')
@@ -95,8 +96,9 @@ local function open_palette()
     }
   }
 
-  pickers.new(require('mine.telescope').themes.simple_dropdown_theme(), {
+  pickers.new({}, themes.get_dropdown {
     prompt_title = 'Palette',
+    layout_config = { width = 0.75 },
     finder = finders.new_table {
       results = commands,
       entry_maker = function(command)

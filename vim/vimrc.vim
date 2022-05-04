@@ -41,6 +41,7 @@ if g:env.nvim
   lua require('mine.lsp')
   lua require('mine.treesitter')
   lua require('mine.telescope')
+  lua require('mine.palette')
   runtime settings/completion.vim
 end
 
