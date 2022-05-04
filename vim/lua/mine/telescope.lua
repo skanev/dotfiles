@@ -9,10 +9,18 @@ local conf = require('telescope.config').values
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 local entry_display = require('telescope.pickers.entry_display')
+local telescope = require('telescope')
 
-require('telescope').load_extension('ultisnips')
+telescope.load_extension('ultisnips')
 
-require('telescope').setup {
+telescope.setup {
+  defaults = {
+    mappings = {
+      i = {
+        ['<C-->'] = actions.which_key
+      }
+    }
+  },
   pickers = {
     buffers = {
       prompt_title = 'Buffers',
