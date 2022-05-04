@@ -22,6 +22,9 @@ telescope.setup {
     }
   },
   pickers = {
+    keymaps = {
+      show_plug = false
+    },
     buffers = {
       prompt_title = 'Buffers',
       mappings = {
