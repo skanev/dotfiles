@@ -11,6 +11,42 @@ local telescope = require('telescope')
 
 telescope.load_extension('ultisnips')
 
+--{{{Custom actions
+local my_actions = {
+  jump_to_command = function(prompt_bufnr)
+    local function find_command_location(name)
+      local output = vim.fn['s#capture_vim_command']('verbose command ' .. name)
+      local lines = vim.split(output, "\n", true)
+
+      for i = 1, #lines do
+        if lines[i]:sub(4, 4) == ' ' and lines[i]:sub(5, #lines[i]):match('^(%S+)') == name and i < #lines then
+          local next_line = lines[i + 1]
+          local path, line = next_line:match("^\tLast set from (.*) line (%d+)")
+
+          if path ~= nil then
+            return path, line
+          end
+        end
+      end
+
+      return nil
+    end
+
+    local selection = action_state.get_selected_entry()
+    local name = selection.value.name
+
+    local path, line = find_command_location(name)
+    if path ~= nil then
+      actions.close(prompt_bufnr)
+      vim.cmd("e " .. path)
+      vim.cmd(line)
+    else
+      print("Could not find where " .. name .. " is defined")
+    end
+  end
+}
+--}}}
+
 telescope.setup {
   defaults = {
     mappings = {
@@ -24,6 +60,16 @@ telescope.setup {
       show_plug = false
     },
     ultisnips = themes.get_dropdown {
+    },
+    commands = {
+      mappings = {
+        i = {
+          [ '<C-o>' ] = my_actions.jump_to_command
+        },
+        n = {
+          [ '<C-o>' ] = my_actions.jump_to_command
+        }
+      }
     },
     buffers = themes.get_dropdown {
       --borderchars = {
@@ -153,7 +199,10 @@ register_extension {
         entry_maker = make_entry.gen_from_commands({}),
       },
       sorter = conf.generic_sorter(opts),
-      attach_mappings = function(prompt_bufnr)
+      attach_mappings = function(prompt_bufnr, map)
+        map('i', '<C-o>', my_actions.jump_to_command)
+        map('n', '<C-o>', my_actions.jump_to_command)
+
         actions.select_default:replace(function()
           local selection = action_state.get_selected_entry()
           if selection == nil then
