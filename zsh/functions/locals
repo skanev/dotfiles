@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+
+for name in ~/.localrc ~/.localprofile ~/.localenv ~/.vim/tweaks.local.vim ~/.vim/localvimrc.vim; do
+  if [[ -f $name ]]; then
+    echo "\e[1m========================================="
+    echo "file: $name"
+    echo "=========================================\e[0m"
+    bat --decorations never $name
+    echo
+  fi
+done
+
