@@ -28,7 +28,7 @@ cmp.setup({
     ['<Tab>'] = cmp.mapping.confirm({ select = true }),
   }),
   formatting = {
-    format = require('lspkind').cmp_format(),
+    format = (vim.g.tweaks.devicons == 1 and require('lspkind').cmp_format() or nil),
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
