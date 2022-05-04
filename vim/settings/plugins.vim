@@ -56,6 +56,7 @@ Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'AndrewRadev/linediff.vim'
 Plug 'mattn/emmet-vim'
+Plug 'tpope/vim-projectionist'
 
 " Colorschemes
 Plug 'sainnhe/sonokai'
