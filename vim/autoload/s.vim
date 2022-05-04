@@ -127,6 +127,37 @@ function! s#popup(command, opts)
   end
 endfunction
 
+function! s#capture_vim_command(command)
+  let saved_p = @p
+
+  try
+    redir @p
+    execute "silent" a:command
+    redir END
+
+    let result = @p
+    return result
+  finally
+    let @p = saved_p
+  endtry
+endfunction
+
+function! s#my_scripts()
+  let result = {}
+
+  for line in split(s#capture_vim_command('scriptnames'), "\n")
+    let groups = matchlist(line, '^\s*\(\d\+\):\s*\(\S\+\)')
+    if groups == [] | continue | endif
+
+    let file = expand(groups[2], ':p')
+    if !s#starts_with(file, g:dotfiles_dir) || s#starts_with(file, g:dotfiles_dir . "/vim/bundles/") | continue | endif
+
+    let result[groups[1]] = groups[2]
+  endfor
+
+  return result
+endfunction
+
 function! s:close_border_window(border_window_id, job_id, code, event)
   if a:code == 0
     close
