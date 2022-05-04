@@ -42,6 +42,6 @@ endfunction
 
 function! s:strip()
   let pattern = @/
-  %s/\s\+$//
+  %s/\s\+$//e
   let @/ = pattern
 endfunction
