@@ -75,6 +75,7 @@ module Mire
 
         loop do
           line = consume
+
           case line
           in /^  (\d+)\) (.*)$/
             start.() unless running
@@ -91,22 +92,19 @@ module Mire
             start.() unless running
 
             if peek =~ /^(\d+) examples?, (\d+) failures?/
+              failures = $2.to_i
               consume
-              emit :run_completed, $2.to_i, $1.to_i
+              emit :run_completed, failures, $1.to_i
 
-              finish.() if $2 == '0'
+              if failures.nonzero?
+                consume until peek =~ /^rspec /
+                failures.times do |i|
+                  emit :rerun_failed, consume.chomp, i
+                end
+              end
+
+              finish.()
             end
-          in /^Failed examples:/ if running
-            consume while peek =~ /^\s*$/
-
-            i = 0
-
-            while peek =~ /^rspec/
-              emit :rerun_failed, consume.chomp, i
-              i += 1
-            end
-
-            finish.()
           else
           end
         end

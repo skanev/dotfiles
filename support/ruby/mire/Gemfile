@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'awesome_print'
 gem 'gli'
+gem 'listen', require: false
 gem 'redis'
 gem 'redis-namespace'
 gem 'rspec'

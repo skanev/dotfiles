@@ -57,8 +57,6 @@ module Mire
 
           rspec ./spec/something_spec.rb:1 # Main spec first failure
           rspec ./spec/something_spec.rb:2 # Main spec second failure
-
-          →
         END
 
         expected = [

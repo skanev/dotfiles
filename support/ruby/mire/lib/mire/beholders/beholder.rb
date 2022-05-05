@@ -1,6 +1,12 @@
 module Mire
   module Beholders
     class Beholder
+      class << self
+        def build
+          new EventBus.new
+        end
+      end
+
       def initialize(bus)
         @bus = bus
 
@@ -11,13 +17,9 @@ module Mire
       end
 
       def consume
-        if @next
-          result = @next
-          @next = nil
-          result
-        else
-          Fiber.yield
-        end
+        read_next
+        result, @next = @next, nil
+        result
       end
 
       def feed_line(line)
@@ -26,6 +28,30 @@ module Mire
 
       def feed_io(io)
         feed_line io.readline until io.eof?
+      end
+
+      def feed_pipe(pipe, chunk_size = 1024)
+        buffer = ''
+
+        until pipe.eof?
+          part = pipe.readpartial(chunk_size)
+          yield part
+          buffer << part
+
+          next unless part.include? "\n"
+
+          *lines, buffer = buffer.split("\n")
+
+          lines.each do |line|
+            line << "\n"
+            feed_line line
+          end
+        end
+
+        return if buffer == ''
+
+        buffer += "\n"
+        feed_line buffer
       end
 
       private

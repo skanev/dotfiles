@@ -17,6 +17,14 @@ module Mire
       end
     end
 
+    desc 'Runs FIRE continuously'
+    command :fire do |c|
+      c.action do
+        require 'mire/fire'
+        Mire::Fire.run
+      end
+    end
+
     desc 'Utilities for interacting with stalker'
     command :stalker do |c|
       c.desc 'Dump all the stalker events'
