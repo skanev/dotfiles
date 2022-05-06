@@ -103,6 +103,14 @@ function! s:maximize_if_only_help_window(bufnr)
   only
 endfunction
 
+function! s:use_treesitter_folding()
+  set foldmethod=expr
+  set foldexpr=nvim_treesitter#foldexpr()
+endfunction
+
+":: Fold: Use treesitter folding in this buffer
+command! UseTSFolding call <SID>use_treesitter_folding()
+
 command! Playground :call CreatePlayground()
 
 function! CreatePlayground()

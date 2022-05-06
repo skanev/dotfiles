@@ -12,6 +12,16 @@ function M.filter(array, predicate)
   return result
 end
 
+function M.map(array, fn)
+  local result = {}
+
+  for _, item in ipairs(array) do
+    table.insert(result, fn(item))
+  end
+
+  return result
+end
+
 function M.shallow_copy(hash)
   local result = {}
 
