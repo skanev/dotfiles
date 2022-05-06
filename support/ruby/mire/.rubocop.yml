@@ -33,7 +33,15 @@ Style/TrailingCommaInArguments: {EnforcedStyleForMultiline: comma}
 Style/TrailingCommaInArrayLiteral: {EnforcedStyleForMultiline: comma}
 Style/TrailingCommaInHashLiteral: {EnforcedStyleForMultiline: comma}
 Style/WordArray: {Enabled: false}
+Layout/LeadingCommentSpace: {Enabled: false}
+Layout/SpaceBeforeSemicolon: {Enabled: false}
+Lint/MixedRegexpCaptureTypes: {Enabled: false}
+Lint/SuppressedException: {Enabled: false}
+Metrics/ClassLength: {Enabled: false}
+Style/RescueStandardError: {Enabled: false}
+Style/Semicolon: {Enabled: false}
+Style/VariableInterpolation: {Enabled: false}
 
-RSpec/FilePath: {Exclude: ['spec/integration/*_spec.rb']}
-RSpec/ExampleLength: {Enabled: false}
 RSpec/DescribedClass: {Enabled: false}
+RSpec/ExampleLength: {Enabled: false}
+RSpec/FilePath: {Exclude: ['spec/integration/*_spec.rb']}

@@ -28,5 +28,17 @@ module Mire
     def stalker_events
       @redis.lrange('stalker:events', 0, EVENTS_KEPT).map { JSON.parse _1 }
     end
+
+    def publish(message)
+      @redis.publish 'mire', message
+    end
+
+    def subscribe(&block)
+      @redis.subscribe 'mire' do |on|
+        on.message do |_, message|
+          block.(message)
+        end
+      end
+    end
   end
 end

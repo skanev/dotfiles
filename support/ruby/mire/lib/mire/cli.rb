@@ -25,6 +25,37 @@ module Mire
       end
     end
 
+    desc 'Various pubsub mechanics'
+    command :pubsub do |c|
+      c.desc 'Lists to the events that are happening'
+      c.command :listen do |sc|
+        sc.action do
+          Depot.instance.subscribe do |message|
+            puts message
+            $stdout.flush
+          end
+        end
+      end
+
+      c.desc 'Lists to the events that are happening'
+      c.command :publish do |sc|
+        sc.action do |_, _, args|
+          message = nil
+          if args.size == 1
+            begin
+              JSON.parse(args[0])
+              message = args[0]
+            rescue JSON::ParserError
+            end
+          end
+
+          message ||= args.to_json
+
+          Depot.instance.publish message
+        end
+      end
+    end
+
     desc 'Utilities for interacting with stalker'
     command :stalker do |c|
       c.desc 'Dump all the stalker events'

@@ -5,47 +5,71 @@ module Mire
         @callbacks = []
 
         begin
-          make_event = lambda do
+          make_state = lambda do
             {
-              quickfix: '',
               failures: [],
-              rerun: '',
-              beholder: :rspec,
             }
           end
 
-          event = nil
+          state = nil
 
           @bus.listen(
-            start: -> { event = make_event.() },
-            rerun_failed: -> (line, number) {
-              /^rspec (?<file>\S+) # (?<message>.*)$/ =~ line
-              event[:quickfix] << "#{file.gsub(/^\.\//, '')} #{message}\n"
-              event[:rerun] << 'rspec' if number == 0
-              event[:rerun] << " #{file}"
-            },
-            failure: -> (message, _) {
-              locations = []
+            start: -> do
+              state = make_state.()
+            end,
+            failure: -> (message, num) do
+              failure = state[:failures][num] = {
+                stacktrace: [],
+                file: nil,
+                line: nil,
+                message: nil,
+                title: nil,
+              }
+
+              failure[:message] = message[/\A[^\n]+\n(.*?)^   #/m, 1]
 
               message.lines.grep(/^   # ([^:]+):(\d+):(.*)$/) do
                 file, line, detail = $1, $2, $3
                 next if file == '-e'
                 file = file.sub(/^\.\//, '')
-                locations << "#{file}:#{line} #{detail}\n"
+                failure[:stacktrace].push [file, line.to_i, detail]
               end
+            end,
+            rerun_failed: -> (line, number) do
+              /^rspec (?<file_and_line>\S+) # (?<title>.*)$/ =~ line or raise
+              /^(?:\.\/)?(?<file>[^:]+):(?<line_number>\d+)$/ =~ file_and_line or raise
 
-              event[:failures] << locations.join
-            },
-            finished: -> {
-              if event[:failures].empty?
-                event[:title] = 'RSpec ran successfully'
-                event[:status] = :success
-              else
-                event[:title] = "RSpec had #{event[:failures].count} failed spec(s)"
-                event[:status] = :failure
-              end
-              notify :event, event
-            },
+              state[:failures][number][:file] = file
+              state[:failures][number][:line] = line_number.to_i
+              state[:failures][number][:title] = title
+            end,
+            finished: -> do
+              failures = state[:failures]
+              notify :event, {
+                beholder: :rspec,
+                title: failures.empty? ? 'RSpec ran successfully' : "RSpec had #{failures.count} failed spec(s)",
+                status: failures.empty? ? :success : :failure,
+                quickfix: failures.map { _1 => {file:, line:, title:} ; "#{file}:#{line} #{title}\n" }.join,
+                failures: failures.map { |failure| failure[:stacktrace].map { "#{_1[0]}:#{_1[1]} #{_1[2]}\n" }.join },
+                rerun: failures.empty? ? '' : "rspec #{failures.map { "./#{_1[:file]}:#{_1[:line]}" }.join(' ')}",
+              }
+
+              notify :fire, {
+                status: failures.empty? ? :success : :failure,
+                failures: failures.map do |failure|
+                  {
+                    file: failure[:file],
+                    line: failure[:line],
+                    stacktrace: failure[:stacktrace],
+                    title: failure[:title],
+                    message: failure[:message],
+                    message_hint: self.class.failure_message_hint(failure[:message]),
+                  }
+                end,
+              }
+
+              state = nil
+            end,
           )
         end
       end
@@ -77,6 +101,8 @@ module Mire
           line = consume
 
           case line
+          in /^Pending:/
+            consume while peek =~ /^( |$)/
           in /^  (\d+)\) (.*)$/
             start.() unless running
 
@@ -107,6 +133,22 @@ module Mire
             end
           else
           end
+        end
+      end
+
+      class << self
+        def failure_message_hint(message)
+          hint =
+            case message
+            when /^ +expected: (.*)\n +got: (.*)\n *\n +\(compared using (.*?)\)/
+              "#$1 #$3 #$2"
+            when /\A(Failure\/Error): (?<code>([^\n]*)(\n +[^\n]*)*)(?<details>.*)/m
+              $~['details']
+            else
+              message
+            end
+
+          hint.gsub(/\s+/, ' ').sub(/^\A\s+/, '').sub(/\s+\z/, '')
         end
       end
     end
