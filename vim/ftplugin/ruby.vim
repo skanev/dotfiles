@@ -39,12 +39,12 @@ endfunction
 function! s:rubocop_disable_line()
   let offenses = s#rubocop#current_line_offenses()
 
-  if offences == []
+  if offenses == []
     echohl ErrorMsg
     echomsg "No offences on this line"
     echohl None
   else
-    call setline('.', getline('.') . ' # rubocop:disable ' . join(offences, ' '))
+    call setline('.', getline('.') . ' # rubocop:disable ' . join(offenses, ' '))
   endif
 endfunction
 
