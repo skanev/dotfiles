@@ -1,4 +1,7 @@
 -- vim:foldmethod=marker
+local loaded = false
+if package.loaded['telescope'] then loaded = true end
+
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 local make_entry = require('telescope.make_entry')
@@ -6,10 +9,22 @@ local themes = require('telescope.themes')
 local conf = require('telescope.config').values
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
+local action_layout = require('telescope.actions.layout')
 local entry_display = require('telescope.pickers.entry_display')
 local telescope = require('telescope')
 
 telescope.load_extension('ultisnips')
+
+local function meta(key)
+  return string.format('<%s-%s>', vim.g.env.meta_key, key)
+end
+
+-- Clear defaults when hitting reloading this file, otherwise they stick.
+if loaded then
+  print('Resetting telescope defaults')
+  require('telescope.config').clear_defaults()
+  require('telescope.config').set_defaults()
+end
 
 --{{{Custom actions
 local my_actions = {
@@ -43,7 +58,40 @@ local my_actions = {
     else
       print("Could not find where " .. name .. " is defined")
     end
-  end
+  end,
+  jump_to_key = function(prompt_bufnr)
+    local selection = action_state.get_selected_entry()
+
+    local function find_key_location(lhs, mode)
+      local output = vim.fn['s#capture_vim_command']('verbose ' .. mode .. 'map ' .. lhs)
+      local lines = vim.split(output, "\n", true)
+
+      for i = 1, #lines do
+        if lines[i]:sub(3, 3) == ' ' and lines[i]:sub(4, #lines[i]):match('^(%S+)') == lhs and i < #lines then
+          local next_line = lines[i + 1]
+          local path, line = next_line:match("^\tLast set from (.*) line (%d+)")
+
+          if path ~= nil then
+            return path, line
+          end
+        end
+      end
+
+      return nil
+    end
+
+    local lhs = selection.value.lhs
+    local mode = selection.value.mode
+
+    local path, line = find_key_location(lhs, mode)
+    if path ~= nil then
+      actions.close(prompt_bufnr)
+      vim.cmd("e " .. path)
+      vim.cmd(line)
+    else
+      print("Could not find where " .. lhs .. " is defined")
+    end
+  end,
 }
 --}}}
 
@@ -51,24 +99,43 @@ telescope.setup {
   defaults = {
     mappings = {
       i = {
-        ['<C-->'] = actions.which_key
+        ['<C-->'] = actions.which_key,
+        [meta('p')] = action_layout.toggle_preview,
+      },
+      n = {
+        [meta('p')] = action_layout.toggle_preview,
+        [meta('P')] = action_layout.cycle_layout_next,
+        ['<C-c>'] = actions.close,
       }
-    }
+    },
+    layout_strategy = 'flex',
+    sorting_strategy = 'ascending',
+    layout_config = {
+      flex = {
+        flip_columns = 190,
+      },
+      vertical = {
+        prompt_position = "top",
+      },
+    },
   },
   pickers = {
     keymaps = {
-      show_plug = false
+      show_plug = false,
+      mappings = {
+        i = { [ '<C-o>' ] = my_actions.jump_to_key },
+        n = { [ '<C-o>' ] = my_actions.jump_to_key },
+      },
     },
-    ultisnips = themes.get_dropdown {
+    find_files = {
+      preview = {
+        hide_on_startup = true,
+      }
     },
     commands = {
       mappings = {
-        i = {
-          [ '<C-o>' ] = my_actions.jump_to_command
-        },
-        n = {
-          [ '<C-o>' ] = my_actions.jump_to_command
-        }
+        i = { [ '<C-o>' ] = my_actions.jump_to_command, },
+        n = { [ '<C-o>' ] = my_actions.jump_to_command }
       }
     },
     buffers = themes.get_dropdown {
@@ -79,15 +146,17 @@ telescope.setup {
         --preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
       --},
       prompt_title = 'Buffers',
-      previewer = false,
       layout_config = { width = 0.65 },
       --sort_lastused = true,
+      hide_on_startup = true,
       mappings = {
         i = {
-          ['<C-d>'] = require('telescope.actions').delete_buffer
+          ['<C-d>'] = require('telescope.actions').delete_buffer,
         },
         n = {
-          ['<C-d>'] = require('telescope.actions').delete_buffer
+          ['<C-d>'] = require('telescope.actions').delete_buffer,
+          ['dd'] = require('telescope.actions').delete_buffer,
+          ['x'] = require('telescope.actions').delete_buffer,
         },
       },
     }
