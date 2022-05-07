@@ -11,9 +11,11 @@ module Mire
       ]
 
       beholders.each do |beholder|
-        beholder.on_conclusion do |*args|
-          args => [:event, event]
-          depot.store_stalker_event event
+        beholder.on_conclusion do |type, data|
+          case type
+          in :event then depot.store_stalker_event data
+          else
+          end
         end
       end
 

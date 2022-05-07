@@ -51,10 +51,11 @@ module Mire
           ],
           [:offense,
            'dir/second.rb:2:3 Layout/ExtraSpacing: Unnecessary spacing detected.',
-           strip_heredoc(<<~END)],
+           strip_heredoc(<<~END),
              |    bar  = 1
              |       ^
            END
+          ],
           [:completed, 2],
           [:finished],
         ]
@@ -91,10 +92,13 @@ module Mire
         expected = [
           [:start],
           [:offense, 'dir/first.rb:1:1 Lint/First: First offense', ''],
-          [:offense, 'dir/second.rb:2:2 Lint/Second: Second offense', strip_heredoc(<<~END)],
-            |  if event = something
-            |           ^
-          END
+          [:offense,
+           'dir/second.rb:2:2 Lint/Second: Second offense',
+           strip_heredoc(<<~END),
+             |  if event = something
+             |           ^
+           END
+          ],
           [:offense, 'dir/third.rb:3:3 Lint/Third: Third offense', "\n"],
           [:completed, 3],
           [:finished],
