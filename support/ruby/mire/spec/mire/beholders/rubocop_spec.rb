@@ -3,23 +3,8 @@ require 'spec_helper'
 module Mire
   module Beholders
     describe Rubocop do
-      let(:events) { [] }
-      let(:stalker_events) { [] }
-
       def strip_heredoc(text)
         text.gsub(/^\s*\|/, '')
-      end
-
-      def behold(text)
-        bus = EventBus.new
-        bus.listen -> (*args) { events << args }
-
-        beholder = Rubocop.new(bus)
-        beholder.on_conclusion do |*args|
-          args => [:event, event]
-          stalker_events << event
-        end
-        beholder.feed_io StringIO.new(text)
       end
 
       it 'supports a standard run' do
@@ -60,7 +45,7 @@ module Mire
           [:finished],
         ]
 
-        events.should eq expected
+        internal_events.should eq expected
 
         stalker_events.should match [
           a_hash_including(
@@ -104,7 +89,7 @@ module Mire
           [:finished],
         ]
 
-        events.should eq expected
+        internal_events.should eq expected
       end
 
       it 'handles a successful run' do
@@ -122,7 +107,7 @@ module Mire
           [:finished],
         ]
 
-        events.should eq expected
+        internal_events.should eq expected
 
         stalker_events.should eq [{
           title: 'Rubocop ran successfully',

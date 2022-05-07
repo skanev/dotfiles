@@ -3,24 +3,6 @@ require 'spec_helper'
 module Mire
   module Beholders
     describe Rspec do
-      let(:events) { [] }
-      let(:stalker_events) { [] }
-      let(:fire_events) { [] }
-
-      def behold(text)
-        bus = EventBus.new
-        bus.listen -> (*args) { events << args }
-
-        beholder = Rspec.new(bus)
-        beholder.on_conclusion do |type, data|
-          case type
-          in :event then stalker_events << data
-          in :fire then fire_events << data
-          end
-        end
-        beholder.feed_io StringIO.new(text)
-      end
-
       it 'handles two consecutive runs' do
         behold <<~END
           → rspec --format documentation spec/spec_someting_spec.rb

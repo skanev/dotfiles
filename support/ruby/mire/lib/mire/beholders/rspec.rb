@@ -2,8 +2,6 @@ module Mire
   module Beholders
     class Rspec < Beholder
       def setup
-        @callbacks = []
-
         begin
           make_state = lambda do
             {
@@ -13,7 +11,7 @@ module Mire
 
           state = nil
 
-          @bus.listen(
+          @internal_bus.listen(
             start: -> do
               state = make_state.()
             end,
@@ -45,7 +43,7 @@ module Mire
             end,
             finished: -> do
               failures = state[:failures]
-              notify :event, {
+              notify :stalker, {
                 beholder: :rspec,
                 title: failures.empty? ? 'RSpec ran successfully' : "RSpec had #{failures.count} failed spec(s)",
                 status: failures.empty? ? :success : :failure,
@@ -71,16 +69,6 @@ module Mire
               state = nil
             end,
           )
-        end
-      end
-
-      def on_conclusion(&callback)
-        @callbacks << callback
-      end
-
-      def notify(*args)
-        @callbacks.each do |callback|
-          callback.(*args)
         end
       end
 

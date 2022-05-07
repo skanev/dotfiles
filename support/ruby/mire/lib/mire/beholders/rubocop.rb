@@ -15,7 +15,7 @@ module Mire
 
           event = nil
 
-          @bus.listen(
+          @internal_bus.listen(
             start: -> { event = make_event.() },
             offense: -> (message, _) {
               file = message.split(':', 2).first
@@ -34,19 +34,9 @@ module Mire
               end
 
               event[:rerun] = "rubocop #{event[:rerun].strip.split.uniq.join(' ')}" if event[:rerun] != ''
-              notify :event, event
+              notify :stalker, event
             },
           )
-        end
-      end
-
-      def on_conclusion(&callback)
-        @callbacks << callback
-      end
-
-      def notify(*args)
-        @callbacks.each do |callback|
-          callback.(*args)
         end
       end
 

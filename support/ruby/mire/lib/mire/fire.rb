@@ -48,15 +48,12 @@ module Mire
       system 'clear'
       event = nil
 
-      beholder = Beholders::Rspec.build
-      beholder.on_conclusion do |type, data|
-        case type.to_sym
-        in :event then Depot.instance.store_stalker_event data
-        in :fire then event = data
-        end
-
-        event = data
-      end
+      bus = EventBus.new
+      bus.listen(
+        stalker: -> (data) { Depot.instance.store_stalker_event data },
+        fire: -> (data) { event = data },
+      )
+      beholder = Beholders::Rspec.new bus
 
       key = "fire:simplecov:#{Time.now.to_f}"
       env = {

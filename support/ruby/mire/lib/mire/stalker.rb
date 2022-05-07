@@ -5,18 +5,15 @@ module Mire
     def stalk(input)
       depot = Depot.instance
 
+      bus = EventBus.new
+
       beholders = [
-        Beholders::Rspec.new(EventBus.new),
-        Beholders::Rubocop.new(EventBus.new),
+        Beholders::Rspec.new(bus),
+        Beholders::Rubocop.new(bus),
       ]
 
-      beholders.each do |beholder|
-        beholder.on_conclusion do |type, data|
-          case type
-          in :event then depot.store_stalker_event data
-          else
-          end
-        end
+      bus.listen stalker: -> (data) do
+        depot.store_stalker_event data
       end
 
       until input.eof?

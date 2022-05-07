@@ -3,12 +3,17 @@ module Mire
     class Beholder
       class << self
         def build
-          new EventBus.new
+          bus = EventBus.new
+          yield bus if block_given?
+          new bus
         end
       end
 
+      attr_reader :internal_bus
+
       def initialize(bus)
         @bus = bus
+        @internal_bus = EventBus.new
 
         @fiber = Fiber.new { process }
         @fiber.resume
@@ -72,7 +77,11 @@ module Mire
       end
 
       def emit(event, *args)
-        @bus.emit event, *args
+        @internal_bus.emit event, *args
+      end
+
+      def notify(*args)
+        @bus.emit(*args)
       end
     end
   end

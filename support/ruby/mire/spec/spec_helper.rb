@@ -17,4 +17,10 @@ RSpec.configure do |config|
 
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
+
+  config.define_derived_metadata(file_path: %r{/spec/mire/beholders/}) do |metadata|
+    metadata[:type] = :beholder
+  end
+
+  config.include SpecHelpers::BeholderHelpers, type: :beholder
 end
