@@ -6,7 +6,9 @@ gem 'listen', require: false
 gem 'redis'
 gem 'redis-namespace'
 
-gem 'rspec'
+gem 'pry', require: false
+gem 'rspec', require: false
 gem 'rubocop', require: false
 gem 'rubocop-rspec', require: false
+gem 'simplecov', require: false
 gem 'super_diff', require: false

@@ -42,6 +42,7 @@ if g:env.nvim
   lua require('mine.treesitter')
   lua require('mine.telescope')
   lua require('mine.palette')
+  lua require('mine.mire')
   runtime settings/completion.vim
 end
 

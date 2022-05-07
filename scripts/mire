@@ -1,2 +1,2 @@
 #!/usr/bin/env zsh
-$DOTFILES/support/ruby/mire/bin/mire $*
+exec $DOTFILES/support/ruby/mire/bin/mire $*

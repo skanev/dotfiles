@@ -22,6 +22,16 @@ function M.map(array, fn)
   return result
 end
 
+function M.index_by(array, fn)
+  local result = {}
+
+  for _, item in ipairs(array) do
+    result[fn(item)] = item
+  end
+
+  return result
+end
+
 function M.shallow_copy(hash)
   local result = {}
 

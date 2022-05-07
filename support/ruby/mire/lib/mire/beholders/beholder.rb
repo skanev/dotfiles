@@ -41,6 +41,7 @@ module Mire
           next unless part.include? "\n"
 
           *lines, buffer = buffer.split("\n")
+          buffer ||= ''
 
           lines.each do |line|
             line << "\n"

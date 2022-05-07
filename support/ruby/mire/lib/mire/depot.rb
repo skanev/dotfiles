@@ -4,6 +4,8 @@ module Mire
   class Depot
     EVENTS_KEPT = 100
 
+    attr_reader :redis
+
     def self.instance
       @instance ||= new
     end

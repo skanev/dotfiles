@@ -3,44 +3,50 @@ require:
 AllCops:
   NewCops: enable
 
+Layout/CommentIndentation: {Enabled: false}
 Layout/EmptyLineAfterGuardClause: {Enabled: false}
 Layout/IndentationWidth: {AllowedPatterns: ['^\s*in ']} # This is a bit buggy, gets triggered by an empty else in a case/in, but it is what it is
+Layout/LeadingCommentSpace: {Enabled: false}
 Layout/LineLength: {AllowedPatterns: ['^\s*in /']}
+Layout/SpaceBeforeSemicolon: {Enabled: false}
 Layout/SpaceInLambdaLiteral: {EnforcedStyle: require_space}
 Layout/SpaceInsideHashLiteralBraces: {EnforcedStyle: no_space}
+Lint/MixedRegexpCaptureTypes: {Enabled: false}
+Lint/SuppressedException: {Enabled: false}
 Metrics/AbcSize: {Enabled: false}
 Metrics/BlockLength: {Enabled: false}
+Metrics/ClassLength: {Enabled: false}
 Metrics/CyclomaticComplexity: {Enabled: false}
 Metrics/MethodLength: {Enabled: false}
 Metrics/ModuleLength: {Enabled: false}
 Metrics/PerceivedComplexity: {Enabled: false}
 Naming/AccessorMethodName: {Enabled: false}
 Naming/HeredocDelimiterNaming: {Enabled: false}
+Security/MarshalLoad: {Enabled: false}
+Style/AndOr: {Enabled: false}
 Style/Documentation: {Enabled: false}
 Style/EmptyMethod: {EnforcedStyle: expanded}
+Style/FetchEnvVar: {Enabled: false}
 Style/FrozenStringLiteralComment: {Enabled: false}
+Style/GuardClause: {Enabled: false}
 Style/Lambda: {Enabled: false}
 Style/LambdaCall: {EnforcedStyle: braces}
 Style/ModuleFunction: {Enabled: false}
 Style/MutableConstant: {Enabled: false}
+Style/Not: {Enabled: false}
 Style/NumericPredicate: {Enabled: false}
 Style/ParallelAssignment: {Enabled: false}
 Style/PercentLiteralDelimiters: {Enabled: false}
 Style/PerlBackrefs: {Enabled: false}
 Style/RegexpLiteral: {Enabled: false}
+Style/RescueStandardError: {Enabled: false}
+Style/Semicolon: {Enabled: false}
 Style/SpecialGlobalVars: {Enabled: false}
 Style/TrailingCommaInArguments: {EnforcedStyleForMultiline: comma}
 Style/TrailingCommaInArrayLiteral: {EnforcedStyleForMultiline: comma}
 Style/TrailingCommaInHashLiteral: {EnforcedStyleForMultiline: comma}
-Style/WordArray: {Enabled: false}
-Layout/LeadingCommentSpace: {Enabled: false}
-Layout/SpaceBeforeSemicolon: {Enabled: false}
-Lint/MixedRegexpCaptureTypes: {Enabled: false}
-Lint/SuppressedException: {Enabled: false}
-Metrics/ClassLength: {Enabled: false}
-Style/RescueStandardError: {Enabled: false}
-Style/Semicolon: {Enabled: false}
 Style/VariableInterpolation: {Enabled: false}
+Style/WordArray: {Enabled: false}
 
 RSpec/DescribedClass: {Enabled: false}
 RSpec/ExampleLength: {Enabled: false}
