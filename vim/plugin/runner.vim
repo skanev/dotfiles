@@ -32,6 +32,10 @@ let s:modes.crystal_spec.matcher  = '_spec\.cr$'
 let s:modes.crystal_spec.run_file = 'crystal spec {file}'
 let s:modes.crystal_spec.run_line = 'crystal spec {file}:{line}'
 
+let s:modes.plenary          = {}
+let s:modes.plenary.matcher  = 'vim/lua/tests/.*_spec\.lua'
+let s:modes.plenary.run_file = ':lua require("plenary.test_harness").test_directory(vim.fn.expand("{file}"))'
+
 let s:modes.busted          = {}
 let s:modes.busted.matcher  = '_spec\.lua$'
 let s:modes.busted.run_file = 'busted {file}'
@@ -41,6 +45,10 @@ let s:modes.prove.matcher  = '\.t$'
 let s:modes.prove.run_file = 'prove {file}'
 let s:modes.prove.run_line = 'prove {file}:{line}'
 
+let s:modes.vader          = {}
+let s:modes.vader.matcher  = '\.vader$'
+let s:modes.vader.run_file = ':Vader {file}'
+
 function! s:rust_run_file_command() abort
   let filename = expand('%')
   let match = matchstr(filename, '^tests/\zs.*\ze\.rs$')
@@ -48,7 +56,7 @@ function! s:rust_run_file_command() abort
   if match != ''
     return printf('cargo test --test %s', substitute(match, '/', '::', 'g'))
   else
-    echo 'cargo test'
+    return 'cargo test'
   endif
 endfunction
 
@@ -239,7 +247,9 @@ unlet! s:last_run
 function! s:run(command)
   let s:last_run = a:command
 
-  if !s:target_always_vim && s:tmux_has_available_session()
+  if s#starts_with(a:command, ':')
+    execute a:command
+  elseif !s:target_always_vim && s:tmux_has_available_session()
     call s:targets.tmux(a:command)
   else
     call s:targets.terminal(a:command)
@@ -295,11 +305,13 @@ function! s:buffer_runner_mode() abort
   endif
 
   if &buftype != 'nofile' && &buftype != 'terminal'
-    for [mode_name, definition] in items(s:modes)
-      if match(expand("%"), definition.matcher) != -1
-        return definition
-      endif
-    endfor
+    let filename = expand('%')
+    let matching = s:modes->values()->filter({ _, mode -> match(filename, mode.matcher) != -1 })
+    call sort(matching, { a, b -> b.matcher->len() - a.matcher->len() })
+
+    if len(matching) >= 1
+      return matching[0]
+    endif
   end
 
   return {}

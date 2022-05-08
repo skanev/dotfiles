@@ -1,0 +1,8 @@
+Before:
+  execute "source " . g:dotfiles_dir . "/vim/tests/helper.vim"
+
+Execute (something):
+  let fns = g:helper.script_functions('vim/plugin/runner')
+
+  Assert fns.get_command('run --file {file} --line {line}') == printf("run --file %s --line %s", expand("%"), line("."))
+  Assert fns.get_command({ -> "command"}) == "command"

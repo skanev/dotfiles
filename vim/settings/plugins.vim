@@ -76,6 +76,7 @@ Plug 'rafamadriz/neon'
 Plug 'vim-scripts/Gist.vim'
 Plug 'vim-scripts/WebAPI.vim'
 Plug 'vim-scripts/scratch.vim'
+Plug 'junegunn/vader.vim'
 
 " Temporary(?)
 Plug 'voldikss/vim-floaterm'
