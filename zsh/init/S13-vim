@@ -1,8 +1,5 @@
 #!/usr/bin/env zsh
 
-alias gvim="echo You mean vig, right\\?"
-alias mvim="echo You mean vig, right\\?"
-
 DOTFILES_VIM=${DOTFILES_VIM:-vim}
 
 case $DOTFILES_OS in
