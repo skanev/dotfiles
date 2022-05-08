@@ -8,8 +8,8 @@ map <S-F8> :Ack <C-r><C-w><CR>
 map <F9> :noh<CR>
 map <F10> :set cursorcolumn!<CR>
 imap <F10> <C-o>:set cursorcolumn!<CR>
-map <F11> <Cmd>lua require('telescope.builtin').find_files { cwd = vim.g.dotfiles_dir }<CR>
-map <S-F11> <Cmd>lua require('telescope.builtin').find_files { cwd = vim.g.dotfiles_dir .. '/vim' }<CR>
+map <F11> <Cmd>SearchDotfiles<CR>
+map <S-F11> <Cmd>SearchVimDotfiles<CR>
 map <F12> :edit <C-r>=g:dotfiles_dir<CR>/vim/vimrc.vim<CR>
 
 map <C-]> <Plug>(fzf_tags)
@@ -58,11 +58,13 @@ map <expr> g= ':Tabularize /\V' . expand('<cWORD>') . '<CR>'
 
 cnoremap <expr> / <SID>cmd_mode_slash()
 
-MapMeta f <Cmd>Telescope find_files<CR>
-MapMeta j <Cmd>Telescope buffers<CR>
+MapMeta f <Cmd>SearchFiles<CR>
+MapMeta j <Cmd>SearchBuffers<CR>
 MapMeta k <Cmd>NERDTreeToggle<CR>
-MapMeta m <Cmd>lua require('mine').cycle_diagnostics()<CR>
-MapMeta p <Cmd>Palette<CR>
+if g:env.nvim
+  MapMeta m <Cmd>lua require('mine').cycle_diagnostics()<CR>
+  MapMeta p <Cmd>Palette<CR>
+endif
 
 MapMeta ] >>
 MapMeta [ <<

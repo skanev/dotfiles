@@ -30,6 +30,7 @@ packadd! matchit
 
 " Settings
 runtime settings/options.vim
+runtime settings/commands.vim
 runtime settings/mappings.vim
 runtime settings/appearance.vim
 runtime settings/nvim.vim
