@@ -1,4 +1,4 @@
-local lsp = require('lspconfig')
+local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local lsp_installer = require("nvim-lsp-installer")
 
@@ -107,18 +107,12 @@ end
 local function make_capabilities(config)
   local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-  if not config then
-    config = {}
-  end
+  config = config or {}
 
-  for _, value in ipairs(config) do
-    if value == 'snippets' then
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-    elseif value == 'no-snippets' then
-      capabilities.textDocument.completion.completionItem.snippetSupport = false
-    else
-      error("Unknown capability: " .. value, 2)
-    end
+  if config.snippets == true then
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
+  elseif config.snippets == false then
+    capabilities.textDocument.completion.completionItem.snippetSupport = false
   end
 
   if config.resolveSupport ~= false then
@@ -131,13 +125,14 @@ local function make_capabilities(config)
 
   return capabilities
 end
+
 -- Register a handler that will be called for all installed servers.
 -- Alternatively, you may also register handlers on specific server instances instead (see example below).
 lsp_installer.on_server_ready(function(server)
   if server.name == 'sumneko_lua' then
     server:setup {
       on_attach = on_attach,
-      capabilities = make_capabilities({'snippets'}),
+      capabilities = make_capabilities({ snippets = true }),
       settings = {
         Lua = {
           runtime = {
@@ -163,20 +158,17 @@ lsp_installer.on_server_ready(function(server)
   elseif server.name == 'rust_analyzer' then
     server:setup {
       on_attach = on_attach,
-      -- TODO: Snippets in rust-analyzer are a bit annoying as they are on the
-      -- top. They seem useful. It's be cool if I either get used to them or
-      -- figure out how to put them low.
-      capabilities = make_capabilities({'no-snippets', resolveSupport = false}),
+      capabilities = make_capabilities { snippets = true, resolveSupport = false },
     }
   elseif server.name == 'terraformls' then
     server:setup {
       on_attach = on_attach,
-      capabilities = make_capabilities({'snippets', resolveSupport = false}),
+      capabilities = make_capabilities({ snippets = true, resolveSupport = false }),
     }
   else
     server:setup {
       on_attach = on_attach,
-      capabilities = make_capabilities({'snippets'}),
+      capabilities = make_capabilities({ snippets = true }),
     }
   end
 end)
