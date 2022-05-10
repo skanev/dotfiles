@@ -1,6 +1,10 @@
 vim.api.nvim_exec("set completeopt=menu,menuone,noselect", false)
 
-require("cmp_nvim_ultisnips").setup {
+local cmp = require('cmp')
+
+require('mine.completion.rails_http_status_codes')
+
+require('cmp_nvim_ultisnips').setup {
   --filetype_source = "ultisnips_default",
   filetype_source = "treesitter",
   show_snippets = "expandable",
@@ -9,7 +13,6 @@ require("cmp_nvim_ultisnips").setup {
   end
 }
 
-local cmp = require('cmp')
 
 cmp.setup({
   snippet = {
@@ -41,6 +44,16 @@ cmp.setup({
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
     { name = 'cmp_git' },
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+cmp.setup.filetype('ruby', {
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'ultisnips' },
+    { name = 'rails_http_status_codes' },
   }, {
     { name = 'buffer' },
   })
