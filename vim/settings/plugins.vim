@@ -27,7 +27,6 @@ Plug 'hashivim/vim-terraform'
 " Features
 Plug 'preservim/nerdtree'
 Plug 'mbbill/undotree'
-Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
@@ -111,8 +110,11 @@ if g:env.nvim
   Plug 'hrsh7th/nvim-cmp'
 
   Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
+  Plug 'lewis6991/gitsigns.nvim'
 else
   Plug 'ervandew/supertab'
+  Plug 'airblade/vim-gitgutter'
 endif
 
 if g:env.app == 'mvim'

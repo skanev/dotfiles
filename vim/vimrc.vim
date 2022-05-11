@@ -44,6 +44,7 @@ if g:env.nvim
   lua require('mine.telescope')
   lua require('mine.palette')
   lua require('mine.mire')
+  lua require('mine.gitsigns')
   runtime settings/completion.vim
 end
 
