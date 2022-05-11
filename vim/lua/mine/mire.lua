@@ -1,5 +1,5 @@
-local Job = require('plenary.job')
-local u = require('mine.util')
+local Job = require("plenary.job")
+local u = require("mine.util")
 
 _G._Mire = _G._Mire or {}
 
@@ -27,10 +27,15 @@ local function apply_failures(bufnr, failures)
 
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
+  local failure_lines = {}
+
   for _, error in ipairs(failures) do
     local line = lines[error.example_start_line]
     local first = (line:find('%S') or 0) - 1
     local last = #line
+
+    failure_lines[tostring(error.example_start_line)] = error.failure_message
+    failure_lines[tostring(error.failure_line)] = error.failure_message
 
     vim.api.nvim_buf_set_extmark(bufnr, nsid, error.example_start_line - 1, first, {
       end_col = last,
@@ -48,6 +53,8 @@ local function apply_failures(bufnr, failures)
       priority = 200,
     })
   end
+
+  vim.api.nvim_buf_set_var(bufnr, 'mire_failure_messages', failure_lines)
 end
 
 --- Applies coverage data in a specific buffer.
@@ -145,6 +152,16 @@ local function mire_job_callback(data)
   end
 end
 
+--- Show info under cursor
+--
+-- If there is a relevant event under the cursor, show it
+local function show_info_under_cursor()
+  local message = (vim.b.mire_failure_messages or {})[tostring(vim.fn.line('.'))]
+  if message then
+    require('mine.util.float').float_window_with_ansi_codes(message)
+  end
+end
+
 _G._Mire.job_callback = mire_job_callback
 
 --- Starts a mire job
@@ -192,9 +209,11 @@ end
 
 vim.api.nvim_create_user_command('MireStart', [[lua require('mine.mire').start(true)]], { nargs = 0 })
 vim.api.nvim_create_user_command('MireStop', [[lua require('mine.mire').stop()]], { nargs = 0 })
+vim.api.nvim_create_user_command('MireShowInfo', [[lua require('mine.mire').show_info_under_cursor()]], { nargs = 0 })
 
 return {
   start = start_mire_job,
+  show_info_under_cursor = show_info_under_cursor,
   stop = function()
     stop_mire_job()
     undo_mire_extmarks()

@@ -36,7 +36,7 @@ module Mire
   end
 
   def strip_ansi(text)
-    text.gsub(/\033\[\d{1,2}(;\d{1,2}){0,3}[mGK]/, '')
+    text.gsub(/\033\[\d{1,2}(;\d{1,3}){0,3}[mGK]/, '')
   end
 
   def track_hivemind(io)
