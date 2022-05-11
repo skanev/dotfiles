@@ -50,6 +50,8 @@ function Interrogator:_load_command_index()
 
   for _, keymap in ipairs(keymaps) do
     for _, entry in ipairs(keymap.keys) do
+      if entry.rhs == nil then goto continue end
+
       local name = string.match(entry.rhs, '^<[Cc][Mm][Dd]>([^<]+)<[Cc][Rr]>') or string.match(entry.rhs, '^:([^<]+)<[Cc][Rr]>')
 
       if name == nil then goto continue
