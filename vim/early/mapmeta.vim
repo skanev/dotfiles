@@ -10,12 +10,10 @@ function! MapMeta(modes, modifiers, key, command)
   if g:env.app == 'vim'
     let mapping = '<M-'.a:key.'>'
     call s:register_meta_key(a:key)
-  elseif g:env.app == 'nvim-qt' && g:env.meta_key == 'D'
-    if has_key(s:downcases, a:key)
-      let mapping = toupper(printf('<S-D-%s>', a:key))
-    else
-      let mapping = printf('<D-%s>', a:key)
-    endif
+  elseif g:env.app == 'nvim-qt' && g:env.meta_key == 'D' && has_key(s:downcases, a:key)
+    let mapping = toupper(printf('<S-D-%s>', a:key))
+  elseif g:env.app == 'vimr' &&  has_key(s:downcases, a:key)
+    let mapping = printf('<S-D-%s>', s:downcases[a:key])
   else
     let mapping = printf('<%s-%s>', g:env.meta_key, a:key)
   endif
