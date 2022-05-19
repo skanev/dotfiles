@@ -158,6 +158,14 @@ function! s#my_scripts()
   return result
 endfunction
 
+function! s#command_completion_helper(values, arg_lead, line, pos) abort
+  if a:arg_lead == ""
+    return a:values
+  else
+    return a:values->copy()->filter({ _, name -> name[0:a:arg_lead->len()-1] == a:arg_lead })
+  endif
+endfunction
+
 function! s:close_border_window(border_window_id, job_id, code, event)
   if a:code == 0
     close
