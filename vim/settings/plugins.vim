@@ -112,6 +112,8 @@ if g:env.nvim
   Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
   Plug 'lewis6991/gitsigns.nvim'
+
+  Plug 'folke/lua-dev.nvim'
 else
   Plug 'ervandew/supertab'
   Plug 'airblade/vim-gitgutter'

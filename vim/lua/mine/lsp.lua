@@ -1,6 +1,7 @@
 local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local lsp_installer = require("nvim-lsp-installer")
+local luadev = require('lua-dev').setup()
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
@@ -133,27 +134,7 @@ lsp_installer.on_server_ready(function(server)
     server:setup {
       on_attach = on_attach,
       capabilities = make_capabilities({ snippets = true }),
-      settings = {
-        Lua = {
-          runtime = {
-            version = 'LuaJIT',
-            path = vim.split(package.path, ';'),
-          },
-          completion = {
-            callSnippet = 'Replace',
-          },
-          diagnostics = {
-            globals = {'vim', 'it', 'describe'},
-          },
-          workspace = {
-            library = {
-              [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-              [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-            },
-          },
-          telemetry = {enable = false},
-        },
-      },
+      settings = luadev.settings,
     }
   elseif server.name == 'rust_analyzer' then
     server:setup {
