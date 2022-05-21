@@ -141,8 +141,21 @@ end
 endsnippet
 
 snippet cons
-function ${1:name}:new(${2})
-	local instance = {${3:`!p snip.rv = ", ".join("%s = %s" % (x.strip(), x.strip()) for x in t[2].split(",") if x.strip() != '')`}}
+function ${1:`!p
+answer = None
+lines = vim.eval("getbufline('', 1, '$')")
+lines = list(lines[0:int(vim.eval("line('.') - 1"))])
+lines.reverse()
+for line in lines:
+	if match := re.match(r'^local ([A-Z]\w+) = \{\}', line):
+		answer = match.group(1)
+		break
+	if match := re.match(r'^function (\w+):(\w+)\(', line):
+		answer = match.group(1)
+		break
+
+snip.rv = answer or 'Class'`}:new(${2})
+	local instance = { ${3:`!p snip.rv = ", ".join("%s = %s" % (x.strip(), x.strip()) for x in t[2].split(",") if x.strip() != '')`} }
 	self.__index = self
 	${0}
 	return setmetatable(instance, self)
