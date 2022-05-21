@@ -35,6 +35,7 @@ endif
 
 if s:lua_in_mine
   let b:lua_module_name = matchstr(expand('%:p'), '^\V' . s:vim_lua_prefix . '/\m\zs.*\ze\.lua$')->substitute('/', '.', 'g')
+  let b:lua_module_name = substitute(b:lua_module_name, '\.init$', '', '')
 
   function! s:unload()
     exec printf("lua package.loaded['%s'] = nil", b:lua_module_name)
