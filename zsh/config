@@ -5,7 +5,6 @@ colors
 
 setopt AUTO_CD              # 'foo' instead of 'cd foo'
 setopt AUTO_PUSHD           # cd pushes on dir stack
-setopt PUSHD_IGNORE_DUPS    # don't push duplicates on dirstack
 setopt CDABLE_VARS          # 'cd foo` instead of 'cd ~foo` when $foo is a dir
 
 setopt PROMPT_SUBST         # allow expansion and substitution in prompt
@@ -28,7 +27,7 @@ HISTSIZE=30000
 
 REPORTTIME=10               # show elapsed time if command took more than X seconds
 LISTMAX=0                   # ask to complete if top of list would scroll off screen
-DIRSTACKSIZE=1              # limit dir stack size
+DIRSTACKSIZE=10             # limit dir stack size
 
 # Make CTRL-W delete after other chars, not just spaces
 WORDCHARS=${WORDCHARS//[&=\/;\!#%\{]}

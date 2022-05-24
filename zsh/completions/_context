@@ -1,4 +1,4 @@
 #compdef context
 #!/usr/bin/env zsh
 
-compadd zsh mux show list
+compadd zsh mux show list new

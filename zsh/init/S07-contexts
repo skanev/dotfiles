@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-
 # CONTEXTS
 # --------
 #
@@ -25,6 +24,8 @@
 #
 # There is some obscure ZSH and AWK here, which I'm pretty proud of.
 
+# --- VARIABLES AND OPTIONS ------------------------------------------------------------------------
+
 c_dirs=($DOTFILES/contexts)
 
 [[ -n $DOTFILES_CONTEXTS_EXTRA ]] && c_dirs+=( ${(s#:#)${DOTFILES_CONTEXTS_EXTRA//\~\//$HOME/}} )
@@ -39,8 +40,10 @@ c_available_patterns=()
 c_available_location=()
 c_available=()
 
+# --- LOADING AND UNLOADING ------------------------------------------------------------------------
+
 c-load-available-contexts() {
-  local name patterns location
+  local name patterns location dir
 
   for dir in $c_dirs; do
     for file in $dir/*/detect(N); do
@@ -59,13 +62,9 @@ c-load-available-contexts() {
   done
 }
 
-has-mux-context() {
-  [[ -n $MUX_CONFIG ]]
-}
-
 c-chpwd() {
   local -aU matches
-  local first
+  local first name pattern
 
   matches=()
 
@@ -185,9 +184,24 @@ END
   source $c_current[zsh]
 }
 
-c-context-list-all() {
+c-unload() {
+  eval ${(F)c_revert}
+
+  c_current=()
+  c_revert=
+}
+
+c-load-available-contexts
+chpwd_functions=(${chpwd_functions[@]} "c-chpwd")
+c-chpwd
+
+# --- FUNCTIONS TO WORK WITH CONTEXTS --------------------------------------------------------------
+
+# All are prefixed with c-fun because ZSH does not do public and private
+
+c-fun-list-all() {
   () {
-    local location patterns
+    local location patterns name
     local -a files
 
     echo "NAME : LOCATION : PATTERN : FILES"
@@ -203,6 +217,45 @@ c-context-list-all() {
       echo $name : $location : $patterns : ${(j# #)files}
     done
   } | column -t -s ':'
+}
+
+c-fun-new-context() {
+  setopt local_options err_return pushd_silent
+
+  local name=$1
+  local dir=$c_dirs[1]
+
+  if [[ -z $name ]]; then
+    >&2 echo "error: need a context name"
+    false
+  fi
+
+  if [[ -d $dir/$name ]]; then
+    >&2 echo "error: context $name already exists"
+    false
+  fi
+
+  echo "Creating a new context in $dir/$name"
+
+  pushd $dir
+
+  mkdir $name
+  pushd $name
+
+  touch detect
+  touch buffer.vim
+  touch folder.vim
+  echo "#!/usr/bin/env zsh" > zsh
+  echo "#!/usr/bin/env zsh" > mux
+
+  popd
+  popd
+
+  echo ""
+  echo "Done. You can run this to open it:"
+  echo ""
+  echo "  vim $dir/$name"
+  echo ""
 }
 
 context() {
@@ -233,8 +286,12 @@ context() {
       fi
       ;;
 
+    (new)
+      c-fun-new-context $2
+      ;;
+
     (list)
-      c-context-list-all
+      c-fun-list-all
       ;;
 
     (mux)
@@ -248,15 +305,6 @@ context() {
   esac
 }
 
-c-unload() {
-  eval ${(F)c_revert}
-
-  c_current=()
-  c_revert=
+has-mux-context() {
+  [[ -n $MUX_CONFIG ]]
 }
-
-c-load-available-contexts
-
-chpwd_functions=(${chpwd_functions[@]} "c-chpwd")
-
-c-chpwd

@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+local name
+
 for name in ~/.localrc ~/.localprofile ~/.localenv ~/.vim/tweaks.local.vim ~/.vim/localvimrc.vim; do
   if [[ -f $name ]]; then
     echo "\e[1m========================================="
