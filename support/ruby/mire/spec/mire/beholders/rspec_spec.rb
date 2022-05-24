@@ -114,6 +114,52 @@ module Mire
         ]
       end
 
+      it 'handles shared examples' do
+        behold <<~END
+          .F.
+
+          Failures:
+
+
+            1) A shared example
+               Failure
+
+                 expected: 1
+                      got: 2
+
+                 (compared using ==)
+               Shared Example Group: "something" called from ./spec/shared_example.rb:2
+               # ./spec/actual_example_spec.rb:12:in `something'
+               # -e:1:in `<main>'
+
+          Finished in 0.01716 seconds (files took 0.1462 seconds to load)
+          3 examples, 1 failure
+
+          Failed examples:
+
+          rspec ./spec/failure.rb:12 # A shared example
+        END
+
+        fire_events.should match [
+          {
+            status: :failure,
+            failures: [
+              {
+                file: 'spec/failure.rb',
+                line: 12,
+                stacktrace: [
+                  ['spec/shared_example.rb', 2, 'in shared example: something'],
+                  ['spec/actual_example_spec.rb', 12, "in `something'"],
+                ],
+                title: 'A shared example',
+                message: "   Failure\n\n     expected: 1\n          got: 2\n\n     (compared using ==)\n",
+                message_hint: '1 == 2',
+              },
+            ],
+          },
+        ]
+      end
+
       describe '(hints)' do
         def hint_for(text)
           Rspec.failure_message_hint(text)

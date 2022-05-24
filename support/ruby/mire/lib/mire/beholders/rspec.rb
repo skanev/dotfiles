@@ -2,74 +2,84 @@ module Mire
   module Beholders
     class Rspec < Beholder
       def setup
-        begin
-          make_state = lambda do
-            {
-              failures: [],
+        make_state = lambda do
+          {
+            failures: [],
+          }
+        end
+
+        state = nil
+
+        @internal_bus.listen(
+          start: -> do
+            state = make_state.()
+          end,
+          failure: -> (message, num) do
+            failure = state[:failures][num] = {
+              stacktrace: [],
+              file: nil,
+              line: nil,
+              message: nil,
+              title: nil,
             }
-          end
 
-          state = nil
+            failure[:message] = message[/\A[^\n]+\n(.*?)^   (?:Shared Example Group|#)/m, 1]
 
-          @internal_bus.listen(
-            start: -> do
-              state = make_state.()
-            end,
-            failure: -> (message, num) do
-              failure = state[:failures][num] = {
-                stacktrace: [],
-                file: nil,
-                line: nil,
-                message: nil,
-                title: nil,
-              }
+            message.lines.each do |line|
+              file, line_number, detail = nil, nil, nil
 
-              failure[:message] = message[/\A[^\n]+\n(.*?)^   #/m, 1]
-
-              message.lines.grep(/^   # ([^:]+):(\d+):(.*)$/) do
-                file, line, detail = $1, $2, $3
+              case line
+              when /^   # ([^:]+):(\d+):(.*)$/
+                file, line_number, detail = $1, $2, $3
                 next if file == '-e'
                 file = file.sub(/^\.\//, '')
-                failure[:stacktrace].push [file, line.to_i, detail]
+              when /^   Shared Example Group: "(.*)" called from (.*):(\d+)$/
+                name, file, line_number = $1, $2, $3
+                detail = "in shared example: #{name}"
+              else
+                next
               end
-            end,
-            rerun_failed: -> (line, number) do
-              /^rspec (?<file_and_line>\S+) # (?<title>.*)$/ =~ line or raise
-              /^(?:\.\/)?(?<file>[^:]+):(?<line_number>\d+)$/ =~ file_and_line or raise
 
-              state[:failures][number][:file] = file
-              state[:failures][number][:line] = line_number.to_i
-              state[:failures][number][:title] = title
-            end,
-            finished: -> do
-              failures = state[:failures]
-              notify :stalker, {
-                beholder: :rspec,
-                title: failures.empty? ? 'RSpec ran successfully' : "RSpec had #{failures.count} failed spec(s)",
-                status: failures.empty? ? :success : :failure,
-                quickfix: failures.map { _1 => {file:, line:, title:} ; "#{file}:#{line} #{title}\n" }.join,
-                failures: failures.map { |failure| failure[:stacktrace].map { "#{_1[0]}:#{_1[1]} #{_1[2]}\n" }.join },
-                rerun: failures.empty? ? '' : "rspec #{failures.map { "./#{_1[:file]}:#{_1[:line]}" }.join(' ')}",
-              }
+              file = file.sub(/^\.\//, '')
+              failure[:stacktrace].push [file, line_number.to_i, detail]
+            end
+          end,
+          rerun_failed: -> (line, number) do
+            /^rspec (?<file_and_line>\S+) # (?<title>.*)$/ =~ line or raise
+            /^(?:\.\/)?(?<file>[^:]+):(?<line_number>\d+)$/ =~ file_and_line or raise
 
-              notify :fire, {
-                status: failures.empty? ? :success : :failure,
-                failures: failures.map do |failure|
-                  {
-                    file: failure[:file],
-                    line: failure[:line],
-                    stacktrace: failure[:stacktrace],
-                    title: failure[:title],
-                    message: failure[:message],
-                    message_hint: self.class.failure_message_hint(failure[:message]),
-                  }
-                end,
-              }
+            state[:failures][number][:file] = file
+            state[:failures][number][:line] = line_number.to_i
+            state[:failures][number][:title] = title
+          end,
+          finished: -> do
+            failures = state[:failures]
+            notify :stalker, {
+              beholder: :rspec,
+              title: failures.empty? ? 'RSpec ran successfully' : "RSpec had #{failures.count} failed spec(s)",
+              status: failures.empty? ? :success : :failure,
+              quickfix: failures.map { _1 => {file:, line:, title:} ; "#{file}:#{line} #{title}\n" }.join,
+              failures: failures.map { |failure| failure[:stacktrace].map { "#{_1[0]}:#{_1[1]} #{_1[2]}\n" }.join },
+              rerun: failures.empty? ? '' : "rspec #{failures.map { "./#{_1[:file]}:#{_1[:line]}" }.join(' ')}",
+            }
 
-              state = nil
-            end,
-          )
-        end
+            notify :fire, {
+              status: failures.empty? ? :success : :failure,
+              failures: failures.map do |failure|
+                {
+                  file: failure[:file],
+                  line: failure[:line],
+                  stacktrace: failure[:stacktrace],
+                  title: failure[:title],
+                  message: failure[:message],
+                  message_hint: self.class.failure_message_hint(failure[:message]),
+                }
+              end,
+            }
+
+            state = nil
+          end,
+        )
       end
 
       def process
