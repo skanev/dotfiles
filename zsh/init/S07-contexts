@@ -185,6 +185,26 @@ END
     source $c_current[zsh]
 }
 
+c-context-list-all() {
+    () {
+        local location patterns
+        local -a files
+
+        echo "NAME : LOCATION : PATTERN : FILES"
+
+        for name in $c_available; do
+            location=$c_available_location[$name]
+            patterns=$c_available_patterns[$name]
+            files=($location/*(N:t))
+            files=(${files:#detect})
+
+            location=${location/$HOME/'~'}
+
+            echo $name : $location : $patterns : ${(j# #)files}
+        done
+    } | column -t -s ':'
+}
+
 context() {
     if (( $#c_current == 0 )); then
         echo "No context for the current directory" >&2
@@ -211,7 +231,10 @@ context() {
                 cat $c_current[mux]
                 echo
             fi
+            ;;
 
+        (list)
+            context-list-all
             ;;
 
         (mux)
