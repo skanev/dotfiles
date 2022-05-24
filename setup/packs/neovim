@@ -36,6 +36,7 @@ install-neovim-pyenv() {
 
 install-neovim-rbenv() {
   local version=$1
+  path=(~/.rbenv/shims ~/.rbenv/bin $path)
 
   run-with-status "installing ruby $version" "rbenv install -s $version"
   (RBENV_VERSION=$version gem list neovim | grep -q "^neovim" || run-with-status \
