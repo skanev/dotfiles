@@ -71,6 +71,10 @@ cheatpaths:
     readonly: false
 END
 
+if [[ $DOTFILES_OS == 'mac' ]]; then
+  establish-pack mac_setup
+fi
+
 establish-pack pyenv
 establish-pack homebrew
 establish-pack tools

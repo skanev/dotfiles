@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  if [ $DOTFILES_OS != 'mac' ]; then
+    echo "This is just for mac"
+    false
+    return
+  fi
+
+  if grep -q 'if \[ -x /usr/libexec/path_helper \]; then' /etc/zprofile; then
+    sudo sed -I.old 's#\[ -x /usr/libexec/path_helper #[&\&\& ! -v DOTFILES_PATHS_LOADED ]#' /etc/zprofile
+  fi
+
+  defaults write nvim-qt ApplePressAndHoldEnabled NO
+}
+
+is-pack-installed() {
+  [[ $DOTFILES_OS != 'mac' ]]
+}
+
+verify-pack() {
+  echo verify
+}
+
+pack-info() {
+  echo invo
+}
+
+process-pack $1
