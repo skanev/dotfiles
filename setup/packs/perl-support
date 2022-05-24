@@ -25,6 +25,7 @@ perl_modules=(
   Redis
   File::Slurp
   ExtUtils::MakeMaker
+  Net::SSLeay
   REST::Client
   JSON
   IO::Async
@@ -33,6 +34,8 @@ perl_modules=(
 
 forced[Alien::libtickit]=1
 forced[IO::Async]=1
+forced[Tickit]=1
+forced[Net:SSLeay]=1
 
 # Add plenv explicitly to path for new installs that just have installed plenv,
 # but haven't loaded it in PATH yet
@@ -70,6 +73,8 @@ install-pack() {
   for module in ${perl_modules[@]}; do
     if is-module-installed $module; then
       status-report-chunk-present $module
+    elif [[ $module == 'Net::SSLeay' && $DOTFILES_OS == 'mac' && -d /opt/homebrew/opt/openssl@1.1 ]]; then
+      status-report-chunk-install $module "OPENSSL_PREFIX=/opt/homebrew/opt/openssl@1.1 cpanm --force $module" optional
     elif [[ $forced[$module] ]]; then
       status-report-chunk-install $module "cpanm --force $module" optional
     else
