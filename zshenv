@@ -6,6 +6,7 @@ DOTFILES=${$(readlink ~/.zsh):h}
 [[ -v DOTFILES_OS ]] || source ~/.zsh/distro-prober
 
 [[ -x /usr/libexec/path_helper ]] && eval `/usr/libexec/path_helper -s`
+[[ -d /opt/homebrew/bin ]] && path=(/opt/homebrew/bin $path)
 
 [[ -d /usr/local/opt/coreutils/libexec/gnubin ]] && path=(/usr/local/opt/coreutils/libexec/gnubin $path)
 [[ -d /usr/local/opt/gnu-sed/libexec/gnubin   ]] && path=(/usr/local/opt/gnu-sed/libexec/gnubin $path)
