@@ -1,5 +1,20 @@
 #!/usr/bin/env zsh
 
+if which nvim > /dev/null; then
+  DOTFILES_VIM=${DOTFILES_VIM:-nvim}
+fi
+
+if which neovide > /dev/null; then
+  DOTFILES_VIG=${DOTFILES_VIG:-neovide}
+fi
+
+if which nvim-qt > /dev/null; then
+  nvim-qt() {
+    (NVIM_QT=1 command nvim-qt $* > /dev/null 2>&1 &)
+  }
+  DOTFILES_VIG=${DOTFILES_VIG:-nvim-qt}
+fi
+
 DOTFILES_VIM=${DOTFILES_VIM:-vim}
 
 case $DOTFILES_OS in
