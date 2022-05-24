@@ -40,219 +40,219 @@ c_available_location=()
 c_available=()
 
 c-load-available-contexts() {
-    local name patterns location
+  local name patterns location
 
-    for dir in $c_dirs; do
-        for file in $dir/*/detect(N); do
-            name=${file:h:t}
-            patterns=${(j#,#)${(f)"$(< $file)"}}
-            location=${file:h}
+  for dir in $c_dirs; do
+    for file in $dir/*/detect(N); do
+      name=${file:h:t}
+      patterns=${(j#,#)${(f)"$(< $file)"}}
+      location=${file:h}
 
-            if [[ -n $c_available_patterns[$name] ]]; then
-                print "contexts: '$name' already defined in $location" 1>&2
-            fi
+      if [[ -n $c_available_patterns[$name] ]]; then
+        print "contexts: '$name' already defined in $location" 1>&2
+      fi
 
-            c_available+=($name)
-            c_available_patterns[$name]=$patterns
-            c_available_location[$name]=$location
-        done
+      c_available+=($name)
+      c_available_patterns[$name]=$patterns
+      c_available_location[$name]=$location
     done
+  done
 }
 
 has-mux-context() {
-    [[ -n $MUX_CONFIG ]]
+  [[ -n $MUX_CONFIG ]]
 }
 
 c-chpwd() {
-    local -aU matches
-    local first
+  local -aU matches
+  local first
 
-    matches=()
+  matches=()
 
-    for name in $c_available; do
-        for pattern in ${(s#,#)c_available_patterns[$name]}; do
-            if [[ $PWD/ == $~pattern ]]; then
-                matches+=($name)
-            fi
-        done
+  for name in $c_available; do
+    for pattern in ${(s#,#)c_available_patterns[$name]}; do
+      if [[ $PWD/ == $~pattern ]]; then
+        matches+=($name)
+      fi
     done
+  done
 
-    first=${matches[1]}
+  first=${matches[1]}
 
-    case "$#matches/${c_current[name]}" in
-        0/)
-            ;;
+  case "$#matches/${c_current[name]}" in
+    0/)
+      ;;
 
-        0/*)
-            c-unload
-            ;;
+    0/*)
+      c-unload
+      ;;
 
-        1/$first)
-            ;;
+    1/$first)
+      ;;
 
-        1/*)
-            c-unload
-            c-load $first
-            ;;
+    1/*)
+      c-unload
+      c-load $first
+      ;;
 
-        *)
-            local message
-            message=${(j:, :)matches}
-            print "contexts: conflict $message" 1>&2
-            ;;
-    esac
+    *)
+      local message
+      message=${(j:, :)matches}
+      print "contexts: conflict $message" 1>&2
+      ;;
+  esac
 }
 
 c-load() {
-    if [[ -n $c_current[name] ]]; then
-        print "contexts: Can't load $1: already loaded ${c_current[name]}" 1>&2
-        return
-    fi
+  if [[ -n $c_current[name] ]]; then
+    print "contexts: Can't load $1: already loaded ${c_current[name]}" 1>&2
+    return
+  fi
 
-    local name file revert context_dir
+  local name file revert context_dir
 
-    context_dir=$c_available_location[$1]
-    file=$context_dir/zsh
+  context_dir=$c_available_location[$1]
+  file=$context_dir/zsh
 
-    c_current[name]=$1
-    c_current[dir]=$context_dir
-    [[ -e $context_dir/zsh ]] && c_current[zsh]=$context_dir/zsh
-    [[ -e $context_dir/mux ]] && c_current[mux]=$context_dir/mux
-    c_revert=""
+  c_current[name]=$1
+  c_current[dir]=$context_dir
+  [[ -e $context_dir/zsh ]] && c_current[zsh]=$context_dir/zsh
+  [[ -e $context_dir/mux ]] && c_current[mux]=$context_dir/mux
+  c_revert=""
 
-    if [[ -n $c_current[mux] ]]; then
-        export MUX_CONFIG=$c_current[mux]
-        export MUX_SESSION=$1
-        c_revert+=('unset MUX_CONFIG')
-        c_revert+=('unset MUX_SESSION')
-    fi
+  if [[ -n $c_current[mux] ]]; then
+    export MUX_CONFIG=$c_current[mux]
+    export MUX_SESSION=$1
+    c_revert+=('unset MUX_CONFIG')
+    c_revert+=('unset MUX_SESSION')
+  fi
 
-    [[ -e $c_current[zsh] ]] || return
+  [[ -e $c_current[zsh] ]] || return
 
-    awk -f <(cat <<\END
-    /^[-a-zA-Z0-9_]+[[:space:]]*\(\)[[:space:]]*{/ { gsub("\\(\\)", "", $1); print "function", $1; }
-    /^function[[:space:]]/ { gsub("\\(\\)", "", $2); print "function", $2; }
-    /^alias [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $2); print "alias", $2; }
-    /^alias -g [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $3); print "galias", $3; }
-    /^bindkey / { print "bindkey -L", $2; }
-    /^zle -N / { print "widget", $3; }
+  awk -f <(cat <<\END
+  /^[-a-zA-Z0-9_]+[[:space:]]*\(\)[[:space:]]*{/ { gsub("\\(\\)", "", $1); print "function", $1; }
+  /^function[[:space:]]/ { gsub("\\(\\)", "", $2); print "function", $2; }
+  /^alias [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $2); print "alias", $2; }
+  /^alias -g [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $3); print "galias", $3; }
+  /^bindkey / { print "bindkey -L", $2; }
+  /^zle -N / { print "widget", $3; }
 END
-    ) $c_current[zsh] |
-    while read -r line; do
-        name=${${(s: :)line}[2]}
+  ) $c_current[zsh] |
+  while read -r line; do
+    name=${${(s: :)line}[2]}
 
-        case $line in
-            alias*)
-                if [[ -n $aliases[$name] ]]; then
-                    revert=$(alias -L $name)
-                else
-                    revert="unalias $name"
-                fi
-                ;;
+    case $line in
+      alias*)
+        if [[ -n $aliases[$name] ]]; then
+          revert=$(alias -L $name)
+        else
+          revert="unalias $name"
+        fi
+        ;;
 
-            galias*)
-                if [[ $(whence -v $name) == *global\ alias* ]]; then
-                    revert=$(alias -L $name)
-                else
-                    revert="unalias '$name'"
-                fi
-                ;;
+      galias*)
+        if [[ $(whence -v $name) == *global\ alias* ]]; then
+          revert=$(alias -L $name)
+        else
+          revert="unalias '$name'"
+        fi
+        ;;
 
-            function*)
-                if [[ -n $functions[$name] ]]; then
-                    revert="$name () {"$'\n'$functions[$name]$'\n}'
-                else
-                    revert="unfunction $name"
-                fi
-                ;;
+      function*)
+        if [[ -n $functions[$name] ]]; then
+          revert="$name () {"$'\n'$functions[$name]$'\n}'
+        else
+          revert="unfunction $name"
+        fi
+        ;;
 
-            bindkey*)
-                revert=$(eval $line)
-                ;;
+      bindkey*)
+        revert=$(eval $line)
+        ;;
 
-            widget*)
-                revert="zle -D $name"
-                ;;
+      widget*)
+        revert="zle -D $name"
+        ;;
 
-            *)
-                continue
-                ;;
-        esac
+      *)
+        continue
+        ;;
+    esac
 
-        c_revert+=($revert)
-    done
+    c_revert+=($revert)
+  done
 
-    source $c_current[zsh]
+  source $c_current[zsh]
 }
 
 c-context-list-all() {
-    () {
-        local location patterns
-        local -a files
+  () {
+    local location patterns
+    local -a files
 
-        echo "NAME : LOCATION : PATTERN : FILES"
+    echo "NAME : LOCATION : PATTERN : FILES"
 
-        for name in $c_available; do
-            location=$c_available_location[$name]
-            patterns=$c_available_patterns[$name]
-            files=($location/*(N:t))
-            files=(${files:#detect})
+    for name in $c_available; do
+      location=$c_available_location[$name]
+      patterns=$c_available_patterns[$name]
+      files=($location/*(N:t))
+      files=(${files:#detect})
 
-            location=${location/$HOME/'~'}
+      location=${location/$HOME/'~'}
 
-            echo $name : $location : $patterns : ${(j# #)files}
-        done
-    } | column -t -s ':'
+      echo $name : $location : $patterns : ${(j# #)files}
+    done
+  } | column -t -s ':'
 }
 
 context() {
-    if (( $#c_current == 0 )); then
-        echo "No context for the current directory" >&2
-        false
-        return
-    fi
+  if (( $#c_current == 0 )); then
+    echo "No context for the current directory" >&2
+    false
+    return
+  fi
 
-    local cmd=${1:-show}
+  local cmd=${1:-show}
 
-    case $cmd in
-        (show)
-            for key in ${(k)c_current}; do
-                printf "%-10s %s\n" "$key:" $c_current[$key]
-            done
+  case $cmd in
+    (show)
+      for key in ${(k)c_current}; do
+        printf "%-10s %s\n" "$key:" $c_current[$key]
+      done
 
-            if [[ -e $c_current[zsh] ]]; then
-                echo "-------- zsh --------"
-                cat $c_current[zsh]
-                echo
-            fi
+      if [[ -e $c_current[zsh] ]]; then
+        echo "-------- zsh --------"
+        cat $c_current[zsh]
+        echo
+      fi
 
-            if [[ -e $c_current[mux] ]]; then
-                echo "-------- mux --------"
-                cat $c_current[mux]
-                echo
-            fi
-            ;;
+      if [[ -e $c_current[mux] ]]; then
+        echo "-------- mux --------"
+        cat $c_current[mux]
+        echo
+      fi
+      ;;
 
-        (list)
-            context-list-all
-            ;;
+    (list)
+      c-context-list-all
+      ;;
 
-        (mux)
-            vi $c_current[dir]/mux
-            ;;
+    (mux)
+      vi $c_current[dir]/mux
+      ;;
 
-        (zsh|-e)
-            vi $c_current[dir]/zsh
-            e
-            ;;
-    esac
+    (zsh|-e)
+      vi $c_current[dir]/zsh
+      e
+      ;;
+  esac
 }
 
 c-unload() {
-    eval ${(F)c_revert}
+  eval ${(F)c_revert}
 
-    c_current=()
-    c_revert=
+  c_current=()
+  c_revert=
 }
 
 c-load-available-contexts
