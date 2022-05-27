@@ -6,6 +6,7 @@ declare -a perl_modules
 declare -A forced
 
 perl_modules=(
+  Data::Dump
   Alien::libtickit
   Tickit
   Tickit::Widgets
