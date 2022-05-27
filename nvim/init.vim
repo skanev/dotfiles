@@ -1,3 +1,5 @@
+let g:dotfiles_dir = expand('<sfile>:p:h:h')
+
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 
