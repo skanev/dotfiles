@@ -97,7 +97,7 @@ function s:sid()
   return '<SNR>' . matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$') . '_'
 endfun
 
-if g:env.app == 'nvim-qt'
+if g:env.app == 'nvim-qt' || g:env.app == 'neovide'
   call MapMeta('nvic', '', '-', '<Cmd>call '.s:sid()."set_font('delta', -1)<CR>")
   call MapMeta('nvic', '', '=', '<Cmd>call '.s:sid()."set_font('delta', 1)<CR>")
   call MapMeta('nvic', '', '0', '<Cmd>call '.s:sid()."set_font('reset', 0)<CR>")
