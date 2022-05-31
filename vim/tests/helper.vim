@@ -34,7 +34,7 @@ function! helper.scripts() dict abort
     let groups = matchlist(line, '^\s*\(\d\+\):\s*\(\S\+\)')
     if groups == [] | continue | endif
 
-    let file = expand(groups[2], ':p')
+    let file = fnamemodify(groups[2], ':p')
     if !self.starts_with(file, g:dotfiles_dir) || self.starts_with(file, g:dotfiles_dir . "/vim/bundles/") | continue | endif
 
     let result[groups[1]] = groups[2]
