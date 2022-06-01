@@ -45,6 +45,10 @@ let s:modes.prove.matcher  = '\.t$'
 let s:modes.prove.run_file = 'prove {file}'
 let s:modes.prove.run_line = 'prove {file}:{line}'
 
+let s:modes.go             = {}
+let s:modes.go.matcher     = '_test\.go'
+let s:modes.go.run_file    = 'go test'
+
 let s:modes.vader          = {}
 let s:modes.vader.matcher  = '\.vader$'
 let s:modes.vader.run_file = ':Vader {file}'
