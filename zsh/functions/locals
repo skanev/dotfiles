@@ -2,7 +2,16 @@
 
 local name
 
-for name in ~/.localrc ~/.localprofile ~/.localenv ~/.vim/tweaks.local.vim ~/.vim/localvimrc.vim; do
+local -a local_files=(
+  ~/.localrc
+  ~/.localprofile
+  ~/.localenv
+  ~/.gitconfig.local
+  ~/.vim/tweaks.local.vim
+  ~/.vim/localvimrc.vim
+)
+
+for name in $local_files; do
   if [[ -f $name ]]; then
     echo "\e[1m========================================="
     echo "file: $name"
