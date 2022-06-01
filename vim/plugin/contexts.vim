@@ -7,10 +7,14 @@ end
 
 let s:contexts = {}
 
-function s:setup()
+function s:setup() abort
   for dir in s:dirs
     for detect in glob(dir . '*/detect', 0, 1)
-      let glob = readfile(detect)[0]
+      let lines = readfile(detect)
+      if len(lines) == 0
+        continue
+      endif
+      let glob = lines[0]
       let pattern = glob2regpat(glob)
       let name = fnamemodify(detect, ':h:t')
       let dir = fnamemodify(detect, ':h')
