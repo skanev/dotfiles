@@ -58,6 +58,7 @@ packages=(
   tree
   "vcprompt [homebrew]"
   "watch"
+  "wget"
   "zlib1g-dev -> ubuntu:zlib1g-dev other:_"
 )
 
