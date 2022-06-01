@@ -1,9 +1,17 @@
 #!/usr/bin/env zsh
 
+# Poor mans column fitting. Author should be put down humanely.
+
+sessions() {
+  echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|xxxxxxxxxxxxxxxxxxxxxxxx|xxx"
+  tmux list-sessions -F '[39]#{session_name}|[220]#{session_windows} window(s)|[154]#{?#{>=:#{session_attached},1},*,}|[0]'
+}
+
 choose() {
-  tmux list-sessions -F '[39]#{session_name}|            [220]#{session_windows} window(s)|        [154]#{?#{>=:#{session_attached},1},*,}|[0]' |
+  sessions |
     column -s '|' -t |
     perl -pe 's/\[(\d+)\]/\e[38;5;$1m/g; s/$/\e[0m/' |
+    sed '1d' |
     fzf --reverse --keep-right --ansi
 }
 
