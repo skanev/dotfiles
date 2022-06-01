@@ -66,7 +66,7 @@ pager: less -FRXS
 
 cheatpaths:
   - name: personal
-    path: $HOME/code/personal/dotfiles/knowledge/cheat/
+    path: $HOME/dev/skanev/dotfiles/knowledge/cheat/
     tags: [ personal ]
     readonly: false
 END
