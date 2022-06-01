@@ -96,6 +96,11 @@ my %languages = (
       }
     },
   },
+  go => {
+    solution_file => sub { "$exercise_path/@{[ lower_snake_case $exercise ]}.go" },
+    test_file => sub { "$exercise_path/@{[ lower_snake_case $exercise ]}_test.go" },
+    test => sub { "go test" },
+  },
   kotlin => {
     solution_file => sub { "$exercise_path/src/main/kotlin/@{[ upper_camel_case $exercise ]}.kt" },
     test_file => sub { "$exercise_path/src/test/kotlin/@{[ upper_camel_case $exercise ]}Test.kt" },
