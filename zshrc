@@ -13,3 +13,4 @@ for zshrc_file in ~/.zsh/init/S[0-9][0-9]*[^~] ; do
 done
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+export PATH="/usr/local/opt/node@16/bin:$PATH"
