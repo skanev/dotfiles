@@ -34,8 +34,8 @@ cmp.setup({
     format = (vim.g.tweaks.devicons == 1 and require('lspkind').cmp_format() or nil),
   },
   sources = cmp.config.sources({
+    { name = 'ultisnips', priority = 10 },
     { name = 'nvim_lsp' },
-    { name = 'ultisnips' },
   }, {
     { name = 'buffer' },
   })
