@@ -332,7 +332,9 @@ endfunction
 function! s:set_runner(command)
   let command = a:command
 
-  if stridx(a:command, '{file}') == -1
+  if a:command[0] == '!'
+    let command = a:command[1:]
+  elseif stridx(a:command, '{file}') == -1
     let command .= ' {file}'
   endif
 
