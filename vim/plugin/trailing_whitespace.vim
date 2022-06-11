@@ -8,9 +8,9 @@ let g:HighlightTrailingWhitespace = 1
 
 highlight TrailingWhitespace guibg=red ctermbg=red
 
-autocmd! InsertLeave,BufEnter,FileType * call s:highlight()
-autocmd! InsertEnter                   * call s:unhighlight()
-autocmd! ColorScheme                   * highlight TrailingWhitespace guibg=red ctermbg=red
+autocmd! BufEnter,FileType * call s:highlight()
+autocmd! ModeChanged       * call s:on_mode_change()
+autocmd! ColorScheme       * highlight TrailingWhitespace guibg=red ctermbg=red
 
 ":: Trailing Whitespace: Strip
 command! StripTrailingWhitespace  call s:strip()
@@ -44,4 +44,12 @@ function! s:strip()
   let pattern = @/
   %s/\s\+$//e
   let @/ = pattern
+endfunction
+
+function! s:on_mode_change() abort
+  if mode()[0] == 'i' || mode()[0] == 's' || mode()[0] == 'c'
+    call s:unhighlight()
+  else
+    call s:highlight()
+  endif
 endfunction
