@@ -1,3 +1,48 @@
 #!/usr/bin/env zsh
 
 export FZF_DEFAULT_COMMAND="fd --type f"
+
+_fzf_run() {
+  if [[ -n $TMUX_PANE ]]; then
+    echo "fzf-tmux -p 70%,50%"
+  else
+    echo "fzf --height 40% --reverse"
+  fi
+}
+
+_fzf_widget() {
+  local cmd selection finder
+  finder=$1
+  cmd="$(_fzf_run) -m --bind=ctrl-z:ignore"
+  selection=$(${(z)finder} | ${(z)cmd})
+  LBUFFER="${LBUFFER}${selection}"
+  zle reset-prompt
+}
+
+_fzf_file_widget() {
+  _fzf_widget "fd --strip-cwd-prefix"
+}
+
+_fzf_directory_widget() {
+  _fzf_widget "fd --type d --strip-cwd-prefix"
+}
+
+_fzf_history_widget() {
+  setopt local_options
+  cmd="$(_fzf_run) -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort,ctrl-z:ignore"
+  selected=($(fc -rl 1 | perl -ne 'print if !$seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' | ${(z)cmd} --query=${LBUFFER}))
+
+  if [[ -n $selected && -n $selected[1] ]]; then
+    zle vi-fetch-history -n $selected[1]
+  fi
+
+  zle reset-prompt
+}
+
+zle -N fzf-insert-files         _fzf_file_widget
+zle -N fzf-insert-dirs          _fzf_directory_widget
+zle -N fzf-select-history-entry _fzf_history_widget
+
+bindkey '^Xf' fzf-insert-files
+bindkey '^Xd' fzf-insert-dirs
+bindkey '^Xr' fzf-select-history-entry
