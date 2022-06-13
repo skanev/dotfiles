@@ -194,6 +194,11 @@ function Mapping:with_new_lhs(lhs)
   return Mapping:new(new)
 end
 
+function Mapping:with_new_lhs_rhs(lhs, rhs)
+  local new = vim.tbl_extend('force', self, { lhs = lhs, rhs = rhs })
+  return Mapping:new(new)
+end
+
 function Mapping:description()
   return self.rhs or (self.callback and '<lua func>') or self.doc or '???'
 end
@@ -248,7 +253,7 @@ local function expand_plug_prefixes(mappings)
 
     for _, match in ipairs(matches) do
       local new_lhs = mapping.lhs .. match.lhs:sub(#mapping.rhs + 1, #match.lhs)
-      local new_mapping = mapping:with_new_lhs(new_lhs)
+      local new_mapping = mapping:with_new_lhs_rhs(new_lhs, match.rhs)
 
       if mappings[new_lhs] == nil then
         found[new_lhs] = new_mapping
@@ -495,29 +500,6 @@ function Keyset:mappings_for(lhs)
     global = self.global_mappings[lhs],
     buffer = self.buffer_mappings[lhs],
   }
-end
-
-function Keyset:expand_plug_prefixes()
-  for _, mapping in pairs(self.mappings) do
-    local matches = {}
-
-    if mapping.rhs and vim.startswith(mapping.rhs, '<Plug>') and not mapping.noremap then
-      for _, other in pairs(self.mappings) do
-        if vim.startswith(other.lhs, mapping.rhs) and #other.lhs > #mapping.rhs then
-          table.insert(matches, other)
-        end
-      end
-    end
-
-    for _, match in ipairs(matches) do
-      local new_lhs = mapping.lhs .. match.lhs:sub(#mapping.rhs + 1, #match.lhs)
-      local new_mapping = vim.tbl_extend('force', match, { lhs = new_lhs })
-
-      if self.mappings[new_lhs] == nil then
-        self.mappings[new_lhs] = Mapping:new(new_mapping)
-      end
-    end
-  end
 end
 
 function Keyset:find_locations()
