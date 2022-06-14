@@ -21,6 +21,7 @@ function! s:FixSonokai()
   highlight! DimRed guifg=#a67581
   highlight! DimWhite guifg=#adadad
   highlight! DimGreen guifg=#737b6b
+  highlight! CurrentWord guibg=#373d41
 
   highlight! CocErrorHighlight cterm=underline gui=undercurl guisp=#f85e84
   highlight! CocWarningHighlight cterm=underline gui=undercurl guisp=#e5c463
