@@ -14,7 +14,7 @@ _fzf_widget() {
   local cmd selection finder
   finder=$1
   cmd="$(_fzf_run) -m --bind=ctrl-z:ignore"
-  selection=$(${(z)finder} | ${(z)cmd})
+  selection=($(${(z)finder} | ${(z)cmd}))
   LBUFFER="${LBUFFER}${selection}"
   zle reset-prompt
 }
