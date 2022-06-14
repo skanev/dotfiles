@@ -2,7 +2,7 @@ let s:themes = [
   \ ['mvim',     '*',   {'font': 'Monaco for Powerline:h14',    'line': 2                                              }],
   \
   \ ['vim',      '*',   {                                                  'scheme': 'vividchalk', 'airline': 'murmur' }],
-  \ ['nvim',     '*',   {                                                  'scheme': 'vividchalk', 'airline': 'murmur' }],
+  \ ['nvim',     '*',   {                                                  'scheme': 'gruvbox',    'airline': 'murmur' }],
   \
   \ ['fvim',     '*',   {'font': 'Fira Code:h16',               'line': 3                                              }],
   \ ['neovide',  'mac', {'font': 'FiraCode Nerd Font Mono:h15', 'line': 2                                              }],
