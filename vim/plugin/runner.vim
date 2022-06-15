@@ -1,4 +1,4 @@
-let s:target_always_vim = 0
+let s:target_always_vim = 1
 let s:modes = {}
 
 " Left here for debugging purposes
@@ -24,8 +24,8 @@ let s:modes.cucumber.run_line = 'cucumber {file}:{line}'
 
 let s:modes.rspec          = {}
 let s:modes.rspec.matcher  = '_spec\.rb$'
-let s:modes.rspec.run_file = 'rspec --format documentation {file}'
-let s:modes.rspec.run_line = 'rspec --format documentation {file}:{line}'
+let s:modes.rspec.run_file = 'bin/rspec --format documentation {file}'
+let s:modes.rspec.run_line = 'bin/rspec --format documentation {file}:{line}'
 
 let s:modes.crystal_spec          = {}
 let s:modes.crystal_spec.matcher  = '_spec\.cr$'
