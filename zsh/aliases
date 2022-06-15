@@ -5,6 +5,7 @@ alias localrc="vim ~/.localrc && source ~/.localrc"
 
 alias tmux="tmux -2"
 
+alias ll="ls -laG"
 alias rdm="rake db:migrate"
 alias rdtp="rake db:test:prepare"
 alias rdmr="rake db:migrate:redo"
