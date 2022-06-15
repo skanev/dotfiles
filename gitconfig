@@ -67,3 +67,6 @@
   path = ~/.gitconfig.local
 [init]
   defaultBranch = main
+[user]
+  email = deyan.dobrinov@gmail.com
+  name = Deyan Dobrinov
