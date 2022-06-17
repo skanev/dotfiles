@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+
+case $DOTFILES_OS in
+  (mac)
+    open "$1"
+    ;;
+
+  (*)
+    echo "opening urls not supported on $DOTFILES_OS"
+    false
+    ;;
+esac

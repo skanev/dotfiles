@@ -1,10 +1,21 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 
-urls=$(tmux capture-pane -p |
-       grep -iIohE 'https?://[^[:space:]]+' |
-       sort -u |
-       tail -n 8)
+local urls=($(tmux capture-pane -p | grep -iIohE 'https?://[^[:space:]]+' | sort -u))
 
-for url in $urls; do
-    open "$url"
-done
+case ${#urls} in
+  (0)
+    tmux display "No URLs found"
+    ;;
+
+  (1)
+    ~/.scripts/open-browser ${urls[1]}
+    ;;
+
+  (*)
+    local selected=($(echo ${(F)urls} | fzf-tmux -m -p 70%,50%))
+    local url
+    for url in $selected; do
+      echo ~/.scripts/open-browser $url
+    done
+    ;;
+esac
