@@ -30,7 +30,7 @@ DEFINED_MAPPINGS = {
   'CTRL-W_bar' => '<C-W>|'
 }
 
-def read_vim_index
+def read_vim_index(sections, defined_mappings, filter)
   input = File.open(INDEX_PATH)
   consume = -> { input.readline }
 
@@ -44,7 +44,7 @@ def read_vim_index
   until input.eof?
     line = input.readline.chomp
 
-    considered = SECTIONS.include?(title) and in_index
+    considered = sections.include?(title) and in_index
 
     case line
     in /^=+$/
@@ -54,18 +54,19 @@ def read_vim_index
     in /^-+/
       in_index = true
     in _ if not considered
-    in /^\|([^|]+)\|\t+([^\t]+)\t+(.*)/ if SECTIONS.include?(title)
+    in /^\|([^|]+)\|\t+([^\t]+)\t+(.*)/ if sections.include?(title)
       tag, _seq, text = $1, $2, $3
-      next if tag =~ /^([oicv]_)/
+      next unless filter.(tag)
       next if tag == "'cedit'" or tag == 'count' or tag == 'netrw-gx'
       next if tag == ":" and title == "EX commands"
 
       text = text.sub(/^\d  /, '').sub(/^\s+/, '')
 
       key = tag
-      if DEFINED_MAPPINGS.include?(tag)
-        key = DEFINED_MAPPINGS[tag]
+      if defined_mappings.include?(tag)
+        key = defined_mappings[tag]
       else
+        key.sub!(/^[oicv]_/, '')
         key.gsub!(/_?star_?/, '*')
         key.gsub!(/_?quote_?/, '"')
         key.gsub!(/_?bar_?/, '|')
@@ -120,10 +121,10 @@ def read_groomed_mappings
   result
 end
 
-def dump_missing_mappings
+def dump_missing_normal_mode_mappings
   groomed = read_groomed_mappings
 
-  read_vim_index.each do |key, value|
+  read_vim_index(SECTIONS, DEFINED_MAPPINGS, -> { _1 !~ /^([oicv]_)/ }).each do |key, value|
     next if groomed.key? key
     lhs = key.gsub(/(['\\])/) { "\\#$1" }
     doc = value.gsub(/(['\\])/) { "\\#$1" }
@@ -131,4 +132,14 @@ def dump_missing_mappings
   end
 end
 
-dump_missing_mappings
+dump_missing_normal_mode_mappings
+
+def dump_insert_mode_mappings
+  read_vim_index(['Insert mode'], {}, -> { _1 =~ /^i_/ }).each do |key, value|
+    lhs = key.gsub(/(['\\])/) { "\\#$1" }
+    doc = value.gsub(/(['\\])/) { "\\#$1" }
+    puts %{  ['#{lhs}'] = '#{doc}',}
+  end
+end
+
+dump_insert_mode_mappings

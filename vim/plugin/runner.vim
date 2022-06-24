@@ -343,12 +343,18 @@ endfunction
 
 " Commands
 
+":: Runner: Run file
 command! -nargs=0 RunnerRunFile       call s:run_action('file')
+":: Runner: Run file or repeat last run
 command! -nargs=0 RunnerRunFileOrLast call s:run_action('file', 'last')
+":: Runner: Run line
 command! -nargs=0 RunnerRunLine       call s:run_action('line')
-command! -nargs=1 RunWith             call s:set_runner(<q-args>)
+":: Runner: Always run in Vim
 command! -nargs=0 RunnerAlwaysVim     call s:always_vim()
+":: Runner: Reset target
 command! -nargs=0 RunnerResetTarget   call s:reset_target()
+
+command! -nargs=1 RunWith             call s:set_runner(<q-args>)
 
 " Mappings
 

@@ -356,15 +356,16 @@ end
 local Keyset = {}
 
 ---@param bufid buffer
----@param opts? { expand_plug_prefixes?: boolean, find_locations?: boolean }
+---@param opts? { expand_plug_prefixes?: boolean, find_locations?: boolean, mode?: 'i' | 'n' }
 ---@return ek.Keyset
 function Keyset.for_buffer(bufid, opts)
   opts = opts or {}
+  local mode = opts.mode or 'n'
   local find_locations = opts.find_locations or false
 
   local keymaps = {
-    { kind = 'global', mappings = vim.api.nvim_get_keymap('n') },
-    { kind = 'buffer', mappings = vim.api.nvim_buf_get_keymap(bufid, 'n') },
+    { kind = 'global', mappings = vim.api.nvim_get_keymap(mode) },
+    { kind = 'buffer', mappings = vim.api.nvim_buf_get_keymap(bufid, mode) },
   }
 
   local mappings = {
@@ -373,7 +374,7 @@ function Keyset.for_buffer(bufid, opts)
     buffer = {},
   }
 
-  for lhs, doc in pairs(inventory.normal_mode_mappings) do
+  for lhs, doc in pairs(inventory.modes[mode]) do
     mappings.default[lhs] = Mapping:new {
       lhs = lhs,
       --action = doc,

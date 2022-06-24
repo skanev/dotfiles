@@ -20,16 +20,18 @@ vim.cmd [[
   highlight link KeyBrowserKeyError   ErrorMsg
 ]]
 
-local function explore(seqs)
+local function explore(opts)
+  opts = opts or {}
+  local mode = opts.mode or 'n'
   local explainer = explorer.Explorer:new()
 
-  explainer:obtain_mappings(0)
+  explainer:obtain_mappings(0, mode)
   explainer:open_window()
 
-  --- TODO This handles both (1) being given an initial input and (2) being given command arguments; should split
-  if seqs and type(seqs) == 'string' then
-    explainer:feed(seqs)
+  if opts.prefix then
+    explainer:feed(opts.prefix)
   end
+
   explainer:render()
 end
 
@@ -47,11 +49,42 @@ local function rerun()
   require('explore_keys').explore()
 end
 
-local function setup(opts)
-  configuration.configure(opts)
+local function setup(config)
+  local modes = { normal = 'n', insert = 'i' }
 
-  vim.api.nvim_create_user_command('ExploreKeys', explore, {})
+  configuration.configure(config)
+
   vim.api.nvim_create_user_command('RerunExploreKeys', rerun, {})
+
+  vim.api.nvim_create_user_command(
+    'ExploreKeys',
+    function(opts)
+      local mode = opts.args
+      if mode == '' then
+        mode = 'normal'
+      end
+
+      if modes[mode] == nil then
+        vim.api.nvim_err_writeln("Unrecognized mode: " .. mode)
+
+      else
+        explore { mode = modes[mode], prefix = '' }
+      end
+    end,
+    {
+      nargs = '?',
+      complete = function(_, line)
+        local options = vim.tbl_keys(modes)
+        local parts = vim.split(line, '%s+')
+
+        if #parts == 1 then
+          return options
+        elseif #parts == 2 then
+          return vim.tbl_filter(function(val) return vim.startswith(val, parts[2]) end, options)
+        end
+      end,
+    }
+  )
 end
 
 return {
