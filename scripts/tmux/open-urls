@@ -15,7 +15,7 @@ case ${#urls} in
     local selected=($(echo ${(F)urls} | fzf-tmux -m -p 70%,50%))
     local url
     for url in $selected; do
-      echo ~/.scripts/open-browser $url
+      ~/.scripts/open-browser $url
     done
     ;;
 esac
