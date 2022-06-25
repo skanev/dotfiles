@@ -1,4 +1,4 @@
-local mappings = {
+local normal_mode_mappings = {
   -- basic movement
   ["h"] = 'go left',
   ["j"] = 'go down',
@@ -445,6 +445,76 @@ local mappings = {
   ["]M"] = 'go to end of next method (java)',
 }
 
+local insert_mode_mappings = {
+  -- miscellaneous
+  ['<C-O>'] = 'execute a single command and return to insert',
+  ['<C-Z>'] = "when 'insertmode' set: suspend Vim",
+  ['<C-]>'] = 'trigger abbreviation',
+
+  -- going back to normal mode
+  ['<C-C>'] = 'quit insert mode, w/o InsertLeave event',
+  ['<C-L>'] = "when 'insertmode' set: Leave Insert mode",
+
+  -- inserting
+  ['<C-@>'] = 'insert previously inserted text and stop',
+  ['<C-A>'] = 'insert previously inserted text',
+  ['<C-R>'] = 'insert the contents of a register',
+  ['<C-E>'] = 'insert the character which is below the cursor',
+  ['<C-Y>'] = 'insert the character which is above the cursor',
+  ['<C-Q>'] = 'same as CTRL-V, unless used for terminal',
+  ['<C-V>'] = 'insert next non-digit literally',
+
+  -- deleting
+  ['<C-U>'] = 'delete all entered characters in the current',
+
+  -- indenting
+  ['<C-T>'] = 'insert one shiftwidth of indent in current',
+  ['<C-D>'] = 'delete one shiftwidth of indent in the current',
+
+  -- duplicates of named keys
+  ['<C-[>'] = 'same as <Esc>',
+  ['<C-M>'] = 'same as <CR>',
+  ['<C-H>'] = 'same as <BS>',
+  ['<C-I>'] = 'same as <Tab>',
+  ['<C-J>'] = 'same as <CR>',
+
+  -- :lmap stuff
+  ['<C-^>'] = 'toggle use of |:lmap| mappings',
+  ['<C-_>'] = 'switch between languages',
+
+  -- ctrl-g mappings
+  ['<C-G>j'] = 'line down, to column where inserting started line down, to column where inserting started line down, to column where inserting started',
+  ['<C-G>k'] = 'line up, to column where inserting started line up, to column where inserting started line up, to column where inserting started',
+  ['<C-G>u'] = 'start new undoable edit',
+  ['<C-G>U'] = "don't break undo with next cursor movement",
+
+  -- completion
+  ['<C-N>'] = 'complete, next match',
+  ['<C-P>'] = 'complete, previous match',
+  ['<C-X><C-D>'] = 'complete defined identifiers',
+  ['<C-X><C-E>'] = 'scroll up',
+  ['<C-X><C-F>'] = 'complete file names',
+  ['<C-X><C-I>'] = 'complete identifiers',
+  ['<C-X><C-K>'] = 'complete identifiers from dictionary',
+  ['<C-X><C-L>'] = 'complete whole lines',
+  ['<C-X><C-N>'] = 'next completion',
+  ['<C-X><C-O>'] = 'omni completion',
+  ['<C-X><C-P>'] = 'previous completion',
+  ['<C-X><C-S>'] = 'spelling suggestions',
+  ['<C-X><C-T>'] = 'complete identifiers from thesaurus',
+  ['<C-X><C-Y>'] = 'scroll down',
+  ['<C-X><C-U>'] = 'complete with \'completefunc\'',
+  ['<C-X><C-V>'] = 'complete like in : command line',
+  ['<C-X><C-Z>'] = 'stop completion, keeping the text as-is',
+  ['<C-X><C-]>'] = 'complete tags',
+  ['<C-X>s'] = 'spelling suggestions',
+}
+
 return {
-  normal_mode_mappings = mappings
+  normal_mode_mappings = normal_mode_mappings,
+  insert_mode_mappings = insert_mode_mappings,
+  modes = {
+    n = normal_mode_mappings,
+    i = insert_mode_mappings,
+  }
 }

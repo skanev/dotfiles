@@ -405,8 +405,13 @@ function Explorer:close()
   vim.api.nvim_win_close(self.winid, true)
 end
 
-function Explorer:obtain_mappings(target_buffnr)
-  self.keyset = keyset.Keyset.for_buffer(target_buffnr, { expand_plug_prefixes = true, find_locations = true })
+function Explorer:obtain_mappings(target_buffnr, mode)
+  mode = mode or 'n'
+  self.keyset = keyset.Keyset.for_buffer(target_buffnr, {
+    expand_plug_prefixes = true,
+    find_locations = true,
+    mode = mode,
+  })
 end
 
 function Explorer:feed(seqs)
