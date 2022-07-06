@@ -28,6 +28,7 @@ Plug 'zah/nim.vim'
 " Features
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'int3/vim-extradite'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -66,6 +67,7 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'dracula/vim', {'as': 'dracula'}
 Plug 'folke/tokyonight.nvim'
 Plug 'rafamadriz/neon'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
 " Other
 Plug 'vim-scripts/Gist.vim'
@@ -75,6 +77,8 @@ Plug 'junegunn/vader.vim'
 
 " Temporary(?)
 Plug 'voldikss/vim-floaterm'
+Plug 'vim-scripts/SQLUtilities'
+Plug 'vim-scripts/Align'
 
 " NVIM
 if g:env.nvim
@@ -185,10 +189,6 @@ let g:UltiSnipsListSnippets        = ""
 let g:UltiSnipsJumpForwardTrigger  = "<C-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
 let g:UltiSnipsEditSplit           = "horizontal"
-
-" airblade/vim-gitgutter
-let g:gitgutter_map_keys = 0
-let g:gitgutter_enabled = 1
 
 let g:vim_json_syntax_conceal = 0
 
