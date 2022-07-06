@@ -14,3 +14,7 @@ done
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 export PATH="/usr/local/opt/node@16/bin:$PATH"
+
+eval "$(rbenv init -)"
+
+export PATH="/usr/local/opt/libpq/bin:$PATH"

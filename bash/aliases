@@ -89,6 +89,8 @@ alias kubeinfrastructure='kubectl --kubeconfig=/Users/bikezilla/.kube/infrastruc
 
 alias monojump="cd ~/dev/work/docker && bin/kuby jump monolith --kubeconfig ~/.kube/production_cluster.yml"
 
+alias cro="rake cypress:open"
+
 
 grep-in-project () {
   git --no-pager grep "$@"
