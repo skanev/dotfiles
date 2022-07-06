@@ -10,7 +10,7 @@ install-pack() {
   fi
 
   if grep -q 'if \[ -x /usr/libexec/path_helper \]; then' /etc/zprofile; then
-    sudo sed -I.old 's#\[ -x /usr/libexec/path_helper #[&\&\& ! -v DOTFILES_PATHS_LOADED ]#' /etc/zprofile
+    #sudo sed -I.old 's#\[ -x /usr/libexec/path_helper #[&\&\& ! -v DOTFILES_PATHS_LOADED ]#' /etc/zprofile
   fi
 
   defaults write nvim-qt ApplePressAndHoldEnabled NO
