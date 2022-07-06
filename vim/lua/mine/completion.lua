@@ -152,6 +152,7 @@ cmp.setup.filetype('ruby', {
         end,
       }
     },
+    { name = 'rails_http_status_codes' },
   })
 })
 

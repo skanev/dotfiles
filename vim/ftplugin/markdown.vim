@@ -8,4 +8,6 @@ setlocal spell
 setlocal spelllang=en,bg
 setlocal tw=80
 
+set textwidth=120
+
 command! -buffer MarkdownToc :!markdown-toc -i %

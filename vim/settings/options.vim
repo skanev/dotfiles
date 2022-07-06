@@ -26,7 +26,7 @@ set backspace=indent,eol,start " intuitive backspace
 set dir=~/.vim-backup          " swap file location
 set listchars=eol:¬,tab:→\     " invisible characters
 
-set keymap=bulgarian-skanev    " my input method for Bulgarian
+set keymap=bulgarian-phonetic
 set iminsert=0                 " don't switch to BDS automatically
 set imsearch=-1                " search in the same language as iserting
 
@@ -47,7 +47,6 @@ endif
 
 if !has('gui_running')
   set t_Co=256
-  set mouse=a
   if has('termguicolors')
     set termguicolors
   endif
