@@ -16,7 +16,7 @@ let s:themes = [
   \
   \ ['winvim',   '*',     {'font': 'Cascadia Code:h14',           'line': 3, 'scheme': 'OceanicNext'                     }],
   \
-  \ ['*',        '*',     {                                                  'scheme': 'sonokai'                         }]
+  \ ['*',        '*',   {                                                   'scheme': 'jellybeans'                      }]
   \ ]
 
 let g:sonokai_style = 'shusia'

@@ -1,5 +1,6 @@
 set nocompatible
 set encoding=utf-8
+set mouse=
 syntax on
 
 let mapleader = ","
@@ -49,7 +50,6 @@ if g:env.nvim
   lua require('mine.telescope')
   lua require('mine.palette')
   lua require('mine.mire')
-  lua require('mine.gitsigns')
   lua require('mine.lualine')
   lua require('mine.snippets')
   lua require('mine.tree')

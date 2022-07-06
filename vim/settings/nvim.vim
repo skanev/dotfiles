@@ -1,4 +1,5 @@
 if g:env.app == 'neovide'
+  let g:neovide_remember_window_size = v:true
   let g:neovide_cursor_animation_length = 0.04
   let g:neovide_scroll_animation_length = 0.07
   let g:neovide_floating_blur_amount_x = 4.0
@@ -10,7 +11,7 @@ if g:env.app == 'neovide'
 
   function! s:adjust_background()
     let color = synIDattr(synIDtrans(hlID("Normal")), "bg")
-    let g:neovide_background_color = color.'ff'
+    let g:neovide_transparency = 1
   endfunction
 
   augroup neovide

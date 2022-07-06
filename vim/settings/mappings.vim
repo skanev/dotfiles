@@ -38,17 +38,15 @@ nnoremap <Space> :
 vnoremap <Space> :
 nnoremap <expr> Q ''
 
-nmap [c <Plug>(GitGutterPrevHunk)
-nmap ]c <Plug>(GitGutterNextHunk)
 nmap [g <Cmd>colder<CR>
 nmap ]g <Cmd>cnewer<CR>
 
 nmap <silent> yoa <Cmd>ALEToggleBuffer<CR>
-nmap <silent> yog <Cmd>call <SID>ToggleGitGutter()<CR>
 
 nnoremap <C-h> :SidewaysLeft<CR>
 nnoremap <C-l> :SidewaysRight<CR>
 nnoremap <C-k> <Cmd>set hlsearch!<CR>
+nnoremap <C-j> <Cmd>%!jq .<CR>
 nnoremap - :Switch<CR>
 cnoremap <C-c> <C-^>
 inoremap <C-c> <C-^>
@@ -182,12 +180,6 @@ function! s:InstallTouchbarWorkaroundMappings()
   map <Leader>0 <F10>
   map <Leader>- <F11>
   map <Leader>= <F12>
-endfunction
-
-function! s:ToggleGitGutter()
-  GitGutterToggle
-  let g:airline#extensions#hunks#enabled = 1
-  AirlineRefresh
 endfunction
 
 command! InstallTouchbarWorkaroundMappings call s:InstallTouchbarWorkaroundMappings()
