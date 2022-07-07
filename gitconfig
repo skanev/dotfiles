@@ -65,3 +65,5 @@
   process = git-lfs filter-process
 [include]
   path = ~/.gitconfig.local
+[init]
+  defaultBranch = main
