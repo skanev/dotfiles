@@ -23,10 +23,12 @@ else
   let g:env.app = 'vim'
 endif
 
-if     exists('$HOMEDRIVE')  | let g:env.os = 'windows'
-elseif exists('$WSLENV')     | let g:env.os = 'wsl'
-elseif $DOTFILES_OS == 'mac' | let g:env.os = 'mac'
-else                         | let g:env.os = 'unknown'
+if     exists('$HOMEDRIVE')    | let g:env.os = 'windows'
+elseif exists('$WSLENV')       | let g:env.os = 'wsl'
+elseif $HOME =~ '^/home/'      | let g:env.os = 'linux'
+elseif $HOME =~ '^/Users/'     | let g:env.os = 'mac'
+elseif exists('$DOTFILES_OS')  | let g:env.os = $DOTFILES_OS
+else                           | let g:env.os = 'unknown'
 endif
 
 function! s:oneof(value, things)
