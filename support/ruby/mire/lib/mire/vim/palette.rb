@@ -4,7 +4,7 @@ module Mire
       extend self
 
       def extract_documented(text)
-        text.scan(/^\s*":: (.*)\n\s*command!?\s+(?:-\S+\s+)*(\w+)/).map do |name, command|
+        text.scrub.scan(/^\s*":: (.*)\n\s*command!?\s+(?:-\S+\s+)*(\w+)/).map do |name, command|
           [:command, command, name]
         end
       end
