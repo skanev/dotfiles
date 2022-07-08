@@ -3,38 +3,82 @@ alias reload_aliases="source ~/.zsh/aliases"
 alias aliases="vim ~/.zsh/aliases && reload_aliases"
 alias localrc="vim ~/.localrc && source ~/.localrc"
 
+alias fuckjam="ps xau | grep "timer.sh" | grep -v grep | awk '{print $2}' | xargs sudo kill"
+alias killspring="ps aux | grep spring | grep -v grep  | awk '{print $2}' | xargs kill"
+
 alias tmux="tmux -2"
 
-alias rdm="rake db:migrate"
+alias ll="ls -l"
+alias reload="e"
+
+alias rdm="rake db:migrate db:test:prepare"
+alias rdr="rake db:rollback db:test:prepare"
 alias rdtp="rake db:test:prepare"
 alias rdmr="rake db:migrate:redo"
 alias rrs="bundle exec rake spec"
 alias rco="rake cypress:open"
 alias rcr="rake cypress:run"
 
+alias rcg="rake codegen"
+
 alias rg="rails generate"
 alias rmig="rails generate migration"
 
+alias catchup="gf && gco master && gpl && bin/install && rake db:migrate db:test:prepare"
+alias action-tail='tail -f log/development.log | grep "Started\|Processing by\|Parameters\|Completed\|Render\|DEBUG"'
+alias action-tail-update='tail -f log/development.log | grep "Started\|Processing by\|Parameters\|Completed\|Render\|DEBUG\|UPDATE"'
+alias action-tail-test='tail -f log/test.log | grep "Started\|Processing by\|Parameters\|Completed\|Render"'
+
 alias g="git"
-alias gp="git push"
-alias gg="git status"
+alias gf="git fetch"
+alias gco="git checkout"
+alias gcof="git branch --all | fzf | sed 's+remotes/origin/++g' | xargs git checkout"
+
+alias gs="scmpuff status"
+alias gpl="git pull"
+alias gplr="git pull --rebase"
+alias ga="git add"
+alias gc="git commit --verbose"
+alias wip="gc -m WIP"
+alias gca="git commit --amend"
+alias gcp="git cherry-pick"
+
+alias gps="git push"
+alias gpsu="git rev-parse --abbrev-ref HEAD | xargs git push -u origin" 
+alias gpsf="git push --force-with-lease"
+alias grho="gf && git rev-parse --abbrev-ref HEAD | xargs -I {1} git reset --hard origin/{1}"
+
+alias gg="git graph"
+alias gl="git last"
+alias glp="git last P"
+
+alias gra="git rebase --autosquash -i"
 alias grm="git rebase origin/master"
 alias grim="git rebase -i origin/master"
-alias gs="git stash"
+alias grc="git rebase --continue"
+alias gri='git rebase -i $(git rev-list --all --merges | head -1)'
+alias grs="git rebase --skip"
+
+alias gst="git stash"
 alias gsa="git stash apply"
 alias gsc="git stash clear"
 alias gsp="git stash pop"
-alias grc="git rebase --continue"
-alias gca="git commit --amend"
-alias gr10="git rebase -i HEAD~10"
-alias gdc="echo \"You mean 'gds', right?\""
+
 alias gds="git diff --cached"
 alias gdsp="git diff --cached P"
-alias gri='git rebase -i $(git rev-list --all --merges | head -1)'
 alias gd="git diff"
+alias gdsplit='git_diff_split_diff() { git diff "$1" | git-split-diffs --color | less -RFX }; git_diff_split_diff'
+
+alias gdo="git rev-parse --abbrev-ref HEAD | xargs -I'{}' git diff origin/{}..HEAD"
 alias gdp="git diff P"
-alias gl="git last"
-alias glp="git last P"
+alias gbl="git blame -w -M -C"
+
+alias gst="git stash"
+alias gsta="git stash apply"
+alias gstc="git stash clear"
+alias gstp="git stash pop"
+
+alias prc="gh pr checkout"
 
 alias t="tmux"
 alias ta="tmux-attach-current"
