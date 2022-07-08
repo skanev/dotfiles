@@ -37,3 +37,15 @@ fi
 
 # Global aliases can mess up everything else, so they must be last
 . ~/.zsh/aliases
+
+eval "$(scmpuff init -s)"
+
+export PATH="$VOLTA_HOME/bin:$PATH"
+export PATH="~/bin:$PATH"
+export PATH="$HOME/.rd/bin:$PATH"
+
+export VOLTA_HOME="$HOME/.volta"
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
