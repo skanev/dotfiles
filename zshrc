@@ -41,3 +41,19 @@ fi
 if [[ $DOTFILES_OS == "mac" && -d ~/.rbenv && $(whence ruby) == "/usr/bin/ruby" ]]; then
   echo "\e[33mRuby is resolving to $(which ruby) instead of ~/.rbenv/shims/ruby; maybe you should run zsh setup/packs/mac_setup install\e[0m"
 fi
+
+eval "$(scmpuff init -s)"
+
+export PATH="$VOLTA_HOME/bin:$PATH"
+export PATH="~/bin:$PATH"
+export PATH="$HOME/.rd/bin:$PATH"
+
+export VOLTA_HOME="$HOME/.volta"
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
