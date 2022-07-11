@@ -26,6 +26,8 @@ fi
 [[ -d ~/.pyenv ]] && path=(~/.pyenv/bin ~/.pyenv/shims $path)
 [[ -d ~/.plenv ]] && path=(~/.plenv/bin ~/.plenv/shims $path)
 [[ -d ~/.rbenv ]] && path=(~/.rbenv/bin ~/.rbenv/shims $path)
+[[ -d ~/.volta ]] && export VOLTA_HOME="$HOME/.volta"
+[[ -d ~/.volta ]] && path=(~/.volta/bin $path)
 
 path=(~/bin ~/.bin $path)
 
