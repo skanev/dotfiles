@@ -34,6 +34,9 @@ WORDCHARS=${WORDCHARS//[&=\/;\!#%\{]}
 
 . ~/.zsh/prompt
 
+# Disable ctrl-s and ctrl-q
+# stty -ixon -ixoff
+
 # Don't exit on C-d outside tmux
 [[ -z "$TMUX" ]] && setopt IGNORE_EOF
 
