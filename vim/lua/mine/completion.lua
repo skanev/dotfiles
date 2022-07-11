@@ -13,6 +13,25 @@ require('cmp_nvim_ultisnips').setup {
   end
 }
 
+local function toggle_as_you_type()
+  if require('cmp.config').get().completion.autocomplete == false then
+    cmp.setup { completion = { autocomplete = { require('cmp.types').cmp.TriggerEvent.TextChanged } } }
+  else
+    cmp.setup { completion = { autocomplete = false } }
+    cmp.abort()
+  end
+end
+
+vim.api.nvim_create_user_command(
+  'AutocompleteToggle',
+  function(opts) toggle_as_you_type() end,
+  {
+    nargs = 0,
+    desc = 'Toggle as-you-type completion',
+  }
+)
+
+vim.fn.IMapLeader('imap', {}, '<Space>', '<Cmd>AutocompleteToggle<CR>')
 
 cmp.setup({
   snippet = {
