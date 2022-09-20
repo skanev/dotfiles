@@ -86,14 +86,14 @@ start() {
 
 attach() {
   if [[ -n $TMUX ]]; then
-    tmux switch-client -t $MUX_SESSION
+    tmux switch-client -t \=$MUX_SESSION
   else
-    tmux attach-session -d -t $MUX_SESSION
+    tmux attach-session -d -t \=$MUX_SESSION
   fi
 }
 
 attach-or-start() {
-  if tmux has-session -t $MUX_SESSION 2> /dev/null; then
+  if tmux has-session -t \=$MUX_SESSION 2> /dev/null; then
     attach
   else
     start
