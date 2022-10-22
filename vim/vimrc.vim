@@ -98,9 +98,11 @@ map <F7> <Cmd>call <SID>cycle_colors()<CR>
 map <S-F7> <Cmd>execute "colorscheme " . g:colorschemes[0]<CR>
 
 function! s:maximize_if_only_help_window(bufnr)
+  if win_gettype() == 'command' | return | endif
+
   for nr in tabpagebuflist()
-    if a:bufnr == nr     | continue | endif
-    if bufname(nr) == '' | continue | endif
+    if a:bufnr == nr              | continue | endif
+    if bufname(nr) == ''          | continue | endif
 
     return
   endfor
