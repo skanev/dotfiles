@@ -57,7 +57,7 @@ packages=(
   tmux
   tree
   "vcprompt [homebrew]"
-  "watch -> arch:_"
+  "watch -> other:watch arch:_"
   "wget"
   "zlib1g-dev -> ubuntu:zlib1g-dev other:_"
 )
