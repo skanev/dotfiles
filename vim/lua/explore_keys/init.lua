@@ -7,10 +7,10 @@ vim.cmd [[
 
   highlight link KeyBrowserCurrentInput Constant
   highlight link KeyBrowserAccent       Todo
-  highlight link KeyBrowserText         Normal
+  highlight link KeyBrowserText         Delimiter
 
   highlight link KeyBrowserActionSpecial  SpecialKey
-  highlight link KeyBrowserActionNormal   Normal
+  highlight link KeyBrowserActionNormal   Delimiter
   highlight link KeyBrowserActionMappings Number
 
   highlight      KeyBrowserKeyDefault guifg=#aaaaaa
