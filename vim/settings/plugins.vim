@@ -88,10 +88,10 @@ if g:env.nvim
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
 
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'neovim/nvim-lspconfig'
-  Plug 'williamboman/nvim-lsp-installer'
 
-  Plug 'onsails/lspkind-nvim'
   Plug 'ray-x/lsp_signature.nvim'
 
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -106,14 +106,15 @@ if g:env.nvim
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-path'
-  "Plug 'hrsh7th/cmp-cmdline'
   Plug 'hrsh7th/nvim-cmp'
 
   Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
   Plug 'lewis6991/gitsigns.nvim'
 
-  Plug 'folke/lua-dev.nvim'
+  Plug 'folke/neodev.nvim'
+
+  Plug 'github/copilot.vim'
 else
   Plug 'ervandew/supertab'
   Plug 'airblade/vim-gitgutter'
@@ -251,3 +252,6 @@ let g:no_synstack_maps = 1
 
 " preservim/nerdtree
 let NERDTreeIgnore = ['node_modules$']
+
+imap <silent><script><expr> <S-Tab> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true

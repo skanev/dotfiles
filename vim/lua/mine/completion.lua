@@ -24,7 +24,7 @@ end
 
 vim.api.nvim_create_user_command(
   'AutocompleteToggle',
-  function(opts) toggle_as_you_type() end,
+  function() toggle_as_you_type() end,
   {
     nargs = 0,
     desc = 'Toggle as-you-type completion',
@@ -33,7 +33,7 @@ vim.api.nvim_create_user_command(
 
 vim.fn.IMapLeader('imap', {}, '<Space>', '<Cmd>AutocompleteToggle<CR>')
 
-cmp.setup({
+cmp.setup{
   snippet = {
     expand = function(args) vim.fn["UltiSnips#Anon"](args.body) end,
   },
@@ -44,7 +44,7 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-Space>'] = cmp.mapping.complete({}),
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = false }),
     ['<Tab>'] = cmp.mapping.confirm({ select = true }),
@@ -58,7 +58,7 @@ cmp.setup({
   }, {
     { name = 'buffer' },
   })
-})
+}
 
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({

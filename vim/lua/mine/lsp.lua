@@ -1,55 +1,18 @@
 local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
-local lsp_installer = require("nvim-lsp-installer")
-local luadev = require('lua-dev').setup()
+local mason = require('mason')
+local mason_lspconfig = require('mason-lspconfig')
+local neodev = require('neodev')
+
+mason.setup()
+mason_lspconfig.setup()
+neodev.setup {}
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
-
-require('lspkind').init({
-  mode = 'symbol_text',
-  symbol_map = {
-    Text = '',
-    Method = 'ƒ',
-    Function = '',
-    Constructor = '',
-    Variable = '',
-    Field = '',
-    Class = '',
-    Interface = 'ﰮ',
-    Module = '',
-    Property = '',
-    Unit = '',
-    Value = '',
-    Enum = '了',
-    Keyword = '',
-    Snippet = '﬌',
-    Color = '',
-    File = '',
-    Folder = '',
-    EnumMember = '',
-    Constant = '',
-    Struct = ''
-  },
-})
-
---require('lsp_signature').on_attach({
-  --bind = false,
-  --doc_lines = 10, -- only show one line of comment set to 0 if you do not want API comments be shown
-
-  --hint_enable = true, -- virtual hint enable
-  --fix_pos = true,
-  --hint_prefix = "🐼 ",  -- Panda for parameter
-  --hint_scheme = "String",
-  --hi_parameter = "Search",
-  --handler_opts = {
-    --border = "shadow"   -- double, single, shadow, none
-  --},
-  --decorator = {"***", "***"}  -- or decorator = {"***", "***"}  decorator = {"**", "**"} see markdown help
---})
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -82,15 +45,15 @@ local on_attach = function(client, bufnr)
 
   vim.cmd[[IMapMeta <buffer> i <Cmd>lua require('mine').toggle_signature_help()<CR>]]
 
-  if client.resolved_capabilities.document_formatting then
+  if client.server_capabilities.documentFormattingProvider then
     buf_set_keymap("n", "<Leader>.f", "<Cmd>lua vim.lsp.buf.formatting()<CR>", opts)
   end
 
-  if client.resolved_capabilities.document_range_formatting then
+  if client.server_capabilities.documentRangeFormattingProvider then
     buf_set_keymap("v", "<Leader>.f", "<Cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
   end
 
-  if client.resolved_capabilities.document_highlight then
+  if client.server_capabilities.documentHighlightProvider then
     vim.api.nvim_exec([[
       augroup lsp_document_highlight
         autocmd! * <buffer>
@@ -106,7 +69,7 @@ local on_attach = function(client, bufnr)
 end
 
 local function make_capabilities(config)
-  local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
   config = config or {}
 
@@ -127,29 +90,25 @@ local function make_capabilities(config)
   return capabilities
 end
 
--- Register a handler that will be called for all installed servers.
--- Alternatively, you may also register handlers on specific server instances instead (see example below).
-lsp_installer.on_server_ready(function(server)
-  if server.name == 'sumneko_lua' then
-    server:setup {
+mason_lspconfig.setup_handlers {
+  function(server_name)
+    lspconfig[server_name].setup {
       on_attach = on_attach,
-      capabilities = make_capabilities({ snippets = true }),
-      settings = luadev.settings,
+      capabilities = make_capabilities { snippets = true },
     }
-  elseif server.name == 'rust_analyzer' then
-    server:setup {
+  end,
+
+  rust_analyzer = function()
+    lspconfig.rust_analyzer.setup {
       on_attach = on_attach,
       capabilities = make_capabilities { snippets = true, resolveSupport = false },
     }
-  elseif server.name == 'terraformls' then
-    server:setup {
-      on_attach = on_attach,
-      capabilities = make_capabilities({ snippets = true, resolveSupport = false }),
-    }
-  else
-    server:setup {
+  end,
+
+  sumneko_lua = function()
+    lspconfig.sumneko_lua.setup {
       on_attach = on_attach,
       capabilities = make_capabilities({ snippets = true }),
     }
-  end
-end)
+  end,
+}
