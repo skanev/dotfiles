@@ -2,7 +2,7 @@ map <F1> :help skanev.txt<CR>
 map <F2> :ToggleBufExplorer<CR>
 map <F3> :NERDTreeToggle<CR>
 map <S-F3> :NERDTreeFind<CR>
-map <F6> :Scratch<CR>
+map <F6> <Cmd>Scratch<CR>
 map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
 map <S-F8> :Ack <C-r><C-w><CR>
 map <F9> :noh<CR>
