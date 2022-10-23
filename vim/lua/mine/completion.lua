@@ -1,6 +1,7 @@
 vim.api.nvim_exec("set completeopt=menu,menuone,noselect", false)
 
 local cmp = require('cmp')
+local types = require('cmp.types')
 
 require('mine.completion.rails_http_status_codes')
 
@@ -33,7 +34,7 @@ vim.api.nvim_create_user_command(
 
 vim.fn.IMapLeader('imap', {}, '<Space>', '<Cmd>AutocompleteToggle<CR>')
 
-cmp.setup{
+cmp.setup {
   snippet = {
     expand = function(args) vim.fn["UltiSnips#Anon"](args.body) end,
   },
@@ -41,6 +42,7 @@ cmp.setup{
     --completion = cmp.config.window.bordered(),
     --documentation = cmp.config.window.bordered(),
   },
+  preselect = cmp.PreselectMode.None,
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -76,4 +78,29 @@ cmp.setup.filetype('ruby', {
   }, {
     { name = 'buffer' },
   })
+})
+
+cmp.setup.filetype('go', {
+  preselect = cmp.PreselectMode.Item,
+});
+
+cmp.setup.filetype('rust', {
+  sorting = {
+    comparators = {
+      -- Sort snippets below everything else
+      function(a, b)
+        local a_kind = a:get_kind()
+        local b_kind = b:get_kind()
+        local snippet_type = types.lsp.CompletionItemKind.Snippet
+
+        if a_kind == snippet_type and b_kind ~= snippet_type then
+          return false
+        elseif a_kind ~= snippet_type and b_kind == snippet_type then
+          return true
+        else
+          return nil
+        end
+      end
+    }
+  }
 })
