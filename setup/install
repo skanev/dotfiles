@@ -83,4 +83,5 @@ establish-pack pyenv
 establish-pack rbenv
 establish-pack rustup
 establish-pack neovim
+establish-pack volta
 establish-pack perl-support

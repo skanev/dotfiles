@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+#curl https://get.volta.sh | bash
+source setup/shared
+
+install-pack() {
+  run-with-status "installing volta" "curl https://get.volta.sh | bash -s -- --skip-setup"
+}
+
+is-pack-installed() {
+  [[ -d ~/.volta ]]
+}
+
+verify-pack() {
+  # TODO real-er check
+}
+
+pack-info() {
+  # TODO
+}
+
+process-pack $1
