@@ -1,4 +1,4 @@
-﻿#NoEnv                      ; Recommended for performance and compatibility with future AutoHotkey releases.
+#NoEnv                      ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn                       ; Enable warnings to assist with detecting common errors.
 #SingleInstance Force       ;
 SendMode Input              ; Recommended for new scripts due to its superior speed and reliability.
@@ -15,7 +15,8 @@ GroupAdd, untouched, ahk_exe X410.exe
 GroupAdd, untouched, ahk_exe FVim.exe
 GroupAdd, untouched, ahk_exe neovide.exe
 
-GroupAdd, slack, ahk_exe slack.exe
+GroupAdd, chats, ahk_exe slack.exe
+GroupAdd, chats, ahk_exe Discord.exe
 
 Capslock::Control
 !Space::Send {Alt down}{Shift down}{Shift up}{Alt up}
@@ -45,7 +46,7 @@ Capslock::Control
 
 #if
 
-#If WinActive("ahk_group slack")
+#If WinActive("ahk_group chats")
 
 !k::Send ^k
 
