@@ -152,19 +152,6 @@ endfunction
 
 command! MapQToRerun :call MapQToRerun()
 
-" Put WSL GVim where I want it
-function! s:position()
-  if     g:env.app == 'gvim' && g:env.wsl | call system('~/.scripts/position-me gvim ' . getpid())
-  elseif g:env.app == 'neovide'           | call system('~/.scripts/position-me neovide')
-  endif
-
-  augroup initial_position | autocmd! | augroup END
-endfunction
-
-augroup initial_position
-  autocmd BufEnter * call s:position()
-augroup END
-
 command! Hfl help function-list
 
 augroup vimrc_junk
