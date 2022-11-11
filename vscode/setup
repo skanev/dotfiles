@@ -1,0 +1,40 @@
+#!/usr/bin/env zsh
+
+if [[ $DOTFILES_OS != mac ]]; then
+  echo "This only works on mac now"
+  exit 1
+fi
+
+echo $DOTFILES
+
+user_path="$HOME/Library/Application Support/Code/User"
+keybindings="$user_path/keybindings.json"
+
+1=generate
+
+case $1 in
+  (link)
+    if [[ ! -d $user_path ]]; then
+      echo "The VSCode User directory does not exist"
+      exit 1
+    elif [[ -h $keybindings ]]; then
+      echo already linked
+    elif [[ -f $keybindings && ! -h $keybindings ]]; then
+      echo "doing it"
+      rm $keybindings
+      ln -s $DOTFILES/vscode/config/keybindings.mac.json $keybindings
+    else
+      echo "Something went wrong, but I don't know what"
+      exit 1
+    fi
+    ;;
+
+  (generate)
+    ruby -r $DOTFILES/vscode/support.rb -e 'VSCode.regenerate_keybindings'
+    ;;
+
+  (*)
+    echo "Command not supported: $1"
+    exit 1
+    ;;
+esac
