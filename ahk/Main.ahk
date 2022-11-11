@@ -4,6 +4,16 @@
 SendMode Input              ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir% ; Ensures a consistent starting directory.
 
+; Change between input langauges
+
+ToggleInputLanguage()
+{
+    WinExist("A")
+
+    ControlGetFocus, CtrlInFocus
+    PostMessage, 0x50, 2,, %CtrlInFocus%
+}
+
 ; Define a few groups to refer to later
 
 GroupAdd, browsers, ahk_exe msedge.exe
@@ -19,7 +29,7 @@ GroupAdd, chats, ahk_exe slack.exe
 GroupAdd, chats, ahk_exe Discord.exe
 
 Capslock::Control
-!Space::Send {Alt down}{Shift down}{Shift up}{Alt up}
+!Space::ToggleInputLanguage()
 
 #!.::Reload
 #!,::Edit
