@@ -14,7 +14,7 @@ let s:themes = [
   \ ['nvim-qt',  '*',     {'font': 'Fira Code:h16',               'line': 2                                              }],
   \ ['goneovim', '*',     {'font': 'FiraCode Nerd Font Mono:h16', 'line': 0                                              }],
   \
-  \ ['winvim',   '*',     {'font': 'Iosevka Extended:h12',        'line': 3, 'scheme': 'OceanicNext'                     }],
+  \ ['winvim',   '*',     {'font': 'Cascadia Code:h14',           'line': 3, 'scheme': 'OceanicNext'                     }],
   \
   \ ['*',        '*',     {                                                  'scheme': 'sonokai'                         }]
   \ ]
