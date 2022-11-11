@@ -1,7 +1,16 @@
 #!/usr/bin/env zsh
 
 prompt_zsh_level () {
+  if [[ $TERM_PROGRAM == vscode ]]; then
+    if [[ $SHLVL > 4 ]]; then
+      printf '∎'%.0s {5..$SHLVL}
+    fi
+    return
+  fi
+
   if [[ -n $TMUX && $SHLVL > 2 ]]; then
+    printf '∎'%.0s {3..$SHLVL}
+  elif [[ -z $TMUX && $TERM_PROGRAM == "vscode" ]]; then
     printf '∎'%.0s {3..$SHLVL}
   elif [[ -z $TMUX && $SHLVL > 1 ]]; then
     printf '∎'%.0s {2..$SHLVL}
