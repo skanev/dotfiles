@@ -1,7 +1,7 @@
 require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true,
-    disable = {'ruby', 'vim'}
+    disable = {'ruby', 'vim', 'perl'}
   },
   incremental_selection = {
     enable = true,
