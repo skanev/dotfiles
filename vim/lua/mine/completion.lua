@@ -29,10 +29,10 @@ do
   local keymap = vim.api.nvim_set_keymap
   local opts = { noremap = true, silent = true }
 
-  keymap('i', '<c-j>', "<cmd> lua require('luasnip').jump(1)<CR>", opts)
-  keymap('s', '<c-j>', "<cmd> lua require('luasnip').jump(1)<CR>", opts)
-  keymap('i', '<c-k>', "<cmd> lua require('luasnip').jump(-1)<CR>", opts)
-  keymap('s', '<c-k>', "<cmd> lua require('luasnip').jump(-1)<CR>", opts)
+  keymap('i', '<c-j>', "<cmd>lua require('luasnip').jump(1)<CR>", opts)
+  keymap('s', '<c-j>', "<cmd>lua require('luasnip').jump(1)<CR>", opts)
+  keymap('i', '<c-k>', "<cmd>lua require('luasnip').jump(-1)<CR>", opts)
+  keymap('s', '<c-k>', "<cmd>lua require('luasnip').jump(-1)<CR>", opts)
 end
 
 -- Custom completions --
@@ -78,8 +78,8 @@ cmp.setup {
     ['<C-Space>'] = cmp.mapping.complete({}),
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = false }),
-    --['<Tab>'] = cmp.mapping.confirm({ select = true }),
-    ["<Tab>"] = cmp.mapping(function(fallback)
+
+    ['<Tab>'] = cmp.mapping(function(fallback)
       if luasnip.expandable() then
         luasnip.expand({})
       elseif cmp.get_active_entry() then
@@ -93,7 +93,7 @@ cmp.setup {
       end
     end, { "i", "s" }),
 
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
       if luasnip.locally_jumpable(-1) then
         luasnip.jump(-1)
       else
