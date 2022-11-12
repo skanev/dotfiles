@@ -1,7 +1,7 @@
 map <F1> :help skanev.txt<CR>
 map <F2> :ToggleBufExplorer<CR>
-map <F3> :NERDTreeToggle<CR>
-map <S-F3> :NERDTreeFind<CR>
+map <F3> <Cmd>TreeToggle<CR>
+map <S-F3> <Cmd>TreeFind<CR>
 map <F6> <Cmd>Scratch<CR>
 map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
 map <S-F8> :Ack <C-r><C-w><CR>
@@ -60,7 +60,7 @@ cnoremap <expr> / <SID>cmd_mode_slash()
 
 MapMeta f <Cmd>SearchFiles<CR>
 MapMeta j <Cmd>SearchBuffers<CR>
-MapMeta k <Cmd>NERDTreeToggle<CR>
+MapMeta k <Cmd>TreeToggle<CR>
 if g:env.nvim
   MapMeta m <Cmd>lua require('mine').cycle_diagnostics()<CR>
   MapMeta p <Cmd>Palette<CR>

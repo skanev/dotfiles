@@ -25,7 +25,6 @@ Plug 'rust-lang/rust.vim'
 Plug 'hashivim/vim-terraform'
 
 " Features
-Plug 'preservim/nerdtree'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'int3/vim-extradite'
@@ -106,6 +105,8 @@ if g:env.nvim
 
   Plug 'nvim-lualine/lualine.nvim'
 
+  Plug 'nvim-tree/nvim-tree.lua'
+
   Plug 'lewis6991/gitsigns.nvim'
 
   Plug 'L3MON4D3/LuaSnip'
@@ -118,6 +119,8 @@ if g:env.nvim
 else
   Plug 'ervandew/supertab'
   Plug 'airblade/vim-gitgutter'
+
+  Plug 'preservim/nerdtree'
 
   if has('python3')
     Plug 'SirVer/ultisnips'
@@ -133,6 +136,10 @@ endif
 
 if g:tweaks.devicons
   Plug 'ryanoasis/vim-devicons'
+endif
+
+if g:tweaks.devicons && g:env.nvim
+  Plug 'kyazdani42/nvim-web-devicons'
 endif
 
 " Someplugins that I used to know
