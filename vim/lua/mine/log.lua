@@ -1,6 +1,10 @@
 -- Inspired by rxi/log.lua
 -- Taken from github.com/tjdevries/vlog.nvim and modified
 
+-- To use in complicated scenarios:
+-- * tail -f ~/.local/share/nvim/mine.nvim.log
+-- * disable use_console
+
 local default_config = {
   plugin = 'mine.nvim',
   use_console = true,
