@@ -36,7 +36,7 @@ augroup airline_ultisnips
 augroup END
 
 call airline#parts#define_function('snip', 'AirlineInSnippet')
-call airline#parts#define_condition('snip', 'get(b:, "airline_in_ultisnips", 0)')
+call airline#parts#define_condition('snip', "luaeval('require([[luasnip]]).in_snippet()')")
 
 call airline#parts#define_function('context', 'AirlineInContext')
 call airline#parts#define_condition('context', 'get(b:, "context", "") != ""')
