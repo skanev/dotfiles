@@ -10,6 +10,7 @@ if (Get-Command "nvim" -ErrorAction SilentlyContinue)
 $aliases = @{
     gs = "git status"
     gc = "git commit"
+    gp = "git push"
 }
 
 if (Get-Command "neovide.exe" -ErrorAction SilentlyContinue)
@@ -20,7 +21,7 @@ if (Get-Command "neovide.exe" -ErrorAction SilentlyContinue)
 foreach ($alias in $aliases.Keys)
 {
     $value = $aliases[$alias]
-    Remove-Alias $alias -ErrorAction SilentlyContinue
+    Remove-Alias $alias -Force -ErrorAction SilentlyContinue
     Invoke-Expression "function $alias { $value `$args }"
 }
 
