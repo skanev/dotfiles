@@ -4,11 +4,15 @@ if which nvim > /dev/null; then
   DOTFILES_VIM=${DOTFILES_VIM:-nvim}
 fi
 
-if which neovide > /dev/null; then
-  DOTFILES_VIG=${DOTFILES_VIG:-neovide}
-fi
+if [[ -n $DOTFILES_WSL ]] && which neovide.exe > /dev/null; then
+  neovide() {
+    (neovide.exe --nofork --wsl $* 2>&1 > /dev/null &)
+  }
 
-if which nvim-qt > /dev/null; then
+  DOTFILES_VIG=neovide
+elif which neovide > /dev/null; then
+  DOTFILES_VIG=${DOTFILES_VIG:-neovide}
+elif which nvim-qt > /dev/null; then
   nvim-qt() {
     (NVIM_QT=1 command nvim-qt $* > /dev/null 2>&1 &)
   }
