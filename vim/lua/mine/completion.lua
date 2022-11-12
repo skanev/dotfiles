@@ -82,6 +82,8 @@ cmp.setup {
     ['<Tab>'] = cmp.mapping(function(fallback)
       if luasnip.expandable() then
         luasnip.expand({})
+      elseif luasnip.locally_jumpable(1) and cmp.get_entries()[1] and cmp.get_entries()[1].exact then -- don't force me to tab twice when matched
+        luasnip.jump(1)
       elseif cmp.get_active_entry() then
         cmp.comfirm()
       elseif cmp.visible() then
