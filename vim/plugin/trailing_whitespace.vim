@@ -18,11 +18,8 @@ command! StripTrailingWhitespace  call s:strip()
 command! TrailingWhitespaceToggle call s:toggle()
 
 function! s:highlight()
-  if &buftype == 'nofile'
-    return
-  endif
-
-  let enabled = g:HighlightTrailingWhitespace &&
+  let enabled = &buftype != 'nofile' && &buftype != 'terminal' &&
+        \ g:HighlightTrailingWhitespace &&
         \ (!exists('b:highlight_trailing_whitespace') || b:highlight_trailing_whitespace)
 
   if enabled
