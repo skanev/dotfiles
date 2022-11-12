@@ -8,8 +8,10 @@ vim.api.nvim_exec("set completeopt=menu,menuone,noselect", false)
 -- LuaSnip configuration --
 
 luasnip.config.set_config {
-  history = true,
-  delete_check_events = 'TextChanged,TextChangedI',
+  history = false,
+  --delete_check_events = 'TextChanged',
+  --update_events = 'TextChanged,TextChangedI',
+  --region_check_events = 'CursorMoved,CursorHold,InsertEnter',
   enable_autosnippets = true,
   ext_opts = {
     [require('luasnip.util.types').choiceNode] = {
