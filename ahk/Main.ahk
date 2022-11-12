@@ -93,6 +93,10 @@ Capslock::Control
 !t::Send ^t
 !r::Send ^r
 
+!=::Send ^{=}
+!-::Send ^-
+!0::Send ^0
+
 #if
 
 #If WinActive("ahk_group chats")
