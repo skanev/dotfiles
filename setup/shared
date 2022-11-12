@@ -7,7 +7,7 @@ setopt ERR_EXIT
 declare -A failed_chunks
 
 # TODO convention here, should be lowercase?
-DOTFILES_ROOT=${DOTFILES_ROOT:-~/dev/skanev/dotfiles}
+DOTFILES_ROOT=${DOTFILES_ROOT:-~/dev/personal/skanev/dotfiles}
 FAILED=0
 
 ###############################################################################

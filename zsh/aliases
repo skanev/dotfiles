@@ -70,4 +70,6 @@ alias gitconfig="vim ~/.gitconfig"
 alias -g RERR="2>&1"
 alias -g P="| pd"
 
+alias cleanenv="be rake db:drop && be rake db:create && be rake db:schema:load && be rake db:migrate && be rake db:seed"
+
 alias stalker=~/.scripts/stalker

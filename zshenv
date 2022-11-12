@@ -3,10 +3,13 @@
 
 DOTFILES=${$(readlink ~/.zsh):h}
 
+path=(~/bin ~/.bin $path)
+
 [[ -v DOTFILES_OS ]] || source ~/.zsh/distro-prober
 
 [[ -x /usr/libexec/path_helper ]] && eval `/usr/libexec/path_helper -s`
-[[ -d /opt/homebrew/bin ]] && path=(/opt/homebrew/bin /opt/homebrew/sbin $path)
+[[ -d /opt/homebrew/bin ]] && path=(/opt/homebrew/bin $path)
+[[ -d /opt/homebrew/sbin ]] && path=(/opt/homebrew/sbin $path)
 
 [[ -d /usr/local/opt/coreutils/libexec/gnubin ]] && path=(/usr/local/opt/coreutils/libexec/gnubin $path)
 [[ -d /usr/local/opt/gnu-sed/libexec/gnubin   ]] && path=(/usr/local/opt/gnu-sed/libexec/gnubin $path)
@@ -28,8 +31,6 @@ fi
 [[ -d ~/.rbenv ]] && path=(~/.rbenv/bin ~/.rbenv/shims $path)
 [[ -d ~/.volta ]] && export VOLTA_HOME="$HOME/.volta"
 [[ -d ~/.volta ]] && path=(~/.volta/bin $path)
-
-path=(~/bin ~/.bin $path)
 
 [[ -f ~/.localenv ]] && source ~/.localenv
 

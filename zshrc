@@ -37,3 +37,4 @@ fi
 
 # Global aliases can mess up everything else, so they must be last
 . ~/.zsh/aliases
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
