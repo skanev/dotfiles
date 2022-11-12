@@ -27,8 +27,6 @@ Plug 'hashivim/vim-terraform'
 " Features
 Plug 'preservim/nerdtree'
 Plug 'mbbill/undotree'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'int3/vim-extradite'
 Plug 'dense-analysis/ale'
@@ -106,6 +104,8 @@ if g:env.nvim
   Plug 'hrsh7th/cmp-path'
   Plug 'hrsh7th/nvim-cmp'
 
+  Plug 'nvim-lualine/lualine.nvim'
+
   Plug 'lewis6991/gitsigns.nvim'
 
   Plug 'L3MON4D3/LuaSnip'
@@ -118,9 +118,13 @@ if g:env.nvim
 else
   Plug 'ervandew/supertab'
   Plug 'airblade/vim-gitgutter'
+
   if has('python3')
     Plug 'SirVer/ultisnips'
   endif
+
+  Plug 'bling/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
 endif
 
 if g:env.app == 'mvim'

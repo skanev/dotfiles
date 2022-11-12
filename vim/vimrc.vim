@@ -35,8 +35,6 @@ runtime settings/mappings.vim
 runtime settings/appearance.vim
 runtime settings/nvim.vim
 
-runtime settings/plugins/airline.vim
-
 if g:env.nvim
   lua require('mine.global')
   lua require('mine.completion')
@@ -46,8 +44,11 @@ if g:env.nvim
   lua require('mine.palette')
   lua require('mine.mire')
   lua require('mine.gitsigns')
+  lua require('mine.lualine')
   lua require('mine.explore_keys')
   runtime settings/completion.vim
+else
+  runtime settings/plugins/airline.vim
 end
 
 augroup vimStartup
