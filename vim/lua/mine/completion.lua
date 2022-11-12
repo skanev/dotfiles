@@ -19,7 +19,8 @@ luasnip.config.set_config {
   }
 }
 
-require('luasnip.loaders.from_vscode').lazy_load()
+require('luasnip.loaders.from_vscode').load { paths = { '~/.vim/snippets/vscode' } }
+require('luasnip.loaders.from_lua').load { paths = { '~/.vim/snippets/luasnippets' } }
 
 do
   local keymap = vim.api.nvim_set_keymap
