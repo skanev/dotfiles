@@ -5,14 +5,16 @@ local types = require('cmp.types')
 
 require('mine.completion.rails_http_status_codes')
 
-require('cmp_nvim_ultisnips').setup {
-  --filetype_source = "ultisnips_default",
-  filetype_source = "treesitter",
-  show_snippets = "expandable",
-  documentation = function(snippet)
-    return snippet.description
-  end
-}
+if vim.g.has_ultisnips > 0 then
+  require('cmp_nvim_ultisnips').setup {
+    filetype_source = "ultisnips_default",
+    filetype_source = "treesitter",
+    show_snippets = "expandable",
+    documentation = function(snippet)
+      return snippet.description
+    end
+  }
+end
 
 local function toggle_as_you_type()
   if require('cmp.config').get().completion.autocomplete == false then

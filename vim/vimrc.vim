@@ -14,6 +14,8 @@ runtime early/tweaks.vim
 runtime early/mapmeta.vim
 runtime early/sonokai_tweaks.vim
 
+let g:has_ultisnips = has('python3')
+
 " Plug
 let s:plug_file = g:dotfiles_dir . '/vim/autoload/plug.vim'
 if empty(glob(s:plug_file))

@@ -13,7 +13,9 @@ local action_layout = require('telescope.actions.layout')
 local entry_display = require('telescope.pickers.entry_display')
 local telescope = require('telescope')
 
-telescope.load_extension('ultisnips')
+if vim.g.has_ultisnips > 0 then
+  telescope.load_extension('ultisnips')
+end
 
 local function meta(key)
   return string.format('<%s-%s>', vim.g.env.meta_key, key)
