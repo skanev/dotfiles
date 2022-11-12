@@ -14,8 +14,6 @@ runtime early/tweaks.vim
 runtime early/mapmeta.vim
 runtime early/sonokai_tweaks.vim
 
-let g:has_ultisnips = has('python3')
-
 " Plug
 let s:plug_file = g:dotfiles_dir . '/vim/autoload/plug.vim'
 if empty(glob(s:plug_file))
@@ -70,7 +68,6 @@ augroup mine
 augroup END
 
 " Commands
-command! Snips UltiSnipsEdit
 command! Reverse :g/^/m0
 command! MineLog call s#terminal(printf("tail -f %s/mine.nvim.log", stdpath('data')), {'mode': 'side'})
 command! E doautocmd <nomodeline> User ResetCustomizations | edit

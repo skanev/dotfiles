@@ -1,20 +1,41 @@
-vim.api.nvim_exec("set completeopt=menu,menuone,noselect", false)
-
 local cmp = require('cmp')
 local types = require('cmp.types')
+local luasnip = require('luasnip')
+
+vim.api.nvim_exec("set completeopt=menu,menuone,noselect", false)
+
+-- LuaSnip configuration --
+
+luasnip.config.set_config {
+  history = true,
+  delete_check_events = 'TextChanged,TextChangedI',
+  enable_autosnippets = true,
+  ext_opts = {
+    [require('luasnip.util.types').choiceNode] = {
+      active = {
+        virt_text = { { 'o', 'Substitute' } }
+      }
+    }
+  }
+}
+
+require('luasnip.loaders.from_vscode').lazy_load()
+
+do
+  local keymap = vim.api.nvim_set_keymap
+  local opts = { noremap = true, silent = true }
+
+  keymap('i', '<c-j>', "<cmd> lua require('luasnip').jump(1)<CR>", opts)
+  keymap('s', '<c-j>', "<cmd> lua require('luasnip').jump(1)<CR>", opts)
+  keymap('i', '<c-k>', "<cmd> lua require('luasnip').jump(-1)<CR>", opts)
+  keymap('s', '<c-k>', "<cmd> lua require('luasnip').jump(-1)<CR>", opts)
+end
+
+-- Custom completions --
 
 require('mine.completion.rails_http_status_codes')
 
-if vim.g.has_ultisnips > 0 then
-  require('cmp_nvim_ultisnips').setup {
-    filetype_source = "ultisnips_default",
-    filetype_source = "treesitter",
-    show_snippets = "expandable",
-    documentation = function(snippet)
-      return snippet.description
-    end
-  }
-end
+-- Toggle as you type completion --
 
 local function toggle_as_you_type()
   if require('cmp.config').get().completion.autocomplete == false then
@@ -36,9 +57,11 @@ vim.api.nvim_create_user_command(
 
 vim.fn.IMapLeader('imap', {}, '<Space>', '<Cmd>AutocompleteToggle<CR>')
 
+-- General setup --
+
 cmp.setup {
   snippet = {
-    expand = function(args) vim.fn["UltiSnips#Anon"](args.body) end,
+    expand = function(args) require('luasnip').lsp_expand(args.body) end,
   },
   window = {
     --completion = cmp.config.window.bordered(),
@@ -51,18 +74,41 @@ cmp.setup {
     ['<C-Space>'] = cmp.mapping.complete({}),
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = false }),
-    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
+    --['<Tab>'] = cmp.mapping.confirm({ select = true }),
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if luasnip.expandable() then
+        luasnip.expand({})
+      elseif cmp.get_active_entry() then
+        cmp.comfirm()
+      elseif cmp.visible() then
+        cmp.confirm { select = true }
+      elseif luasnip.locally_jumpable(1) then
+        luasnip.jump(1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if luasnip.locally_jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
   }),
   formatting = {
     format = (vim.g.tweaks.devicons == 1 and require('lspkind').cmp_format() or nil),
   },
   sources = cmp.config.sources({
-    { name = 'ultisnips', priority = 10 },
+    { name = 'luasnip' },
     { name = 'nvim_lsp' },
   }, {
     { name = 'buffer' },
   })
 }
+
+-- Custom filetypes --
 
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
@@ -74,8 +120,8 @@ cmp.setup.filetype('gitcommit', {
 
 cmp.setup.filetype('ruby', {
   sources = cmp.config.sources({
+    { name = 'luasnip' },
     { name = 'nvim_lsp' },
-    { name = 'ultisnips' },
     { name = 'rails_http_status_codes' },
   }, {
     { name = 'buffer' },

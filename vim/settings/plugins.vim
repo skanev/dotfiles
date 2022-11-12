@@ -36,7 +36,6 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'zackhsi/fzf-tags'
 Plug 'majutsushi/tagbar'
-if g:has_ultisnips | Plug 'SirVer/ultisnips' | endif
 Plug 'dylnmc/synstack.vim'
 Plug 'jlanzarotta/bufexplorer'
 
@@ -100,7 +99,6 @@ if g:env.nvim
   Plug 'rafcamlet/nvim-luapad'
 
   Plug 'nvim-telescope/telescope.nvim'
-  if g:has_ultisnips | Plug 'fhill2/telescope-ultisnips.nvim' | endif
 
   Plug 'neovim/nvim-lspconfig'
   Plug 'hrsh7th/cmp-nvim-lsp'
@@ -108,9 +106,11 @@ if g:env.nvim
   Plug 'hrsh7th/cmp-path'
   Plug 'hrsh7th/nvim-cmp'
 
-  if g:has_ultisnips | Plug 'quangnguyen30192/cmp-nvim-ultisnips' | endif
-
   Plug 'lewis6991/gitsigns.nvim'
+
+  Plug 'L3MON4D3/LuaSnip'
+  Plug 'rafamadriz/friendly-snippets'
+  Plug 'benfowler/telescope-luasnip.nvim'
 
   Plug 'folke/neodev.nvim'
 
@@ -118,6 +118,9 @@ if g:env.nvim
 else
   Plug 'ervandew/supertab'
   Plug 'airblade/vim-gitgutter'
+  if has('python3')
+    Plug 'SirVer/ultisnips'
+  endif
 endif
 
 if g:env.app == 'mvim'
