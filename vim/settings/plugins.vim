@@ -98,6 +98,7 @@ if g:env.nvim
   Plug 'nvim-telescope/telescope.nvim'
 
   Plug 'neovim/nvim-lspconfig'
+  Plug 'onsails/lspkind.nvim'
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-path'

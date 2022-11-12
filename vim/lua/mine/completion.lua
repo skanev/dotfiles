@@ -1,6 +1,7 @@
 local cmp = require('cmp')
 local types = require('cmp.types')
 local luasnip = require('luasnip')
+local lspkind = require('lspkind')
 
 vim.api.nvim_exec("set completeopt=menu,menuone,noselect", false)
 
@@ -99,7 +100,11 @@ cmp.setup {
     end, { "i", "s" }),
   }),
   formatting = {
-    format = (vim.g.tweaks.devicons == 1 and require('lspkind').cmp_format() or nil),
+    format = lspkind.cmp_format {
+      mode = (vim.g.tweaks.devicons == 1 and 'symbol_text' or 'text'),
+      max_width = 50,
+      ellipsis_char = '...',
+    }
   },
   sources = cmp.config.sources({
     { name = 'luasnip' },
