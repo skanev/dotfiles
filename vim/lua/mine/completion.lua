@@ -106,10 +106,17 @@ cmp.setup {
       mode = (vim.g.tweaks.devicons == 1 and 'symbol_text' or 'text'),
       max_width = 50,
       ellipsis_char = '...',
+      menu = {
+        buffer = "[buffer]",
+        nvim_lsp = "[lsp]",
+        luasnip = "[luasnip]",
+        rails_http_status_codes = "[mine]",
+        cmp_git = "[git]",
+      }
     }
   },
   sources = cmp.config.sources({
-    { name = 'luasnip' },
+    { name = 'luasnip', priority = 10 },
     { name = 'nvim_lsp' },
   }, {
     { name = 'buffer' },

@@ -111,6 +111,7 @@ if g:env.nvim
   Plug 'lewis6991/gitsigns.nvim'
 
   Plug 'L3MON4D3/LuaSnip'
+  Plug 'saadparwaiz1/cmp_luasnip'
   Plug 'rafamadriz/friendly-snippets'
   Plug 'benfowler/telescope-luasnip.nvim'
 
