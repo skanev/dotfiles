@@ -69,7 +69,7 @@
   "for in ipairs": {
     "prefix": "fori",
     "body": [
-      "for ${1:name}, ${2:val} in ipairs(${3:table_name}) do",
+      "for ${1:index}, ${2:val} in ipairs(${3:table_name}) do",
       "\t$0",
       "end"
     ]
