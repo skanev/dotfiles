@@ -45,6 +45,7 @@ if g:env.nvim
   lua require('mine.mire')
   lua require('mine.gitsigns')
   lua require('mine.lualine')
+  lua require('mine.snippets')
   lua require('mine.tree')
   lua require('mine.explore_keys')
   runtime settings/completion.vim
