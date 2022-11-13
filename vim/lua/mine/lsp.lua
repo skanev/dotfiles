@@ -45,7 +45,7 @@ local on_attach = function(client, bufnr)
   vim.cmd[[IMapMeta <buffer> i <Cmd>lua require('mine').toggle_signature_help()<CR>]]
 
   if client.server_capabilities.documentFormattingProvider then
-    buf_set_keymap("n", "<Leader>.f", "<Cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    buf_set_keymap("n", "<Leader>.f", "<Cmd>lua vim.lsp.buf.format { async = true }<CR>", opts)
   end
 
   if client.server_capabilities.documentRangeFormattingProvider then
