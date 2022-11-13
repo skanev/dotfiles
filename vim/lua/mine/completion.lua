@@ -85,7 +85,7 @@ cmp.setup {
       elseif luasnip.locally_jumpable(1) and cmp.get_entries()[1] and cmp.get_entries()[1].exact then -- don't force me to tab twice when matched
         luasnip.jump(1)
       elseif cmp.get_active_entry() then
-        cmp.comfirm()
+        cmp.confirm()
       elseif cmp.visible() then
         cmp.confirm { select = true }
       elseif luasnip.locally_jumpable(1) then
