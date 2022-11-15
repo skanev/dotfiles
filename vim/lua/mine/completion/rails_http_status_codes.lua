@@ -99,7 +99,6 @@ function source:get_trigger_characters()
 end
 
 function source:complete(params, callback)
-  print("HI")
   if vim.fn.match(params.context.cursor_before_line, [[\s*render .*\<status: \+:\k*$]]) >= 0 then
     callback(entries)
   else
