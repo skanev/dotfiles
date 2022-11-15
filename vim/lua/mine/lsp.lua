@@ -67,47 +67,36 @@ local on_attach = function(client, bufnr)
   --vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 end
 
-local function make_capabilities(config)
-  local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-  config = config or {}
-
-  if config.snippets == true then
-    capabilities.textDocument.completion.completionItem.snippetSupport = true
-  elseif config.snippets == false then
-    capabilities.textDocument.completion.completionItem.snippetSupport = false
-  end
-
-  if config.resolveSupport ~= false then
-    capabilities.textDocument.completion.completionItem.resolveSupport = {
-      'documentation',
-      'detail',
-      'additionalTextEdits',
-    }
-  end
-
-  return capabilities
+local function make_capabilities()
+  return cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 end
 
 mason_lspconfig.setup_handlers {
   function(server_name)
     lspconfig[server_name].setup {
       on_attach = on_attach,
-      capabilities = make_capabilities { snippets = true },
+      capabilities = make_capabilities(),
     }
   end,
 
   rust_analyzer = function()
     lspconfig.rust_analyzer.setup {
       on_attach = on_attach,
-      capabilities = make_capabilities { snippets = true, resolveSupport = false },
+      capabilities = make_capabilities(),
     }
   end,
 
   sumneko_lua = function()
     lspconfig.sumneko_lua.setup {
       on_attach = on_attach,
-      capabilities = make_capabilities({ snippets = true }),
+      capabilities = make_capabilities(),
+      settings = {
+        Lua = {
+          completion = {
+            callSnippet = 'Replace'
+          }
+        }
+      }
     }
   end,
 }
