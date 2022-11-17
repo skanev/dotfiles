@@ -2,6 +2,7 @@ local cmp = require('cmp')
 local types = require('cmp.types')
 local luasnip = require('luasnip')
 local lspkind = require('lspkind')
+local util = require('mine.util')
 
 vim.api.nvim_exec("set completeopt=menu,menuone,noselect", false)
 
@@ -141,7 +142,17 @@ cmp.setup.filetype('ruby', {
     { name = 'nvim_lsp' },
     { name = 'rails_http_status_codes' },
   }, {
-    { name = 'buffer' },
+    {
+      name = 'buffer',
+      option = {
+        keyword_pattern = [[\k\+]],
+        get_bufnrs = function()
+          return util.filter(vim.api.nvim_list_bufs(), function(bufnr)
+            return vim.api.nvim_buf_get_name(bufnr):match("%.rb$")
+          end)
+        end,
+      }
+    },
   })
 })
 
