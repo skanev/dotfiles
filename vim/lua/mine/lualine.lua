@@ -1,5 +1,23 @@
 local luasnip = require("luasnip")
 
+local function unsaved()
+  local count = 0
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_option(bufnr, 'modified') then
+      if vim.fn.getbufinfo(bufnr)[1].hidden == 1 then
+        count = count + 1
+      end
+    end
+
+  end
+
+  if count > 0 then
+    return string.format("%d unsaved", count)
+  else
+    return ''
+  end
+end
+
 local function snippets()
   if luasnip.in_snippet() then
     if vim.g.tweaks.devicons then
@@ -54,7 +72,13 @@ require('lualine').setup {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {'filename'},
-    lualine_x = {encoding, snippets, context, 'filetype'},
+    lualine_x = {
+      {unsaved, color = { fg = '#ff0000' } },
+      encoding,
+      snippets,
+      context,
+      'filetype',
+    },
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
