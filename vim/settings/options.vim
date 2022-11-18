@@ -30,6 +30,8 @@ set keymap=bulgarian-phonetic
 set iminsert=0                 " don't switch to BDS automatically
 set imsearch=-1                " search in the same language as iserting
 
+set hidden                     " cmp-buffer doesn't work with set unhidden https://github.com/hrsh7th/cmp-buffer/issues/58
+
 set fileformats=unix,dos       " don't use CRLF on windows
 
 if has('persistent_undo')
