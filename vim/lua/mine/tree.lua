@@ -27,6 +27,10 @@ require("nvim-tree").setup({
   renderer = {
     group_empty = true,
   },
+  update_focused_file = {
+    enable = false,
+    update_root = true,
+  },
   filters = {
     dotfiles = true,
   },
