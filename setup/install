@@ -38,8 +38,9 @@ establish-link pryrc ~/.pryrc
 # Tmux
 establish-link tmux.conf ~/.tmux.conf
 
-establish-link nvim  ~/.config/nvim
-establish-link kitty ~/.config/kitty
+establish-link nvim    ~/.config/nvim
+establish-link kitty   ~/.config/kitty
+establish-link wezterm ~/.config/wezterm
 
 establish-link bin ~/.bin
 
