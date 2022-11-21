@@ -1,6 +1,22 @@
 local wezterm = require('wezterm')
 local appearance = require('appearance')
 
+wezterm.on('custom-copy', function (window, pane)
+  if pane:get_title() == 'tmux' then
+    window:perform_action(wezterm.action.SendKey { key = 'c', mods = 'ALT' }, pane)
+  else
+    window:perform_action(wezterm.action.CopyTo('Clipboard'), pane)
+  end
+end)
+
+wezterm.on('custom-paste', function (window, pane)
+  if pane:get_title() == 'tmux' then
+    window:perform_action(wezterm.action.SendKey { key = 'v', mods = 'ALT' }, pane)
+  else
+    window:perform_action(wezterm.action.PasteFrom('Clipboard'), pane)
+  end
+end)
+
 return {
   font = appearance.font.font,
   font_size = appearance.font.font_size,
@@ -17,6 +33,9 @@ return {
     {key = '-', mods = 'MOD', action = wezterm.action.DecreaseFontSize},
     {key = '=', mods = 'MOD', action = wezterm.action.IncreaseFontSize},
     {key = '0', mods = 'MOD', action = wezterm.action.ResetFontSize},
+
+    {key = 'c', mods = 'MOD', action = wezterm.action.EmitEvent('custom-copy')},
+    {key = 'v', mods = 'MOD', action = wezterm.action.EmitEvent('custom-paste')},
 
     {key = 'c', mods = 'CTRL|SHIFT', action = wezterm.action.CopyTo('Clipboard')},
     {key = 'v', mods = 'CTRL|SHIFT', action = wezterm.action.PasteFrom('Clipboard')},
