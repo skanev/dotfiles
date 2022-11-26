@@ -225,7 +225,6 @@ sub run_open {
     return;
   }
 
-  system 'open -a Markoff README.md';
   system "zsh -ci 'vig -- -o $solution $test'";
   system "tmux -2 new-session -A -s $exercise";
 }
