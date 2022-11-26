@@ -38,7 +38,7 @@ WORDCHARS=${WORDCHARS//[&=\/;\!#%\{]}
 # stty -ixon -ixoff
 
 # Don't exit on C-d outside tmux
-[[ -z "$TMUX" ]] && setopt IGNORE_EOF
+#[[ -z "$TMUX" ]] && setopt IGNORE_EOF
 
 # Do not allow duplicates in tables
 typeset -U path
