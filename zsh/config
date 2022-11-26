@@ -60,5 +60,9 @@ bindkey '\ee' edit-command-line
 bindkey '\eq' push-line-or-edit
 bindkey '\e[5~' tmux-page-up
 
-which bat > /dev/null && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+if which bat > /dev/null; then
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+  export BAT_THEME="Monokai Extended"
+fi
+
 export PAGER="less"
