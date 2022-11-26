@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+
+name=${PWD:t}
+dir=$PWD
+
+command-wux() {
+  printf "\033]1337;SetUserVar=%s=%s\007" ExecuteCommand `echo -n $1 | base64`
+}
+
+command-wux "into-session:$name -> $dir"
