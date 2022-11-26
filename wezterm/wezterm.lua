@@ -80,6 +80,46 @@ local mappings = require('keys').keys {
   { key = 'PageUp',   mods = 'SHIFT', action = wezterm.action.ScrollByPage(-1) },
   { key = 'PageDown', mods = 'SHIFT', action = wezterm.action.ScrollByPage(1) },
 
+  { special = 'leader', mods = 'CTRL', key = 's', action = wezterm.action.SendKey { key = 's', mods = 'CTRL' } },
+
+  { special = 'leader', key = 'j', action = wezterm.action.QuickSelect },
+  { special = 'leader', key = 'n', action = wezterm.action.SpawnWindow },
+  { special = 'leader', key = 'p', action = wezterm.action.PaneSelect },
+  { special = 'leader', key = 'q', action = wezterm.action.ActivateCopyMode },
+  { special = 'leader', key = 't', action = wezterm.action.SpawnTab('CurrentPaneDomain') },
+  { special = 'leader', key = 'T', action = wezterm.action.SpawnTab('DefaultDomain') },
+  { special = 'leader', key = 'u', action = wezterm.action.CharSelect },
+  { special = 'leader', key = 'w', action = wezterm.action.CloseCurrentTab { confirm = true } },
+  { special = 'leader', key = 'x', action = wezterm.action.CloseCurrentPane { confirm = true } },
+  { special = 'leader', key = 'z', action = wezterm.action.TogglePaneZoomState },
+  { special = 'leader', key = '-', action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' } },
+  { special = 'leader', key = '|', action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
+  { special = 'leader', key = '.', action = wezterm.action.SplitPane { direction = 'Down', size = { Cells = 4 }, top_level = true } },
+  { special = 'leader', key = '<', action = wezterm.action.MoveTabRelative(-1) },
+  { special = 'leader', key = '>', action = wezterm.action.MoveTabRelative(1) },
+
+  {
+    special = 'leader',
+    key = 'o',
+    action = wezterm.action.QuickSelectArgs {
+      label = 'Open URL',
+      patterns = { 'https?://\\S+' },
+      action = wezterm.action_callback(function(window, pane)
+        local url = window:get_selection_text_for_pane(pane)
+        wezterm.open_with(url)
+      end)
+    },
+  },
+  {
+    special = 'leader',
+    key = 'h',
+    action = wezterm.action.SplitPane {
+      command = { args = { 'key-explorer' } },
+      direction = 'Up',
+      top_level = true,
+      size = { Percent = 97 },
+    }
+  },
   {
     special = 'leader',
     key = 'c',
@@ -91,23 +131,20 @@ local mappings = require('keys').keys {
     end),
   },
 
-  { special = 'leader', key = 's', mods = 'CTRL', action = wezterm.action.SendKey { key = 's', mods = 'CTRL' } },
-
-  { special = 'leader', key = 'n', action = wezterm.action.SpawnWindow },
-  { special = 'leader', key = 't', action = wezterm.action.SpawnTab('CurrentPaneDomain') },
-  { special = 'leader', key = 'T', action = wezterm.action.SpawnTab('DefaultDomain') },
-  { special = 'leader', key = 'w', action = wezterm.action.CloseCurrentTab { confirm = true } },
-
-  { special = 'leader', key = 'j', action = wezterm.action.QuickSelect },
-  { special = 'leader', key = 'p', action = wezterm.action.PaneSelect },
-  { special = 'leader', key = 'u', action = wezterm.action.CharSelect },
-
-  { special = 'leader', key = '|', action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
-  { special = 'leader', key = '-', action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' } },
-  { special = 'leader', key = 'z', action = wezterm.action.TogglePaneZoomState },
-
-  { special = 'leader', key = 'x', action = wezterm.action.ActivateCopyMode },
-  { special = 'leader', key = 'q', action = wezterm.action.ActivateCopyMode },
+  { special = 'leader', mods = 'CTRL', key = 'a', action = wezterm.action.ActivatePaneDirection('Next') },
+  { special = 'leader', mods = 'CTRL', key = 'd', action = wezterm.action.ActivateCopyMode },
+  { special = 'leader', mods = 'CTRL', key = 'j', action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' } },
+  { special = 'leader', mods = 'CTRL', key = 'o', action = wezterm.action.RotatePanes('Clockwise') },
+  {
+    special = 'leader',
+    key = 'z',
+    mods = 'CTRL',
+    action = wezterm.action_callback(function(window, pane)
+      if window:active_workspace() ~= 'default' then
+        window:perform_action(wezterm.action.SwitchToWorkspace { name = 'default' }, pane)
+      end
+    end)
+  },
 
   { special = 'leader', key = '1', action = wezterm.action.ActivateTab(0) },
   { special = 'leader', key = '2', action = wezterm.action.ActivateTab(1) },
@@ -160,5 +197,6 @@ return {
     cursor_fg = '#000000',
     cursor_border = '#ffffff',
     visual_bell = '#707070',
+    split = '#44ff44',
   },
 }
