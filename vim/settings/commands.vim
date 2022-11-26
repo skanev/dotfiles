@@ -22,7 +22,7 @@ let s:plugins = readdir(g:dotfiles_dir . '/vim/bundles')
 function! s:open_plugin(name) abort
   tabnew
   execute "tcd " . g:dotfiles_dir . "/vim/bundles/" . a:name
-  NERDTreeToggle
+  TreeToggle
 endfunction
 
 function! s:open_plugin_complete(arg_lead, line, pos)
