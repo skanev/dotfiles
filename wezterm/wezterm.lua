@@ -7,6 +7,7 @@ wezterm.GLOBAL.sessions = wezterm.GLOBAL.sessions or {}
 
 wezterm.on('update-status', function (window)
   window:set_right_status(window:active_workspace())
+
 end)
 
 wezterm.on('user-var-changed', function (_, pane, name, value)
@@ -40,23 +41,18 @@ wezterm.on('command:into-session', function (message)
   wezterm.mux.set_active_workspace(workspace)
 end)
 
-wezterm.on('mux:new-tab', function (window, pane)
-  local workspace = pane:tab():window():get_workspace()
-  local cwd = wezterm.GLOBAL.sessions[workspace]
-
-  window:perform_action(wezterm.action.SpawnCommandInNewTab { cwd = cwd }, pane)
-end)
-
-wezterm.on('mux:leader', function (window, pane)
-  if tmux.is_running_tmux(pane) then
-    window:perform_action(wezterm.action.SendKey { key = 's', mods = 'CTRL' }, pane)
-  else
-    window:perform_action(wezterm.action.ActivateKeyTable { name = 'tmux_like', timeout_millisecons = 5000 }, pane)
-  end
-end)
-
 local mappings = require('keys').keys {
-  { key = 's', mods = 'CTRL', action = wezterm.action.EmitEvent('mux:leader') },
+  {
+    key = 's',
+    mods = 'CTRL',
+    action = wezterm.action_callback(function(window, pane)
+      if tmux.is_running_tmux(pane) then
+        window:perform_action(wezterm.action.SendKey { key = 's', mods = 'CTRL' }, pane)
+      else
+        window:perform_action(wezterm.action.ActivateKeyTable { name = 'tmux_like', timeout_millisecons = 5000 }, pane)
+      end
+    end)
+  },
 
   { key = '-', mods = 'MOD', action = wezterm.action.DecreaseFontSize },
   { key = '=', mods = 'MOD', action = wezterm.action.IncreaseFontSize },
@@ -84,7 +80,19 @@ local mappings = require('keys').keys {
   { key = 'PageUp',   mods = 'SHIFT', action = wezterm.action.ScrollByPage(-1) },
   { key = 'PageDown', mods = 'SHIFT', action = wezterm.action.ScrollByPage(1) },
 
-  { special = 'leader', key = 'c', action = wezterm.action.EmitEvent('mux:new-tab') },
+  {
+    special = 'leader',
+    key = 'c',
+    action = wezterm.action_callback(function(window, pane)
+      local workspace = pane:tab():window():get_workspace()
+      local cwd = wezterm.GLOBAL.sessions[workspace]
+
+      window:perform_action(wezterm.action.SpawnCommandInNewTab { cwd = cwd }, pane)
+    end),
+  },
+
+  { special = 'leader', key = 's', mods = 'CTRL', action = wezterm.action.SendKey { key = 's', mods = 'CTRL' } },
+
   { special = 'leader', key = 'n', action = wezterm.action.SpawnWindow },
   { special = 'leader', key = 't', action = wezterm.action.SpawnTab('CurrentPaneDomain') },
   { special = 'leader', key = 'T', action = wezterm.action.SpawnTab('DefaultDomain') },

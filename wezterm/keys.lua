@@ -40,21 +40,22 @@ local function mappings(maps)
         action = mapping.action,
       })
     elseif mapping.special == 'tmux' then
-      local event_name = "mux:tmux_like:key:" .. mapping.key .. ":" .. (mapping.mods or 'NO-MOD')
       local mods = mapping.mods and mapping.mods:gsub('MOD', mod_key)
       local tmux_mods = mapping.mods and mapping.mods:gsub('MOD', 'ALT')
       local key = mapping.key
       local action = mapping.action
 
-      wezterm.on(event_name, function(window, pane)
-        if tmux.is_running_tmux(pane) then
-          window:perform_action(wezterm.action.SendKey { key = key, mods = tmux_mods }, pane)
-        else
-          window:perform_action(action, pane)
-        end
-      end)
-
-      table.insert(keys, { key = key, mods = mods, action = wezterm.action.EmitEvent(event_name) })
+      table.insert(keys, {
+        key = key,
+        mods = mods,
+        action = wezterm.action_callback(function (window, pane)
+          if tmux.is_running_tmux(pane) then
+            window:perform_action(wezterm.action.SendKey { key = key, mods = tmux_mods }, pane)
+          else
+            window:perform_action(action, pane)
+          end
+        end)
+      })
 
       seen[mods .. " " .. key:lower()] = true
     elseif mapping.special == nil then
