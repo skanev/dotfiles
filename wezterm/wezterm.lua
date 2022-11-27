@@ -215,21 +215,20 @@ local mappings = require('keys').keys {
       window:perform_action(wezterm.action.SpawnCommandInNewTab { cwd = cwd }, pane)
     end),
   },
-
-  { special = 'leader', mods = 'CTRL', key = 'a', action = wezterm.action.ActivatePaneDirection('Next') },
-  { special = 'leader', mods = 'CTRL', key = 'd', action = wezterm.action.ActivateCopyMode },
-  { special = 'leader', mods = 'CTRL', key = 'j', action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' } },
-  { special = 'leader', mods = 'CTRL', key = 'o', action = wezterm.action.RotatePanes('Clockwise') },
   {
     special = 'leader',
-    key = 'z',
-    mods = 'CTRL',
+    key = 'd',
     action = wezterm.action_callback(function(window, pane)
       if window:active_workspace() ~= 'default' then
         window:perform_action(wezterm.action.SwitchToWorkspace { name = 'default' }, pane)
       end
     end)
   },
+
+  { special = 'leader', mods = 'CTRL', key = 'a', action = wezterm.action.ActivatePaneDirection('Next') },
+  { special = 'leader', mods = 'CTRL', key = 'd', action = wezterm.action.ActivateCopyMode },
+  { special = 'leader', mods = 'CTRL', key = 'j', action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' } },
+  { special = 'leader', mods = 'CTRL', key = 'o', action = wezterm.action.RotatePanes('Clockwise') },
 
   { special = 'leader', key = '1', action = wezterm.action.ActivateTab(0) },
   { special = 'leader', key = '2', action = wezterm.action.ActivateTab(1) },
