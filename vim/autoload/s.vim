@@ -1,6 +1,6 @@
 function! s#system(command)
   let oldshell = &shell
-  set shell=/bin/bash
+  set shell=/bin/dash
   let result = system(a:command)
   let &shell=oldshell
   return result
@@ -156,6 +156,16 @@ function! s#my_scripts()
   endfor
 
   return result
+endfunction
+
+function! s#selected_text()
+  try
+    let a_save = @a
+    normal! "ay
+    return @a
+  finally
+    let @a = a_save
+  endtry
 endfunction
 
 function! s#command_completion_helper(values, arg_lead, line, pos) abort

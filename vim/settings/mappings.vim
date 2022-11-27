@@ -75,8 +75,13 @@ VMapMeta [ <gv
 MapMeta r <Plug>(runner-run-file-or-last)
 MapMeta R <Plug>(runner-run-line)
 
-MapMeta e <Plug>NexusSendBuffer
-VMapMeta e <Plug>NexusSendSelection
+if g:env.nvim
+  NMapMeta e <Plug>(mine-send-text-buffer)
+  VMapMeta e <Plug>(mine-send-text-selection)
+else
+  MapMeta e <Plug>NexusSendBuffer
+  VMapMeta e <Plug>NexusSendSelection
+endif
 
 MapMeta / <Plug>NERDCommenterToggle
 VMapMeta / <Plug>NERDCommenterToggle
