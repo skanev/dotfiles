@@ -5,10 +5,7 @@ local util = require('util')
 
 wezterm.GLOBAL.sessions = wezterm.GLOBAL.sessions or {}
 
-local OUT_OF_CONTEXT_BACKGROUND = '#191926'
-local BLACK_BACKGROUND = '#000000'
-
-wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+wezterm.on('format-tab-title', function(tab, tabs)
   local result = string.format(
     " %s %s ",
     tab.active_pane.is_zoomed and "🔍" or (tab.tab_index + 1),
