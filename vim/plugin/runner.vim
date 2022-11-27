@@ -176,6 +176,45 @@ function! s:targets.terminal(command) abort
   call winrestview(view)
 endfunction
 
+function! s:wezterm_has_available_workspace() abort
+  if !executable('wezterm')
+    return 0
+  endif
+
+  let target_workspace = fnamemodify(getcwd(), ':t')
+  let output = s:call_system('wezterm cli list --format json')
+  let panes = json_decode(output)
+
+  for pane in panes
+    if pane.workspace == target_workspace
+      return 1
+    endif
+  endfor
+
+  return 0
+endfunction
+
+function! s:targets.wezterm(command) abort
+  let target_workspace = fnamemodify(getcwd(), ':t')
+  let output = s:call_system('wezterm cli list --format json')
+  let panes = json_decode(output)
+
+  let pane_id = v:null
+
+  for pane in panes
+    if pane.workspace == target_workspace
+      let pane_id = pane.pane_id
+      break
+    endif
+  endfor
+
+  if pane_id == v:null
+    throw "runner: could not find a pane form workspace: " . target_workspace
+  endif
+
+  call s:call_system("wezterm cli send-text --no-paste \"" . a:command . "\n\"")
+endfunction
+
 function! s:terminal_on_exit(nbuf, job_id, code, event) abort
   if !nvim_buf_is_valid(a:nbuf) | return | end
 
@@ -253,6 +292,8 @@ function! s:run(command)
 
   if s#starts_with(a:command, ':')
     execute a:command
+  elseif !s:target_always_vim && s:wezterm_has_available_workspace()
+    call s:targets.wezterm(a:command)
   elseif !s:target_always_vim && s:tmux_has_available_session()
     call s:targets.tmux(a:command)
   else
