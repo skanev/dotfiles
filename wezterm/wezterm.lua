@@ -128,8 +128,8 @@ end)
 
 local mappings = require('keys').keys {
   {
-    key = 's',
     mods = 'CTRL',
+    key = 's',
     action = wezterm.action_callback(function(window, pane)
       if tmux.is_running_tmux(pane) then
         window:perform_action(wezterm.action.SendKey { key = 's', mods = 'CTRL' }, pane)
@@ -139,31 +139,31 @@ local mappings = require('keys').keys {
     end)
   },
 
-  { key = '-', mods = 'MOD', action = wezterm.action.DecreaseFontSize },
-  { key = '=', mods = 'MOD', action = wezterm.action.IncreaseFontSize },
-  { key = '0', mods = 'MOD', action = wezterm.action.ResetFontSize },
+  { mods = 'MOD', key = '-', action = wezterm.action.DecreaseFontSize },
+  { mods = 'MOD', key = '=', action = wezterm.action.IncreaseFontSize },
+  { mods = 'MOD', key = '0', action = wezterm.action.ResetFontSize },
 
-  { key = 'c', mods = 'CTRL|SHIFT', action = wezterm.action.CopyTo('Clipboard') },
-  { key = 'v', mods = 'CTRL|SHIFT', action = wezterm.action.PasteFrom('Clipboard') },
-  { key = 't', mods = 'CTRL|SHIFT', action = wezterm.action.SpawnTab('CurrentPaneDomain') },
+  { mods = 'CTRL|SHIFT', key = 'c', action = wezterm.action.CopyTo('Clipboard') },
+  { mods = 'CTRL|SHIFT', key = 'v', action = wezterm.action.PasteFrom('Clipboard') },
+  { mods = 'CTRL|SHIFT', key = 't', action = wezterm.action.SpawnTab('CurrentPaneDomain') },
 
-  { key = 'n', mods = 'CTRL|SHIFT', action = wezterm.action.SpawnWindow },
-  { key = 'r', mods = 'CTRL|SHIFT', action = wezterm.action.ShowLauncher },
+  { mods = 'CTRL|SHIFT', key = 'n', action = wezterm.action.SpawnWindow },
+  { mods = 'CTRL|SHIFT', key = 'r', action = wezterm.action.ShowLauncher },
 
-  { key = '1', mods = 'CTRL|MOD', action = wezterm.action.ActivateTab(0) },
-  { key = '2', mods = 'CTRL|MOD', action = wezterm.action.ActivateTab(1) },
-  { key = '3', mods = 'CTRL|MOD', action = wezterm.action.ActivateTab(2) },
-  { key = '4', mods = 'CTRL|MOD', action = wezterm.action.ActivateTab(3) },
-  { key = '5', mods = 'CTRL|MOD', action = wezterm.action.ActivateTab(4) },
-  { key = '6', mods = 'CTRL|MOD', action = wezterm.action.ActivateTab(5) },
-  { key = '7', mods = 'CTRL|MOD', action = wezterm.action.ActivateTab(6) },
-  { key = '8', mods = 'CTRL|MOD', action = wezterm.action.ActivateTab(7) },
-  { key = '9', mods = 'CTRL|MOD', action = wezterm.action.ActivateTab(8) },
+  { mods = 'CTRL|MOD', key = '1', action = wezterm.action.ActivateTab(0) },
+  { mods = 'CTRL|MOD', key = '2', action = wezterm.action.ActivateTab(1) },
+  { mods = 'CTRL|MOD', key = '3', action = wezterm.action.ActivateTab(2) },
+  { mods = 'CTRL|MOD', key = '4', action = wezterm.action.ActivateTab(3) },
+  { mods = 'CTRL|MOD', key = '5', action = wezterm.action.ActivateTab(4) },
+  { mods = 'CTRL|MOD', key = '6', action = wezterm.action.ActivateTab(5) },
+  { mods = 'CTRL|MOD', key = '7', action = wezterm.action.ActivateTab(6) },
+  { mods = 'CTRL|MOD', key = '8', action = wezterm.action.ActivateTab(7) },
+  { mods = 'CTRL|MOD', key = '9', action = wezterm.action.ActivateTab(8) },
 
-  { key = 'l', mods = 'CTRL|SHIFT', action = wezterm.action.ShowDebugOverlay },
+  { mods = 'CTRL|SHIFT', key = 'l', action = wezterm.action.ShowDebugOverlay },
 
-  { key = 'PageUp',   mods = 'SHIFT', action = wezterm.action.ScrollByPage(-1) },
-  { key = 'PageDown', mods = 'SHIFT', action = wezterm.action.ScrollByPage(1) },
+  { mods = 'SHIFT',   key = 'PageUp', action = wezterm.action.ScrollByPage(-1) },
+  { mods = 'SHIFT', key = 'PageDown', action = wezterm.action.ScrollByPage(1) },
 
   { special = 'leader', mods = 'CTRL', key = 's', action = wezterm.action.SendKey { key = 's', mods = 'CTRL' } },
 
@@ -240,19 +240,19 @@ local mappings = require('keys').keys {
   { special = 'leader', key = '8', action = wezterm.action.ActivateTab(7) },
   { special = 'leader', key = '9', action = wezterm.action.ActivateTab(8) },
 
-  { special = 'tmux', key = 'n', mods = 'MOD', action = wezterm.action.SpawnTab('CurrentPaneDomain') },
-  { special = 'tmux', key = 'c', mods = 'MOD', action = wezterm.action.CopyTo('Clipboard') },
-  { special = 'tmux', key = 'v', mods = 'MOD', action = wezterm.action.PasteFrom('Clipboard') },
+  { special = 'tmux', mods = 'MOD', key = 'n', action = wezterm.action.SpawnTab('CurrentPaneDomain') },
+  { special = 'tmux', mods = 'MOD', key = 'c', action = wezterm.action.CopyTo('Clipboard') },
+  { special = 'tmux', mods = 'MOD', key = 'v', action = wezterm.action.PasteFrom('Clipboard') },
 
-  { special = 'tmux', key = '1', mods = 'MOD', action = wezterm.action.ActivateTab(0) },
-  { special = 'tmux', key = '2', mods = 'MOD', action = wezterm.action.ActivateTab(1) },
-  { special = 'tmux', key = '3', mods = 'MOD', action = wezterm.action.ActivateTab(2) },
-  { special = 'tmux', key = '4', mods = 'MOD', action = wezterm.action.ActivateTab(3) },
-  { special = 'tmux', key = '5', mods = 'MOD', action = wezterm.action.ActivateTab(4) },
-  { special = 'tmux', key = '6', mods = 'MOD', action = wezterm.action.ActivateTab(5) },
-  { special = 'tmux', key = '7', mods = 'MOD', action = wezterm.action.ActivateTab(6) },
-  { special = 'tmux', key = '8', mods = 'MOD', action = wezterm.action.ActivateTab(7) },
-  { special = 'tmux', key = '9', mods = 'MOD', action = wezterm.action.ActivateTab(8) },
+  { special = 'tmux', mods = 'MOD', key = '1', action = wezterm.action.ActivateTab(0) },
+  { special = 'tmux', mods = 'MOD', key = '2', action = wezterm.action.ActivateTab(1) },
+  { special = 'tmux', mods = 'MOD', key = '3', action = wezterm.action.ActivateTab(2) },
+  { special = 'tmux', mods = 'MOD', key = '4', action = wezterm.action.ActivateTab(3) },
+  { special = 'tmux', mods = 'MOD', key = '5', action = wezterm.action.ActivateTab(4) },
+  { special = 'tmux', mods = 'MOD', key = '6', action = wezterm.action.ActivateTab(5) },
+  { special = 'tmux', mods = 'MOD', key = '7', action = wezterm.action.ActivateTab(6) },
+  { special = 'tmux', mods = 'MOD', key = '8', action = wezterm.action.ActivateTab(7) },
+  { special = 'tmux', mods = 'MOD', key = '9', action = wezterm.action.ActivateTab(8) },
 }
 
 return {
