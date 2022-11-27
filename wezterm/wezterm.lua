@@ -159,8 +159,10 @@ local mappings = require('keys').keys {
 
   { mods = 'CTRL|SHIFT', key = 'l', action = wezterm.action.ShowDebugOverlay },
 
-  { mods = 'SHIFT',   key = 'PageUp', action = wezterm.action.ScrollByPage(-1) },
+  { mods = 'SHIFT', key = 'PageUp', action = wezterm.action.ScrollByPage(-1) },
   { mods = 'SHIFT', key = 'PageDown', action = wezterm.action.ScrollByPage(1) },
+  { mods = 'SHIFT', key = 'UpArrow', action = wezterm.action.ScrollToPrompt(-1) },
+  { mods = 'SHIFT', key = 'DownArrow', action = wezterm.action.ScrollToPrompt(1) },
 
   { special = 'leader', mods = 'CTRL', key = 's', action = wezterm.action.SendKey { key = 's', mods = 'CTRL' } },
 
@@ -268,6 +270,13 @@ return {
   keys = mappings.keys,
   key_tables = {
     tmux_like = mappings.key_tables.tmux_like,
+  },
+  mouse_bindings = {
+    {
+      event = { Down = { streak = 3, button = 'Left' } },
+      action = wezterm.action.SelectTextAtMouseCursor('SemanticZone'),
+      mods = 'NONE',
+    },
   },
   hide_tab_bar_if_only_one_tab = true,
   use_fancy_tab_bar = false,
