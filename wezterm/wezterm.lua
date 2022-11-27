@@ -143,9 +143,10 @@ local mappings = require('keys').keys {
   { mods = 'CTRL|SHIFT', key = 'c', action = wezterm.action.CopyTo('Clipboard') },
   { mods = 'CTRL|SHIFT', key = 'v', action = wezterm.action.PasteFrom('Clipboard') },
   { mods = 'CTRL|SHIFT', key = 't', action = wezterm.action.SpawnTab('CurrentPaneDomain') },
-
   { mods = 'CTRL|SHIFT', key = 'n', action = wezterm.action.SpawnWindow },
   { mods = 'CTRL|SHIFT', key = 'r', action = wezterm.action.ShowLauncher },
+  { mods = 'CTRL|SHIFT', key = 'l', action = wezterm.action.ShowDebugOverlay },
+  { mods = 'CTRL|SHIFT', key = 'f', action = wezterm.action.ToggleFullScreen },
 
   { mods = 'CTRL|MOD', key = '1', action = wezterm.action.ActivateTab(0) },
   { mods = 'CTRL|MOD', key = '2', action = wezterm.action.ActivateTab(1) },
@@ -156,8 +157,6 @@ local mappings = require('keys').keys {
   { mods = 'CTRL|MOD', key = '7', action = wezterm.action.ActivateTab(6) },
   { mods = 'CTRL|MOD', key = '8', action = wezterm.action.ActivateTab(7) },
   { mods = 'CTRL|MOD', key = '9', action = wezterm.action.ActivateTab(8) },
-
-  { mods = 'CTRL|SHIFT', key = 'l', action = wezterm.action.ShowDebugOverlay },
 
   { mods = 'SHIFT', key = 'PageUp', action = wezterm.action.ScrollByPage(-1) },
   { mods = 'SHIFT', key = 'PageDown', action = wezterm.action.ScrollByPage(1) },
