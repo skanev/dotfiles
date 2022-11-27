@@ -62,7 +62,7 @@ local function mappings(maps)
       mapping.mods = mapping.mods and mapping.mods:gsub('MOD', mod_key)
       table.insert(keys, mapping)
 
-      seen[mapping.mods .. " " .. mapping.key:lower()] = true
+      seen[(mapping.mods or "").. " " .. mapping.key:lower()] = true
     end
   end
 
