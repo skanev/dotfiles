@@ -5,9 +5,65 @@ local util = require('util')
 
 wezterm.GLOBAL.sessions = wezterm.GLOBAL.sessions or {}
 
-wezterm.on('update-status', function (window)
+local OUT_OF_CONTEXT_BACKGROUND = '#191926'
+local BLACK_BACKGROUND = '#000000'
+
+wezterm.on('update-status', function (window, pane)
   window:set_right_status(window:active_workspace())
 
+  local window_state
+  local config_state
+
+  if window:active_workspace() ~= 'default' then
+    window_state = 'workspace'
+  elseif tmux.is_running_tmux(pane) then
+    window_state = 'tmux_in_default'
+  else
+    window_state = 'default'
+  end
+
+  local overrides = window:get_config_overrides() or {}
+  if overrides.tab_bar_at_bottom then
+    config_state = 'workspace'
+  elseif (overrides.colors or {}).background == BLACK_BACKGROUND then
+    config_state = 'tmux_in_default'
+  else
+    config_state = 'default'
+  end
+
+  if config_state == window_state then
+    -- do nothing
+  elseif window_state == 'default' then
+    local colors = window:effective_config().colors
+
+    colors.background = OUT_OF_CONTEXT_BACKGROUND
+
+    window:set_config_overrides {
+      hide_tab_bar_if_only_one_tab = true,
+      tab_bar_at_bottom = false,
+      colors = colors,
+    }
+  elseif window_state == 'workspace' then
+    local colors = window:effective_config().colors
+
+    colors.background = BLACK_BACKGROUND
+
+    window:set_config_overrides {
+      hide_tab_bar_if_only_one_tab = false,
+      tab_bar_at_bottom = true,
+      colors = colors
+    }
+  elseif window_state == 'tmux_in_default' then
+    local colors = window:effective_config().colors
+
+    colors.background = BLACK_BACKGROUND
+
+    window:set_config_overrides {
+      hide_tab_bar_if_only_one_tab = true,
+      tab_bar_at_bottom = false,
+      colors = colors
+    }
+  end
 end)
 
 wezterm.on('user-var-changed', function (_, pane, name, value)
@@ -193,6 +249,7 @@ return {
   window_padding = appearance.window_padding,
   adjust_window_size_when_changing_font_size = false,
   colors = {
+    background = OUT_OF_CONTEXT_BACKGROUND,
     cursor_bg = '#ffffff',
     cursor_fg = '#000000',
     cursor_border = '#ffffff',
