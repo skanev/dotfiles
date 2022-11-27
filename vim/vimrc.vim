@@ -48,6 +48,8 @@ if g:env.nvim
   lua require('mine.snippets')
   lua require('mine.tree')
   lua require('mine.explore_keys')
+  lua require('mine.unsaved')
+  lua require('mine.send_text')
   runtime settings/completion.vim
 else
   runtime settings/plugins/airline.vim

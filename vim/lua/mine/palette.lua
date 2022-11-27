@@ -246,13 +246,18 @@ local function open_main_palette()
   }
 end
 
+
+local function register_command(command, name)
+  table.insert(registry.main_commands, OptionBuilder.custom_command(command, name))
+end
+
 local function register_keys_cheatsheet(opts)
   registry:register_palette(opts.key, {
     title = opts.title,
     options = u.map(opts.keys, function(items) return OptionBuilder.mapping(items[1], items[2]) end),
   })
 
-  table.insert(registry.main_commands, OptionBuilder.custom_command("Palette " .. opts.key, "Palette: " .. opts.title))
+  register_command("Palette " .. opts.key, "Palette: " .. opts.title)
 end
 
 vim.api.nvim_create_user_command(
@@ -310,4 +315,5 @@ return {
   registry = registry,
   open_main = open_main_palette,
   open = function(key) registry:open(key) end,
+  register_command = register_command,
 }

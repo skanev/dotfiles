@@ -8,7 +8,6 @@ local function unsaved()
         count = count + 1
       end
     end
-
   end
 
   if count > 0 then
