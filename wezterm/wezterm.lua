@@ -8,13 +8,30 @@ wezterm.GLOBAL.sessions = wezterm.GLOBAL.sessions or {}
 local OUT_OF_CONTEXT_BACKGROUND = '#191926'
 local BLACK_BACKGROUND = '#000000'
 
+wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+  local result = string.format(
+    " %s %s ",
+    tab.active_pane.is_zoomed and "🔍" or (tab.tab_index + 1),
+    tab.active_pane.title
+  )
+
+  if tab.tab_index > 0 and not tab.is_active then
+    result = " " .. result
+  end
+
+  if tabs[tab.tab_index + 2] and tabs[tab.tab_index + 2].is_active then
+    result = result .. " "
+  end
+
+  return result
+end)
+
 wezterm.on('update-status', function (window, pane)
-  window:set_right_status(window:active_workspace())
+  local active_workspace = window:active_workspace()
 
   local window_state
-  local config_state
 
-  if window:active_workspace() ~= 'default' then
+  if active_workspace ~= 'default' then
     window_state = 'workspace'
   elseif tmux.is_running_tmux(pane) then
     window_state = 'tmux_in_default'
@@ -23,45 +40,57 @@ wezterm.on('update-status', function (window, pane)
   end
 
   local overrides = window:get_config_overrides() or {}
-  if overrides.tab_bar_at_bottom then
-    config_state = 'workspace'
-  elseif (overrides.colors or {}).background == BLACK_BACKGROUND then
-    config_state = 'tmux_in_default'
+  local config_state = overrides.color_scheme
+
+  -- tab bar styling
+  if window_state == 'workspace' then
+    window:set_left_status(wezterm.format {
+      { Background = { Color = '#cccccc' } },
+      { Foreground = { Color = 'Black' } },
+      { Text = string.format(" ❖ %s ", active_workspace) },
+
+      { Background = { Color = '#444444' } },
+      { Foreground = { Color = '#999999' } },
+      { Text = string.format(" %s ", '-----') }
+    })
+
+    window:set_right_status(wezterm.format {
+      { Background = { Color = '#444444' } },
+      { Foreground = { Color = '#999999' } },
+      { Text = string.format(" %s ", wezterm.hostname()) },
+
+      { Background = { Color = '#cccccc' } },
+      { Foreground = { Color = 'Black' } },
+      { Text = wezterm.strftime(" %H:%M ") },
+    })
   else
-    config_state = 'default'
+    window:set_left_status('')
+    window:set_right_status('')
   end
 
+  -- switch background color and tab position if necessary
   if config_state == window_state then
     -- do nothing
   elseif window_state == 'default' then
-    local colors = window:effective_config().colors
-
-    colors.background = OUT_OF_CONTEXT_BACKGROUND
-
     window:set_config_overrides {
       hide_tab_bar_if_only_one_tab = true,
       tab_bar_at_bottom = false,
-      colors = colors,
+      use_fancy_tab_bar = true,
+      color_scheme = 'default',
     }
   elseif window_state == 'workspace' then
-    local colors = window:effective_config().colors
-
-    colors.background = BLACK_BACKGROUND
-
     window:set_config_overrides {
       hide_tab_bar_if_only_one_tab = false,
       tab_bar_at_bottom = true,
-      colors = colors
+      use_fancy_tab_bar = false,
+      color_scheme = 'workspace'
     }
   elseif window_state == 'tmux_in_default' then
-    local colors = window:effective_config().colors
-
-    colors.background = BLACK_BACKGROUND
-
     window:set_config_overrides {
       hide_tab_bar_if_only_one_tab = true,
       tab_bar_at_bottom = false,
-      colors = colors
+      use_fancy_tab_bar = true,
+      color_scheme = 'tmux_in_default',
     }
   end
 end)
@@ -246,10 +275,32 @@ return {
   },
   hide_tab_bar_if_only_one_tab = true,
   use_fancy_tab_bar = false,
+  show_new_tab_button_in_tab_bar = false,
   window_padding = appearance.window_padding,
   adjust_window_size_when_changing_font_size = false,
+  color_schemes = {
+    default = {
+      background = '#191926',
+    },
+    workspace = {
+      background = '#000000',
+      tab_bar = {
+        background = '#222222',
+        active_tab = {
+          bg_color = 'rgb(0,175,255)',
+          fg_color = 'rgb(28,28,28)',
+        },
+        inactive_tab = {
+          bg_color = '#222222',
+          fg_color = '#cccccc',
+        },
+      },
+    },
+    tmux_in_default = {
+      background = '#000000',
+    },
+  },
   colors = {
-    background = OUT_OF_CONTEXT_BACKGROUND,
     cursor_bg = '#ffffff',
     cursor_fg = '#000000',
     cursor_border = '#ffffff',
