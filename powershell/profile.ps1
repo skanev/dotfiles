@@ -11,6 +11,7 @@ $aliases = @{
     gs = "git status"
     gc = "git commit"
     gp = "git push"
+    gds = "git diff --staged"
 }
 
 if (Get-Command "neovide.exe" -ErrorAction SilentlyContinue)
