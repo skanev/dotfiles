@@ -7,7 +7,7 @@ bind 'meta+j meta+e', 'editor.action.codeAction', args: {kind: 'refactor.extract
 bind 'ctrl+up',   'editor.action.smartSelect.expand', when: 'editorTextFocus'
 bind 'ctrl+down', 'editor.action.smartSelect.shrink', when: 'editorTextFocus'
 
-bind 'meta+[Slash]', 'editor.action.commentLine', when: 'editorTextFocus && !editorReadOnly'
+bind 'meta+[Slash]', 'editor.action.commentLine',  when: 'editorTextFocus && !editorReadOnly'
 bind 'shift+cmd+8',  '-editor.action.commentLine', when: 'editorTextFocus && !editorReadOnly'
 
 # tabs
@@ -15,14 +15,16 @@ bind 'shift+cmd+8',  '-editor.action.commentLine', when: 'editorTextFocus && !ed
   bind "meta+#{i}", "workbench.action.openEditorAtIndex#{i}"
 end
 
-ordinals = %w(_Zeroeth First Second Third Fourth Fifth Sixth Seventh Eighth)
+if VSCode.mod_key == 'cmd'
+  ordinals = %w(_Zeroeth First Second Third Fourth Fifth Sixth Seventh Eighth)
 
-1.upto(8) do |i|
-  bind "ctrl+#{i}", "-workbench.action.openEditorAtIndex#{i}"
+  1.upto(8) do |i|
+    bind "ctrl+#{i}", "-workbench.action.openEditorAtIndex#{i}"
+  end
+
+  1.upto(8) do |i|
+    bind "cmd+#{i}", "-workbench.action.focus#{ordinals[i]}EditorGroup"
+  end
+
+  bind 'cmd+9', '-workbench.action.lastEditorInGroup'
 end
-
-1.upto(8) do |i|
-  bind "cmd+#{i}", "-workbench.action.focus#{ordinals[i]}EditorGroup"
-end
-
-bind 'cmd+9', '-workbench.action.lastEditorInGroup'

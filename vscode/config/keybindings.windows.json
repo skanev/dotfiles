@@ -1,0 +1,73 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+  // dotfiles begin
+
+  { "key": "ctrl+l",      "command": "type", "args": {"text":" => "}, "when": "editorLangId == typescript || editorLangId == typescriptreact || editorLangId == javascript || editorLangId = javascriptreact" },
+  { "key": "alt+m",       "command": "workbench.action.togglePanel" },
+  { "key": "alt+j",       "command": "-workbench.action.togglePanel" },
+  { "key": "alt+j alt+e", "command": "editor.action.codeAction", "args": {"kind":"refactor.extract.constant"} },
+  { "key": "ctrl+up",     "command": "editor.action.smartSelect.expand", "when": "editorTextFocus" },
+  { "key": "ctrl+down",   "command": "editor.action.smartSelect.shrink", "when": "editorTextFocus" },
+  { "key": "alt+[Slash]", "command": "editor.action.commentLine", "when": "editorTextFocus && !editorReadOnly" },
+  { "key": "shift+cmd+8", "command": "-editor.action.commentLine", "when": "editorTextFocus && !editorReadOnly" },
+  { "key": "alt+1",       "command": "workbench.action.openEditorAtIndex1" },
+  { "key": "alt+2",       "command": "workbench.action.openEditorAtIndex2" },
+  { "key": "alt+3",       "command": "workbench.action.openEditorAtIndex3" },
+  { "key": "alt+4",       "command": "workbench.action.openEditorAtIndex4" },
+  { "key": "alt+5",       "command": "workbench.action.openEditorAtIndex5" },
+  { "key": "alt+6",       "command": "workbench.action.openEditorAtIndex6" },
+  { "key": "alt+7",       "command": "workbench.action.openEditorAtIndex7" },
+  { "key": "alt+8",       "command": "workbench.action.openEditorAtIndex8" },
+  { "key": "alt+9",       "command": "workbench.action.openEditorAtIndex9" },
+  { "key": "cmd+9",       "command": "-workbench.action.lastEditorInGroup" },
+
+
+  // dotfiles end
+
+  {
+    "key": "shift+alt+p",
+    "command": "workbench.action.showCommands"
+  },
+  {
+    "key": "ctrl+shift+p",
+    "command": "-workbench.action.showCommands"
+  },
+  {
+    "key": "shift+alt+p",
+    "command": "workbench.action.quickOpenNavigatePreviousInFilePicker",
+    "when": "inFilesPicker && inQuickOpen"
+  },
+  {
+    "key": "ctrl+shift+p",
+    "command": "-workbench.action.quickOpenNavigatePreviousInFilePicker",
+    "when": "inFilesPicker && inQuickOpen"
+  },
+  {
+    "key": "alt+p",
+    "command": "-keybindings.editor.toggleSortByPrecedence",
+    "when": "inKeybindings"
+  },
+  {
+    "key": "alt+p",
+    "command": "-togglePreserveCase",
+    "when": "editorFocus"
+  },
+  {
+    "key": "alt+p",
+    "command": "workbench.action.quickOpen"
+  },
+  {
+    "key": "ctrl+p",
+    "command": "-workbench.action.quickOpen"
+  },
+  {
+    "key": "alt+p",
+    "command": "workbench.action.quickOpenNavigateNextInFilePicker",
+    "when": "inFilesPicker && inQuickOpen"
+  },
+  {
+    "key": "ctrl+p",
+    "command": "-workbench.action.quickOpenNavigateNextInFilePicker",
+    "when": "inFilesPicker && inQuickOpen"
+  }
+]
