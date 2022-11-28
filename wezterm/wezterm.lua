@@ -2,6 +2,7 @@ local wezterm = require('wezterm')
 local appearance = require('appearance')
 local tmux = require('tmux')
 local util = require('util')
+local environment = require('environment')
 
 wezterm.GLOBAL.sessions = wezterm.GLOBAL.sessions or {}
 
@@ -254,6 +255,7 @@ local mappings = require('keys').keys {
 }
 
 return {
+  default_prog = (environment.os == 'windows' and { 'pwsh' } or nil),
   font = appearance.font.font,
   font_size = appearance.font.font_size,
   line_height = appearance.font.line_height,

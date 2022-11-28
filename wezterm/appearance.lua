@@ -19,6 +19,20 @@ if environment.os == 'mac' then
   window_padding.bottom = 6
   window_padding.left = 8
   window_padding.right = 8
+elseif environment.os == 'windows' then
+  font = {
+    font = wezterm.font {
+      family = 'Cascadia Code',
+      harfbuzz_features = {'calt=0', 'clig=0', 'liga=0'},
+    },
+    font_size = 12.0,
+  }
+
+  window_padding.top = 12
+  window_padding.bottom = 12
+  window_padding.left = 12
+  window_padding.right = 12
+else
 end
 
 return {

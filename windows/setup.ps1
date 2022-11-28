@@ -94,6 +94,7 @@ Establish-Link ~\.vimrc             vimrc
 Establish-Link ~\.vim               vim
 Establish-Link ~\.gitconfig         gitconfig
 Establish-Link ~\.config\powershell powershell
+Establish-Link ~\.config\wezterm    wezterm
 
 Establish-Link ~\Documents\PowerShell\profile.ps1 powershell\profile.ps1
 
