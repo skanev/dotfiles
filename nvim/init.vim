@@ -1,4 +1,5 @@
-let g:dotfiles_dir = expand('<sfile>:p:h:h')
+"TODO Is this necessary or can it be removed?
+"let g:dotfiles_dir = expand('~/code/personal/dotfiles')
 
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath

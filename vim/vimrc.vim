@@ -4,7 +4,13 @@ syntax on
 
 let mapleader = ","
 
-let g:dotfiles_dir = expand('<sfile>:p:h:h')
+" Find the correct paths on windows
+if exists('$HOMEDRIVE')
+  set runtimepath+=~/.vim
+  let g:dotfiles_dir = expand('~/code/personal/dotfiles')
+else
+  let g:dotfiles_dir = expand('<sfile>:p:h:h')
+endif
 
 " My 'early' stuff
 runtime early/env.vim
