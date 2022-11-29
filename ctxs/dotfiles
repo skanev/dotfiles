@@ -1,0 +1,33 @@
+@@detect */personal/dotfiles/*
+
+@@zsh
+alias say-hi="echo hi there dotfiles"
+@@end
+
+@@vim.folder
+command! OpenTelescope :e ~/.vim/bundles/telescope.nvim/
+command! SearchTelescope lua require('telescope.builtin').find_files(require('telescope.themes').get_ivy({cwd = '~/.vim/bundles/telescope.nvim'}))
+@@end
+
+@@vim.buffer
+let b:patterns = {}
+let b:patterns['\v^.*<(\d+)/(\d+)/(\d+)\.test\.(py|c)$']    = 'rake test:exercise\\[\1,\2,\3\\]'
+let b:patterns['\v^.*<(\d+)/(\d+)/(\d+)\.run\.(py|c)$']     = 'rake run:exercise\\[\1,\2,\3\\]'
+let b:patterns['\v^.*<(\d+)/problems/(\d+)\.test\.(py|c)$'] = 'rake test:problem\\[\1,\2\\]'
+let b:patterns['\v^.*<(\d+)/problems/(\d+)\.run\.(py|c)$']  = 'rake run:problem\\[\1,\2\\]'
+
+let b:runner_mode = {}
+function! b:runner_mode.command(action)
+  for [pattern, sub] in items(b:patterns)
+    if matchstr(expand('%'), pattern) != ''
+      return substitute(expand('%'), pattern, sub, '')
+    endif
+  endfor
+endfunction
+@@end
+
+@@mux
+directives 'new-window -n what zsh'
+
+menu-item 'baba' -k 'b' --tmux 'echo baba'
+@@end
