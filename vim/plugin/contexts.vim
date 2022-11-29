@@ -7,35 +7,25 @@ end
 
 let s:contexts = {}
 
-function s:setup() abort
-  for dir in s:dirs
-    for detect in glob(dir . '*/detect', 0, 1)
-      let lines = readfile(detect)
-      if len(lines) == 0
-        continue
-      endif
-      let glob = lines[0]
-      let pattern = glob2regpat(glob)
-      let name = fnamemodify(detect, ':h:t')
-      let dir = fnamemodify(detect, ':h')
+function! s:extract_segment(tag, path) abort
+  let result = []
+  let within = 0
 
-      if filereadable(dir . '/buffer.vim')
-        let buffer = dir . '/buffer.vim'
-      else
-        let buffer = ''
-      end
-
-      if filereadable(dir . '/folder.vim')
-        let folder = dir . '/folder.vim'
-      else
-        let folder = ''
-      endif
-
-      let context = {'name': name, 'dir': dir, 'pattern': pattern, 'glob': glob, 'buffer': buffer, 'folder': folder}
-
-      let s:contexts[name] = context
-    endfor
+  for line in readfile(a:path)
+    if line == a:tag       | let within = 1
+    elseif line == '@@end' | let within = 0
+    elseif within          | call add(result, line)
+    endif
   endfor
+
+  return result
+endfunction
+
+function! s:execute_vimscript(lines) abort
+  let path = tempname()
+  call writefile(a:lines, path)
+  execute "source " . path
+  call delete(path)
 endfunction
 
 function! s:establish_buffer_context() abort
@@ -47,7 +37,7 @@ function! s:establish_buffer_context() abort
   let found = []
 
   for context in values(s:contexts)
-    if filename =~ context.pattern
+    if s:file_matches_patterns(filename, context.patterns)
       call add(found, context.name)
     endif
   endfor
@@ -66,24 +56,106 @@ function! s:establish_buffer_context() abort
   let b:context = context.name
 
   if context.buffer != ''
-    execute "source " . context.buffer
+    if context.single
+      call s:extract_segment('@@vim.buffer', context.buffer)->s:execute_vimscript()
+    else
+      execute "source " . context.buffer
+    endif
     execute "command! -buffer -nargs=0 Context split " .context.buffer
   endif
 endfunction
 
-call s:setup()
+function! s:file_matches_patterns(filename, patterns) abort
+  for pattern in a:patterns
+    if a:filename =~ pattern
+      return 1
+    endif
+  endfor
+
+  return 0
+endfunction
+
+function s:setup() abort
+  for dir in s:dirs
+    for detect in glob(dir . '*/detect', 0, 1)
+      let lines = readfile(detect)
+      if len(lines) == 0
+        continue
+      endif
+
+      let name = fnamemodify(detect, ':h:t')
+      let dir = fnamemodify(detect, ':h')
+      let patterns = lines->copy()->map({ _, line -> line->glob2regpat() })
+
+      if filereadable(dir . '/buffer.vim')
+        let buffer = dir . '/buffer.vim'
+      else
+        let buffer = ''
+      end
+
+      if filereadable(dir . '/folder.vim')
+        let folder = dir . '/folder.vim'
+      else
+        let folder = ''
+      endif
+
+      let context = {'name': name, 'patterns': patterns, 'buffer': buffer, 'folder': folder, 'single': 0}
+
+      let s:contexts[name] = context
+    endfor
+  endfor
+
+  for dir in s:dirs
+    for path in glob(dir . '*', 0, 1)
+      if isdirectory(path)
+        continue
+      endif
+
+      let name = fnamemodify(path, ':t')
+      let lines = readfile(path)
+
+      let patterns = lines
+            \->copy()
+            \->filter({_, line -> line =~ '^@@detect ' })
+            \->map({_, line -> line->substitute('^@@detect ', '', '')->glob2regpat() })
+
+      if len(patterns) == 0
+        continue
+      endif
+
+      if lines->count('@@vim.buffer') > 0
+        let buffer = path
+      else
+        let buffer = ''
+      endif
+
+      if lines->count('@@vim.folder') > 0
+        let folder = path
+      else
+        let folder = ''
+      endif
+
+      let context = {'name': name, 'patterns': patterns, 'buffer': path, 'folder': path, 'single': 1}
+
+      let s:contexts[name] = context
+    endfor
+  endfor
+endfunction
 
 function! s:establish_directory_context()
   let pwd = getcwd() . '/'
 
   for context in values(s:contexts)
-    if pwd =~ context.pattern && context.folder != ''
+    if s:file_matches_patterns(pwd, context.patterns) && context.folder != ''
 
       " TODO Support per-window and per-tab contexts (although I doubt I will
       " use them often)
-
       if get(v:event, 'scope', 'global') == 'global' && get(g:, 'context_folder', '') != context.name
-        execute "source " . context.folder
+        if context.single
+          call s:extract_segment('@@vim.folder', context.folder)->s:execute_vimscript()
+        else
+          execute "source " . context.folder
+        endif
         let g:context_folder = context.name
       end
 
@@ -92,6 +164,7 @@ function! s:establish_directory_context()
   endfor
 endfunction
 
+call s:setup()
 call s:establish_directory_context()
 
 augroup contexts

@@ -142,7 +142,11 @@ display-menu() {
   tmux display-menu -x C -y C -T "Commands" "${menu_items[@]}"
 }
 
-[[ -n $MUX_CONFIG ]] && source $MUX_CONFIG
+if [[ -n $MUX_CONFIG && $MUX_CONFIG(:t) == 'mux' ]]; then
+  source $MUX_CONFIG
+elif [[ -n $MUX_CONFIG ]]; then
+  eval "$(awk '/^@@end/ { within=0 } within { print $0 } /^@@mux/ { within=1 }' $MUX_CONFIG)"
+fi
 
 menu-separator
 menu-item 'Respawn' -k r --tmux 'respawn-pane -k'

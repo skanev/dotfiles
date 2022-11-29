@@ -22,6 +22,9 @@
 # - the "zsh" file contains local zsh stuff (functions, aliases, bindings) that
 #   are available when the context is enabled
 #
+# There is also a posibility to define a single file instead of the whole
+# directory, that I'm not too keen to document at the time of writing.
+#
 # There is some obscure ZSH and AWK here, which I'm pretty proud of.
 
 # --- VARIABLES AND OPTIONS ------------------------------------------------------------------------
@@ -30,20 +33,44 @@ c_dirs=($DOTFILES/contexts)
 
 [[ -n $DOTFILES_CONTEXTS_EXTRA ]] && c_dirs+=( ${(s#:#)${DOTFILES_CONTEXTS_EXTRA//\~\//$HOME/}} )
 
-typeset -ag c_available          # Stores the names of available contexts
-typeset -Ag c_available_patterns # Stores name -> pattern1,pattern2
-typeset -Ag c_available_location # Stores name -> ~/context-dir/name
-typeset -Ag c_current            # Data about the current context
-typeset -ag c_revert             # When in a context, commands that would unload the context
+typeset -ag c_available             # Stores the names of available contexts
+typeset -Ag c_available_patterns    # Stores name -> pattern1,pattern2
+typeset -Ag c_available_location    # Stores name -> ~/context-dir/name
+typeset -Ag c_available_definitions # Stores name -> ~/cxts-dir/single-file-definition
+typeset -Ag c_current               # Data about the current context
+typeset -ag c_revert                # When in a context, commands that would unload the context
 
 c_available_patterns=()
 c_available_location=()
+c_available_definitions=()
 c_available=()
 
 # --- LOADING AND UNLOADING ------------------------------------------------------------------------
 
+c-load-single-file-definitions() {
+  local patterns name dir file
+
+  for dir in $c_dirs; do
+    for file in $dir/*(.); do
+      patterns=()
+
+      for line in ${(M)${(f)"$(< $file)"}:#@@detect*}; do
+        patterns+=(${line/@@detect /})
+      done
+
+      name=${file:t}
+
+      (( ${#patterns} == 0 )) && continue
+
+      c_available+=($name)
+      c_available_patterns[$name]=${(j#,#)patterns}
+      c_available_definitions[$name]=$file
+    done
+  done
+}
+
 c-load-available-contexts() {
-  local name patterns location dir
+  local name patterns location dir file
 
   for dir in $c_dirs; do
     for file in $dir/*/detect(N); do
@@ -108,80 +135,97 @@ c-load() {
     return
   fi
 
-  local name file revert context_dir
+  local name file revert context_dir zsh_code mux_config
 
-  context_dir=$c_available_location[$1]
-  file=$context_dir/zsh
+  if [[ -d $c_available_location[$1] ]]; then
+    context_dir=$c_available_location[$1]
+    file=$context_dir/zsh
 
-  c_current[name]=$1
-  c_current[dir]=$context_dir
-  [[ -e $context_dir/zsh ]] && c_current[zsh]=$context_dir/zsh
-  [[ -e $context_dir/mux ]] && c_current[mux]=$context_dir/mux
-  c_revert=""
+    c_revert=
+    c_current[name]=$1
+    c_current[dir]=$context_dir
 
-  if [[ -n $c_current[mux] ]]; then
-    export MUX_CONFIG=$c_current[mux]
+    [[ -e $context_dir/zsh ]] && c_current[zsh]=$context_dir/zsh
+    [[ -e $context_dir/zsh ]] && zsh_code=$(< $c_current[zsh])
+
+    [[ -e $context_dir/mux ]] && c_current[mux]=$context_dir/mux
+    [[ -e $context_dir/mux ]] && mux_config=$context_dir/mux
+
+  elif [[ -e $c_available_definitions[$1] ]]; then
+    file=$c_available_definitions[$1]
+    c_revert=
+    c_current[name]=$1
+    zsh_code=$(awk '/^@@end/ { within=0 } within { print $0 } /^@@zsh/ { within=1 }' $file)
+
+    grep -q '^@@mux' $file && mux_config=$file
+  fi
+
+  [[ -z $c_current[name] ]] && return
+
+  if [[ -n $mux_config ]]; then
+    export MUX_CONFIG=$mux_config
     export MUX_SESSION=$1
     c_revert+=('unset MUX_CONFIG')
     c_revert+=('unset MUX_SESSION')
   fi
 
-  [[ -e $c_current[zsh] ]] || return
+  [[ -z $zsh_code ]] && return
 
-  awk -f <(cat <<\END
-  /^[-a-zA-Z0-9_]+[[:space:]]*\(\)[[:space:]]*{/ { gsub("\\(\\)", "", $1); print "function", $1; }
-  /^function[[:space:]]/ { gsub("\\(\\)", "", $2); print "function", $2; }
-  /^alias [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $2); print "alias", $2; }
-  /^alias -g [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $3); print "galias", $3; }
-  /^bindkey / { print "bindkey -L", $2; }
-  /^zle -N / { print "widget", $3; }
+  echo $zsh_code |
+    awk -f <(cat <<\END
+    /^[-a-zA-Z0-9_]+[[:space:]]*\(\)[[:space:]]*{/ { gsub("\\(\\)", "", $1); print "function", $1; }
+    /^function[[:space:]]/ { gsub("\\(\\)", "", $2); print "function", $2; }
+    /^alias [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $2); print "alias", $2; }
+    /^alias -g [-a-zA-Z0-9_]+=/ { gsub("=.*", "", $3); print "galias", $3; }
+    /^bindkey / { print "bindkey -L", $2; }
+    /^zle -N / { print "widget", $3; }
 END
-  ) $c_current[zsh] |
-  while read -r line; do
-    name=${${(s: :)line}[2]}
+    ) |
+    while read -r line; do
+      name=${${(s: :)line}[2]}
 
-    case $line in
-      alias*)
-        if [[ -n $aliases[$name] ]]; then
-          revert=$(alias -L $name)
-        else
-          revert="unalias $name"
-        fi
-        ;;
+      case $line in
+        alias*)
+          if [[ -n $aliases[$name] ]]; then
+            revert=$(alias -L $name)
+          else
+            revert="unalias $name"
+          fi
+          ;;
 
-      galias*)
-        if [[ $(whence -v $name) == *global\ alias* ]]; then
-          revert=$(alias -L $name)
-        else
-          revert="unalias '$name'"
-        fi
-        ;;
+        galias*)
+          if [[ $(whence -v $name) == *global\ alias* ]]; then
+            revert=$(alias -L $name)
+          else
+            revert="unalias '$name'"
+          fi
+          ;;
 
-      function*)
-        if [[ -n $functions[$name] ]]; then
-          revert="$name () {"$'\n'$functions[$name]$'\n}'
-        else
-          revert="unfunction $name"
-        fi
-        ;;
+        function*)
+          if [[ -n $functions[$name] ]]; then
+            revert="$name () {"$'\n'$functions[$name]$'\n}'
+          else
+            revert="unfunction $name"
+          fi
+          ;;
 
-      bindkey*)
-        revert=$(eval $line)
-        ;;
+        bindkey*)
+          revert=$(eval $line)
+          ;;
 
-      widget*)
-        revert="zle -D $name"
-        ;;
+        widget*)
+          revert="zle -D $name"
+          ;;
 
-      *)
-        continue
-        ;;
-    esac
+        *)
+          continue
+          ;;
+      esac
 
-    c_revert+=($revert)
-  done
+      c_revert+=($revert)
+    done
 
-  source $c_current[zsh]
+  eval $zsh_code
 }
 
 c-unload() {
@@ -192,6 +236,8 @@ c-unload() {
 }
 
 c-load-available-contexts
+c-load-single-file-definitions
+
 chpwd_functions=(${chpwd_functions[@]} "c-chpwd")
 c-chpwd
 
