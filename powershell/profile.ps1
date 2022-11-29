@@ -1,5 +1,6 @@
 Set-StrictMode -Version Latest
 
+Set-PSReadlineOption -BellStyle Visual
 Set-PSReadLineOption -EditMode Emacs
 
 if (Get-Command "nvim" -ErrorAction SilentlyContinue)
