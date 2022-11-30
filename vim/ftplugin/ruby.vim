@@ -2,9 +2,10 @@ if exists('b:did_myftplugin') | finish | endif
 let b:did_myftplugin = 1
 
 setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-setlocal foldmethod=syntax nofoldenable
 setlocal iskeyword+=!
 setlocal iskeyword+=?
+
+"setlocal foldmethod=syntax nofoldenable
 
 autocmd BufnewFile,BufRead *.rb setlocal complete-=i
 
