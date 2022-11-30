@@ -51,7 +51,7 @@ c-load-single-file-definitions() {
   local patterns name dir file
 
   for dir in $c_dirs; do
-    for file in $dir/*(.); do
+    for file in $dir/*(N.); do
       patterns=()
 
       for line in ${(M)${(f)"$(< $file)"}:#@@detect*}; do
