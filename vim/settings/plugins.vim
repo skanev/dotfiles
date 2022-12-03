@@ -23,6 +23,7 @@ Plug 'vim-scripts/nginx.vim'
 Plug 'chrisbra/vim-zsh'
 Plug 'rust-lang/rust.vim'
 Plug 'hashivim/vim-terraform'
+Plug 'zah/nim.vim'
 
 " Features
 Plug 'mbbill/undotree'
