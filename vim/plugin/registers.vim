@@ -4,6 +4,4 @@ function! s:clear_registers()
   endfor
 endfunction
 
-call s:clear_registers()
-
 command! ClearRegisters call s:clear_registers()
