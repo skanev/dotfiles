@@ -1,20 +1,35 @@
 #!/usr/bin/env zsh
 
 prompt_zsh_level () {
-  if [[ $TERM_PROGRAM == vscode ]]; then
-    if [[ $SHLVL > 4 ]]; then
-      printf '∎'%.0s {5..$SHLVL}
-    fi
-    return
+  local base=$SHLVL
+
+  if [[ -v DOTFILES_STARTX_USED ]]; then
+    base=$((base - DOTFILES_STARTX_USED + 1))
   fi
 
-  if [[ -n $TMUX && $SHLVL > 2 ]]; then
-    printf '∎'%.0s {3..$SHLVL}
-  elif [[ -z $TMUX && $TERM_PROGRAM == "vscode" ]]; then
-    printf '∎'%.0s {3..$SHLVL}
-  elif [[ -z $TMUX && $SHLVL > 1 ]]; then
-    printf '∎'%.0s {2..$SHLVL}
+  if [[ -n $TMUX ]]; then
+    base=$((base - 1))
   fi
+
+  if (( base > 1 )); then
+    printf '∎'%.0s {2..$base}
+  fi
+
+  # This is a leftover from before, tweak it later
+  #if [[ $TERM_PROGRAM == vscode ]]; then
+    #if [[ $SHLVL > 4 ]]; then
+      #printf '∎'%.0s {5..$SHLVL}
+    #fi
+    #return
+  #fi
+
+  #if [[ -n $TMUX && $SHLVL > 2 ]]; then
+    #printf '∎'%.0s {3..$SHLVL}
+  #elif [[ -z $TMUX && $TERM_PROGRAM == "vscode" ]]; then
+    #printf '∎'%.0s {3..$SHLVL}
+  #elif [[ -z $TMUX && $SHLVL > 1 ]]; then
+    #printf '∎'%.0s {2..$SHLVL}
+  #fi
 }
 
 prompt_current_context () {
