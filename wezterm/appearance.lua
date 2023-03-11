@@ -32,7 +32,14 @@ elseif environment.os == 'windows' then
   window_padding.bottom = 12
   window_padding.left = 12
   window_padding.right = 12
-else
+elseif environment.os == 'linux' then
+  font = {
+    font = wezterm.font {
+      family = 'Caskaydia Cove Nerd Font',
+      harfbuzz_features = {'calt=0', 'clig=0', 'liga=0'},
+    },
+    font_size = 12.0,
+  }
 end
 
 return {
