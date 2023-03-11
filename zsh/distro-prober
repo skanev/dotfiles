@@ -13,7 +13,7 @@ case $uname in
   (Linux)
     export DOTFILES_OS=linux
     export DOTFILES_DISTRO=$(. /etc/os-release && echo -n $ID)
-    if [[ -v WSLENV ]]; export DOTFILES_WSL=1
+    [[ -v WSLENV ]] && export DOTFILES_WSL=1
     ;;
   (MSYS)
     export DOTFILES_OS=windows
