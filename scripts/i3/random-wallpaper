@@ -1,0 +1,2 @@
+#!/usr/bin/env dash
+feh --bg-scale --zoom fill --randomize ~/.setup/wallpapers
