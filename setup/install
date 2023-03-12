@@ -50,26 +50,11 @@ mkdir -p ~/.vim-backup
 mkdir -p ~/.vim-undo
 
 if [[ -z $WITHOUT_PACKS ]]; then
-  mkdir -p ~/.config/cheat/
-  cat <<END > ~/.config/cheat/conf.yml
-  ---
-  editor: vim
-  colorize: true
-  style: monokai
-  formatter: terminal16m
-  pager: less -FRXS
-
-  cheatpaths:
-    - name: personal
-      path: $HOME/code/personal/dotfiles/knowledge/cheat/
-      tags: [ personal ]
-      readonly: false
-END
-
   if [[ $DOTFILES_OS == 'mac' ]]; then
     establish-pack mac_setup
   fi
 
+  establish-pack cheat
   establish-pack pyenv
   establish-pack homebrew
   establish-pack tools

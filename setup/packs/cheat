@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  mkdir -p ~/.config/cheat/
+  cat <<END > ~/.config/cheat/conf.yml
+editor: vim
+colorize: true
+style: monokai
+formatter: terminal16m
+pager: less -FRXS
+
+cheatpaths:
+  - name: personal
+    path: $DOTFILES_ROOT/knowledge/cheat/
+    tags: [ personal ]
+    readonly: false
+END
+}
+
+is-pack-installed() {
+  [[ -f ~/.config/cheat/conf.yml ]]
+}
+
+verify-pack() {
+}
+
+pack-info() {
+}
+
+process-pack $1
