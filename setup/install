@@ -46,46 +46,40 @@ establish-link config/ranger ~/.config/ranger
 
 establish-link bin ~/.bin
 
-# X Server
-#
-# TODO is this necessary or up-to-date?
-# TODO do this only on linux
-#
-# establish_link Xdefaults ~/.Xdefaults
-# establish_link xmodmap ~/.xmodmap
-# establish_link xprofile ~/.xprofile
-
 mkdir -p ~/.vim-backup
 mkdir -p ~/.vim-undo
 
-mkdir -p ~/.config/cheat/
-cat <<END > ~/.config/cheat/conf.yml
----
-editor: vim
-colorize: true
-style: monokai
-formatter: terminal16m
-pager: less -FRXS
+if [[ -z $WITHOUT_PACKS ]]; then
+  mkdir -p ~/.config/cheat/
+  cat <<END > ~/.config/cheat/conf.yml
+  ---
+  editor: vim
+  colorize: true
+  style: monokai
+  formatter: terminal16m
+  pager: less -FRXS
 
-cheatpaths:
-  - name: personal
-    path: $HOME/code/personal/dotfiles/knowledge/cheat/
-    tags: [ personal ]
-    readonly: false
+  cheatpaths:
+    - name: personal
+      path: $HOME/code/personal/dotfiles/knowledge/cheat/
+      tags: [ personal ]
+      readonly: false
 END
 
-if [[ $DOTFILES_OS == 'mac' ]]; then
-  establish-pack mac_setup
+  if [[ $DOTFILES_OS == 'mac' ]]; then
+    establish-pack mac_setup
+  fi
+
+  establish-pack pyenv
+  establish-pack homebrew
+  establish-pack tools
+  establish-pack plenv
+  establish-pack pyenv
+  establish-pack rbenv
+  establish-pack rustup
+  establish-pack neovim
+  establish-pack volta
+  establish-pack ranger
+  establish-pack perl-support
 fi
 
-establish-pack pyenv
-establish-pack homebrew
-establish-pack tools
-establish-pack plenv
-establish-pack pyenv
-establish-pack rbenv
-establish-pack rustup
-establish-pack neovim
-establish-pack volta
-establish-pack ranger
-establish-pack perl-support

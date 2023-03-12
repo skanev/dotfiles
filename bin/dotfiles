@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+
+emulate -R zsh
+set -e
+setopt ERR_EXIT
+
+local command=$1
+DOTFILES_ROOT=${DOTFILES_ROOT:-~/code/personal/dotfiles}
+
+case $command in
+  (install)
+    cd $DOTFILES_ROOT
+    zsh -C setup/install
+    ;;
+
+  (link)
+    cd $DOTFILES_ROOT
+    WITHOUT_PACKS=1 zsh -C setup/install
+    ;;
+
+  (*)
+    echo "Unrecognized command: $command"
+    ;;
+esac
