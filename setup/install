@@ -87,4 +87,5 @@ establish-pack rbenv
 establish-pack rustup
 establish-pack neovim
 establish-pack volta
+establish-pack ranger
 establish-pack perl-support
