@@ -54,6 +54,10 @@ if [[ -z $WITHOUT_PACKS ]]; then
     establish-pack mac_setup
   fi
 
+  if [[ $DOTFILES_OS == 'linux' && ! -n $DOTFILES_WSL ]]; then
+    establish-pack i3
+  fi
+
   establish-pack cheat
   establish-pack pyenv
   establish-pack homebrew

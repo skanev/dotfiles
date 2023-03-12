@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  establish-link linux/i3      ~/.config/i3
+  establish-link linux/picom   ~/.config/picom
+  establish-link linux/polybar ~/.config/polybar
+}
+
+is-pack-installed() {
+  false
+}
+
+verify-pack() {
+}
+
+pack-info() {
+}
+
+process-pack $1

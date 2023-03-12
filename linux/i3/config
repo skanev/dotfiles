@@ -1,0 +1,189 @@
+set $alt Mod1
+set $mod Mod4
+
+# SETTINGS
+
+for_window [class=".*"] border pixel 3
+gaps inner 11
+hide_edge_borders none
+focus_on_window_activation smart
+
+font pango:monospace 8
+font pango:FiraCode Nerd Font 10
+
+# STARTUP
+
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id autokey-gtk
+exec --no-startup-id "~/.scripts/i3/random-wallpaper"
+#exec --no-startup-id nm-applet
+
+exec_always --no-startup-id alttab
+exec_always --no-startup-id picom
+exec_always --no-startup-id $HOME/.config/polybar/launch
+exec_always --no-startup-id $HOME/.config/dunst/launch
+
+# BINDINGS
+
+floating_modifier $mod
+
+bindsym $mod+Return exec --no-startup-id wezterm
+bindsym $mod+q kill
+bindsym $mod+x exec --no-startup-id dmenu_run
+
+bindsym $mod+space         exec "rofi -show drun -theme ~/.config/rofi/drun.rasi -show-icons"
+bindsym $mod+n             exec "rofi -show windowcd -show-icons"
+bindsym $mod+Control+space exec "rofi -show emoji"
+
+bindsym $mod+Shift+x exec --no-startup-id "autorandr --change"
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+b split h
+bindsym $mod+v split v
+bindsym $mod+f fullscreen toggle
+
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+Shift+space floating toggle
+
+bindsym $mod+p focus mode_toggle
+bindsym $mod+a focus parent
+bindsym $mod+d focus child
+
+bindsym $mod+u scratchpad show
+bindsym $mod+minus move scratchpad
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+b exec --no-startup-id "~/.scripts/i3/random-wallpaper"
+
+# MULTIMEDIA KEYS
+
+bindsym XF86AudioRaiseVolume  exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume  exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioMute         exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute      exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioPlay         exec playerctl play-pause
+bindsym XF86AudioNext         exec playerctl next
+bindsym XF86AudioPrev         exec playerctl previous
+
+bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
+
+# MODES
+
+set $mode_resize Resize
+bindsym $mod+r mode "$mode_resize"
+mode "resize" {
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+set $mode_launcher Launch
+bindsym $mod+o mode "$mode_launcher"
+
+mode "$mode_launcher" {
+	bindsym f exec firefox ; mode default
+	bindsym c exec google-chrome-stable --profile-directory="Profile 1" ; mode default
+	bindsym p exec google-chrome-stable --profile-directory="Profile 2" ; mode default
+	bindsym n exec --no-startup-id notion-app ; mode default
+	bindsym w exec --no-startup-id wezterm ; mode default
+	bindsym k exec kitty ; mode default
+
+	bindsym Escape mode default
+	bindsym Return mode default
+	bindsym space  mode default
+	bindsym $mod+o mode default
+}
+
+# WORKSPACES
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+assign [class="discord"] $ws10
+assign [class="Slack"]   $ws10
+assign [class="spotify"] $ws9
+
+for_window [class="1Password"] floating enable
+
+# COLORS
+
+set $black       #000000
+set $white       #ffffff
+set $active      #4084d6
+set $inactive    #7c8391
+set $inactive-bg #333333
+set $urgent      #ff0000
+
+# class                 border         bground        text           indicator        child_border
+client.focused          $active        $active        $white         $white           $active
+client.focused_inactive $inactive      $inactive      $white         $inactive        $inactive
+client.unfocused        $inactive      $inactive-bg   $white         $inactive        $inactive
+client.urgent           $urgent        $urgent        $white         $white           $urgent
+client.placeholder      $black         #0C0C0C        $white         #00ff00          #0C0C0C
+
+client.background       $white
