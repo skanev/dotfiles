@@ -1,0 +1,9 @@
+#!/usr/bin/env dash
+
+if command -v diffinity > /dev/null; then
+  exec diffinity
+elif command -v delta; then
+  exec delta
+else
+  exec less -FXRS
+fi

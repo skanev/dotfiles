@@ -1,0 +1,44 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  mkdir -p ~/code/personal
+
+  install-cleric
+}
+
+is-pack-installed() {
+  false
+}
+
+verify-pack() {
+}
+
+pack-info() {
+}
+
+install-cleric() {
+  pushd ~/code/personal
+
+  if [[ ! -d cleric ]]; then
+    git clone git@github.com:skanev/cleric.git
+    pushd cleric
+    rbenv install
+    bundle
+    popd
+  fi
+
+  if [[ ! -f ~/bin/diffinity ]]; then
+    cat <<END > ~/bin/diffinity
+#!/usr/bin/env dash
+~/code/personal/cleric/bin/diffinity | less -FXRS
+END
+  fi
+
+  popd
+
+  chmod a+x ~/bin/diffinity
+}
+
+process-pack $1

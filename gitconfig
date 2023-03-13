@@ -23,6 +23,7 @@
   whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
   editor = /usr/bin/env vim
   excludesfile = ~/.gitignore_global
+  pager = ~/.scripts/git-pager
 [alias]
   st = status
   ci = commit --verbose

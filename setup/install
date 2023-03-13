@@ -4,6 +4,8 @@ source setup/shared
 
 determine-os-and-distro
 
+mkdir -p ~/bin
+
 # XDG
 mkdir -p ~/.config/
 
