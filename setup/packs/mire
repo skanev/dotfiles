@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  pushd $DOTFILES_ROOT/support/ruby/mire
+  rbenv install --skip-existing
+  bundle
+  popd
+}
+
+is-pack-installed() {
+  false
+}
+
+verify-pack() {
+}
+
+pack-info() {
+}
+
+process-pack $1
