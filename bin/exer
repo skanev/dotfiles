@@ -122,6 +122,18 @@ my %languages = (
       backtick "open -a 'IntelliJ IDEA Ultimate' --args ."
     }
   },
+  cpp => {
+    solution_file => sub { "$exercise_path/@{[ lower_snake_case $exercise ]}.cpp $exercise_path/@{[ lower_snake_case $exercise ]}.h" },
+    test_file => sub { "$exercise_path/@{[ lower_snake_case $exercise ]}_test.cpp" },
+    test => sub { "cmake -G 'Unix Makefiles' . && make" },
+    after_checkout => sub {
+      for my $file ( glob "$exercise_path/*_test.cpp" ) {
+        my $contents = slurp( $file );
+        $contents =~ s/\n#if defined\(EXERCISM_RUN_ALL_TESTS\)$(.*?)^#endif\n?/$1/smg;
+        write_file $file, $contents;
+      }
+    },
+  }
 );
 
 my $lang = $languages{$track};
