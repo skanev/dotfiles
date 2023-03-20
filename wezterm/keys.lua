@@ -39,6 +39,38 @@ local function mappings(maps)
         mods = mapping.mods,
         action = mapping.action,
       })
+
+    elseif mapping.special == 'tabs' then
+      local mods = mapping.mods and mapping.mods:gsub('MOD', mod_key)
+      local tmux_mods = mapping.mods and mapping.mods:gsub('MOD', 'ALT')
+      local key = mapping.key
+      local action = mapping.action
+
+      table.insert(keys, {
+        key = key,
+        mods = mods,
+        action = wezterm.action_callback(function (window, pane)
+          local process_name = pane:get_foreground_process_info().name
+          local tabbed_vim = false
+
+          if process_name == 'nvim' or process_name == 'vim' then
+            local lines = pane:get_lines_as_text()
+            local position = lines:find(".\n")
+
+            -- if tabs are open, top row would end on X
+            tabbed_vim = (lines:sub(position, position) == "X")
+          end
+
+          if tmux.is_running_tmux(pane) or tabbed_vim then
+            window:perform_action(wezterm.action.SendKey { key = key, mods = tmux_mods }, pane)
+          else
+            window:perform_action(action, pane)
+          end
+        end)
+      })
+
+      seen[mods .. " " .. key:lower()] = true
+
     elseif mapping.special == 'tmux' then
       local mods = mapping.mods and mapping.mods:gsub('MOD', mod_key)
       local tmux_mods = mapping.mods and mapping.mods:gsub('MOD', 'ALT')
@@ -58,6 +90,7 @@ local function mappings(maps)
       })
 
       seen[mods .. " " .. key:lower()] = true
+
     elseif mapping.special == nil then
       mapping.mods = mapping.mods and mapping.mods:gsub('MOD', mod_key)
       table.insert(keys, mapping)

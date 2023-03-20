@@ -243,15 +243,15 @@ local mappings = require('keys').keys {
   { special = 'tmux', mods = 'MOD', key = 'c', action = wezterm.action.CopyTo('Clipboard') },
   { special = 'tmux', mods = 'MOD', key = 'v', action = wezterm.action.PasteFrom('Clipboard') },
 
-  { special = 'tmux', mods = 'MOD', key = '1', action = wezterm.action.ActivateTab(0) },
-  { special = 'tmux', mods = 'MOD', key = '2', action = wezterm.action.ActivateTab(1) },
-  { special = 'tmux', mods = 'MOD', key = '3', action = wezterm.action.ActivateTab(2) },
-  { special = 'tmux', mods = 'MOD', key = '4', action = wezterm.action.ActivateTab(3) },
-  { special = 'tmux', mods = 'MOD', key = '5', action = wezterm.action.ActivateTab(4) },
-  { special = 'tmux', mods = 'MOD', key = '6', action = wezterm.action.ActivateTab(5) },
-  { special = 'tmux', mods = 'MOD', key = '7', action = wezterm.action.ActivateTab(6) },
-  { special = 'tmux', mods = 'MOD', key = '8', action = wezterm.action.ActivateTab(7) },
-  { special = 'tmux', mods = 'MOD', key = '9', action = wezterm.action.ActivateTab(8) },
+  { special = 'tabs', mods = 'MOD', key = '1', action = wezterm.action.ActivateTab(0) },
+  { special = 'tabs', mods = 'MOD', key = '2', action = wezterm.action.ActivateTab(1) },
+  { special = 'tabs', mods = 'MOD', key = '3', action = wezterm.action.ActivateTab(2) },
+  { special = 'tabs', mods = 'MOD', key = '4', action = wezterm.action.ActivateTab(3) },
+  { special = 'tabs', mods = 'MOD', key = '5', action = wezterm.action.ActivateTab(4) },
+  { special = 'tabs', mods = 'MOD', key = '6', action = wezterm.action.ActivateTab(5) },
+  { special = 'tabs', mods = 'MOD', key = '7', action = wezterm.action.ActivateTab(6) },
+  { special = 'tabs', mods = 'MOD', key = '8', action = wezterm.action.ActivateTab(7) },
+  { special = 'tabs', mods = 'MOD', key = '9', action = wezterm.action.ActivateTab(8) },
 }
 
 return {
