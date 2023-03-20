@@ -142,11 +142,12 @@ return {
         type = parts[2]
       end
 
-      return sn(nil, fmta([[func (<> <>) <>() <><>{]], {
+      return sn(nil, fmta([[func (<> <>) <>(<>) <><>{]], {
         i(1, receiver),
         i(2, type),
         i(3, 'name'),
         i(4),
+        i(5),
         extras.nonempty(4, ' ', '')
       }))
     end, {}),
