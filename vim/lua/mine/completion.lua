@@ -138,10 +138,9 @@ cmp.setup.filetype('gitcommit', {
 
 cmp.setup.filetype('ruby', {
   sources = cmp.config.sources({
+    { name = 'rails_http_status_codes', priority = 10 },
     { name = 'luasnip' },
     { name = 'nvim_lsp' },
-    { name = 'rails_http_status_codes' },
-  }, {
     {
       name = 'buffer',
       option = {
