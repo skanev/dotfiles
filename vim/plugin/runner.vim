@@ -59,31 +59,46 @@ let s:modes.vader.run_file = ':Vader {file}'
 
 function! s:rust_run_file_command() abort
   let filename = expand('%')
-  let match = matchstr(filename, '^tests/\zs.*\ze\.rs$')
 
+  let match = matchstr(filename, '^tests/\zs.*\ze\.rs$')
   if match != ''
-    return printf('cargo test --test %s', substitute(match, '/', '::', 'g'))
-  else
-    return 'cargo test'
+    return printf('cargo test --quiet --test %s', substitute(match, '/', '::', 'g'))
   endif
+
+  let match = matchstr(filename, '^src/\zs.*\ze\.rs$')
+  if match != ''
+    return printf('cargo test --quiet %s::', substitute(match, '/', '::', 'g'))
+  endif
+
+  return 'cargo test'
 endfunction
 
 function! s:rust_run_line_command() abort
   let filename = expand('%')
-  let module_name = matchstr(filename, '^tests/\zs.*\ze\.rs$')
-  let test_line = search('#\[test\]\n\(//.*\n\)*\zs\(pub \)\?fn \w\+\ze', 'bnWc')
+  let test_line = search('#\[test\]\n\(//.*\n\)*\s*\zs\(pub \)\?fn \w\+\ze', 'bnWc')
 
-  if module_name == "" || test_line == 0
-    throw "runner: can't quite figure out how to run this line"
+  if test_line == 0
+    throw "runner: cant find an enclosing test"
   endif
 
   let fn_name = matchstr(getline(test_line), 'fn \zs\w\+\ze')
 
-  return printf('cargo test --test %s --all %s', substitute(module_name, '/', '::', 'g'), fn_name)
+  let module_name = matchstr(filename, '^tests/\zs.*\ze\.rs$')
+  if module_name != ""
+    return printf('cargo test --test %s --all %s', substitute(module_name, '/', '::', 'g'), fn_name)
+  endif
+
+  let module_name = matchstr(filename, '^src/\zs.*\ze\.rs$')
+  if module_name != ""
+    return printf('cargo test %s::tests::%s', substitute(module_name, '/', '::', 'g'), fn_name)
+  endif
+
+
+  throw "runner: can't quite figure out how to run this line"
 endfunction
 
 let s:modes.rust          = {}
-let s:modes.rust.matcher  = 'tests/.*\.rs$'
+let s:modes.rust.matcher  = '.*\.rs$'
 let s:modes.rust.run_file = function('s:rust_run_file_command')
 let s:modes.rust.run_line = function('s:rust_run_line_command')
 
@@ -173,6 +188,7 @@ function! s:targets.terminal(command) abort
     execute "botright " . height . "new"
     call termopen(a:command, {'on_exit': function('s:terminal_on_exit', [bufnr()])})
     let b:runner_buffer = 1
+    setlocal bufhidden=delete
     set nonumber
     wincmd p
   end
@@ -225,7 +241,7 @@ function! s:terminal_on_exit(nbuf, job_id, code, event) abort
   call nvim_buf_set_option(a:nbuf, 'modifiable', v:true)
   call timer_start(20, function('s:terminal_callback_tidy_up', [a:nbuf]))
   if a:code == 0
-    call timer_start(3000, function('s:terminal_callback_close', [win_getid(bufwinnr(a:nbuf))]))
+    call timer_start(3000, function('s:terminal_callback_close', [a:nbuf, win_getid(bufwinnr(a:nbuf))]))
   end
 endfunction
 
@@ -264,7 +280,7 @@ function! s:terminal_callback_tidy_up(nbuf, timer) abort
   call nvim_buf_set_lines(a:nbuf, i, -1, 0, [])
 endfunction
 
-function! s:terminal_callback_close(win_handle, timer) abort
+function! s:terminal_callback_close(bufnr, win_handle, timer) abort
   if !nvim_win_is_valid(a:win_handle) || a:win_handle == nvim_get_current_win() | return | end
 
   let view = winsaveview()
@@ -385,6 +401,11 @@ function! s:set_runner(command)
 
   let b:runner_mode = {'run_file': command}
 endfunction
+
+augroup Runner
+  autocmd!
+  autocmd BufHidden * if exists('b:runner_buffer') | bdelete! | endif
+augroup END
 
 " Commands
 
