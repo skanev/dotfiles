@@ -1,7 +1,7 @@
 local characters = [[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_=+`~{}[];:'",.\| >]]
 
 local function inputtable(lhs)
-  return characters:find(lhs:sub(1, 1)) or lhs:sub(1, 4):lower() == "<lt>"
+  return characters:find(lhs:sub(1, 1), 1, true) or lhs:sub(1, 4):lower() == "<lt>"
 end
 
 local function unmap_select_mappings()
