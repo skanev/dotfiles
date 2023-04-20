@@ -56,7 +56,7 @@ local function find_matches(container, query, name)
 
   for id, node in query:iter_captures(container, 0, 0, -1) do
     if query.captures[id] == name then
-      table.insert(result, tsq.get_node_text(node, 0))
+      table.insert(result, vim.treesitter.get_node_text(node, 0))
     end
   end
 
@@ -64,7 +64,7 @@ local function find_matches(container, query, name)
 end
 
 local function return_types_query(root)
-  return tsq.parse_query('go', string.format([[
+  return tsq.parse('go', string.format([[
     (%s result: [
       (type_identifier) @type
       (parameter_list (parameter_declaration type: (_) @type))

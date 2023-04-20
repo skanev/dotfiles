@@ -9,6 +9,7 @@ if has('gui_running')
   elseif has('gui_gtk3') || has('gui_gtk2') | let g:env.app = 'gvim'
   elseif has('gui_win32')                   | let g:env.app = 'winvim'
   elseif has('gui_vimr')                    | let g:env.app = 'vimr'
+  elseif exists('g:neovide')                | let g:env.app = 'neovide'
   else                                      | let g:env.app = 'unknown-gui'
   endif
 elseif has('nvim')
