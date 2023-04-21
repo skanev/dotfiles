@@ -270,5 +270,5 @@ let g:no_synstack_maps = 1
 " preservim/nerdtree
 let NERDTreeIgnore = ['node_modules$']
 
-imap <silent><script><expr> <S-Tab> copilot#Accept("\<CR>")
+" copilot
 let g:copilot_no_tab_map = v:true

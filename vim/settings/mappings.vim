@@ -87,6 +87,7 @@ MapMeta / <Plug>NERDCommenterToggle
 VMapMeta / <Plug>NERDCommenterToggle
 
 MapMeta w :close<CR>
+call MapMeta('nvic', '<silent><script><expr>', 'm', 'copilot#Accept("\<CR>")')
 
 if g:env.app != 'mvim'
   MapMeta s :write<CR>
