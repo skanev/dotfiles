@@ -134,7 +134,7 @@ telescope.setup {
     },
     commands = {
       mappings = {
-        i = { [ '<C-o>' ] = my_actions.jump_to_command, },
+        i = { [ '<C-o>' ] = my_actions.jump_to_command },
         n = { [ '<C-o>' ] = my_actions.jump_to_command }
       }
     },
