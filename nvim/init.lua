@@ -14,4 +14,6 @@ vim.g.python_host_prog = best_match('~/.pyenv/versions/*/envs/neovim-python2/bin
 vim.g.python3_host_prog = best_match('~/.pyenv/versions/*/envs/neovim-python3/bin/python')
 vim.g.ruby_host_prog = best_match('~/.rbenv/versions/*/bin/neovim-ruby-host')
 
+vim.g.firenvim_config = { globalSettings = { takeover = 'never' }, localSettings = { [".*"] = { takeover = 'never' } } }
+
 vim.cmd [[source ~/.vimrc]]
