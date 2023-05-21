@@ -46,7 +46,7 @@ function! s:rubocop_disable_line()
     echomsg "No offences on this line"
     echohl None
   else
-    call setline('.', getline('.') . ' # rubocop:disable ' . join(offenses, ' '))
+    call setline('.', getline('.') . ' # rubocop:disable ' . join(offenses, ', '))
   endif
 endfunction
 

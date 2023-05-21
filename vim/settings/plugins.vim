@@ -29,7 +29,6 @@ Plug 'zah/nim.vim'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'int3/vim-extradite'
-Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'zackhsi/fzf-tags'
@@ -99,6 +98,7 @@ if g:env.nvim
   Plug 'nvim-telescope/telescope.nvim'
 
   Plug 'neovim/nvim-lspconfig'
+  Plug 'jose-elias-alvarez/null-ls.nvim'
   Plug 'onsails/lspkind.nvim'
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
@@ -124,6 +124,7 @@ if g:env.nvim
 else
   Plug 'ervandew/supertab'
   Plug 'airblade/vim-gitgutter'
+  Plug 'dense-analysis/ale'
 
   Plug 'preservim/nerdtree'
 

@@ -1,4 +1,8 @@
 function! s#rubocop#current_line_offenses()
+  if !exists('g:ale_enabled')
+    return luaeval('vim.lsp.diagnostic.get_line_diagnostics()')->filter({_, v -> v.source == 'rubocop' })->map({_, v -> v.code})
+  endif
+
   let line = line('.')
   let offences = []
 
