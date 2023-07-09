@@ -28,6 +28,12 @@ function! s:FixSonokai()
   highlight! CocInfoHighlight cterm=underline gui=undercurl guisp=#7accd7
   highlight! CocHintHighlight cterm=underline gui=undercurl guisp=#9ecd6f
 
+  highlight! CopilotSuggestion guifg=#8775a1
+  highlight! VirtualTextHint guifg=#6b8552
+  highlight! VirtualTextInfo guifg=#6d9da3
+  highlight! VirtualTextWarning guifg=#a18c54
+  highlight! VirtualTextError guifg=#c76262
+
   highlight! link perlPOD DimWhite
   highlight! link podVerbatimLine DimGreen
   highlight! link podCommand DimRed
