@@ -1,0 +1,21 @@
+---
+syntax: markdown
+---
+
+# Rubocop
+
+Mason installs a Rubocop that doesn't play very well with projects that have
+bundler in them or with rbenv. It runs the following executable:
+
+    ~/.local/share/nvim/mason/bin/rubocop --lsp
+
+If you open that, it will see that it's going to be a shim that provides
+rubocop independently. To make it work in all projects (especially those that
+have custom rubocop stuff in them), you need to:
+
+1. Comment out the `GEM_PATH=` line in `mason/bin/rubocop` as it confuses
+   bundler.
+
+2. Go to in `.local/share/nvim/mason/packages/rubocop/bin/rubocop`, which is
+   another shim called from the previous, and fix the shebang to use the proper
+   version of Ruby (`#!/usr/bin/env ruby` should do it).

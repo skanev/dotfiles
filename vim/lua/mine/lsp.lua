@@ -3,18 +3,6 @@ local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local mason = require('mason')
 local mason_lspconfig = require('mason-lspconfig')
 local neodev = require('neodev')
-local null_ls = require('null-ls')
-
-null_ls.setup {
-  sources = {
-    null_ls.builtins.diagnostics.rubocop.with {
-      command = { 'bundle', 'exec', 'rubocop' },
-      condition = function(utils)
-        return utils.root_has_file('Gemfile', '.rubocop.yml')
-      end
-    }
-  }
-}
 
 mason.setup()
 mason_lspconfig.setup()
