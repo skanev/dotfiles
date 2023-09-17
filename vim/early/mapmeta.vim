@@ -14,6 +14,8 @@ function! MapMeta(modes, modifiers, key, command)
     let mapping = toupper(printf('<S-D-%s>', a:key))
   elseif g:env.app == 'vimr' && has_key(s:downcases, a:key)
     let mapping = printf('<S-D-%s>', s:downcases[a:key])
+  elseif g:env.app == 'neovide' && g:env.meta_key == 'D' && has_key(s:downcases, a:key)
+    let mapping = printf('<S-D-%s>', s:downcases[a:key])
   elseif g:env.app == 'neovide'
     let mapping = printf('<D-%s>', a:key)
   else
