@@ -75,7 +75,7 @@ local function setup(config)
       nargs = '?',
       complete = function(_, line)
         local options = vim.tbl_keys(modes)
-        local parts = vim.split(line, '%s+')
+        local parts = vim.split(line, '%s+', {})
 
         if #parts == 1 then
           return options

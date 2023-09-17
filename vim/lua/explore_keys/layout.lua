@@ -2,8 +2,8 @@ local lower_keys = [[abcdefghijklmnopqrstuvwxyz`1234567890-=[]\;,./']]
 local upper_keys = [[ABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*()_+{}|:<>?"]]
 
 local layout = {
-  all_keys = vim.split(lower_keys .. upper_keys, ''),
-  modifiable_keys = vim.split([[abcdefghijklmnopqrstuvwxyz1234567890-=[];',./]], ""),
+  all_keys = vim.split(lower_keys .. upper_keys, '', {}),
+  modifiable_keys = vim.split([[abcdefghijklmnopqrstuvwxyz1234567890-=[];',./]], "", {}),
   images = {
     double_wide = [[
 ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬────────┐

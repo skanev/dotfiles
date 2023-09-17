@@ -2,7 +2,7 @@ local Path = require("plenary.path")
 local drawing = require('explore_keys.drawing')
 local inventory = require('explore_keys.inventory')
 
----@param func_ref funcref
+---@param func_ref function
 ---@return string | nil
 ---@return { file: string, line: number } | nil
 local function infer_function_description_and_location(func_ref)
@@ -41,7 +41,7 @@ local function infer_function_description_and_location(func_ref)
   return nil
 end
 
----@return table<string, { file: string, line: number }>
+---@return { buffer: table<string, { file: string, line: number }>, global: table<string, { file: string, line: number }> }
 local function find_mapping_locations()
   local result = {
     buffer = {},
@@ -66,7 +66,7 @@ local function find_mapping_locations()
 
   vim.cmd [[unlet g:explore_keys_output]]
 
-  local lines = vim.split(output, "\n", true)
+  local lines = vim.split(output, "\n", {plain = true})
   local i = 1
   while i < #lines do
     if lines[i] == "" then
@@ -153,7 +153,7 @@ local function format_rhs(lhs)
   return drawing.rich_text(result)
 end
 
----@alias ek.MappingScope "global" | "buffer" | "default"
+---@alias ek.MappingScope "global" | "buffer" | "default" | "mixed"
 
 ---@class ek.Mapping
 ---@field lhs string

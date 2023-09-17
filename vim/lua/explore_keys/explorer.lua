@@ -100,7 +100,7 @@ function Explorer:open_window()
 end
 
 function Explorer:_render_top_keyboard()
-  local lines = vim.split(self.keyboard_image.image:gsub('space', '     '), "\n")
+  local lines = vim.split(self.keyboard_image.image:gsub('space', '     '), "\n", { plain = true })
   local padding = math.floor(math.max(0, vim.fn.winwidth(self.winid) - vim.fn.strdisplaywidth(lines[1])) / 2)
 
   lines = u.map(lines, function(line) return (" "):rep(padding) .. line end)

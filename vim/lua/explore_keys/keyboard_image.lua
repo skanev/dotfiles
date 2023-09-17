@@ -19,7 +19,7 @@ function KeyboardImage:new(image)
     special_positions = {},
   }
 
-  for row, line in pairs(vim.split(instance.image, "\n")) do
+  for row, line in pairs(vim.split(instance.image, "\n", {})) do
     for _, name in ipairs(layout.named_keys) do
       local col =  line:find(name, 1, true)
       if col then
@@ -36,7 +36,7 @@ function KeyboardImage:new(image)
     drawable[char] = true
   end
 
-  for row, line in ipairs(vim.split(stripped, "\n")) do
+  for row, line in ipairs(vim.split(stripped, "\n", {})) do
     local init = 1
 
     while init ~= nil do
