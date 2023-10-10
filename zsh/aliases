@@ -73,3 +73,5 @@ alias -g P="| pd"
 alias cleanenv="be rake db:drop && be rake db:create && be rake db:schema:load && be rake db:migrate && be rake db:seed"
 
 alias stalker=~/.scripts/stalker
+
+alias jump="tsh login --proxy=teleport.prod.rbank-int.com:443 --request-roles=jump_production_monolith_jump && tsh kube login production-cluster && cd /Users/dobrinov/dev/work/docker && bin/kuby jump monolith --context production-teleport-cluster-production-cluster && cd -"

@@ -35,3 +35,4 @@ fi
 [[ -f ~/.localenv ]] && source ~/.localenv
 
 export DOTFILES_PATHS_LOADED=1
+export VOLTA_FEATURE_PNPM=1

@@ -37,4 +37,7 @@ fi
 
 # Global aliases can mess up everything else, so they must be last
 . ~/.zsh/aliases
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
