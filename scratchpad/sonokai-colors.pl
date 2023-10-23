@@ -23,8 +23,8 @@ my %codes = (
 
 while (my ($name, $code) = each %codes) {
   my $hsv = Graphics::Color::RGB->from_hex_string($code)->to_hsv;
-  $hsv->value( max(0.0, $hsv->v - 0.32) );
-  $hsv->saturation( max(0.0, $hsv->s - 0.33) );
+  $hsv->value( max(0.0, $hsv->v - 0.12) );
+  $hsv->saturation( max(0.0, $hsv->s - 0.13) );
   my $result = $hsv->to_rgb->as_hex_string;
   say "  hi Dim$name guifg=#$result";
 }
