@@ -62,7 +62,7 @@ my %commands = (
 
 my %languages = (
   perl5 => {
-    solution_file => sub { $exercise_path . upper_camel_case( $exercise ) . '.pm' },
+    solution_file => sub { $exercise_path . '/lib/' . upper_camel_case( $exercise ) . '.pm' },
     test_file => sub { "$exercise_path/$exercise.t" },
     test => sub { "prove $exercise.t" },
   },
