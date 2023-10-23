@@ -5,7 +5,6 @@ vim.opt.termguicolors = true
 
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
-  remove_keymaps = { "<Tab>" },
   on_attach = function(bufnr)
     local api = require('nvim-tree.api')
 
