@@ -148,6 +148,7 @@ local mappings = require('keys').keys {
   { mods = 'CTRL|SHIFT', key = 'r', action = wezterm.action.ShowLauncher },
   { mods = 'CTRL|SHIFT', key = 'l', action = wezterm.action.ShowDebugOverlay },
   { mods = 'CTRL|SHIFT', key = 'f', action = wezterm.action.ToggleFullScreen },
+  { mods = 'CTRL|SHIFT', key = 'p', action = wezterm.action.ActivateCommandPalette },
 
   { mods = 'CTRL|MOD', key = '1', action = wezterm.action.ActivateTab(0) },
   { mods = 'CTRL|MOD', key = '2', action = wezterm.action.ActivateTab(1) },
