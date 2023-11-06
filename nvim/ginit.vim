@@ -1,4 +1,4 @@
-if g:env.app == 'nvim-qt'
+if exists('g:env') && g:env.app == 'nvim-qt'
   set title
 
   GuiPopupmenu 0
