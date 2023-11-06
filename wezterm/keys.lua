@@ -50,7 +50,7 @@ local function mappings(maps)
         key = key,
         mods = mods,
         action = wezterm.action_callback(function (window, pane)
-          local process_name = pane:get_foreground_process_info().name
+          local process_name = (pane:get_foreground_process_info() or '').name
           local tabbed_vim = false
 
           if process_name == 'nvim' or process_name == 'vim' then
