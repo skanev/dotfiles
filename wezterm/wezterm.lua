@@ -267,6 +267,9 @@ return {
     fade_out_function = 'EaseOut',
     fade_out_duration_ms = 100,
   },
+  unix_domains = {
+    { name = 'unix' },
+  },
   disable_default_key_bindings = true,
   leader = { key = 'q', mods = 'CTRL', timeout_millisecons = 3000 },
   keys = mappings.keys,
