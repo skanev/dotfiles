@@ -11,6 +11,10 @@ prompt_zsh_level () {
     base=$((base - 1))
   fi
 
+  if [[ $TERM_PROGRAM == vscode ]]; then
+    base=0
+  fi
+
   if (( base > 1 )); then
     printf '∎'%.0s {2..$base}
   fi
