@@ -65,4 +65,9 @@ if which bat > /dev/null; then
   export BAT_THEME="Monokai Extended"
 fi
 
+if [[ $TERM_PROGRAM == vscode ]]; then
+  # Don't report an error in VSCode on Ctrl+D
+  trap 'exit 0' EXIT
+fi
+
 export PAGER="less"
