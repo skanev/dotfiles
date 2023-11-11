@@ -322,4 +322,5 @@ return {
   command_palette_fg_color = '#eeeeee',
   term = 'wezterm',
   window_decorations = 'RESIZE',
+  scrollback_lines = 20000,
 }
