@@ -321,4 +321,5 @@ return {
   command_palette_bg_color = '#662958',
   command_palette_fg_color = '#eeeeee',
   term = 'wezterm',
+  window_decorations = 'RESIZE',
 }
