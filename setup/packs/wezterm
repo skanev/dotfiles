@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+install-pack() {
+  tempfile=$(mktemp) \
+    && curl -o $tempfile https://raw.githubusercontent.com/wez/wezterm/main/termwiz/data/wezterm.terminfo \
+    && tic -x -o ~/.terminfo $tempfile \
+    && rm $tempfile
+}
+
+is-pack-installed() {
+  [[ -d ~/.terminfo ]]
+}
+
+verify-pack() {
+}
+
+pack-info() {
+}
+
+process-pack $1
