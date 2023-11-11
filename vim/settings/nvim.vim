@@ -1,9 +1,12 @@
 if g:env.app == 'neovide'
   let g:neovide_cursor_animation_length=0.04
   let g:neovide_scroll_animation_length=0.07
-  let g:neovide_floating_blur_amount_x = 2.5
-  let g:neovide_floating_blur_amount_y = 2.5
-  let g:neovide_transparency = 0.7
+  let g:neovide_floating_blur_amount_x = 4.0
+  let g:neovide_floating_blur_amount_y = 3.0
+  let g:neovide_transparency = 0.8
+  let g:neovide_frame = 0
+  let g:neovide_padding_top = 0
+  set linespace=3
 
   function! s:adjust_background()
     let color = synIDattr(synIDtrans(hlID("Normal")), "bg")
