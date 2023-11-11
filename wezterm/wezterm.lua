@@ -320,4 +320,5 @@ return {
   command_palette_font_size = 20,
   command_palette_bg_color = '#662958',
   command_palette_fg_color = '#eeeeee',
+  term = 'wezterm',
 }
