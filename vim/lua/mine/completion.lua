@@ -69,8 +69,8 @@ cmp.setup {
     expand = function(args) require('luasnip').lsp_expand(args.body) end,
   },
   window = {
-    --completion = cmp.config.window.bordered(),
-    --documentation = cmp.config.window.bordered(),
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
   },
   preselect = cmp.PreselectMode.None,
   mapping = cmp.mapping.preset.insert({
