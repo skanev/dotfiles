@@ -106,7 +106,7 @@ cmp.setup {
   }),
   formatting = {
     format = lspkind.cmp_format {
-      mode = (vim.g.tweaks.devicons == 1 and 'symbol_text' or 'text'),
+      mode = (vim.g.tweaks.devicons == 1 and 'symbol' or 'text'),
       max_width = 50,
       ellipsis_char = '...',
       menu = {
