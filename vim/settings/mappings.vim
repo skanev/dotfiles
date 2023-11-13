@@ -89,6 +89,10 @@ VMapMeta / <Plug>NERDCommenterToggle
 MapMeta w :close<CR>
 call MapMeta('i', '<silent><script><expr>', 'm', 'copilot#Accept("\<CR>")')
 
+if g:env.app == 'neovide'
+  MapMeta F <Cmd>let g:neovide_fullscreen = !get(g:, 'neovide_fullscreen', v:false)<CR>
+endif
+
 if g:env.app != 'mvim'
   MapMeta s :write<CR>
   MapMeta t :tabnew<CR>
