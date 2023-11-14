@@ -1,7 +1,0 @@
-[DEFAULT]
-email: <john.doe@example.com>
-cache_filename: ~/.goobook_cache.<john-doe>
-client_secret_filename: ~/.goobook_client_secret.<john-doe>
-oauth_db_filename: ~/.goobook_oauth_db.<john-doe>
-cache_expiry_hours: 24
-filter_groupless_contacts: no

@@ -3,4 +3,3 @@
 " separate ftdetect files.
 
 autocmd BufNewFile,BufReadPost gitconfig setfiletype gitconfig
-autocmd BufNewFile,BufReadPost */mutt/*  setfiletype muttrc

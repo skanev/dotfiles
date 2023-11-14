@@ -1,30 +1,3 @@
 #!/bin/dash
 
-if [ "$1" = 'mutt' ]; then
-    if pgrep -f mutt/bin/fetch-email &>/dev/null; then
-        echo "📩 "
-        exit 0
-    fi
-
-    now=$(date "+%s")
-    checked=$(cat ~/.mutt/temp/last-fetched)
-    age=$((now - checked))
-
-    if [ $age -lt 60 ]; then
-        message="${age}s"
-    elif [ $age -lt $((60 * 60)) ]; then
-        minutes=$((age / 60))
-        message="${minutes}m"
-    elif [ $age -lt $((60 * 60 * 24)) ]; then
-        hours=$((age / (60 * 60)))
-        message="${hours}h"
-    else
-        days=$((age / (60 * 60 * 24)))
-        message="${days}d"
-    fi
-
-    echo "✉️  $message"
-else
-    hostname -s
-fi
-
+hostname -s

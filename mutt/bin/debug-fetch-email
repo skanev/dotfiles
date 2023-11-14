@@ -1,3 +1,0 @@
-#!/usr/bin/env zsh
-say 'go'
-~/.mutt/bin/fetch-email >> ~/.mutt/temp/last-run.log 2>&1

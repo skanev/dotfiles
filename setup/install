@@ -13,9 +13,6 @@ mkdir -p ~/.config/
 establish-link bash ~/.bash clobberable
 establish-link bash_profile ~/.bash_profile clobberable
 
-# Mutt
-establish-link mutt ~/.mutt
-
 # Scripts
 establish-link scripts ~/.scripts
 
