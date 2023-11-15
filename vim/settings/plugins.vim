@@ -118,6 +118,8 @@ if g:env.nvim
 
   Plug 'folke/neodev.nvim'
 
+  Plug 'stevearc/aerial.nvim'
+
   Plug 'github/copilot.vim'
 
   Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
