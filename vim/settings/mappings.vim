@@ -2,8 +2,8 @@ map <F1> :help skanev.txt<CR>
 map <F2> :ToggleBufExplorer<CR>
 map <F3> <Cmd>TreeToggle<CR>
 map <S-F3> <Cmd>TreeFind<CR>
-map <F3> <Cmd>AerialToggle<CR>
-map <S-F3> <Cmd>AerialNavToggle<CR>
+map <F4> <Cmd>AerialToggle<CR>
+map <S-F4> <Cmd>AerialNavToggle<CR>
 map <F6> <Cmd>Scratch<CR>
 map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
 map <S-F8> :Ack <C-r><C-w><CR>
