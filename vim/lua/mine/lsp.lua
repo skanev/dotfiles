@@ -86,6 +86,15 @@ mason_lspconfig.setup_handlers {
     }
   end,
 
+  rubocop = function()
+    lspconfig.rubocop.setup {
+      on_attach = on_attach,
+      capabilities = make_capabilities(),
+      root_dir = lspconfig.util.root_pattern('.rubocop.yml'),
+      cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
+    }
+  end,
+
   lua_ls = function()
     lspconfig.lua_ls.setup {
       on_attach = on_attach,
