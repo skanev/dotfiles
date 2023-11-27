@@ -66,6 +66,11 @@ my %languages = (
     test_file => sub { "$exercise_path/$exercise.t" },
     test => sub { "prove $exercise.t" },
   },
+  ruby => {
+    solution_file => sub { $exercise_path . '/' . lower_snake_case( $exercise ) . '.rb' },
+    test_file => sub { $exercise_path . '/' . lower_snake_case( $exercise ) . '_test.rb' },
+    test => sub { "ruby -r minitest/pride " . lower_snake_case( $exercise ) . '_test.rb' },
+  },
   crystal => {
     solution_file => sub { "$exercise_path/src/" . lower_snake_case( $exercise ) . '.cr' },
     test_file => sub { "$exercise_path/spec/" . lower_snake_case( $exercise ) . '_spec.cr' },
