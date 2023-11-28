@@ -71,6 +71,11 @@ my %languages = (
     test_file => sub { $exercise_path . '/' . lower_snake_case( $exercise ) . '_test.rb' },
     test => sub { "ruby -r minitest/pride " . lower_snake_case( $exercise ) . '_test.rb' },
   },
+  erlang => {
+    solution_file => sub { $exercise_path . '/src/' . lower_snake_case( $exercise ) . '.erl' },
+    test_file => sub { $exercise_path . '/test/' . lower_snake_case( $exercise ) . '_tests.erl' },
+    test => sub { "rebar3 eunit" },
+  },
   crystal => {
     solution_file => sub { "$exercise_path/src/" . lower_snake_case( $exercise ) . '.cr' },
     test_file => sub { "$exercise_path/spec/" . lower_snake_case( $exercise ) . '_spec.cr' },
