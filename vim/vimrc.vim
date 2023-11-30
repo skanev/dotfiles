@@ -57,6 +57,7 @@ if g:env.nvim
   lua require('mine.unsaved')
   lua require('mine.send_text')
   lua require('mine.aerial')
+  lua require('mine.terminal')
   runtime settings/completion.vim
 else
   runtime settings/plugins/airline.vim

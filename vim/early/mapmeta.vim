@@ -39,6 +39,7 @@ command! -nargs=1 NMapMeta call <SID>map_meta_command('-n ' . <f-args>)
 command! -nargs=1 VMapMeta call <SID>map_meta_command('-v ' . <f-args>)
 command! -nargs=1 IMapMeta call <SID>map_meta_command('-i ' . <f-args>)
 command! -nargs=1 XMapMeta call <SID>map_meta_command('-x ' . <f-args>)
+command! -nargs=1 TMapMeta call <SID>map_meta_command('-t ' . <f-args>)
 
 function! s:map_meta_command(string) abort
   let command = a:string

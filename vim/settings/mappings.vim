@@ -77,6 +77,9 @@ VMapMeta [ <gv
 MapMeta r <Plug>(runner-run-file-or-last)
 MapMeta R <Plug>(runner-run-line)
 
+MapMeta l <Plug>(quickterminal)
+TMapMeta l <Plug>(quickterminal)
+
 if g:env.nvim
   NMapMeta e <Plug>(mine-send-text-buffer)
   VMapMeta e <Plug>(mine-send-text-selection)
