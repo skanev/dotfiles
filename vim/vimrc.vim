@@ -75,8 +75,8 @@ augroup mine
   autocmd InsertEnter * :silent set timeoutlen=200
   autocmd InsertLeave * :silent set timeoutlen=1000
 
-  autocmd WinNew      * let w:check_help = 1
-  autocmd BufWinEnter * if exists('w:check_help') | unlet w:check_help | call s:maximize_if_only_help_window(bufnr()) | endif
+  autocmd WinNew               * let w:check_help = 1
+  autocmd FileType,BufWinEnter * if exists('w:check_help') | unlet w:check_help | call s:maximize_if_only_help_window(bufnr()) | endif
 augroup END
 
 " Commands
@@ -110,6 +110,7 @@ map <S-F7> <Cmd>execute "colorscheme " . g:colorschemes[0]<CR>
 
 function! s:maximize_if_only_help_window(bufnr)
   if win_gettype() == 'command' || win_gettype() == 'quickfix' | return | endif
+  if getbufvar(a:bufnr, '&buftype') != 'help' | return | endif
 
   for nr in tabpagebuflist()
     if a:bufnr == nr     | continue | endif
