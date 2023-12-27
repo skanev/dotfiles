@@ -32,8 +32,15 @@ do
 
   keymap('i', '<c-j>', "<cmd>lua require('luasnip').jump(1)<CR>", opts)
   keymap('s', '<c-j>', "<cmd>lua require('luasnip').jump(1)<CR>", opts)
-  keymap('i', '<c-k>', "<cmd>lua require('luasnip').jump(-1)<CR>", opts)
-  keymap('s', '<c-k>', "<cmd>lua require('luasnip').jump(-1)<CR>", opts)
+
+  vim.keymap.set({'i', 's'}, '<C-k>', function()
+    if luasnip.jumpable(-1) then
+      luasnip.jump(-1)
+      return ''
+    else
+      return '<C-k>'
+    end
+  end, { expr = true, noremap = true, silent = true } )
 end
 
 -- Custom completions --
