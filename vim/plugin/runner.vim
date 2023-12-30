@@ -9,8 +9,12 @@ let s:modes = {}
 
 let s:modes.test_unit          = {}
 let s:modes.test_unit.matcher  = '_test\.rb$'
-let s:modes.test_unit.run_file = 'rails test {file}'
-let s:modes.test_unit.run_line = 'rails test {file}:{line}'
+let s:modes.test_unit.run_file = 'ruby {file}'
+let s:modes.test_unit.run_line = 'm {file}:{line}'
+
+" the above, but for Rails
+"let s:modes.test_unit.run_file = 'rails test {file}'
+"let s:modes.test_unit.run_line = 'rails test {file}:{line}'
 
 let s:modes.nosetest          = {}
 let s:modes.nosetest.matcher  = '_test\.py$'
@@ -197,6 +201,7 @@ function! s:targets.terminal(command) abort
 endfunction
 
 function! s:wezterm_has_available_workspace() abort
+  return 0
   if !executable('wezterm')
     return 0
   endif
