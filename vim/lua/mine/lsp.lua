@@ -79,6 +79,17 @@ mason_lspconfig.setup_handlers {
     }
   end,
 
+  clangd = function()
+    lspconfig.clangd.setup {
+      on_attach = on_attach,
+      capabilities = make_capabilities(),
+      cmd = {
+        "clangd",
+        "--offset-encoding=utf-16",
+      },
+    }
+  end,
+
   rust_analyzer = function()
     lspconfig.rust_analyzer.setup {
       on_attach = on_attach,
