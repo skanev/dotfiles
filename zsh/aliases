@@ -3,6 +3,8 @@ alias reload_aliases="source ~/.zsh/aliases"
 alias aliases="vim ~/.zsh/aliases && reload_aliases"
 alias localrc="vim ~/.localrc && source ~/.localrc"
 
+alias fuckjam="ps xau | grep "timer.sh" | grep -v grep | awk '{print $2}' | xargs sudo kill"
+
 alias tmux="tmux -2"
 
 alias ll="ls -l"
