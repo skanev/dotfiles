@@ -13,6 +13,8 @@ if [[ -n $DOTFILES_WSL ]] && which neovide.exe > /dev/null; then
 elif which neovide > /dev/null; then
   export NEOVIDE_MULTIGRID=true
   export NEOVIDE_FRAME=buttonless
+  export NEOVIDE_TITLE_HIDDEN=true
+  export NEOVIDE_FORK=true
   DOTFILES_VIG=${DOTFILES_VIG:-neovide}
 elif which nvim-qt > /dev/null; then
   nvim-qt() {

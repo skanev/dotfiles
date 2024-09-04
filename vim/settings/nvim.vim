@@ -3,7 +3,7 @@ if g:env.app == 'neovide'
   let g:neovide_scroll_animation_length = 0.07
   let g:neovide_floating_blur_amount_x = 4.0
   let g:neovide_floating_blur_amount_y = 3.0
-  let g:neovide_transparency = 0.8
+  "let g:neovide_transparency = 0.8
   let g:neovide_frame = 0
   let g:neovide_padding_top = 0
   set linespace=3
@@ -15,10 +15,10 @@ if g:env.app == 'neovide'
 
   augroup neovide
     autocmd!
-    autocmd ColorScheme * call s:adjust_background()
+    "autocmd ColorScheme * call s:adjust_background()
   augroup END
 
-  call s:adjust_background()
+  "call s:adjust_background()
 endif
 
 if g:env.app == 'nvim-gtk'

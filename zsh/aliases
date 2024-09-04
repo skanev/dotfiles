@@ -40,7 +40,6 @@ alias t="tmux"
 alias ta="tmux-attach-current"
 alias tat="tmux attach"
 
-alias m="make"
 alias be="bundle exec"
 alias vii="gvim --remote-silent"
 alias gemopen="BUNDLER_EDITOR='zsh -ci vig' bundle open"
@@ -65,6 +64,9 @@ alias keys="~/.scripts/keymaps =(bindkey -L)"
 alias args="printf '⟪%s⟫\n'"
 
 alias gitconfig="vim ~/.gitconfig"
+
+alias nr="npm run"
+alias nrd="npm run dev"
 
 alias -g RERR="2>&1"
 alias -g P="| pd"
