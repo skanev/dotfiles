@@ -81,7 +81,13 @@ mason_lspconfig.setup_handlers {
 
   clangd = function()
     lspconfig.clangd.setup {
-      on_attach = on_attach,
+      on_attach = function(client)
+        local project = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+
+        if project == 'qmk-keymaps' then
+          vim.lsp.stop_client(client.id)
+        end
+      end,
       capabilities = make_capabilities(),
       cmd = {
         "clangd",
