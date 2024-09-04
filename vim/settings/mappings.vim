@@ -63,6 +63,8 @@ cnoremap <expr> / <SID>cmd_mode_slash()
 MapMeta f <Cmd>SearchFiles<CR>
 MapMeta j <Cmd>SearchBuffers<CR>
 MapMeta k <Cmd>TreeToggle<CR>
+MapMeta K <Cmd>TreeFind<CR>
+
 if g:env.nvim
   MapMeta m <Cmd>lua require('mine').cycle_diagnostics()<CR>
   MapMeta p <Cmd>Palette<CR>
