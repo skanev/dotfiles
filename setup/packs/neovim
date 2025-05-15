@@ -5,7 +5,7 @@ source setup/shared
 install-pack() {
   install-neovim-pyenv "2.7.18" "neovim-python2"
   install-neovim-pyenv "3.9.4"  "neovim-python3"
-  install-neovim-rbenv "3.0.1"
+  install-neovim-rbenv "3.1.2"
 }
 
 is-pack-installed() {
