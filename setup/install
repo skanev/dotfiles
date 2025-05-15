@@ -69,6 +69,6 @@ if [[ -z $WITHOUT_PACKS ]]; then
   establish-pack volta
   establish-pack ranger
   establish-pack mire
-  establish-pack perl-support
+  # establish-pack perl-support
 fi
 
