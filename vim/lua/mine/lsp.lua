@@ -71,61 +71,44 @@ local function make_capabilities()
   return cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 end
 
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    lspconfig[server_name].setup {
-      on_attach = on_attach,
-      capabilities = make_capabilities(),
-    }
+-- Configure each LSP server directly, as setup_handlers is removed in mason-lspconfig v2+
+lspconfig.clangd.setup {
+  on_attach = function(client)
+    local project = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+    if project == 'qmk-keymaps' then
+      vim.lsp.stop_client(client.id)
+    end
   end,
+  capabilities = make_capabilities(),
+  cmd = {
+    "clangd",
+    "--offset-encoding=utf-16",
+  },
+}
 
-  clangd = function()
-    lspconfig.clangd.setup {
-      on_attach = function(client)
-        local project = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+lspconfig.rust_analyzer.setup {
+  on_attach = on_attach,
+  capabilities = make_capabilities(),
+}
 
-        if project == 'qmk-keymaps' then
-          vim.lsp.stop_client(client.id)
-        end
-      end,
-      capabilities = make_capabilities(),
-      cmd = {
-        "clangd",
-        "--offset-encoding=utf-16",
+lspconfig.rubocop.setup {
+  on_attach = on_attach,
+  capabilities = make_capabilities(),
+  root_dir = lspconfig.util.root_pattern('.rubocop.yml'),
+  cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
+}
+
+lspconfig.lua_ls.setup {
+  on_attach = on_attach,
+  capabilities = make_capabilities(),
+  settings = {
+    Lua = {
+      completion = {
+        callSnippet = 'Replace',
       },
-    }
-  end,
-
-  rust_analyzer = function()
-    lspconfig.rust_analyzer.setup {
-      on_attach = on_attach,
-      capabilities = make_capabilities(),
-    }
-  end,
-
-  rubocop = function()
-    lspconfig.rubocop.setup {
-      on_attach = on_attach,
-      capabilities = make_capabilities(),
-      root_dir = lspconfig.util.root_pattern('.rubocop.yml'),
-      cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
-    }
-  end,
-
-  lua_ls = function()
-    lspconfig.lua_ls.setup {
-      on_attach = on_attach,
-      capabilities = make_capabilities(),
-      settings = {
-        Lua = {
-          completion = {
-            callSnippet = 'Replace',
-          },
-          workspace = {
-            checkThirdParty = false,
-          }
-        }
+      workspace = {
+        checkThirdParty = false,
       }
     }
-  end,
+  }
 }
