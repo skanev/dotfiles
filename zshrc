@@ -46,7 +46,6 @@ eval "$(scmpuff init -s)"
 
 export PATH="$VOLTA_HOME/bin:$PATH"
 export PATH="~/bin:$PATH"
-export PATH="$HOME/.rd/bin:$PATH"
 
 export VOLTA_HOME="$HOME/.volta"
 
