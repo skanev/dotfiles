@@ -5,6 +5,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.scrolloff = 5
 vim.opt.listchars = 'eol:¬,tab:→ '
+vim.opt.signcolumn = 'number'
 
 -- TODO: What do I do with these?
 --set keymap=bulgarian-skanev    " my input method for Bulgarian

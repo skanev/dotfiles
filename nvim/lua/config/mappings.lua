@@ -18,8 +18,6 @@ map('n', '<F9>', '<Cmd>nohlsearch<CR>')
 map('n', '<F10>', '<Cmd>set cursorcolumn!<CR>')
 map('i', '<F10>', '<C-o>:set cursorcolumn!<CR>')
 
-local foo = 1
-
 map('n', '<F11>', function() require('telescope.builtin').find_files({ cwd = vim.g.dotfiles_dir }) end)
 map('n', '<S-F11>', function() require('telescope.builtin').find_files({ cwd = vim.g.dotfiles_dir .. '/nvim' }) end)
 
