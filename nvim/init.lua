@@ -3,6 +3,8 @@ vim.g.dotfiles_dir = vim.fn.expand('~/code/personal/dotfiles')
 if vim.env.NEWVIM == nil then
   vim.opt.runtimepath:prepend('~/.vim/after')
   vim.opt.runtimepath:prepend('~/.vim')
+  vim.cmd "set runtimepath-=~/.config/nvim"
+  vim.cmd "set runtimepath-=~/.config/nvim/after"
 
   vim.o.packpath = vim.o.runtimepath
 
@@ -33,6 +35,7 @@ vim.g.env = { meta_key = 'D' }
 require('config.env')
 require('config.options')
 require('config.mappings')
+require('config.ft')
 
 -- Setup lazy.nvim
 require('config.plugins.lazy')
