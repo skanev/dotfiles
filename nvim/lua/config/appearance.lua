@@ -32,12 +32,28 @@ for _, rule in ipairs(rules) do
 end
 
 local function setup()
+  if env.app == 'neovide' then
+    vim.g.neovide_cursor_animation_length = 0.04
+    vim.g.neovide_scroll_animation_length = 0.08
+    vim.g.neovide_floating_blur_amount_x = 4.0
+    vim.g.neovide_floating_blur_amount_y = 3.0
+    vim.g.neovide_frame = 0
+    vim.g.neovide_padding_top = 0
+    vim.g.neovide_floating_shadow = true
+    vim.g.neovide_floating_z_height = 10
+    vim.g.neovide_light_angle_degrees = 45
+    vim.g.neovide_light_radius = 5
+    vim.g.neovide_floating_corner_radius = 0.4
+    vim.g.neovide_position_animation_length = 0.15
+    vim.g.neovide_opacity = 1
+    vim.g.neovide_normal_opacity = 1
+  end
+
   if config.colorscheme then
     vim.cmd('colorscheme ' .. config.colorscheme)
   end
 
   if config.font then
-    vim.print(config.font)
     vim.opt.guifont = config.font
   end
 
@@ -61,8 +77,6 @@ local function adjust_font_size(adjustment)
     end)
   end
 end
-
-adjust_font_size()
 
 return {
   setup = setup,
