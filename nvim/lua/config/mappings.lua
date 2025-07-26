@@ -53,9 +53,6 @@ map('n', 'Q', function() end, { noremap = true })
 map('n', '[g', '<Cmd>cprev<CR>')
 map('n', ']g', '<Cmd>cnext<CR>')
 
---nmap <silent> yoa <Cmd>ALEToggleBuffer<CR>
---nmap <silent> yog <Cmd>call <SID>ToggleGitGutter()<CR>
-
 --nnoremap <C-h> :SidewaysLeft<CR>
 --nnoremap <C-l> :SidewaysRight<CR>
 map('n', '<C-k>', '<Cmd>set hlsearch!<CR>')
@@ -144,25 +141,9 @@ end
 --return '<SNR>' . matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$') . '_'
 --endfun
 
---if g:env.app == 'nvim-qt' || g:env.app == 'neovide'
---call MapMeta('nvic', '', '-', '<Cmd>call '.s:sid()."set_font('delta', -1)<CR>")
---call MapMeta('nvic', '', '=', '<Cmd>call '.s:sid()."set_font('delta', 1)<CR>")
---call MapMeta('nvic', '', '0', '<Cmd>call '.s:sid()."set_font('reset', 0)<CR>")
-
 map('n', '<{}-0>', function() require('config.appearance').adjust_font_size(nil) end)
 map('n', '<{}-->', function() require('config.appearance').adjust_font_size(-1) end)
 map('n', '<{}-=>', function() require('config.appearance').adjust_font_size(1) end)
---function! s:set_font(action, number)
---if a:action == 'reset'
---let &guifont = g:appearance.font
---elseif a:action == 'delta'
---let size = matchstr(&guifont, '\d\+')
---let &guifont = substitute(&guifont, '\d\+', size + a:number, '')
---else
---throw "Unknown action: " . a:action
---end
---endfunction
---endif
 
 --" When typing %/ it expands to the directory of the current file.
 
