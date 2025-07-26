@@ -1,3 +1,5 @@
+local mapping = require('config.helpers').mapping
+
 require('lazy').setup({
   --'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   {
@@ -58,6 +60,7 @@ require('lazy').setup({
     'nvim-tree/nvim-tree.lua',
     config = function() require('config.plugins.tree') end,
   },
+
   -- LSP Plugins
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -496,12 +499,12 @@ require('lazy').setup({
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
 
-      -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      require('mini.comment').setup {
+        mappings = {
+          comment_line = mapping('<{}-/>'),
+          comment_visual = mapping('<{}-/>'),
+        }
+      }
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
