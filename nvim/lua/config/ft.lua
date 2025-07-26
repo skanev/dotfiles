@@ -55,6 +55,30 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
+local helper = {
+  tabs = function(tabs)
+    vim.bo.tabstop = tabs
+    vim.bo.softtabstop = tabs
+    vim.bo.shiftwidth = tabs
+    vim.bo.expandtab = true
+  end,
+
+  runner = function(specs)
+    if type(specs) == 'table' and type(specs[1]) ~= 'table' then
+      specs = { specs }
+    end
+
+    local filename = vim.fn.expand('%')
+
+    for _, spec in ipairs(specs) do
+      if spec.when == nil or vim.fn.match(filename, spec.when) ~= -1 then
+        require('my.runner').set_buf_runner(spec)
+        break
+      end
+    end
+  end,
+}
+
 function M.once(callback)
   if vim.b.did_my_ftplugin then
     return
@@ -63,11 +87,8 @@ function M.once(callback)
   if type(callback) == 'function' then
     callback()
   elseif type(callback) == 'table' then
-    if callback.tabs then
-      vim.bo.tabstop = callback.tabs
-      vim.bo.softtabstop = callback.tabs
-      vim.bo.shiftwidth = callback.tabs
-      vim.bo.expandtab = true
+    for key, value in pairs(callback) do
+      helper[key](value)
     end
   else
     error("Unknown value for callback: " .. tostring(callback))

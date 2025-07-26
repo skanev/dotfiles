@@ -87,8 +87,8 @@ map('n', '<{}-[>', '<<')
 map('v', '<{}-]>', '>gv')
 map('v', '<{}-[>', '<gv')
 
---MapMeta r <Plug>(runner-run-file-or-last)
---MapMeta R <Plug>(runner-run-line)
+map('n', '<{}-r>', "<Cmd>lua require('my.runner').run_file_or_last()<CR>")
+map('n', '<{}-R>', "<Cmd>lua require('my.runner').run_line()<CR>")
 
 --MapMeta l <Plug>(quickterminal)
 --TMapMeta l <Plug>(quickterminal)
