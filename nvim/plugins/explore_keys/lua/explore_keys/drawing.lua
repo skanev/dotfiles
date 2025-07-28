@@ -1,4 +1,4 @@
-local u = require('mine.util')
+local u = require('explore_keys.utils')
 local strings = require('plenary.strings')
 
 ---@class ek.RichTextChunk
@@ -35,7 +35,7 @@ end
 function RichText.build(args)
   local chunks = {}
 
-  args = vim.tbl_islist(args) and args or { args }
+  args = vim.islist(args) and args or { args }
 
   for _, part in ipairs(args) do
     if type(part) == 'string' then
@@ -97,12 +97,12 @@ local function rich_text(args)
 end
 
 ---@class ek.WindowDrawer
----@field winid window
----@field bufid buffer
+---@field winid integer
+---@field bufid integer
 ---@field nsid number
 local WindowDrawer = {}
 
----@param opts { nsid: number, winid: window, bufid: buffer }
+---@param opts { nsid: number, winid: integer, bufid: integer }
 ---@return ek.WindowDrawer
 function WindowDrawer:new(opts)
   local instance = { nsid = opts.nsid, bufid = opts.bufid, winid = opts.winid }

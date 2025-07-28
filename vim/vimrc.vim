@@ -28,9 +28,12 @@ if empty(glob(s:plug_file))
 endif
 unlet s:plug_file
 
+set runtimepath+=~/.config/nvim/plugins/explore_keys
+
 call plug#begin(g:dotfiles_dir . '/vim/bundles')
 runtime settings/plugins.vim
 call plug#end()
+
 
 packadd! matchit
 
@@ -58,6 +61,7 @@ if g:env.nvim
   lua require('mine.send_text')
   lua require('mine.aerial')
   lua require('mine.terminal')
+  lua require('mine.rainbow_delimiters')
   runtime settings/completion.vim
 else
   runtime settings/plugins/airline.vim

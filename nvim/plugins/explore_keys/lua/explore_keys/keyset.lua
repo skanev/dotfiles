@@ -297,8 +297,13 @@ local Continuation = {}
 ---@param attributes { key: string, tail: string, action: string }
 ---@return ek.Keyset.Continuation
 function Continuation:new(attributes)
-  local instance = attributes
-  instance.items = {}
+  local instance = {
+    key = attributes.key,
+    tail = attributes.tail,
+    action = attributes.action,
+    items = {}
+  }
+
   self.__index = self
   return setmetatable(instance, self)
 end
@@ -355,7 +360,7 @@ end
 ---@field buffer_mappings table<string, ek.Mapping>
 local Keyset = {}
 
----@param bufid buffer
+---@param bufid integer
 ---@param opts? { expand_plug_prefixes?: boolean, find_locations?: boolean, mode?: 'i' | 'n' }
 ---@return ek.Keyset
 function Keyset.for_buffer(bufid, opts)

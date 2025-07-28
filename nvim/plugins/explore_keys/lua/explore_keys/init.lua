@@ -65,7 +65,7 @@ local function setup(config)
       end
 
       if modes[mode] == nil then
-        vim.api.nvim_err_writeln("Unrecognized mode: " .. mode)
+        vim.api.nvim_echo({ "Unrecognized mode: " .. mode }, false, { err = true })
 
       else
         explore { mode = modes[mode], prefix = '' }

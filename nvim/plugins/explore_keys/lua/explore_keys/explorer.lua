@@ -1,4 +1,4 @@
-local u = require('mine.util')
+local u = require('explore_keys.utils')
 local strings = require('plenary.strings')
 local keyset = require('explore_keys.keyset')
 local drawing = require('explore_keys.drawing')
@@ -127,7 +127,7 @@ end
 function Explorer:_setup_window()
   self.bufid = vim.api.nvim_create_buf(false, true)
 
-  vim.api.nvim_buf_set_option(self.bufid, 'bufhidden', 'wipe')
+  vim.bo[self.bufid].bufhidden = 'wipe'
 
   local width = vim.o.columns - 20
   local height = vim.o.lines - 10
@@ -145,7 +145,7 @@ function Explorer:_setup_window()
     border = 'rounded',
   })
 
-  vim.api.nvim_win_set_option(self.winid, 'winhl', 'Normal:KeyBrowserBackground,FloatBorder:KeyBrowserBorder')
+  vim.wo[self.winid].winhl = 'Normal:KeyBrowserBackground,FloatBorder:KeyBrowserBorder'
 
   local autocmds = {}
 
