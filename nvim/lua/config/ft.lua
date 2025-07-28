@@ -26,7 +26,7 @@ vim.api.nvim_create_user_command("MyFtplugin", function(opts)
 
   if vim.fn.filereadable(filename) == 0 then
     vim.api.nvim_buf_set_lines(0, 0, -1, false, {
-      'require("config.ft").once {}'
+      "require('config.ft').once {}"
     })
   end
 
@@ -77,6 +77,10 @@ local helper = {
       end
     end
   end,
+
+  trailing_whitespace = function(value)
+    require('my.trailing_whitespace').set_buffer(value)
+  end
 }
 
 function M.once(callback)
