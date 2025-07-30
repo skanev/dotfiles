@@ -569,6 +569,28 @@ require('lazy').setup({
         }
       }
 
+      require('mini.splitjoin').setup {
+        mappings = {
+          toggle = mapping('<leader>j'),
+          split = '',
+          join = '',
+        },
+      }
+
+      -- require('mini.move').setup {
+      --   mappings = {
+      --     left = '<C-h>',
+      --     right = '<C-l>',
+      --     down = '<C-j>',
+      --     up = '<C-k>',
+      --
+      --     line_left = '<C-H>',
+      --     line_right = '<C-L>',
+      --     line_down = '<C-J>',
+      --     line_up = '<C-K>',
+      --   },
+      -- }
+
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
@@ -605,7 +627,21 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
+      textobjects = {
+        swap = {
+          enable = true,
+          swap_next = {
+            ['<C-h>'] = '@parameter.inner',
+          },
+          swap_previous = {
+            ['<C-l>'] = '@parameter.inner',
+          },
+        }
+      },
     },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    }
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
