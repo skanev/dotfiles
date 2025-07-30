@@ -26,6 +26,8 @@ require('lazy').setup({
   colorscheme('rafamadriz/neon'),
   colorscheme('catppuccin/nvim', { name = "catppuccin" }),
 
+  { 'brianhuster/treesitter-endwise.nvim' },
+
   --'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   {
     'lewis6991/gitsigns.nvim',
