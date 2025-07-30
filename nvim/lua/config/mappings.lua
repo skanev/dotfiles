@@ -45,7 +45,10 @@ map('n', '<C-p>', '<C-i>', { noremap = true })
 map('n', ',,', ',', { noremap = true })
 map('n', '<Space>', ':', { noremap = true })
 map('v', '<Space>', ':', { noremap = true })
+
 map('n', 'Q', function() end, { noremap = true })
+
+map('n', '-', '<Cmd>lua require("ts-node-action").node_action()<CR>')
 
 --nmap [c <Plug>(GitGutterPrevHunk)
 --nmap ]c <Plug>(GitGutterNextHunk)

@@ -76,6 +76,8 @@ require('lazy').setup({
     },
   },
 
+  { 'ckolkey/ts-node-action' },
+
   --'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   {
     'lewis6991/gitsigns.nvim',
