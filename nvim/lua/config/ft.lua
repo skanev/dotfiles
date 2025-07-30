@@ -1,6 +1,7 @@
 local M = {}
 
 local group = vim.api.nvim_create_augroup('my_ftplugin', { clear = true })
+local helpers = require('config.helpers')
 
 vim.api.nvim_create_user_command("E", function()
   vim.cmd [[
@@ -55,6 +56,20 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
+local function mapkey(mode, lhs, rhs, opts)
+  opts = vim.tbl_extend('force', opts or {}, { buffer = true })
+
+  helpers.mapkey(mode, lhs, rhs, opts)
+end
+
+local function wrap_table(specs)
+  if type(specs) == 'table' and type(specs[1]) ~= 'table' then
+    return { specs }
+  else
+    return specs
+  end
+end
+
 local helper = {
   tabs = function(tabs)
     vim.bo.tabstop = tabs
@@ -64,9 +79,7 @@ local helper = {
   end,
 
   runner = function(specs)
-    if type(specs) == 'table' and type(specs[1]) ~= 'table' then
-      specs = { specs }
-    end
+    specs = wrap_table(specs)
 
     local filename = vim.fn.expand('%')
 
@@ -80,7 +93,27 @@ local helper = {
 
   trailing_whitespace = function(value)
     require('my.trailing_whitespace').set_buffer(value)
-  end
+  end,
+
+  mappings = function(specs)
+    specs = wrap_table(specs)
+
+    local filename = vim.fn.expand('%')
+
+    for _, spec in ipairs(specs) do
+      if spec.when == nil or vim.fn.match(filename, spec.when) ~= -1 then
+        local opts = {}
+
+        for key, value in pairs(spec) do
+          if type(key) == 'string' and key ~= 'when' then
+            opts[key] = value
+          end
+        end
+
+        mapkey(spec[1], spec[2], spec[3], opts)
+      end
+    end
+  end,
 }
 
 function M.once(callback)
