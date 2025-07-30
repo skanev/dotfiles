@@ -4,7 +4,7 @@ local M = {}
 function M.mapping(lhs)
   lhs = lhs:gsub('{}', env.meta_key, 1)
 
-  if env.app == 'nvim' then
+  if env.app == 'nvim' and not env.tmux then
     lhs = lhs:gsub("<S%-F(%d+)>", function(n) return "<F" .. (tonumber(n) + 12) .. ">" end)
   end
 
