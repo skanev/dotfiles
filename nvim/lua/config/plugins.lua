@@ -1,6 +1,31 @@
 local mapping = require('config.helpers').mapping
 
+local function colorscheme(name, opts)
+  opts = opts or {}
+  local spec = { name, priority = 1000 }
+
+  if opts.name then spec.name = opts.name end
+
+  return spec
+end
+
+
 require('lazy').setup({
+  colorscheme('folke/tokyonight.nvim'),
+  colorscheme('sainnhe/sonokai'),
+  colorscheme('sainnhe/edge'),
+  colorscheme('sainnhe/everforest'),
+  colorscheme('nanotech/jellybeans.vim'),
+  colorscheme('jonathanfilip/vim-lucius'),
+  colorscheme('morhetz/gruvbox'),
+  colorscheme('mhartington/oceanic-next'),
+  colorscheme('tpope/vim-vividchalk'),
+  colorscheme('arcticicestudio/nord-vim'),
+  colorscheme('maxmx03/dracula.nvim'),
+  colorscheme('folke/tokyonight.nvim'),
+  colorscheme('rafamadriz/neon'),
+  colorscheme('catppuccin/nvim', { name = "catppuccin" }),
+
   --'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   {
     'lewis6991/gitsigns.nvim',
@@ -470,20 +495,6 @@ require('lazy').setup({
       signature = { enabled = true },
     },
   },
-
-  { 'folke/tokyonight.nvim', },
-  { 'sainnhe/sonokai' },
-  { 'sainnhe/edge' },
-  { 'sainnhe/everforest' },
-  { 'nanotech/jellybeans.vim' },
-  { 'jonathanfilip/vim-lucius' },
-  { 'morhetz/gruvbox' },
-  { 'mhartington/oceanic-next' },
-  { 'tpope/vim-vividchalk' },
-  { 'arcticicestudio/nord-vim' },
-  { 'maxmx03/dracula.nvim' },
-  { 'folke/tokyonight.nvim' },
-  { 'rafamadriz/neon' },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },

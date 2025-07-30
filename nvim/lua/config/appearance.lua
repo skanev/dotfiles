@@ -1,7 +1,7 @@
 local rules = {
   { { app = 'nvim', tmux = true }, { colorscheme = 'gruvbox' } },
   { { app = 'nvim' }, { colorscheme = 'OceanicNext' } },
-  { { app = 'neovide' }, { colorscheme = 'dracula', line = 3, font = "FiraCode Nerd Font Mono:h15" } },
+  { { app = 'neovide' }, { colorscheme = 'catppuccin', line = 3, font = "FiraCode Nerd Font Mono:h15" } },
 }
 
 local matchers = { 'app', 'tmux' }

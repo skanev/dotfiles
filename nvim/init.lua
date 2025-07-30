@@ -61,3 +61,13 @@ require('explore_keys').setup {
     '<S-Tab>',
   }
 }
+
+require('catppuccin').setup {
+  flavour = 'macchiato',
+  auto_integrations = true,
+  dim_inactive = {
+    enabled = true,
+    shade = 'dark',
+    percentage = 0.15,
+  }
+}
