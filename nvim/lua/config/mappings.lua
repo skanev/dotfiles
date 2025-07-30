@@ -20,6 +20,7 @@ map('i', '<F10>', '<C-o>:set cursorcolumn!<CR>')
 
 map('n', '<F11>', function() require('telescope.builtin').find_files({ cwd = vim.g.dotfiles_dir }) end)
 map('n', '<S-F11>', function() require('telescope.builtin').find_files({ cwd = vim.g.dotfiles_dir .. '/nvim' }) end)
+map('n', '<F12>', '<Cmd> edit ~/.config/nvim/init.lua<CR>')
 
 --map <C-]> <Plug>(fzf_tags)
 
