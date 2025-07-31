@@ -120,6 +120,7 @@ map('v', '<{}-c>', '"+y')
 map('i', '<{}-v>', '<C-r>+')
 
 local change_tab
+local tabnext = function(i) vim.cmd('silent! tabnext ' .. i) end
 
 if env.tmux then
   change_tab = function (i)
@@ -129,12 +130,12 @@ if env.tmux then
       if tabs == 1 or i > tabs or vim.fn.mode() ~= 'n' then
         vim.fn.system('~/.scripts/tmux/switch-tab --of-tmux ' .. i)
       else
-        vim.cmd("tabnext " .. i)
+        tabnext(i)
       end
     end
   end
 else
-  change_tab = function (i) return function() vim.cmd("tabnext " .. i) end end
+  change_tab = function (i) return function() tabnext(i) end end
 end
 
 for i = 1, 9 do
