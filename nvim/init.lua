@@ -29,8 +29,8 @@ vim.g.env = { meta_key = 'D' }
 
 -- Must be set before lazy is loaded
 
---vim.g.mapleader = ' '
---vim.g.maplocalleader = "\\"
+vim.g.mapleader = ','
+vim.g.maplocalleader = "\\"
 
 require('config.env')
 require('config.options')
