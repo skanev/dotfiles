@@ -71,3 +71,20 @@ require('catppuccin').setup {
     percentage = 0.15,
   }
 }
+
+local vimStartup = vim.api.nvim_create_augroup('vimStartup', { clear = true })
+
+vim.api.nvim_create_autocmd('BufReadPost', {
+  group = vimStartup,
+  callback = function()
+    local type = vim.bo.filetype
+
+    if type == 'commit' then return end
+
+    local line = vim.api.nvim_buf_get_mark(0, '"')[1]
+
+    if 0 < line and line <= vim.api.nvim_buf_line_count(0) then
+      vim.cmd [[execute "normal! g`\""]]
+    end
+  end,
+})
