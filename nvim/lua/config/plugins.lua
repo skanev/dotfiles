@@ -619,6 +619,14 @@ require('lazy').setup({
       ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = mapping('<{}-u>'),
+          node_incremental = mapping('<{}-u>'),
+          node_decremental = mapping('<{}-U>'),
+        },
+      },
       highlight = {
         enable = true,
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
