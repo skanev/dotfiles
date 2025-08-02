@@ -119,27 +119,29 @@ map('n', '<{}-v>', '"+p')
 map('v', '<{}-c>', '"+y')
 map('i', '<{}-v>', '<C-r>+')
 
-local change_tab
-local tabnext = function(i) vim.cmd('silent! tabnext ' .. i) end
+do
+  local change_tab
+  local tabnext = function(i) vim.cmd('silent! tabnext ' .. i) end
 
-if env.tmux then
-  change_tab = function (i)
-    return function ()
-      local tabs = vim.fn.tabpagenr('$')
+  if env.tmux then
+    change_tab = function (i)
+      return function ()
+        local tabs = vim.fn.tabpagenr('$')
 
-      if tabs == 1 or i > tabs or vim.fn.mode() ~= 'n' then
-        vim.fn.system('~/.scripts/tmux/switch-tab --of-tmux ' .. i)
-      else
-        tabnext(i)
+        if tabs == 1 or i > tabs or vim.fn.mode() ~= 'n' then
+          vim.fn.system('~/.scripts/tmux/switch-tab --of-tmux ' .. i)
+        else
+          tabnext(i)
+        end
       end
     end
+  else
+    change_tab = function (i) return function() tabnext(i) end end
   end
-else
-  change_tab = function (i) return function() tabnext(i) end end
-end
 
-for i = 1, 9 do
-  map({'n', 'i', 'v', 'c', 'x'}, '<{}-' .. i .. '>', change_tab(i))
+  for i = 1, 9 do
+    map({'n', 'i', 'v', 'c', 'x'}, '<{}-' .. i .. '>', change_tab(i))
+  end
 end
 
 --function s:sid()
