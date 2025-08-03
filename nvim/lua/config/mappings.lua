@@ -119,6 +119,18 @@ map('n', '<{}-v>', '"+p')
 map('v', '<{}-c>', '"+y')
 map('i', '<{}-v>', '<C-r>+')
 
+map({'i', 's'}, '<c-j>', "<Cmd>lua require('luasnip').jump(1)<CR>", { silent = true })
+
+map({'i', 's'}, '<C-k>', function()
+  local luasnip = require('luasnip')
+  if luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+    return ''
+  else
+    return '<C-k>'
+  end
+end, { expr = true, silent = true } )
+
 do
   local change_tab
   local tabnext = function(i) vim.cmd('silent! tabnext ' .. i) end
