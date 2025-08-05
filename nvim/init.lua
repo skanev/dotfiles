@@ -78,3 +78,26 @@ vim.api.nvim_create_autocmd('BufReadPost', {
     end
   end,
 })
+
+vim.api.nvim_set_hl(0, 'LuaSnipTabstop', { bg = '#45475a', italic = true })
+
+local types = require("luasnip.util.types")
+
+require("luasnip").setup({
+  ext_opts = {
+    [types.insertNode] = {
+      visited = {
+        hl_group = 'LuaSnipTabstop',
+      },
+      unvisited = {
+        hl_group = 'LuaSnipTabstop',
+      },
+    },
+    [types.exitNode] = {
+      unvisited = {
+        hl_group = 'LuaSnipTabstop',
+        virt_text = {{'⫸', '@punctuation'}}
+      },
+    },
+  }
+})
