@@ -1,14 +1,8 @@
 local mapping = require('config.helpers').mapping
 
 local function colorscheme(name, opts)
-  opts = opts or {}
-  local spec = { name, priority = 1000 }
-
-  if opts.name then spec.name = opts.name end
-
-  return spec
+  return vim.tbl_extend('keep', { name, priority = 1000 }, opts or {})
 end
-
 
 require('lazy').setup({
   colorscheme('folke/tokyonight.nvim'),
@@ -24,7 +18,26 @@ require('lazy').setup({
   colorscheme('maxmx03/dracula.nvim'),
   colorscheme('folke/tokyonight.nvim'),
   colorscheme('rafamadriz/neon'),
-  colorscheme('catppuccin/nvim', { name = "catppuccin" }),
+  colorscheme('catppuccin/nvim', {
+    name = "catppuccin",
+    opts = {
+      auto_integrations = true,
+      dim_inactive = {
+        enabled = true,
+        shade = 'dark',
+        percentage = 0.15,
+      },
+      highlight_overrides = {
+        macchiato = function()
+          return {
+            Visual = { style = { } },
+            VisualNOS = { style = { } },
+          }
+        end
+      },
+      flavour = 'macchiato',
+    }
+  }),
 
   { 'brianhuster/treesitter-endwise.nvim' },
 

@@ -62,16 +62,6 @@ require('explore_keys').setup {
   }
 }
 
-require('catppuccin').setup {
-  flavour = 'macchiato',
-  auto_integrations = true,
-  dim_inactive = {
-    enabled = true,
-    shade = 'dark',
-    percentage = 0.15,
-  }
-}
-
 local vimStartup = vim.api.nvim_create_augroup('vimStartup', { clear = true })
 
 vim.api.nvim_create_autocmd('BufReadPost', {
