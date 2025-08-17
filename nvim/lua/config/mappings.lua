@@ -79,6 +79,8 @@ map('n', '<{}-j>', '<Cmd>Telescope buffers<CR>')
 map('n', '<{}-k>', '<Cmd>NvimTreeToggle<CR>')
 map('n', '<{}-K>', '<Cmd>NvimTreeFindFile<CR>')
 
+map({'n', 't'}, '<{}-l>', '<Cmd>lua require("my.quickterm").toggle()<CR>')
+
 --if g:env.nvim
 --MapMeta m <Cmd>lua require('mine').cycle_diagnostics()<CR>
 --MapMeta p <Cmd>Palette<CR>
