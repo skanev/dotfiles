@@ -81,4 +81,5 @@ end
 return {
   setup = setup,
   adjust_font_size = adjust_font_size,
+  colorscheme = config.colorscheme or 'gruvbox',
 }

@@ -11,7 +11,9 @@ map('n', '<S-F3>', '<Cmd>NvimTreeFindFile<CR>')
 --map <F6> <Cmd>Scratch<CR>
 --map <F8> :%s/<C-r><C-w>//gc<Left><Left><Left>
 --map <S-F8> :Ack <C-r><C-w><CR>
---
+
+map('n', '<F7>', '<Cmd>lua require("my.cycle_colorschemes").cycle()<CR>')
+map('n', '<S-F7>', '<Cmd>lua require("my.cycle_colorschemes").cycle()<CR>')
 
 map('n', '<F9>', '<Cmd>nohlsearch<CR>')
 
