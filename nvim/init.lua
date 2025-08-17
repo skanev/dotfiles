@@ -42,6 +42,7 @@ require('config.plugins')
 require('config.appearance').setup()
 
 require('my.trailing_whitespace').setup()
+require('my.capture').setup()
 
 vim.cmd "set runtimepath+=~/.config/nvim/plugins/explore_keys"
 

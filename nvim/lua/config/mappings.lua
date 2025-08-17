@@ -109,6 +109,8 @@ map('n', '<{}-R>', "<Cmd>lua require('my.runner').run_line()<CR>")
 --MapMeta / <Plug>NERDCommenterToggle
 --VMapMeta / <Plug>NERDCommenterToggle
 
+map('c', '<C-g><CR>', '<Home>Capture<Space><CR>')
+
 map('n', '<{}-w>', '<Cmd>close<CR>')
 
 if env.app == 'neovide' then
