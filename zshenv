@@ -37,3 +37,10 @@ path=(~/bin ~/.bin $path)
 [[ -f ~/.localenv ]] && source ~/.localenv
 
 export DOTFILES_PATHS_LOADED=1
+
+path=(/opt/homebrew/opt/postgresql@17/bin $path)
+
+#export LDFLAGS="-L/opt/homebrew/opt/postgresql@17/lib -L/opt/homebrew/opt/jemalloc/lib"
+#export CPPFLAGS="-I/opt/homebrew/opt/postgresql@17/include -L/opt/homebrew/opt/jemalloc/include"
+export LDFLAGS="-L/opt/homebrew/opt/postgresql@17/lib -L/opt/homebrew/opt/jemalloc/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/postgresql@17/include -I/opt/homebrew/opt/jemalloc/include"

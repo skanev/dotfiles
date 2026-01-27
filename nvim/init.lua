@@ -29,7 +29,7 @@ vim.g.env = { meta_key = 'D' }
 
 -- Must be set before lazy is loaded
 
---vim.g.mapleader = ' '
+vim.g.mapleader = ','
 --vim.g.maplocalleader = "\\"
 
 require('config.env')
@@ -71,3 +71,8 @@ require('catppuccin').setup {
     percentage = 0.15,
   }
 }
+
+vim.lsp.config('rubocop', {
+  cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
+})
+

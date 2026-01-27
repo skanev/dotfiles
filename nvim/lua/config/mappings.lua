@@ -129,12 +129,12 @@ if env.tmux then
       if tabs == 1 or i > tabs or vim.fn.mode() ~= 'n' then
         vim.fn.system('~/.scripts/tmux/switch-tab --of-tmux ' .. i)
       else
-        vim.cmd("tabnext " .. i)
+        vim.cmd("silent! tabnext " .. i)
       end
     end
   end
 else
-  change_tab = function (i) return function() vim.cmd("tabnext " .. i) end end
+  change_tab = function (i) return function() vim.cmd("silent! tabnext " .. i) end end
 end
 
 for i = 1, 9 do

@@ -9,8 +9,8 @@ let s:modes = {}
 
 let s:modes.test_unit          = {}
 let s:modes.test_unit.matcher  = '_test\.rb$'
-let s:modes.test_unit.run_file = 'ruby {file}'
-let s:modes.test_unit.run_line = 'm {file}:{line}'
+let s:modes.test_unit.run_file = 'bin/rails test {file}'
+let s:modes.test_unit.run_line = 'bin/rails test {file}:{line}'
 
 " the above, but for Rails
 "let s:modes.test_unit.run_file = 'rails test {file}'

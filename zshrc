@@ -41,3 +41,15 @@ fi
 if [[ $DOTFILES_OS == "mac" && -d ~/.rbenv && $(whence ruby) == "/usr/bin/ruby" ]]; then
   echo "\e[33mRuby is resolving to $(which ruby) instead of ~/.rbenv/shims/ruby; maybe you should run zsh setup/packs/mac_setup install\e[0m"
 fi
+
+path=(~/.local/bin $path)
+
+# bun completions
+[ -s "/Users/aquarius/.bun/_bun" ] && source "/Users/aquarius/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# opencode
+export PATH=/Users/aquarius/.opencode/bin:$PATH

@@ -67,8 +67,8 @@ if [[ -z $WITHOUT_PACKS ]]; then
   establish-pack rustup
   establish-pack neovim
   establish-pack volta
-  establish-pack ranger
-  establish-pack mire
+#  establish-pack ranger
+#  establish-pack mire
   establish-pack perl-support
 fi
 
