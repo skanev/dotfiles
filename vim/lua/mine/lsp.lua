@@ -5,7 +5,6 @@ local mason_lspconfig = require('mason-lspconfig')
 local neodev = require('neodev')
 
 mason.setup()
-mason_lspconfig.setup()
 neodev.setup {}
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -71,7 +70,8 @@ local function make_capabilities()
   return cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 end
 
-mason_lspconfig.setup_handlers {
+mason_lspconfig.setup {
+  handlers = {
   function(server_name)
     lspconfig[server_name].setup {
       on_attach = on_attach,
@@ -128,4 +128,5 @@ mason_lspconfig.setup_handlers {
       }
     }
   end,
+  },
 }

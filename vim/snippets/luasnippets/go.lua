@@ -14,10 +14,6 @@ local fmta = require("luasnip.extras.fmt").fmta
 --local rep = require("luasnip.extras").rep
 local extras = require("luasnip.extras")
 
---local ts = require('vim.treesitter')
-local tsu = require 'nvim-treesitter.ts_utils'
-local tsq = require('vim.treesitter.query')
-
 local function find_previous_line(pattern)
   local result = vim.fn.search(pattern, 'bnW')
 
@@ -63,13 +59,18 @@ local function find_matches(container, query, name)
   return result
 end
 
+local query_cache = {}
+
 local function return_types_query(root)
-  return tsq.parse('go', string.format([[
-    (%s result: [
-      (type_identifier) @type
-      (parameter_list (parameter_declaration type: (_) @type))
-    ])
-  ]], root))
+  if not query_cache[root] then
+    query_cache[root] = vim.treesitter.query.parse('go', string.format([[
+      (%s result: [
+        (type_identifier) @type
+        (parameter_list (parameter_declaration type: (_) @type))
+      ])
+    ]], root))
+  end
+  return query_cache[root]
 end
 
 local builtin_types_defaults = {
@@ -99,20 +100,15 @@ local function default_value(type)
   return builtin_types_defaults[type] or 'nil'
 end
 
-local queries = {
-  method_declaration = return_types_query('method_declaration'),
-  function_declaration = return_types_query('function_declaration'),
-  func_literal = return_types_query('func_literal'),
-}
-
 return {
   s('ret', {
     d(1, function()
-      local definition = find_parent(tsu.get_node_at_cursor(0), { 'function_declaration', 'method_declaration', 'func_literal' })
+      local definition = find_parent(vim.treesitter.get_node(), { 'function_declaration', 'method_declaration', 'func_literal' })
 
-      if not definition then return t('return ') end
+      if not definition then return sn(nil, { t('return ') }) end
 
-      local matches = find_matches(definition, queries[definition:type()], 'type')
+      local query = return_types_query(definition:type())
+      local matches = find_matches(definition, query, 'type')
 
       local result = {}
       table.insert(result, t('return '))

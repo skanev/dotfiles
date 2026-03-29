@@ -91,7 +91,6 @@ if g:env.nvim
   Plug 'ray-x/lsp_signature.nvim'
 
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-treesitter/playground'
 
   Plug 'rafcamlet/nvim-luapad'
 
