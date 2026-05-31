@@ -61,7 +61,6 @@ if g:env.nvim
   lua require('mine.send_text')
   lua require('mine.aerial')
   lua require('mine.terminal')
-  lua require('mine.rainbow_delimiters')
   runtime settings/completion.vim
 else
   runtime settings/plugins/airline.vim
