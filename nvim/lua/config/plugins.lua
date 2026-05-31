@@ -260,11 +260,7 @@ require('lazy').setup({
           ---@param bufnr? integer some lsp support methods only in specific files
           ---@return boolean
           local function client_supports_method(client, method, bufnr)
-            if vim.fn.has 'nvim-0.11' == 1 then
-              return client:supports_method(method, bufnr)
-            else
-              return client.supports_method(method, { bufnr = bufnr })
-            end
+            return client:supports_method(method, bufnr)
           end
 
           -- The following two autocommands are used to highlight references of the
@@ -366,6 +362,12 @@ require('lazy').setup({
         -- ts_ls = {},
         --
 
+        ruby_lsp = {
+          init_options = {
+            linters = {},
+          },
+        },
+
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -414,6 +416,12 @@ require('lazy').setup({
             require('lspconfig')[server_name].setup(server)
           end,
         },
+      }
+
+      -- Non-Mason servers
+      require('lspconfig').rubocop.setup {
+        cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
+        capabilities = capabilities,
       }
     end,
   },
@@ -608,7 +616,7 @@ require('lazy').setup({
 
       require('mini.splitjoin').setup {
         mappings = {
-          toggle = mapping('<leader>j'),
+          toggle = mapping(',j'),
           split = '',
           join = '',
         },
@@ -693,6 +701,17 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+
+  {
+    'kylechui/nvim-surround',
+    version = '*',
+    event = 'VeryLazy',
+    config = true,
+  },
+
+  {
+    'tpope/vim-rails'
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
