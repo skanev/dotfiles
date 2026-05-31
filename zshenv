@@ -26,10 +26,10 @@ fi
 [[ -d ~/.pyenv ]] && path=(~/.pyenv/bin ~/.pyenv/shims $path)
 [[ -d ~/.plenv ]] && path=(~/.plenv/bin ~/.plenv/shims $path)
 [[ -d ~/.rbenv ]] && path=(~/.rbenv/bin ~/.rbenv/shims $path)
-[[ -d ~/.volta ]] && export VOLTA_HOME="$HOME/.volta"
-[[ -d ~/.volta ]] && path=(~/.volta/bin $path)
 [[ -d ~/.bun ]] && export BUN_INSTALL="$HOME/.bun"
 [[ -d ~/.bun ]] && path=($BUN_INSTALL/bin $path)
+[[ -d ~/.volta ]] && export VOLTA_HOME="$HOME/.volta"
+[[ -d ~/.volta ]] && path=(~/.volta/bin $path)
 [[ -d ~/.nimble/bin ]] && path=(~/.nimble/bin $path)
 
 path=(~/bin ~/.bin $path)
