@@ -14,8 +14,6 @@ local fmta = require("luasnip.extras.fmt").fmta
 --local rep = require("luasnip.extras").rep
 local extras = require("luasnip.extras")
 
---local ts = require('vim.treesitter')
-local tsu = require 'nvim-treesitter.ts_utils'
 local tsq = require('vim.treesitter.query')
 
 local function find_previous_line(pattern)
@@ -108,7 +106,7 @@ local queries = {
 return {
   s('ret', {
     d(1, function()
-      local definition = find_parent(tsu.get_node_at_cursor(0), { 'function_declaration', 'method_declaration', 'func_literal' })
+      local definition = find_parent(vim.treesitter.get_node(), { 'function_declaration', 'method_declaration', 'func_literal' })
 
       if not definition then return t('return ') end
 
