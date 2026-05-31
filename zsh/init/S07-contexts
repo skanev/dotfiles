@@ -341,11 +341,11 @@ context() {
       ;;
 
     (mux)
-      vi $c_current[dir]/mux
+      nvim $c_current[dir]/mux
       ;;
 
     (zsh|-e)
-      vi $c_current[dir]/zsh
+      nvim $c_current[dir]/zsh
       e
       ;;
   esac
