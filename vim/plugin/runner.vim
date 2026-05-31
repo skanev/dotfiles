@@ -9,8 +9,8 @@ let s:modes = {}
 
 let s:modes.test_unit          = {}
 let s:modes.test_unit.matcher  = '_test\.rb$'
-let s:modes.test_unit.run_file = 'ruby {file}'
-let s:modes.test_unit.run_line = 'm {file}:{line}'
+let s:modes.test_unit.run_file = 'bin/rails test {file}'
+let s:modes.test_unit.run_line = 'bin/rails test {file}:{line}'
 
 " the above, but for Rails
 "let s:modes.test_unit.run_file = 'rails test {file}'
@@ -28,8 +28,8 @@ let s:modes.cucumber.run_line = 'cucumber {file}:{line}'
 
 let s:modes.rspec          = {}
 let s:modes.rspec.matcher  = '_spec\.rb$'
-let s:modes.rspec.run_file = 'rspec --format documentation {file}'
-let s:modes.rspec.run_line = 'rspec --format documentation {file}:{line}'
+let s:modes.rspec.run_file = 'bundle exec rspec --format documentation {file}'
+let s:modes.rspec.run_line = 'bundle exec rspec --format documentation {file}:{line}'
 
 let s:modes.crystal_spec          = {}
 let s:modes.crystal_spec.matcher  = '_spec\.cr$'
