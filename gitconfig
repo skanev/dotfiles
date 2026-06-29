@@ -72,6 +72,9 @@
 	diffFilter = delta --color-only
 [delta]
 	navigate = true
+[delta "light"]
+	light = true
+	syntax-theme = GitHub
 [merge]
 	conflictStyle = zdiff3
 [user]

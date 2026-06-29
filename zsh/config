@@ -68,6 +68,9 @@ fi
 if [[ $TERM_PROGRAM == vscode ]]; then
   # Don't report an error in VSCode on Ctrl+D
   trap 'exit 0' EXIT
+elif [[ -n $T3CODE_PROJECT_ROOT ]]; then
+  export BAT_THEME="GitHub"
+  export DELTA_FEATURES="light"
 fi
 
 export PAGER="less"
