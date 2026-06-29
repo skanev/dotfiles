@@ -10,8 +10,8 @@ mkdir -p ~/bin
 mkdir -p ~/.config/
 
 # Bash
-establish-link bash ~/.bash clobberable
-establish-link bash_profile ~/.bash_profile clobberable
+# establish-link bash ~/.bash clobberable
+# establish-link bash_profile ~/.bash_profile clobberable
 
 # Scripts
 establish-link scripts ~/.scripts
@@ -38,7 +38,7 @@ establish-link pryrc ~/.pryrc
 establish-link tmux.conf ~/.tmux.conf
 
 establish-link nvim    ~/.config/nvim
-establish-link kitty   ~/.config/kitty
+#establish-link kitty   ~/.config/kitty
 establish-link wezterm ~/.config/wezterm
 
 establish-link config/ranger ~/.config/ranger
@@ -54,21 +54,21 @@ if [[ -z $WITHOUT_PACKS ]]; then
   fi
 
   if [[ $DOTFILES_OS == 'linux' && ! -n $DOTFILES_WSL ]]; then
-    establish-pack i3
+    # establish-pack i3
   fi
 
-  establish-pack cheat
-  establish-pack pyenv
-  establish-pack homebrew
-  establish-pack tools
-  establish-pack plenv
-  establish-pack pyenv
-  establish-pack rbenv
-  establish-pack rustup
-  establish-pack neovim
-  establish-pack volta
-  establish-pack ranger
-  establish-pack mire
-  establish-pack perl-support
+  # establish-pack cheat
+  # establish-pack pyenv
+  # establish-pack homebrew
+  # establish-pack tools
+  # establish-pack plenv
+  # establish-pack pyenv
+  # establish-pack rbenv
+  # establish-pack rustup
+  # establish-pack neovim
+  # establish-pack volta
+  # establish-pack ranger
+  # establish-pack mire
+  # establish-pack perl-support
 fi
 
