@@ -40,6 +40,7 @@ require('lazy').setup({
   }),
 
   { 'brianhuster/treesitter-endwise.nvim' },
+  { 'tpope/vim-rails' },
 
   {
     'zbirenbaum/copilot.lua',
