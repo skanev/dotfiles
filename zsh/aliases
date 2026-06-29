@@ -70,3 +70,8 @@ alias -g RERR="2>&1"
 alias -g P="| pd"
 
 alias stalker=~/.scripts/stalker
+alias yolaude="claude --dangerously-skip-permissions"
+alias cl="claude --permission-mode=auto"
+
+alias nr="npm run"
+alias nrd="npm run dev"
