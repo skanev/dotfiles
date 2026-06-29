@@ -23,7 +23,7 @@
   whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
   editor = /usr/bin/env vim
   excludesfile = ~/.gitignore_global
-  pager = ~/.scripts/git-pager
+  pager = delta
 [alias]
   st = status
   ci = commit --verbose
@@ -68,3 +68,12 @@
   path = ~/.gitconfig.local
 [init]
   defaultBranch = main
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+[merge]
+	conflictStyle = zdiff3
+[user]
+	name = Stefan Kanev
+	email = stefan.kanev@gmail.com
