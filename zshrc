@@ -41,3 +41,5 @@ fi
 if [[ $DOTFILES_OS == "mac" && -d ~/.rbenv && $(whence ruby) == "/usr/bin/ruby" ]]; then
   echo "\e[33mRuby is resolving to $(which ruby) instead of ~/.rbenv/shims/ruby; maybe you should run zsh setup/packs/mac_setup install\e[0m"
 fi
+
+[[ -d ~/.local/bin ]] && path=(~/.local/bin $path)
