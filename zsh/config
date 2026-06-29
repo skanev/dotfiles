@@ -17,7 +17,6 @@ setopt APPEND_HISTORY       # append to history instead of overriding it
 setopt EXTENDED_HISTORY     # add more info
 
 setopt BRACECCL             # expand {a-z123} to a … z 1 2 3
-setopt NOCLOBBER            # don't allow redirection to clobber files
 
 setopt CORRECT              # simulate Clippy
 
