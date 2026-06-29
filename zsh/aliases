@@ -69,4 +69,7 @@ alias gitconfig="vim ~/.gitconfig"
 alias -g RERR="2>&1"
 alias -g P="| pd"
 
+alias nr="npm run"
+alias nrd="npm run dev"
+
 alias stalker=~/.scripts/stalker
