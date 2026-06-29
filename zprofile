@@ -2,3 +2,5 @@
 # Runs in login shells
 
 [[ -f ~/.localprofile ]] && . ~/.localprofile
+
+eval "$(mise activate zsh)"
