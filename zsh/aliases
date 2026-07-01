@@ -73,3 +73,6 @@ alias nr="npm run"
 alias nrd="npm run dev"
 
 alias stalker=~/.scripts/stalker
+alias cx="codex --yolo"
+alias cl="claude --permission-mode=auto"
+alias ca="claude agents"
