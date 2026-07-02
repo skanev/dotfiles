@@ -45,6 +45,10 @@ establish-link config/ranger ~/.config/ranger
 
 establish-link bin ~/.bin
 
+# Claude Code
+mkdir -p ~/.claude
+establish-link claude/scripts ~/.claude/scripts
+
 mkdir -p ~/.vim-backup
 mkdir -p ~/.vim-undo
 
