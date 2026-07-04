@@ -87,7 +87,7 @@ if [[ -n "$branch" ]]; then
     fi
 
     dirty=$(git -C "$cwd" --no-optional-locks status --porcelain -uall 2>/dev/null | wc -l | tr -d ' ')
-    (( dirty > 0 )) && git_info+=" ✚${dirty}"
+    (( dirty > 0 )) && git_info+=" ✎${dirty}"
 
     counts=$(git -C "$cwd" rev-list --left-right --count 'HEAD...@{upstream}' 2>/dev/null)
     if [[ -n "$counts" ]]; then
