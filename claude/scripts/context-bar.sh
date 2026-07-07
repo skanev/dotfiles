@@ -133,7 +133,7 @@ if (( limit_used >= 0 )); then
     for ((i = 0; i < 20; i++)); do
         (( i < filled )) && sbar+="${C_ACCENT}▰" || sbar+="${C_TRACK}▰"
     done
-    session="⌛ ${sbar} ${C_GRAY}${limit_used}% ↻ $(fmt_dur $left_secs)"
+    session="⌛ ${sbar}  ${C_GRAY}${limit_used}% ↻ $(fmt_dur $left_secs)"
 fi
 
 out="${seg_model}${C_GRAY} | ${dir_icon} ${dir}"
