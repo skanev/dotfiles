@@ -96,7 +96,7 @@ if [[ -n "$branch" ]]; then
         (( behind > 0 )) && git_info+=" ⇣${behind}"
         if (( ahead == 0 && behind == 0 )); then
             sync="✓"
-            fetch_time=$(stat -f %m "${common_dir:-$cwd/.git}/FETCH_HEAD" 2>/dev/null)
+            fetch_time=$(stat -f %m "${git_dir:-$cwd/.git}/FETCH_HEAD" 2>/dev/null)
             [[ -n "$fetch_time" ]] && sync+=$(fmt_dur $(( $(date +%s) - fetch_time )))
             git_info+=" ${sync}"
         fi
