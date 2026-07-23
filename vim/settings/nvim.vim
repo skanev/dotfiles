@@ -3,6 +3,11 @@ if g:env.app == 'neovide'
   let g:neovide_scroll_animation_length = 0.07
   let g:neovide_floating_blur_amount_x = 4.0
   let g:neovide_floating_blur_amount_y = 3.0
+  let g:neovide_floating_shadow = v:true
+  let g:neovide_floating_z_height = 10
+  let g:neovide_light_angle_degrees = 45
+  let g:neovide_light_radius = 5
+  let g:neovide_floating_corner_radius = 0.4
   let g:neovide_frame = 0
   let g:neovide_padding_top = 0
   set linespace=3

@@ -49,6 +49,7 @@ if g:env.nvim
   lua require('mine.completion')
   lua require('mine.lsp')
   lua require('mine.treesitter')
+  lua require('mine.render_markdown')
   lua require('mine.telescope')
   lua require('mine.palette')
   lua require('mine.mire')

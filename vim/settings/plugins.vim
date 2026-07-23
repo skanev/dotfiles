@@ -91,6 +91,7 @@ if g:env.nvim
   Plug 'ray-x/lsp_signature.nvim'
 
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'MeanderingProgrammer/render-markdown.nvim'
 
   Plug 'rafcamlet/nvim-luapad'
 
