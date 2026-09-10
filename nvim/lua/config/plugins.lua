@@ -403,26 +403,24 @@ require('lazy').setup({
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+      -- Broadcast blink.cmp's capabilities to every server, then layer the
+      -- per-server overrides from `servers` on top (see :help vim.lsp.config).
+      vim.lsp.config('*', { capabilities = capabilities })
+      for server_name, server in pairs(servers) do
+        vim.lsp.config(server_name, server)
+      end
+
+      -- mason-lspconfig enables every Mason-installed server via vim.lsp.enable
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
         automatic_installation = false,
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
       }
 
       -- Non-Mason servers
-      require('lspconfig').rubocop.setup {
+      vim.lsp.config('rubocop', {
         cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable 'rubocop'
     end,
   },
 
