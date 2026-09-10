@@ -45,6 +45,9 @@ if [[ $DOTFILES_OS == 'mac' ]]; then
   establish-link ghostty/mac ~/.config/ghostty
 fi
 
+mkdir -p ~/.config/herdr
+establish-link herdr/config.toml ~/.config/herdr/config.toml
+
 establish-link config/ranger ~/.config/ranger
 
 establish-link bin ~/.bin

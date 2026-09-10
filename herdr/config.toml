@@ -1,0 +1,88 @@
+onboarding = false
+
+[keys]
+prefix = "ctrl+s"
+new_tab = "prefix+c"
+switch_tab = "prefix+1..9"
+previous_workspace = "alt+["
+next_workspace = "alt+]"
+switch_workspace = ["prefix+shift+1..9", "ctrl+1..9"]
+previous_agent = "alt+shift+["
+next_agent = "alt+shift+]"
+focus_agent = "prefix+alt+1..9"
+
+[ui]
+agent_panel_sort = "spaces"
+prompt_new_tab_name = false
+
+[[keys.command]]
+key = "alt+t"
+type = "shell"
+command = "~/.scripts/herdr/switch-tab --determine t"
+description = "new tab (vim-aware)"
+
+[[keys.command]]
+key = "alt+1"
+type = "shell"
+command = "~/.scripts/herdr/switch-tab --determine 1"
+description = "tab 1 (vim-aware)"
+
+[[keys.command]]
+key = "alt+2"
+type = "shell"
+command = "~/.scripts/herdr/switch-tab --determine 2"
+description = "tab 2 (vim-aware)"
+
+[[keys.command]]
+key = "alt+3"
+type = "shell"
+command = "~/.scripts/herdr/switch-tab --determine 3"
+description = "tab 3 (vim-aware)"
+
+[[keys.command]]
+key = "alt+4"
+type = "shell"
+command = "~/.scripts/herdr/switch-tab --determine 4"
+description = "tab 4 (vim-aware)"
+
+[[keys.command]]
+key = "alt+5"
+type = "shell"
+command = "~/.scripts/herdr/switch-tab --determine 5"
+description = "tab 5 (vim-aware)"
+
+[[keys.command]]
+key = "alt+6"
+type = "shell"
+command = "~/.scripts/herdr/switch-tab --determine 6"
+description = "tab 6 (vim-aware)"
+
+[[keys.command]]
+key = "alt+7"
+type = "shell"
+command = "~/.scripts/herdr/switch-tab --determine 7"
+description = "tab 7 (vim-aware)"
+
+[[keys.command]]
+key = "alt+8"
+type = "shell"
+command = "~/.scripts/herdr/switch-tab --determine 8"
+description = "tab 8 (vim-aware)"
+
+[[keys.command]]
+key = "alt+9"
+type = "shell"
+command = "~/.scripts/herdr/switch-tab --determine 9"
+description = "tab 9 (vim-aware)"
+
+[[keys.command]]
+key = "alt+backtick"
+type = "shell"
+command = "~/.scripts/herdr/switch-tab --escape-next"
+description = "next tab key goes to herdr, not vim"
+
+[[keys.command]]
+key = "prefix+f"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"
+description = "toggle reviewr diff pane"

@@ -1,0 +1,59 @@
+#!/bin/dash
+
+# Route cmd+1..9 and cmd+t to vim when the focused pane is running it,
+# otherwise to herdr's own tabs. The herdr counterpart of tmux/switch-tab.
+#
+#   switch-tab --determine <1-9|t>   called from a herdr keybinding
+#   switch-tab --of-herdr <1-9|t>    always act on herdr tabs (vim hands back here)
+#   switch-tab --escape-next         make the next --determine skip the vim check
+
+set -e
+
+pane=${HERDR_ACTIVE_PANE_ID:-$HERDR_PANE_ID}
+workspace=${HERDR_ACTIVE_WORKSPACE_ID:-$HERDR_WORKSPACE_ID}
+escape_marker=${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}/herdr-tab-escape-$(id -u)
+
+pane_runs_vim() {
+    herdr pane process-info --pane "$pane" \
+        | jq -e '.result.process_info.foreground_processes[].name | test("^n?vim$")' > /dev/null
+}
+
+herdr_tab() {
+    case $1 in
+      (t)
+        herdr tab create --workspace "$workspace" --focus > /dev/null
+        ;;
+      (*)
+        tab=$(herdr tab list | jq -r --arg ws "$workspace" --argjson n "$1" \
+            '[.result.tabs[] | select(.workspace_id == $ws)] | .[$n - 1].tab_id // empty')
+        [ -n "$tab" ] && herdr tab focus "$tab" > /dev/null
+        ;;
+    esac
+    true
+}
+
+case $1 in
+  (--determine)
+    if [ -e "$escape_marker" ]; then
+      rm -f "$escape_marker"
+      herdr_tab "$2"
+    elif pane_runs_vim; then
+      herdr pane send-keys "$pane" "alt+$2" > /dev/null
+    else
+      herdr_tab "$2"
+    fi
+    ;;
+
+  (--of-herdr)
+    herdr_tab "$2"
+    ;;
+
+  (--escape-next)
+    touch "$escape_marker"
+    ;;
+
+  (*)
+    echo "Don't know how to handle options: $*" >&2
+    exit 1
+    ;;
+esac
