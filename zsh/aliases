@@ -12,7 +12,7 @@ alias rrs="bundle exec rake spec"
 alias rco="rake cypress:open"
 alias rcr="rake cypress:run"
 
-alias rg="rails generate"
+alias rgen="rails generate"
 alias rmig="rails generate migration"
 
 alias g="git"
