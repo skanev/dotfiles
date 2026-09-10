@@ -143,7 +143,16 @@ function s:cmd_mode_slash()
   endif
 endfunction
 
-if !g:env.tmux
+" Inside tmux or herdr, tab keys the current vim cannot use are handed back
+" to the multiplexer, which owns the same keys through its own switch-tab.
+let s:hand_back = ''
+if g:env.tmux
+  let s:hand_back = '~/.scripts/tmux/switch-tab --of-tmux '
+elseif g:env.herdr
+  let s:hand_back = '~/.scripts/herdr/switch-tab --of-herdr '
+endif
+
+if s:hand_back == ''
   for n in range(1, 9)
     call MapMeta('n', '<silent>', string(n), printf("<Cmd>tabnext %s<cR>", n))
   endfor
@@ -156,7 +165,7 @@ else
     let tabs = tabpagenr('$')
 
     if tabs == 1 || a:index > tabs || mode() != 'n'
-      call system('~/.scripts/tmux/switch-tab --of-tmux ' . a:index)
+      call system(s:hand_back . a:index)
       return ""
     else
       return ":tabnext " . a:index . "\<CR>"

@@ -141,13 +141,18 @@ do
   local change_tab
   local tabnext = function(i) vim.cmd('silent! tabnext ' .. i) end
 
-  if env.tmux then
+  local hand_back
+  if env.tmux then hand_back = '~/.scripts/tmux/switch-tab --of-tmux '
+  elseif env.herdr then hand_back = '~/.scripts/herdr/switch-tab --of-herdr '
+  end
+
+  if hand_back then
     change_tab = function (i)
       return function ()
         local tabs = vim.fn.tabpagenr('$')
 
         if tabs == 1 or i > tabs or vim.fn.mode() ~= 'n' then
-          vim.fn.system('~/.scripts/tmux/switch-tab --of-tmux ' .. i)
+          vim.fn.system(hand_back .. i)
         else
           tabnext(i)
         end

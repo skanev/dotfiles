@@ -18,6 +18,7 @@ else env.os = 'unknown'
 end
 
 env.tmux = vim.env.TMUX ~= nil and env.app == 'nvim'
+env.herdr = vim.env.HERDR_ENV ~= nil and env.app == 'nvim'
 
 if env.os == 'mac' and env.app == 'neovide' then
   env.meta_key = 'D'

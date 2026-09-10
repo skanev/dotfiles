@@ -37,6 +37,7 @@ function! s:oneof(value, things)
 endfunction
 
 let g:env.tmux = $TMUX != "" && (g:env.app == 'vim' || g:env.app == 'nvim')
+let g:env.herdr = $HERDR_ENV != "" && (g:env.app == 'vim' || g:env.app == 'nvim')
 let g:env.meta_key = g:env.os == 'mac' && s:oneof(g:env.app, ['mvim', 'vimr', 'neovide', 'nvim-qt', 'goneovim', 'fvim']) ? 'D' : 'M'
 let g:env.nvim = has('nvim')
 
