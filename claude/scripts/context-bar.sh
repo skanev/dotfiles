@@ -66,6 +66,8 @@ input=$(cat)
     (.rate_limits.five_hour.resets_at // 0)
 ' <<< "$input")"
 
+account=$(jq -r '.oauthAccount.emailAddress // empty' "$HOME/.claude.json" 2>/dev/null)
+
 # Model + thinking level
 seg_model="${C_ACCENT}${model}"
 [[ "$thinking" == "true" && -n "$effort" ]] && seg_model+=" ${C_GRAY}${effort}"
@@ -140,5 +142,6 @@ out="${seg_model}${C_GRAY} | ${dir_icon} ${dir}"
 [[ -n "$branch" ]] && out+=" | ${branch_icon} ${branch}${git_info}"
 out+=" | ${bar} ${C_GRAY}${pct_prefix}${pct}% of ${max_disp}"
 [[ -n "$session" ]] && out+=" | ${session}"
+[[ -n "$account" ]] && out+=" ${C_GRAY}| 👤 ${account}"
 
 printf '%b\n' "${out}${C_RESET}"
