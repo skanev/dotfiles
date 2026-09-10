@@ -1,0 +1,22 @@
+macos-option-as-alt = true
+font-size = 14
+
+# Cmd is routed to the terminal as Alt so herdr can own the chords the same
+# way on every OS. Ghostty keeps only a handful of actions, bound on alt.
+key-remap = super=alt
+
+keybind = clear
+keybind = alt+c=copy_to_clipboard:mixed
+keybind = alt+v=paste_from_clipboard
+keybind = alt+q=quit
+keybind = alt+,=open_config
+keybind = alt+shift+,=reload_config
+keybind = alt+==increase_font_size:1
+keybind = alt+-=decrease_font_size:1
+keybind = alt+0=reset_font_size
+
+# cmd+` is macOS window cycling; claiming it here makes it reach herdr as alt+`.
+keybind = alt+`=text:\x1b`
+
+keybind = alt+shift+`=goto_window:next
+keybind = alt+shift+p=toggle_command_palette
