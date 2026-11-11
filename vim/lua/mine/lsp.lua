@@ -87,7 +87,7 @@ vim.lsp.config('rubocop', {
 vim.lsp.enable('rubocop')
 
 vim.lsp.config('ruby_lsp', {
-  cmd = { vim.fn.expand("~/.rbenv/shims/ruby-lsp") },
+  cmd = { (vim.env.DOTFILES_MISE or "") ~= "" and "ruby-lsp" or vim.fn.expand("~/.rbenv/shims/ruby-lsp") },
   init_options = {
     linters = {},
     addonSettings = {

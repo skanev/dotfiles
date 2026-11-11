@@ -1,0 +1,42 @@
+#!/usr/bin/env zsh
+# MISE
+# ----
+#
+# mise replaces rbenv, pyenv, volta and ~/.bun. It is on by default; zshenv
+# exports DOTFILES_MISE=1 unless the variable is already set, and an empty
+# value turns it off. zshenv handles PATH for every shell (it puts the mise shims first and
+# leaves the old managers out); this file adds the interactive part, which is
+# `mise activate`: a precmd/chpwd hook that puts the real tool bin dirs on PATH
+# for the current directory. That costs ~18ms at startup and ~5ms per prompt.
+#
+#   mise-off   back to rbenv & co for this shell (exec's a new zsh)
+#   mise-on    and back again
+
+mise-on() {
+  DOTFILES_MISE=1 exec zsh
+}
+
+mise-off() {
+  DOTFILES_MISE= exec zsh
+}
+
+[[ -n $DOTFILES_MISE ]] || return 0
+
+if [[ ! -x ~/.local/bin/mise ]]; then
+  print "mise: DOTFILES_MISE is set but ~/.local/bin/mise is missing; run: zsh setup/packs/mise install" >&2
+  return 0
+fi
+
+# The activate script only changes with the mise binary (bar the PATH line, which
+# bakes in the generating shell's PATH), so keep a copy
+# and only regenerate it when mise has been updated.
+() {
+  local cache=${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles/mise-activate.zsh
+
+  if [[ ! ~/.local/bin/mise -ot $cache ]]; then
+    mkdir -p ${cache:h}
+    ~/.local/bin/mise activate zsh | grep -v "^export PATH=" > $cache
+  fi
+
+  source $cache
+}

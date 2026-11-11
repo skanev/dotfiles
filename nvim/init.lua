@@ -12,9 +12,16 @@ if vim.env.NEWVIM == nil then
     return vim.fn.reverse(vim.fn.sort(vim.fn.glob(pattern, true, true)))[1]
   end
 
-  vim.g.python_host_prog = best_match('~/.pyenv/versions/*/envs/neovim-python2/bin/python')
-  vim.g.python3_host_prog = best_match('~/.pyenv/versions/*/envs/neovim-python3/bin/python')
-  vim.g.ruby_host_prog = best_match('~/.rbenv/versions/*/bin/neovim-ruby-host')
+  if (vim.env.DOTFILES_MISE or '') ~= '' then
+    -- Under mise the shims are on PATH, so plain lookups resolve to the
+    -- right versions (pynvim / neovim gem need to be installed there).
+    vim.g.python3_host_prog = vim.fn.exepath('python3')
+    vim.g.ruby_host_prog = vim.fn.exepath('neovim-ruby-host')
+  else
+    vim.g.python_host_prog = best_match('~/.pyenv/versions/*/envs/neovim-python2/bin/python')
+    vim.g.python3_host_prog = best_match('~/.pyenv/versions/*/envs/neovim-python3/bin/python')
+    vim.g.ruby_host_prog = best_match('~/.rbenv/versions/*/bin/neovim-ruby-host')
+  end
 
   vim.g.firenvim_config = { globalSettings = { takeover = 'never' }, localSettings = { [".*"] = { takeover = 'never' } } }
 

@@ -22,17 +22,9 @@ if [[ -n $DOTFILES_POSITION_KITTY ]]; then
 fi
 
 if [[ -n $TIME_BEFORE_TE ]]; then
-  local after elapsed
-
-  if which gdate > /dev/null 2>&1; then
-    after=$(gdate +%s.%N)
-  else
-    after=$(date +%s.%N)
-  fi
-
-  (( elapsed = $after - $TIME_BEFORE_TE ))
+  zmodload zsh/datetime
+  printf "Time to load: %.3fs\n" $(( EPOCHREALTIME - TIME_BEFORE_TE ))
   unset TIME_BEFORE_TE
-  echo "Time to load: $elapsed"
 fi
 
 # Global aliases can mess up everything else, so they must be last
@@ -43,3 +35,17 @@ if [[ $DOTFILES_OS == "mac" && -d ~/.rbenv && $(whence ruby) == "/usr/bin/ruby" 
 fi
 
 [[ -d ~/.local/bin ]] && path=(~/.local/bin $path)
+
+# bun completions
+#[ -s "/Users/aquarius/.bun/_bun" ] && source "/Users/aquarius/.bun/_bun"
+
+# bun
+#export BUN_INSTALL="$HOME/.bun"
+#export PATH="$BUN_INSTALL/bin:$PATH"
+
+# opencode
+export PATH=/Users/aquarius/.opencode/bin:$PATH
+
+# --- Gas Town Integration (managed by gt) ---
+#[[ -f "/Users/aquarius/.config/gastown/shell-hook.sh" ]] && source "/Users/aquarius/.config/gastown/shell-hook.sh"
+# --- End Gas Town ---

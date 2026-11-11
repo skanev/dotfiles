@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+source setup/shared
+
+# The official installer, not homebrew: the brew build is slower, bigger and
+# can't `mise self-update`. It drops a single binary in ~/.local/bin.
+
+install-pack() {
+  run-with-status "installing mise to ~/.local/bin" \
+    "curl -fsSL https://mise.run | MISE_INSTALL_PATH=$HOME/.local/bin/mise MISE_INSTALL_HELP=0 sh"
+}
+
+is-pack-installed() {
+  [[ -x ~/.local/bin/mise ]]
+}
+
+verify-pack() {
+  ~/.local/bin/mise --version > /dev/null || croak 'mise does not seem to be installed'
+}
+
+pack-info() {
+  # TODO
+}
+
+process-pack $1

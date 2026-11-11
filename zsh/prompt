@@ -1,5 +1,13 @@
 #!/usr/bin/env zsh
 
+# herdr-core starts each pane's shell through sh -c wrappers of its own, so a
+# fresh pane arrives at SHLVL=3 (and the exact number is herdr's to change).
+# The first interactive shell in a pane records its level, and the prompt
+# counts nesting from there. Herdr panes carry HC_TERMINAL_ID, older builds HERDR_ENV=1.
+if [[ -n $HC_TERMINAL_ID || -n $HERDR_ENV ]] && [[ ! -v DOTFILES_HERDR_SHLVL ]]; then
+  export DOTFILES_HERDR_SHLVL=$SHLVL
+fi
+
 prompt_zsh_level () {
   local base=$SHLVL
 
@@ -7,7 +15,11 @@ prompt_zsh_level () {
     base=$((base - DOTFILES_STARTX_USED + 1))
   fi
 
-  if [[ -n $TMUX ]]; then
+  if [[ -v DOTFILES_HERDR_SHLVL ]]; then
+    base=$((base - DOTFILES_HERDR_SHLVL + 1))
+  elif [[ -n $TMUX ]]; then
+    # the tmux server inherits SHLVL=1 from the shell that started it,
+    # so its panes start at 2
     base=$((base - 1))
   fi
 

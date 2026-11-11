@@ -38,12 +38,12 @@ zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion:*:descriptions' format '%B-- %d --%b'
 
 zstyle ':completion:*:*:kill:*' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-zstyle ':completion:*:complete:kill:argument-rest:processes' command "ps -u `whoami` -o pid,user,comm -w -w"
+zstyle ':completion:*:complete:kill:argument-rest:processes' command "ps -u $USER -o pid,user,comm -w -w"
 
 #zstyle ':completion:*:*:kill:*' tag-order 'processes:-term:in\ terminal processes:-all:all\ them'
 #zstyle ':completion:*:*:kill:argument-rest:' group-order processes-term processes-all
 zstyle ':completion:*:complete:kill:argument-rest:processes-term' command "ps -o pid,user,comm -w -w"
-zstyle ':completion:*:complete:kill:argument-rest:processes-all' command "ps -u `whoami` -o pid,user,comm -w -w"
+zstyle ':completion:*:complete:kill:argument-rest:processes-all' command "ps -u $USER -o pid,user,comm -w -w"
 
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 
@@ -52,14 +52,34 @@ zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
 zmodload zsh/complist
 autoload -U compinit
 
-() {
-  setopt extendedglob local_options
+# The full compinit (security audit + scanning every fpath dir) costs ~15ms,
+# and the compiled dump makes the fast path ~4ms instead of ~8ms. So: always
+# take the fast path, and only rebuild the dump when a directory in fpath has
+# changed since it was written (new completion file, package upgrade). Run
+# compinit-refresh to force it.
+compinit-refresh() {
+  local dump=${ZDOTDIR:-$HOME}/.zcompdump
+  rm -f $dump $dump.zwc
+  compinit -u -d $dump
+  zcompile $dump
+}
 
-  # Run compinit -C only once a day
-  if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-    compinit -u
+() {
+  local dump=${ZDOTDIR:-$HOME}/.zcompdump dir stale=0
+
+  if [[ ! -f $dump ]]; then
+    stale=1
   else
-    compinit -C
+    for dir in $fpath; do
+      [[ $dir -nt $dump ]] && stale=1 && break
+    done
+  fi
+
+  if (( stale )); then
+    compinit-refresh
+  else
+    compinit -C -d $dump
+    [[ $dump.zwc -nt $dump ]] || zcompile $dump
   fi
 }
 
@@ -296,7 +316,7 @@ bindkey -M menuselect '^o' accept-and-infer-next-history
 
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-zstyle ':completion:*:*:*:*:processes' command "ps -u `whoami` -o pid,user,comm -w -w"
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
 
 # disable named-directories autocompletion
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories

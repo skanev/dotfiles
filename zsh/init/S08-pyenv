@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+[[ -n $DOTFILES_MISE ]] && return 0 # mise has taken over, see S05-mise
+
 if which pyenv > /dev/null; then
   export PYENV_SHELL=zsh
 

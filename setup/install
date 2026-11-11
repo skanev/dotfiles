@@ -48,6 +48,9 @@ fi
 mkdir -p ~/.config/herdr
 establish-link herdr/config.toml ~/.config/herdr/config.toml
 
+mkdir -p ~/.config/mise
+establish-link mise/config.toml ~/.config/mise/config.toml
+
 establish-link config/ranger ~/.config/ranger
 
 establish-link bin ~/.bin
@@ -75,6 +78,7 @@ if [[ -z $WITHOUT_PACKS ]]; then
   establish-pack plenv
   establish-pack pyenv
   establish-pack rbenv
+  establish-pack mise
   establish-pack rustup
   establish-pack neovim
   establish-pack volta

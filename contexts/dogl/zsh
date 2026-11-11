@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+#(( ${+functions[wt]} )) || eval "$(bin/worktrees zsh)"
+alias wcd='wt cd'
+
+function review() {
+  claude --dangerously-skip-permissions "Review $* for the RSpec writing guidelines and fix problems"
+}

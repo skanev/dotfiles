@@ -1,0 +1,16 @@
+# Global mise config. Linked to ~/.config/mise/config.toml by setup/install.
+#
+# mise replaces rbenv/pyenv/volta/bun (see zsh/init/S05-mise); DOTFILES_MISE
+# set to empty brings those back.
+#
+# Machine-specific tools (global CLIs, pinned defaults) go in
+# ~/.config/mise/config.local.toml, which is not tracked; this file only holds
+# the settings every machine wants.
+
+[settings]
+# Honour the .ruby-version / .node-version / .python-version files that the
+# projects already have; mise ignores them unless told to.
+idiomatic_version_file_enable_tools = ["ruby", "node", "python"]
+
+[settings.ruby]
+compile = true

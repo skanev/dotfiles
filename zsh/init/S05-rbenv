@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+[[ -n $DOTFILES_MISE ]] && return 0 # mise has taken over, see S05-mise
+
 if which rbenv > /dev/null; then
   export RBENV_SHELL=zsh
 

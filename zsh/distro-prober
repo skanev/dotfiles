@@ -1,26 +1,27 @@
 #!/usr/bin/env zsh
 
-local uname
-[[ -n $MSYSTEM ]] && uname="MSYS"
-uname=${uname:-$(uname)}
+# $OSTYPE and $CPUTYPE are what uname(1) and arch(1) would say, without the
+# forks (this runs in every zsh, and each fork costs ~2ms).
+local os=$OSTYPE
+[[ -n $MSYSTEM ]] && os="msys"
 
-case $uname in
-  (Darwin)
+case $os in
+  (darwin*)
     export DOTFILES_OS=mac
     export DOTFILES_DISTRO=mac
-    [[ $(arch) == arm64 ]] && export DOTFILES_MAC_ARM=1
+    [[ $CPUTYPE == arm64 ]] && export DOTFILES_MAC_ARM=1
     ;;
-  (Linux)
+  (linux*)
     export DOTFILES_OS=linux
-    export DOTFILES_DISTRO=$(. /etc/os-release && echo -n $ID)
+    export DOTFILES_DISTRO=${(Q)${${(M)${(f)"$(</etc/os-release)"}:#ID=*}[1]#ID=}}
     [[ -v WSLENV ]] && export DOTFILES_WSL=1
     ;;
-  (MSYS)
+  (msys)
     export DOTFILES_OS=windows
     export DOTFILES_DISTRO=msys2
     ;;
   (*)
-    echo "cannot identify OS: uname = $uname"
+    echo "cannot identify OS: OSTYPE = $os"
     export DOTFILES_OS=unknown
     export DOTFILES_DISTRO=unknown
     ;;

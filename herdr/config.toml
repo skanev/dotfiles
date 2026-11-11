@@ -15,6 +15,7 @@ focus_agent = "prefix+alt+1..9"
 agent_panel_sort = "spaces"
 prompt_new_tab_name = false
 
+status_indicators = "symbols"
 [[keys.command]]
 key = "alt+t"
 type = "shell"
@@ -86,3 +87,9 @@ key = "prefix+f"
 type = "plugin_action"
 command = "persiyanov.reviewr.toggle"
 description = "toggle reviewr diff pane"
+
+[[keys.command]]
+key = "prefix+m"
+type = "plugin_action"
+command = "omnimind.panel.toggle"
+description = "toggle omnimind panel"
