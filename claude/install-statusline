@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Points Claude Code's status line at the context bar script, leaving the
+# rest of ~/.claude/settings.json untouched. Safe to run repeatedly.
+
+set -euo pipefail
+
+settings=~/.claude/settings.json
+command='~/.claude/scripts/context-bar.sh'
+
+command -v jq > /dev/null || { echo "error: jq is required" >&2; exit 1; }
+
+mkdir -p ~/.claude
+[[ -s $settings ]] || echo '{}' > "$settings"
+
+if jq -e --arg command "$command" '.statusLine.command == $command' "$settings" > /dev/null; then
+  echo "already installed: claude status line"
+  exit 0
+fi
+
+updated=$(mktemp)
+jq --arg command "$command" '.statusLine = {type: "command", command: $command}' "$settings" > "$updated"
+cat "$updated" > "$settings"
+rm "$updated"
+echo "installed: claude status line"

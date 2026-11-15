@@ -58,6 +58,7 @@ establish-link bin ~/.bin
 # Claude Code
 mkdir -p ~/.claude
 establish-link claude/scripts ~/.claude/scripts
+claude/install-statusline
 
 mkdir -p ~/.vim-backup
 mkdir -p ~/.vim-undo
