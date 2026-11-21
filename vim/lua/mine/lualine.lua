@@ -37,6 +37,22 @@ local function context()
   end
 end
 
+-- Over SSH (a terminal session, or Neovide on another machine driving this nvim),
+-- the name of this machine, so a remote session never passes for a local one.
+local remote_host = vim.env.SSH_CONNECTION and (vim.uv.os_gethostname():gsub('%..*$', ''))
+
+local function is_remote()
+  return remote_host ~= nil
+end
+
+local function remote()
+  if vim.g.tweaks.devicons then
+    return '󰣀 ' .. remote_host
+  else
+    return 'ssh:' .. remote_host
+  end
+end
+
 -- Doesn't do anything, but I should either hide it or find an icon
 local function encoding()
   if vim.o.encoding == 'utf-8' then
@@ -68,7 +84,10 @@ require('lualine').setup {
     }
   },
   sections = {
-    lualine_a = {'mode'},
+    lualine_a = {
+      {remote, cond = is_remote, color = 'IncSearch'},
+      'mode',
+    },
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {'filename'},
     lualine_x = {
