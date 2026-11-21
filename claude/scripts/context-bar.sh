@@ -19,6 +19,7 @@ case "$COLOR" in
     cyan)     C_ACCENT='\033[38;5;37m' ;;
     *)        C_ACCENT="$C_GRAY" ;;
 esac
+C_ICON="$C_ACCENT"
 
 draw_bar() {
     local pct=$1 width=$2
@@ -75,7 +76,7 @@ seg_model="${C_ACCENT}${model}"
 
 # Directory and git; in a linked worktree, show the main repo's folder instead
 dir=$(basename "$cwd" 2>/dev/null || echo "?")
-dir_icon="📁" branch_icon="🔀"
+dir_icon=" " branch_icon=""
 branch="" git_info=""
 [[ -n "$cwd" && -d "$cwd" ]] && branch=$(git -C "$cwd" branch --show-current 2>/dev/null)
 
@@ -84,19 +85,19 @@ if [[ -n "$branch" ]]; then
     common_dir=$(git -C "$cwd" rev-parse --path-format=absolute --git-common-dir 2>/dev/null)
 
     if [[ -n "$common_dir" && "$git_dir" != "$common_dir" ]]; then
-        dir_icon="🗂️" branch_icon="🌿"
+        dir_icon=" " branch_icon="󰙅"
         dir=$(basename "$(dirname "$common_dir")")
         branch=$(sed -E 's/worktrees?[-_/]//; s/[-_/]?worktrees?//' <<< "$branch")
     fi
 
     dirty=$(git -C "$cwd" --no-optional-locks status --porcelain -uall 2>/dev/null | wc -l | tr -d ' ')
-    (( dirty > 0 )) && git_info+=" ✎${dirty}"
+    (( dirty > 0 )) && git_info+=" ${C_ICON} ${C_GRAY}${dirty}"
 
     counts=$(git -C "$cwd" rev-list --left-right --count 'HEAD...@{upstream}' 2>/dev/null)
     if [[ -n "$counts" ]]; then
         read -r ahead behind <<< "$counts"
-        (( ahead > 0 ))  && git_info+=" ⇡${ahead}"
-        (( behind > 0 )) && git_info+=" ⇣${behind}"
+        (( ahead > 0 ))  && git_info+=" ${C_ICON} ${C_GRAY}${ahead}"
+        (( behind > 0 )) && git_info+=" ${C_ICON} ${C_GRAY}${behind}"
         if (( ahead == 0 && behind == 0 )); then
             sync="✓"
             fetch_time=$(stat -f %m "${git_dir:-$cwd/.git}/FETCH_HEAD" 2>/dev/null)
@@ -136,14 +137,14 @@ if (( limit_used >= 0 )); then
     for ((i = 0; i < 20; i++)); do
         (( i < filled )) && sbar+="${C_ACCENT}▰" || sbar+="${C_TRACK}▰"
     done
-    session="⌛ ${sbar}  ${C_GRAY}${limit_used}% ↻ $(fmt_dur $left_secs)"
+    session="${C_ICON} ${sbar}  ${C_GRAY}${limit_used}% ${C_ICON}${C_GRAY}  $(fmt_dur $left_secs)"
 fi
 
-out="${seg_model}${C_GRAY} | ${dir_icon} ${dir}"
-[[ -n "$branch" ]] && out+=" | ${branch_icon} ${branch}${git_info}"
+out="${seg_model}${C_GRAY} | ${C_ICON}${dir_icon}${C_GRAY}${dir}"
+[[ -n "$branch" ]] && out+=" | ${C_ICON}${branch_icon}${C_GRAY} ${branch}${git_info}"
 out+=" | ${bar} ${C_GRAY}${pct_prefix}${pct}% of ${max_disp}"
 [[ -n "$session" ]] && out+=" | ${session}"
-[[ -n "$host" ]] && out+=" ${C_GRAY}| 💻 ${host}"
-[[ -n "$account" ]] && out+=" ${C_GRAY}| 👤 ${account}"
+[[ -n "$host" ]] && out+=" ${C_GRAY}| ${C_ICON}${C_GRAY}  ${host}"
+[[ -n "$account" ]] && out+=" ${C_GRAY}| ${C_ICON}${C_GRAY} ${account}"
 
 printf '%b\n' "${out}${C_RESET}"
