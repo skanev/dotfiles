@@ -48,6 +48,9 @@ fi
 mkdir -p ~/.config/herdr
 establish-link herdr/config.toml ~/.config/herdr/config.toml
 
+mkdir -p ~/.config/neovide
+establish-link neovide/config.toml ~/.config/neovide/config.toml
+
 mkdir -p ~/.config/mise
 establish-link mise/config.toml ~/.config/mise/config.toml
 
