@@ -93,3 +93,9 @@ key = "prefix+m"
 type = "plugin_action"
 command = "omnimind.panel.toggle"
 description = "toggle omnimind panel"
+
+[[keys.command]]
+key = "alt+shift+o"
+type = "plugin_action"
+command = "omnimind.panel.toggle"
+description = "toggle omnimind panel (cmd+shift+o)"
